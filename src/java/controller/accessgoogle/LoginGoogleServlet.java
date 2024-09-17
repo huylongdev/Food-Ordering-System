@@ -57,6 +57,9 @@ public class LoginGoogleServlet extends HttpServlet {
                 String hashedPassword = PasswordUtil.hashPassword("googleAccount");
                 Account toAdd = new Account(googlePojo.getEmail(), hashedPassword,  googlePojo.getName(), null,googlePojo.getEmail() , null, 1);
                 accountDAO.createAccount(toAdd);
+                session.setAttribute("username", googlePojo.getEmail());
+                session.setAttribute("user", acc);
+                session.setMaxInactiveInterval(5 * 24 * 60 * 60);
                 response.sendRedirect("account");
             }
         }
