@@ -51,7 +51,7 @@ public class LoginGoogleServlet extends HttpServlet {
             if (isAccountExist(googlePojo.getEmail())) {
                 session.setAttribute("username", acc.getUserName());
                 session.setAttribute("user", acc);
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+                session.setMaxInactiveInterval(5 * 24 * 60 * 60);
                 response.sendRedirect("account");
             }else{
                 String hashedPassword = PasswordUtil.hashPassword("googleAccount");
