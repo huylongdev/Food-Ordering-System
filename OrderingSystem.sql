@@ -6,7 +6,7 @@ go
 create table Users
 (
    UserID int PRIMARY KEY,
-   UserName VARCHAR(25) UNIQUE NOT NULL,
+   UserName VARCHAR(100) NOT NULL,
    Pass varchar(255) NOT NULL,
    FullName nvarchar(50) NOT NULL,
    PhoneNumber VARCHAR(10) CHECK (PhoneNumber LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -25,7 +25,7 @@ INSTEAD OF INSERT
 AS
 BEGIN
     DECLARE @UserID INT;
-    DECLARE @UserName varchar(25) ;
+    DECLARE @UserName varchar(100) ;
     DECLARE @Pass varchar(255);
     DECLARE @FullName nvarchar (50);
     DECLARE @PhoneNumber VARCHAR(10);
@@ -78,5 +78,8 @@ VALUES ( 'jane_smith', 'jane123', 'Jane Smith', '0987654321', 'jane.smith@exampl
 go
 select * from Users
 
-drop database ordering_system
+delete from users where UserName like 'linh'
+
+
+
 
