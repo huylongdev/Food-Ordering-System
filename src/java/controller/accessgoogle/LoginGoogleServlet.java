@@ -46,12 +46,7 @@ public class LoginGoogleServlet extends HttpServlet {
         } else {
             String accessToken = GoogleUtils.getToken(code);
             GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-//            request.setAttribute("id", googlePojo.getId());
-//            request.setAttribute("name", googlePojo.getName());
-//            request.setAttribute("email", googlePojo.getEmail());
-//            request.setAttribute("picture", googlePojo.getPicture());
-//            RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
-//            dis.forward(request, response);
+
             HttpSession session = request.getSession();
             if (isAccountExist(googlePojo.getEmail())) {
                 session.setAttribute("username", acc.getUserName());
