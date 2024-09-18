@@ -51,4 +51,13 @@
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>controller.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/account</url-pattern>
+    </filter-mapping>
 </web-app>

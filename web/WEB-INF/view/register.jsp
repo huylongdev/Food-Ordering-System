@@ -44,7 +44,7 @@
                 <div class="col-md-6 mb-4">
 
                   <div data-mdb-input-init class="form-outline datepicker">
-                      <input type="text" class="form-control" name="pass" id="exampleDatepicker1" placeholder="Password" required />
+                      <input type="password" class="form-control" name="pass" id="exampleDatepicker1" placeholder="Password" required />
                   </div>
 
                 </div>
@@ -61,10 +61,29 @@
                 <div data-mdb-input-init class="form-outline mb-4">
                   <input type="text" id="form3Example1q" name="address" class="form-control" placeholder="Address" required/>
               </div>
-
-              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg mb-1">Submit</button>
+                <div style="display: flex; justify-content: space-between">
+                    <button
+                  style="
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ccc;
+    border: 1px;
+"   
+                  type="submit" data-mdb-button-init data-mdb-ripple-init class="">Submit</button>
+                    <a
+                        href="/OrderingSystem"
+                        style="display: flex;
+    align-items: center;
+    background-color: #ccc;
+    padding: 0px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;">Back to homepage</a>    
+                </div>
+              
 
             </form>
+            
 
           </div>
         </div>
