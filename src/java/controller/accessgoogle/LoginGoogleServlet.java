@@ -53,14 +53,14 @@ public class LoginGoogleServlet extends HttpServlet {
                 session.setAttribute("user", acc);
                 session.setMaxInactiveInterval(5 * 24 * 60 * 60);
                 response.sendRedirect("account");
-            }else{
-                String hashedPassword = PasswordUtil.hashPassword("googleAccount");
-                Account toAdd = new Account(googlePojo.getEmail().split("@")[0], hashedPassword,  googlePojo.getName(), null,googlePojo.getEmail() , null,googlePojo.getPicture(), 1);
-                accountDAO.createAccount(toAdd);
-                session.setAttribute("username", googlePojo.getEmail());
-                session.setAttribute("user", toAdd);
-                session.setMaxInactiveInterval(5 * 24 * 60 * 60);
-                response.sendRedirect("account");
+            } else {
+
+                request.setAttribute("username", googlePojo.getEmail().split("@")[0]);
+                request.setAttribute("email", googlePojo.getEmail());
+                request.setAttribute("name", googlePojo.getName());
+                request.setAttribute("picture", googlePojo.getPicture());
+                request.getRequestDispatcher("WEB-INF/view/require-password.jsp").forward(request, response);
+
             }
         }
     }
@@ -91,7 +91,20 @@ public class LoginGoogleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String picture = request.getParameter("picture");
+        String hashedPassword = PasswordUtil.hashPassword(password);
+        Account toAdd = new Account(username, hashedPassword, name, null, email, null, picture, 1);
+        accountDAO.createAccount(toAdd);
+        session.setAttribute("username", toAdd.getUserName());
+        session.setAttribute("user", toAdd);
+        session.setMaxInactiveInterval(5 * 24 * 60 * 60);
+        response.sendRedirect("account");
     }
 
     /**
@@ -107,9 +120,9 @@ public class LoginGoogleServlet extends HttpServlet {
     Account acc;
 
     protected boolean isAccountExist(String email) {
-        
+
         acc = accountDAO.checkAccountByEmail(email);
-        if (acc == null ) {
+        if (acc == null) {
             return false;
         } else {
             return true;
