@@ -55,10 +55,10 @@ public class LoginGoogleServlet extends HttpServlet {
                 response.sendRedirect("account");
             }else{
                 String hashedPassword = PasswordUtil.hashPassword("googleAccount");
-                Account toAdd = new Account(googlePojo.getEmail(), hashedPassword,  googlePojo.getName(), null,googlePojo.getEmail() , null, 1);
+                Account toAdd = new Account(googlePojo.getEmail().split("@")[0], hashedPassword,  googlePojo.getName(), null,googlePojo.getEmail() , null,googlePojo.getPicture(), 1);
                 accountDAO.createAccount(toAdd);
                 session.setAttribute("username", googlePojo.getEmail());
-                session.setAttribute("user", acc);
+                session.setAttribute("user", toAdd);
                 session.setMaxInactiveInterval(5 * 24 * 60 * 60);
                 response.sendRedirect("account");
             }
@@ -104,15 +104,15 @@ public class LoginGoogleServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     AccountDAO accountDAO = new AccountDAO();
-    Account acc, acc2;
+    Account acc;
 
     protected boolean isAccountExist(String email) {
-        acc = accountDAO.checkAccountByUserName(email);
-        acc2 = accountDAO.checkAccountByEmail(email);
-        if (acc != null || acc2 != null) {
-            return true;
-        } else {
+        
+        acc = accountDAO.checkAccountByEmail(email);
+        if (acc == null ) {
             return false;
+        } else {
+            return true;
         }
     }
 

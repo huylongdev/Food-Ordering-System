@@ -32,6 +32,18 @@ public class Account {
         this.address = address;
         this.role = role;
     }
+
+    public Account(String userName, String password, String fullName, String phoneNumber, String email, String address, String avtImg, int role) {
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.avtImg = avtImg;
+        this.role = role;
+    }
+    
     
     
 
