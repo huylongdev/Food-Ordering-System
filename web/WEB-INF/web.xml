@@ -41,6 +41,10 @@
         <servlet-class>util.SendMailServlet</servlet-class>
 >>>>>>> main
     </servlet>
+    <servlet>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <servlet-class>controller.UpdateUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -73,6 +77,10 @@
         <servlet-name>SendMailServlet</servlet-name>
         <url-pattern>/sendmail</url-pattern>
 >>>>>>> main
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
