@@ -180,6 +180,8 @@ public class AccountDAO {
             System.out.println(e.getMessage());
             return false;
         }
+        
+        
     }
 
        
@@ -304,5 +306,57 @@ public class AccountDAO {
         }
         return null;
     }
+    
+    public void updateUser(int userId, String username, String fullName, String phoneNumber, String email, String address) {
+    String sql = "UPDATE Users SET UserName=?, FullName=?, PhoneNumber=?, Email=?, Address=? WHERE UserID=?";
+    
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, username);
+        ps.setString(2, fullName);
+        ps.setString(3, phoneNumber);
+        ps.setString(4, email);
+        ps.setString(5, address);
+        ps.setInt(6, userId);
+
+        int rowsUpdated = ps.executeUpdate();
+        if (rowsUpdated > 0) {
+            System.out.println("User updated successfully!");
+        } else {
+            System.out.println("No user found with the given ID.");
+        }
+    } catch (Exception e) {
+        System.out.println("Error while updating user: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+    
+    public Account getUserById(int userId) {
+        Account user = null;
+        String sql = "SELECT UserID, UserName, FullName, PhoneNumber, Email, Address, AvtImg, ShopID, Role FROM Users WHERE UserID=?";
+        
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                user = new Account();
+                user.setUserID(rs.getInt("UserID"));
+                user.setUserName(rs.getString("UserName"));
+                user.setFullName(rs.getString("FullName"));
+                user.setPhoneNumber(rs.getString("PhoneNumber"));
+                user.setEmail(rs.getString("Email"));
+                user.setAddress(rs.getString("Address"));
+                user.setAvtImg(rs.getString("AvtImg"));
+                user.setShopID(rs.getInt("ShopID"));
+                user.setRole(rs.getInt("Role"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error while retrieving user: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return user;
+    }
+
     
 }
