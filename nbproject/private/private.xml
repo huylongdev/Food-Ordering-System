@@ -3,23 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/style/register.css</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/context/AccountDAO.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/account.jsp</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/LogoutServlet.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/style/updateUser.css</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/model/Account.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/register.jsp</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/UpdateUserServelet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/util/SendMailServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_loader.png</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/web.xml</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/updateUser.jsp</file>
-=======
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/LoginGoogleServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/GoogleUtils.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Account.java</file>
->>>>>>> main
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_pic.jpg</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/web_page_loader.gif</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_more.jpg</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/style/account.css</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/UpdateUserServlet.java</file>
         </group>
     </open-files>
 </project-private>
