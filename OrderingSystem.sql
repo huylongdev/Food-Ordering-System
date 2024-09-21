@@ -80,6 +80,8 @@ select * from Users
 
 delete from users where UserName like 'linh'
 
+ALTER TABLE Users
+ADD code nvarchar(25);
 
 
 
