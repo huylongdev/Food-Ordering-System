@@ -33,13 +33,10 @@
         <servlet-class>controller.AccountServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
-        <servlet-name>UpdateUserServelet</servlet-name>
-        <servlet-class>controller.UpdateUserServelet</servlet-class>
-=======
+
         <servlet-name>SendMailServlet</servlet-name>
         <servlet-class>util.SendMailServlet</servlet-class>
->>>>>>> main
+
     </servlet>
     <servlet>
         <servlet-name>UpdateUserServlet</servlet-name>
@@ -70,13 +67,10 @@
         <url-pattern>/account</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
-        <servlet-name>UpdateUserServelet</servlet-name>
-        <url-pattern>/editUser</url-pattern>
-=======
+
         <servlet-name>SendMailServlet</servlet-name>
         <url-pattern>/sendmail</url-pattern>
->>>>>>> main
+
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateUserServlet</servlet-name>

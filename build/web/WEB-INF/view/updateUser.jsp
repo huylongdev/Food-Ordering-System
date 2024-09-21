@@ -1,5 +1,5 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%> <%@taglib
-uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +16,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <h3 class="mb-4">Edit User Information</h3>
 
         <c:if test="${not empty user}">
+            
           <form action="updateUser" method="post">
+
+              
             <!-- UserID (Hidden Field) -->
             <input type="hidden" name="userId" value="${user.userID}" />
 
