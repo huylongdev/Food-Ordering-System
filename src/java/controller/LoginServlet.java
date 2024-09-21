@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
             if (acc.getRole() == 1) {
                 session.setAttribute("role", "customer");
                 session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("account");
+                response.sendRedirect("/OrderingSystem");
             }
         } else {
             request.setAttribute("message", "Error name and passwword");

@@ -1,0 +1,84 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    position: absolute;
+    top: 12px; /* Khoảng cách từ trên cùng */
+    left: 15px; /* Khoảng cách từ bên trái */
+    font-size: 16px;
+    color: #999;
+    transition: 0.2s;
+    pointer-events: none; /* Ngăn nhãn nhận sự kiện chuột */
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    border: 1px solid #ced4da;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    border-color: #80bdff;
+}
+
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    top: -10px; /* Di chuyển nhãn lên khi input có giá trị */
+    left: 15px; /* Đặt lại vị trí */
+    font-size: 12px; /* Kích thước chữ nhỏ hơn khi focus */
+    color: #007bff; /* Màu nhãn khi focus */
+}
+
+.card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-custom-3 {
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+}
+
+.gradient-custom-4 {
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+}
+
+.input-container {
+    position: relative; /* Để có thể định vị các phần tử bên trong nếu cần */
+    width: 300px; /* Hoặc chiều rộng mong muốn */
+    margin: 20px 0; /* Khoảng cách trên và dưới */
+}
+
+input[type="text"] {
+    padding: 10px; /* Khoảng cách bên trong */
+    font-size: 16px; /* Kích thước chữ */
+    line-height: 1.5; /* Chiều cao dòng */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 4px; /* Bo góc */
+    width: 100%; /* Chiều rộng đầy đủ */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
+    transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp cho đường viền */
+}
+
+input[type="text"]:focus {
+    border-color: #007bff; /* Đổi màu đường viền khi ô input được chọn */
+    outline: none; /* Loại bỏ đường viền mặc định */
+}
+
+::placeholder {
+    color: #aaa; /* Màu sắc của placeholder */
+    opacity: 1; /* Đảm bảo độ mờ rõ ràng */
+}
+
+input[type="text"]:hover {
+    border-color: #007bff; /* Đổi màu đường viền khi hover */
+}
