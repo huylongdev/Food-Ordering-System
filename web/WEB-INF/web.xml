@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <filter>
-        <filter-name>AccessFilter</filter-name>
-        <filter-class>controller.filter.AccessFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AccessFilter</filter-name>
-        <url-pattern>/account</url-pattern>
-    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -31,14 +23,6 @@
     <servlet>
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>controller.AccountServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SendMailServlet</servlet-name>
-        <servlet-class>util.SendMailServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateUserServlet</servlet-name>
-        <servlet-class>controller.UpdateUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -64,15 +48,16 @@
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/account</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SendMailServlet</servlet-name>
-        <url-pattern>/sendmail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateUserServlet</servlet-name>
-        <url-pattern>/editUser</url-pattern>
-    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>controller.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/account</url-pattern>
+    </filter-mapping>
 </web-app>
