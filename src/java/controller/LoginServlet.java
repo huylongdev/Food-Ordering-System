@@ -69,8 +69,8 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account acc = accountDAO.checkAccountByUserName(u);
-//        String hashedPassword = acc.getPassword();
-        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
+        String hashedPassword = acc.getPassword();
+        if (acc != null && PasswordUtil.checkPassword(p, hashedPassword)) {
             session.setAttribute("username", u);
             session.setAttribute("user", acc);
             if (acc.getRole() == 1) {

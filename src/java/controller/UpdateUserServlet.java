@@ -1,16 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import context.AccountDAO;
+
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
 import model.Account;
 
-public class UpdateUserServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+/**
+ *
+ * @author LENOVO
+ */
+@WebServlet(name = "UpdateUserServelet", urlPatterns = {"/editUser"})
+public class UpdateUserServelet extends HttpServlet {
+private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

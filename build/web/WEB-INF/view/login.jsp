@@ -332,7 +332,7 @@
         </div>
 
         <footer>
-            <p> GIVE THE TEAM NAME HERE ( tất cả các developers) </p>
+            <p> FOODIE </p>
         </footer>
     </body>
     <!-- <br><br>

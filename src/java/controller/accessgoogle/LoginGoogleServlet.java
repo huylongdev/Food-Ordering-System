@@ -46,7 +46,12 @@ public class LoginGoogleServlet extends HttpServlet {
         } else {
             String accessToken = GoogleUtils.getToken(code);
             GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-
+//            request.setAttribute("id", googlePojo.getId());
+//            request.setAttribute("name", googlePojo.getName());
+//            request.setAttribute("email", googlePojo.getEmail());
+//            request.setAttribute("picture", googlePojo.getPicture());
+//            RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+//            dis.forward(request, response);
             HttpSession session = request.getSession();
             if (isAccountExist(googlePojo.getEmail())) {
                 session.setAttribute("username", acc.getUserName());
@@ -62,6 +67,7 @@ public class LoginGoogleServlet extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/view/require-password.jsp").forward(request, response);
 
             }
+
         }
     }
 
@@ -91,7 +97,7 @@ public class LoginGoogleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -105,6 +111,7 @@ public class LoginGoogleServlet extends HttpServlet {
         session.setAttribute("user", toAdd);
         session.setMaxInactiveInterval(5 * 24 * 60 * 60);
         response.sendRedirect("account");
+
     }
 
     /**
@@ -116,7 +123,7 @@ public class LoginGoogleServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    AccountDAO accountDAO = new AccountDAO();
+   AccountDAO accountDAO = new AccountDAO();
     Account acc;
 
     protected boolean isAccountExist(String email) {
@@ -128,5 +135,6 @@ public class LoginGoogleServlet extends HttpServlet {
             return true;
         }
     }
+
 
 }
