@@ -1,174 +1,436 @@
 <%-- 
-    Document   : home
-    Created on : Sep 17, 2024, 2:49:16 AM
-    Author     : LENOVO
+    Document   : index
+    Created on : Sep 21, 2024, 12:14:27 AM
+    Author     : phuct
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><%@ page import="model.Account" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    Account user = (Account) session.getAttribute("loggedUser");
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Foodie</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="./assets/font/themify-icons/themify-icons.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css">
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
-    <title>Carousel Template for Bootstrap</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/carousel/">
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="carousel.css" rel="stylesheet">
-    
-  </head>
-  <body>
-
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-              <a class="nav-link" href="./login">Login <span class="sr-only">(current)</span></a>
-            </li>
+    </head>
+    <body>
+            <!-- HEADER -->
+    <div id="header">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">FOODIE</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link" aria-current="page" href="#">Home</a>
+              <a class="nav-link" href="#">Food</a>
+              <a class="nav-link" href="#">Restaurant</a>
+              <a class="nav-link" href="#">Submit</a>
+            </div>
+            <div class="navbar__item">
+                <nav id="nav-bar">
+            <ul class="nav-list">
             <li class="nav-item">
-              <a class="nav-link" href="./register">Register</a>
+            <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
+                <c:choose>
+                    <c:when test="${user != null}">
+            <div class="user-dropdown">
+            <a style="text-decoration: none" href="/OrderingSystem/account">
+            <img
+                id="user-avatar"
+                class="img-responsive img-circle"
+                src="${user.getAvtImg()}"
+                onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
+                alt="Profile Picture"
+            />
+            <span id="user-name">${user.getUserName()}</span>
+            </a>
+            <div class="dropdown-content">
+            <a href="/OrderingSystem/account">Account</a>
+            <a href="/OrderingSystem/logout">Logout</a>
+            </div>
+            </div>
+            </c:when>
+                    <c:otherwise>
+                        <span id="login-text">Login</span>
+                    </c:otherwise>
+                </c:choose>
+            </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link " href="./account">Profile</a>
-            </li>
-            
-    <c:if test="${not empty sessionScope.username }">
-            <li class="nav-item">
-              <a class="nav-link " href="./logout">Logout</a>
-            </li>
-    </c:if>
-          </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+            </ul>
+            </nav>
+              <div class="icon">
+                <i class="ti-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
-    </header>
+    </div>
 
-    <main role="main">
+    <!-- SLIDER -->
+    <div id="slider">
+      <img src="./assets/img/sliderback.svg" alt="" class="sliderback" />
+      <div class="slider-info">
+        <h3 class="slider-des">Best food in city</h3>
+        <h1 class="title">Delivery Food from the Best Restaurants.</h1>
+        <div class="slider-search">
+          <input class="default-input" type="text" value="Find Food..." />
+          <button class="default-btnsearch">Search</button>
+        </div>
+        <div class="icon-group">
+          <i class="ti-facebook slider-icon"></i>
+          <i class="ti-instagram slider-icon"></i>
+          <i class="ti-location-pin slider-icon"></i>
+        </div>
+      </div>
+    </div>
 
-     <div>
-     	<img src="./img/banner.png" height="350" width="100%" object-fit/>
-     </div>
-     <br><br>
+    <!-- CATEGORY -->
+    <div id="category">
+      <div class="default-text-category">
+        <div class="default-tag default-tag-category">CATEGORIES</div>
+      </div>
+      <div class="default-title default-title-category">Popular Categories</div>
+      <div class="category-list">
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+        <div onclick="" class="card col-md-2" style="width: 11rem">
+          <img
+            src="./assets/img/banhmi.png"
+            class="card-img-top card-img-top-category"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title card-title-category">Food</h5>
+            <p class="card-text">20 shop</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- RESTAURANTS -->
+    <div id="restaurant">
+      <div class="default-text-restaurant">
+        <div class="default-tag">RESTAURANTS</div>
+        <div class="default-title">Restaurants</div>
+        <div class="default-des">
+          <p class="default-slogan">
+            "Discover a world of flavors and enjoy the convenience of ordering
+            your favorite meals today!"
+          </p>
+          <a href="#" class="restaurant-viewall">
+            View all <i class="ti-arrow-right"></i>
+          </a>
+        </div>
 
-      <!-- Marketing messaging and featurettes
-      ================================================== -->
-      <!-- Wrap the rest of the page in another container to center all the content. -->
+        <div class="restaurant-list">
+          <!-- Restaurant Card 1 -->
+          <div class="card card-restaurant" style="width: 18rem">
+            <div class="rating-box">9.8</div>
+            <img
+              class="card-img-top"
+              src="./assets/img/category.png"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+              <div class="restaurant-info">
+                <p class="res-time">~20-30 min</p>
+                <div class="res-category">Pizza</div>
+              </div>
+            </div>
+          </div>
 
-      <div class="container marketing">
+          <!-- Restaurant Card 2 -->
+          <div class="card card-restaurant" style="width: 18rem">
+            <div class="rating-box">9.8</div>
+            <img
+              class="card-img-top"
+              src="./assets/img/category.png"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+              <div class="restaurant-info">
+                <p class="res-time">~20-30 min</p>
+                <div class="res-category">Pizza</div>
+              </div>
+            </div>
+          </div>
 
-        <!-- Three columns of text below the carousel -->
-        <div class="row">
-          <div class="col-lg-4">
-            <img class="rounded-circle" src="https://i.pinimg.com/564x/39/69/01/396901b74b625c315de597b780438fbf.jpg" alt="Generic placeholder image" width="200" height="200"><br>
-            <br><h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-          </div><!-- /.col-lg-4 -->
-          <div class="col-lg-4">
-            <img class="rounded-circle" src="https://i.pinimg.com/564x/76/19/ef/7619ef4dfcf7382aab410d57e796ffbf.jpg" alt="Generic placeholder image" width="200" height="200"><br>
-            <br><h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-          </div><!-- /.col-lg-4 -->
-          <div class="col-lg-4">
-            <img class="rounded-circle" src="https://i.pinimg.com/474x/be/46/ed/be46ed0971fb202ece03fe04806644a5.jpg" alt="Generic placeholder image" width="200" height="200"><br>
-            <br><h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-          </div><!-- /.col-lg-4 -->
+          <!-- Restaurant Card 3 -->
+          <div class="card card-restaurant" style="width: 18rem">
+            <div class="rating-box">9.8</div>
+            <img
+              class="card-img-top"
+              src="./assets/img/category.png"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+              <div class="restaurant-info">
+                <p class="res-time">~20-30 min</p>
+                <div class="res-category">Pizza</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Restaurant Card 4 -->
+          <div class="card card-restaurant" style="width: 18rem;">
+            <!-- Rating -->
+            <div class="rating-box">9.8</div>
+            
+            <img class="card-img-top" src="./assets/img/category.png" alt="Card image cap" />
+            <div class="card-body">
+              <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+              <div class="restaurant-info">
+                <p class="res-time">~20-30 min</p>
+                <div class="res-category">Pizza</div>
+              </div>
+            </div>
+          </div>
           
-          
-        </div><!-- /.row -->
+        </div>
+      </div>
+    </div>
 
+    <!-- MAP RESTAURANTS -->
+    <div id="map">
+      <img src="./assets/img/mapimg.svg" alt="" class="map-img" />
+      <div class="map-info col-md-5">
+        <div class="map-tag">MAP</div>
+        <div class="map-title default-title">
+          Food Map with more than 900 Restaurants
+        </div>
+        <div class="map-des default-slogan">
+          Explore a diverse menu from top-rated restaurants, all ready to serve
+          you with just a few clicks!
+        </div>
+        <div class="map-search">
+          <input
+            class="map-input default-input"
+            type="text"
+            value="Find Restaurant..."
+          />
+          <button class="map-btnsearch default-btnsearch">Search</button>
+        </div>
+      </div>
+    </div>
 
-        <!-- START THE FEATURETTES -->
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-          </div>
-          <div class="col-md-5">
-            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+    <!-- BEST DEALS -->
+    <div id="bestseller">
+      <div class="default-tag default-tag-bestseller">RESTAURANTS</div>
+      <div class="default-title">Best Deals</div>
+      <div class="default-des">
+        <p class="default-slogan">
+          "Savor the finest cuisine from the best restaurants around, with easy
+          and fast ordering at your fingertips!"
+        </p>
+        <a href="#" class="restaurant-viewall">
+          View all <i class="ti-arrow-right"></i>
+        </a>
+      </div>
+      <div class="restaurant-grid">
+        <!-- Card 1 -->
+        <div class="card-horizontal col-md-5">
+          <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
+          <div class="card-body">
+            <div class="rating">9.8</div>
+            <p class="bestseller-category">Burgers</p>
+            <h5 class="card-title">Best Burgers</h5>
+            <p class="card-text">42 Jong Panchester St, 9073</p>
+            <div class="card-info">
+              <p class="time">20-30 min</p>
+              <p class="price">From $4</p>
+            </div>
           </div>
         </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-          </div>
-          <div class="col-md-5 order-md-1">
-            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-          </div>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-          </div>
-          <div class="col-md-5">
-            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+      
+        <!-- Card 2 -->
+        <div class="card-horizontal col-md-5">
+          <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
+          <div class="card-body">
+            <div class="rating">9.8</div>
+            <p class="bestseller-category">Burgers</p>
+            <h5 class="card-title">Pizza Masters</h5>
+            <p class="card-text">Ac St. Schaumburg 84872</p>
+            <div class="card-info">
+              <p class="time">~45 min</p>
+              <p class="price">From $4</p>
+            </div>
           </div>
         </div>
+      
+       <!-- Card 3 -->
+       <div class="card-horizontal col-md-5">
+        <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
+        <div class="card-body">
+          <div class="rating">9.8</div>
+          <p class="bestseller-category">Burgers</p>
+          <h5 class="card-title">Best Burgers</h5>
+          <p class="card-text">42 Jong Panchester St, 9073</p>
+          <div class="card-info">
+            <p class="time">20-30 min</p>
+            <p class="price">From $4</p>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Card 4 -->
+      <div class="card-horizontal col-md-5">
+        <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
+        <div class="card-body">
+          <div class="rating">9.8</div>
+          <p class="bestseller-category">Burgers</p>
+          <h5 class="card-title">Pizza Masters</h5>
+          <p class="card-text">Ac St. Schaumburg 84872</p>
+          <div class="card-info">
+            <p class="time">~45 min</p>
+            <p class="price">From $4</p>
+          </div>
+        </div>
+      </div>
 
-        <hr class="featurette-divider">
-
-        <!-- /END THE FEATURETTES -->
-
-      </div><!-- /.container -->
-
-
-      <!-- FOOTER -->
-      <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      <!-- Card 5 -->
+      <div class="card-horizontal col-md-5">
+        <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
+        <div class="card-body">
+          <div class="rating">9.8</div>
+          <p class="bestseller-category">Burgers</p>
+          <h5 class="card-title">Best Burgers</h5>
+          <p class="card-text">42 Jong Panchester St, 9073</p>
+          <div class="card-info">
+            <p class="time">20-30 min</p>
+            <p class="price">From $4</p>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Card 6 -->
+      <div class="card-horizontal col-md-5">
+        <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
+        <div class="card-body">
+          <div class="rating">9.8</div>
+          <p class="bestseller-category">Burgers</p>
+          <h5 class="card-title">Pizza Masters</h5>
+          <p class="card-text">Ac St. Schaumburg 84872</p>
+          <div class="card-info">
+            <p class="time">~45 min</p>
+            <p class="price">From $4</p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+    <footer id="footer">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <h2>FOODIE</h2>
+            <div class="footer-social">
+              <a class="icon-footer" href="#"><i class="ti-facebook"></i></a>
+              <a class="icon-footer" href="#"><i class="ti-instagram"></i></a>
+              <a class="icon-footer" href="#"><i class="ti-location-pin"></i></a>
+            </div>
+          </div>
+          <div class="footer-menu">
+            <h4 style="display: flex; justify-content: center;">MENU</h4>
+            <div class="menu-item">
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Restaurants</a></li>
+                  </ul>
+                  <ul>
+                    <li><a href="#">Map</a></li>
+                    <li><a href="#">Submit</a></li>
+                  </ul>
+            </div>
+          </div>
+        </div>
       </footer>
-    </main>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-
-    <script src="js/Jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-  </body>
+    </body>
 </html>

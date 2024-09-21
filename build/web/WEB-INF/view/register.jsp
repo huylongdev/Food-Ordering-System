@@ -1,95 +1,85 @@
-<%-- 
-    Document   : register
-    Created on : Sep 17, 2024, 6:22:14 AM
-    Author     : LENOVO
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Sign up</title>
-        
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+        <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/dist/mdb5/standard/core.min.js"></script>
+    <script type="text/javascript" src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/dist/search/search.min.js"></script>
+    <script src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/dist/main.min.js"></script>
+    <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+    <link rel="stylesheet" id="roboto-subset.css-css" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5" type="text/css" media="all">
+    <link rel="stylesheet" href="./assets/css/register.css">
+</head>
+<body>
+    <section class="vh-100 bg-image"
+      style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="card" style="border-radius: 15px;">
+                <div class="card-body p-5">
+                  <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-        <link href="style.css" rel="stylesheet">
-    </head>
-    <body>
-        <section class="h-100 h-custom" style="background-color: #8fc4b7;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-8 col-xl-6">
-        <div class="card rounded-3">
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
-            class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
-            alt="Sample photo">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
+                  <form action="register" method="post">
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="fullname" name="fullname" class="form-control form-control-lg" placeholder="Full Name" required />
+        <label class="form-label" for="fullname">Full Name</label>
+    </div>
+      
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="username" name="user" class="form-control form-control-lg" placeholder="User Name" required />
+        <label class="form-label" for="username">User Name</label> <!-- Sửa id cho label -->
+    </div>
+      
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="password" id="password" name="pass" class="form-control form-control-lg" placeholder="Password" required />
+        <label class="form-label" for="password">Password</label>
+    </div>
+    
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" id="phonenumber" name="phonenumber" class="form-control form-control-lg" placeholder="Phone Number" required />
+        <label class="form-label" for="phonenumber">Phone Number</label> <!-- Sửa id cho label -->
+    </div>  
 
-            <form class="px-md-2" action="register" method="post">
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Your Email" required />
+        <label class="form-label" for="email">Your Email</label>
+    </div>
 
-              <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="text" id="form3Example1q" name="fullname" class="form-control" placeholder="Full Name" required />
-              </div>
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="address" name="address" class="form-control form-control-lg" placeholder="Address" required />
+        <label class="form-label" for="address">Address</label> <!-- Sửa id cho label -->
+    </div>  
 
-              <div class="row">
-                <div class="col-md-6 mb-4">
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+    </div>
 
-                  <div data-mdb-input-init class="form-outline datepicker">
-                      <input type="text" class="form-control" name="user" id="exampleDatepicker1" placeholder="Username" required />
-                  </div>
+    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/OrderingSystem/login" class="fw-bold text-body"><u>Login here</u></a></p>
+</form>
+
 
                 </div>
-                <div class="col-md-6 mb-4">
-
-                  <div data-mdb-input-init class="form-outline datepicker">
-                      <input type="password" class="form-control" name="pass" id="exampleDatepicker1" placeholder="Password" required />
-                  </div>
-
-                </div>
               </div>
-
-              <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="number" id="form3Example1q"  name="phonenumber" class="form-control" placeholder="Phone Number" required />
-              </div>
-
-              <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="email" id="form3Example1q" name="email" class="form-control" placeholder="Email" required/>
-              </div>
-                
-                <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="text" id="form3Example1q" name="address" class="form-control" placeholder="Address" required/>
-              </div>
-                <div style="display: flex; justify-content: space-between">
-                    <button
-                  style="
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #ccc;
-    border: 1px;
-"   
-                  type="submit" data-mdb-button-init data-mdb-ripple-init class="">Submit</button>
-                    <a
-                        href="/OrderingSystem"
-                        style="display: flex;
-    align-items: center;
-    background-color: #ccc;
-    padding: 0px 10px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: black;">Back to homepage</a>    
-                </div>
-              
-
-            </form>
-            
-
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-    </body>
+    </section>
+</body>
 </html>
