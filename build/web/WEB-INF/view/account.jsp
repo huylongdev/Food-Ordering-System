@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -350,14 +349,6 @@
       </div>
     </div>
   </body>
-=======
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Account</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <link href="style.css" rel="stylesheet">
     <link href="/OrderingSystem/WEB-INF/style/account.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link
@@ -700,4 +691,3 @@
       </div>
     </div>
   </body>
-</html>
