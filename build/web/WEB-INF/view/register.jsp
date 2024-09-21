@@ -22,27 +22,27 @@
                                 <form action="register" method="post">
                                     <div class="form-outline mb-4">
                                         <input type="text" id="fullname" name="fullname" class="form-control form-control-lg" placeholder="Full Name" required />
-                                        <label class="form-label" for="fullname">Full Name</label>
+                                        <!--<label class="form-label" for="fullname">Full Name</label>-->
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="text" id="username" name="user" class="form-control form-control-lg" placeholder="User Name" required />
-                                        <label class="form-label" for="username">User Name</label>
+                                        <!--<label class="form-label" for="username">User Name</label>-->
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="password" id="password" name="pass" class="form-control form-control-lg" placeholder="Password" required />
-                                        <label class="form-label" for="password">Password</label>
+                                        <!--<label class="form-label" for="password">Password</label>-->
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="number" id="phonenumber" name="phonenumber" class="form-control form-control-lg" placeholder="Phone Number" required />
-                                        <label class="form-label" for="phonenumber">Phone Number</label>
+                                        <!--<label class="form-label" for="phonenumber">Phone Number</label>-->
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Your Email" required />
-                                        <label class="form-label" for="email">Your Email</label>
+                                        <!--<label class="form-label" for="email">Your Email</label>-->
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="text" id="address" name="address" class="form-control form-control-lg" placeholder="Address" required />
-                                        <label class="form-label" for="address">Address</label>
+                                        <!--<label class="form-label" for="address">Address</label>-->
                                     </div>
                                     <input type="hidden" name="action" value="sendOTP" />
                                     <div class="d-flex justify-content-center">
