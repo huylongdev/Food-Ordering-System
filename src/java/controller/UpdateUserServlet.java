@@ -21,8 +21,8 @@ import model.Account;
  *
  * @author LENOVO
  */
-@WebServlet(name = "UpdateUserServelet", urlPatterns = {"/editUser"})
-public class UpdateUserServelet extends HttpServlet {
+@WebServlet(name = "UpdateUserServlet", urlPatterns = {"/editUser"})
+public class UpdateUserServlet extends HttpServlet {
 private static final long serialVersionUID = 1L;
 
     @Override

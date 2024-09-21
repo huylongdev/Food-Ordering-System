@@ -1,36 +1,20 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : Sep 17, 2024, 10:25:12 PM
-    Author     : phuct
-*/
-
-body, html {
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
+body {
+    font-family: 'Roboto', sans-serif;
 }
 
-.h-100 {
-    height: 100% !important;
+.form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
 }
 
-.card {
-    border: none;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.card-body {
-    padding: 2rem;
-}
-
-h3 {
-    font-weight: bold;
-    color: #333;
+.form-label {
+    position: absolute;
+    top: 12px; /* Khoảng cách từ trên cùng */
+    left: 15px; /* Khoảng cách từ bên trái */
+    font-size: 16px;
+    color: #999;
+    transition: 0.2s;
+    pointer-events: none; /* Ngăn nhãn nhận sự kiện chuột */
 }
 
 .form-control {
@@ -39,62 +23,62 @@ h3 {
     font-size: 16px;
     background-color: #f9f9f9;
     border: 1px solid #ced4da;
-    transition: background-color 0.3s ease;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-control:focus {
     background-color: #fff;
-    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
     border-color: #80bdff;
 }
 
-.btn-success {
-    background-color: #5cb85c;
-    border-color: #5cb85c;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    top: -10px; /* Di chuyển nhãn lên khi input có giá trị */
+    left: 15px; /* Đặt lại vị trí */
+    font-size: 12px; /* Kích thước chữ nhỏ hơn khi focus */
+    color: #007bff; /* Màu nhãn khi focus */
 }
 
-.btn-success:hover {
-    background-color: #4cae4c;
-    border-color: #4cae4c;
+.card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-img {
-    border-top-left-radius: .3rem;
-    border-top-right-radius: .3rem;
+.gradient-custom-3 {
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
 }
 
-input::placeholder {
-    font-style: italic;
-    color: #999;
+.gradient-custom-4 {
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
 }
 
-.form-outline {
-    margin-bottom: 1.5rem;
+.input-container {
+    position: relative; /* Để có thể định vị các phần tử bên trong nếu cần */
+    width: 300px; /* Hoặc chiều rộng mong muốn */
+    margin: 20px 0; /* Khoảng cách trên và dưới */
 }
 
-.form-outline.datepicker {
-    position: relative;
+input[type="text"] {
+    padding: 10px; /* Khoảng cách bên trong */
+    font-size: 16px; /* Kích thước chữ */
+    line-height: 1.5; /* Chiều cao dòng */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 4px; /* Bo góc */
+    width: 100%; /* Chiều rộng đầy đủ */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
+    transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp cho đường viền */
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+input[type="text"]:focus {
+    border-color: #007bff; /* Đổi màu đường viền khi ô input được chọn */
+    outline: none; /* Loại bỏ đường viền mặc định */
 }
 
-@media (max-width: 767px) {
-    .container {
-        padding: 0 15px;
-    }
+::placeholder {
+    color: #aaa; /* Màu sắc của placeholder */
+    opacity: 1; /* Đảm bảo độ mờ rõ ràng */
+}
 
-    .btn {
-        width: 100%;
-    }
-
-    .form-outline {
-        margin-bottom: 1rem;
-    }
+input[type="text"]:hover {
+    border-color: #007bff; /* Đổi màu đường viền khi hover */
 }
