@@ -43,12 +43,12 @@
       
     <div data-mdb-input-init class="form-outline mb-4">
         <input type="text" id="username" name="user" class="form-control form-control-lg" placeholder="User Name" required />
-        <label class="form-label" for="username">User Name</label> <!-- Sửa id cho label -->
+        <label class="form-label" for="user">User Name</label> <!-- Sửa id cho label -->
     </div>
       
     <div data-mdb-input-init class="form-outline mb-4">
         <input type="password" id="password" name="pass" class="form-control form-control-lg" placeholder="Password" required />
-        <label class="form-label" for="password">Password</label>
+        <label class="form-label" for="pass">Password</label>
     </div>
     
     <div data-mdb-input-init class="form-outline mb-4">
