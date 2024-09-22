@@ -308,7 +308,8 @@
                     <span>or use your account</span>
                     <input type="text" placeholder="User Name" name="user" />
                     <input type="password" placeholder="Password" name="pass"/>
-                    <button type = 'submit'>Sign In</button>
+                    <button type = 'submit'>Sign In</button><br>
+                    <span><a href = "./forgot-password">Forgot Password?</a></span>
                 </form>
             </div>
             <div class="overlay-container">
