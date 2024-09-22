@@ -53,32 +53,35 @@ body {
 }
 
 .input-container {
-    position: relative; /* Để có thể định vị các phần tử bên trong nếu cần */
-    width: 300px; /* Hoặc chiều rộng mong muốn */
-    margin: 20px 0; /* Khoảng cách trên và dưới */
+    position: relative; 
+    width: 300px; 
+    margin: 20px 0; 
 }
 
 input[type="text"] {
-    padding: 10px; /* Khoảng cách bên trong */
-    font-size: 16px; /* Kích thước chữ */
-    line-height: 1.5; /* Chiều cao dòng */
-    border: 1px solid #ccc; /* Đường viền */
-    border-radius: 4px; /* Bo góc */
-    width: 100%; /* Chiều rộng đầy đủ */
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
-    transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp cho đường viền */
+    padding: 10px; 
+    font-size: 16px; 
+    line-height: 1.5; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    width: 100%;
+    box-sizing: border-box; 
+    transition: border-color 0.3s; 
 }
 
 input[type="text"]:focus {
-    border-color: #007bff; /* Đổi màu đường viền khi ô input được chọn */
-    outline: none; /* Loại bỏ đường viền mặc định */
+    border-color: #007bff; 
+    outline: none; 
 }
 
 ::placeholder {
-    color: #aaa; /* Màu sắc của placeholder */
-    opacity: 1; /* Đảm bảo độ mờ rõ ràng */
+    color: #aaa;
+    opacity: 1;
 }
 
 input[type="text"]:hover {
-    border-color: #007bff; /* Đổi màu đường viền khi hover */
+    border-color: #007bff; 
+}
+.form-group {
+    margin-bottom: 10px;
 }
