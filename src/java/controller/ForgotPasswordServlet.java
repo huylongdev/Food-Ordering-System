@@ -4,6 +4,7 @@
  */
 package controller;
 
+import context.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,11 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.UUID;
+import util.Email;
 
 /**
  *
  * @author LENOVO
  */
+
 public class ForgotPasswordServlet extends HttpServlet {
 
     /**
@@ -56,7 +59,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("WEB-INF/view/forgot-password.jsp").forward(request, response);
     }
 
     /**
@@ -70,10 +73,40 @@ public class ForgotPasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
+        String email = request.getParameter("email");
+        request.setAttribute(email, "email");
+
+        AccountDAO accDAO = new AccountDAO();
+        if (accDAO.checkAccountByEmail(email)!= null) {
+
+            String token = UUID.randomUUID().toString();
+            accDAO.savePasswordResetToken(email, token); // Lưu token vào database
+
+            // Gửi email với link reset mật khẩu
+            String resetLink = "http://localhost:8080/OrderingSystem/reset-password?token=" + token;
+
+            Email.sendEmailResetPassword(email, resetLink);
+
+             request.getRequestDispatcher("WEB-INF/view/password-reset-request-success.jsp").forward(request, response);
+        } else {
+            
+            response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ResetPasswordServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Invalid Email</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+            
+        }
     }
+    
 
     /**
      * Returns a short description of the servlet.
