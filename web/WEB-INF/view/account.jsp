@@ -82,7 +82,7 @@
               </li>
               <li>
                 <a href="./changePassword">
-                  <i class="fa fa-home"></i> Change password</a
+                  <i class="fa fa-edit"></i> Change password</a
                 >
               </li>
               <li>
