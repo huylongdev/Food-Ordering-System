@@ -21,43 +21,17 @@ public class OtpVerifyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
+        HttpSession session = request.getSession();
+        Account tempAccount = (Account) session.getAttribute("tempAccount");
+        String inputOtp = request.getParameter("otp");
 
-        // Validate email format
-        if (!isValidEmail(email)) {
-            request.setAttribute("message", "Invalid email format.");
+        if (tempAccount != null && tempAccount.getCode().equals(inputOtp)) {
+            // OTP is valid
+            request.setAttribute("message", "OTP verified successfully. Please register your account.");
+            request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+        } else {
+            request.setAttribute("message", "Invalid OTP. Please try again.");
             request.getRequestDispatcher("WEB-INF/view/verifyOtp.jsp").forward(request, response);
-            return;
         }
-
-        // Generate OTP
-        String otp = Email.getRandom(); 
-
-        try {
-            // Create an Account object to send the email
-            Account ac = new Account();
-            ac.setEmail(email);
-            ac.setCode(otp); // Store OTP for verification
-
-            // Send OTP
-            if (Email.sendEmail(ac)) {
-                HttpSession session = request.getSession();
-                session.setAttribute("generatedOtp", otp); // Store OTP in session
-                request.setAttribute("message", "OTP sent to your email. Please verify.");
-            } else {
-                request.setAttribute("message", "Failed to send OTP. Please try again.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Consider logging this
-            request.setAttribute("message", "Failed to send OTP due to an error.");
-        }
-
-        request.getRequestDispatcher("WEB-INF/view/verifyOtp.jsp").forward(request, response);
-    }
-
-    private boolean isValidEmail(String email) {
-        // Basic email validation regex
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        return email.matches(emailRegex);
     }
 }

@@ -13,15 +13,14 @@ import model.Account;
 
 public class Email {
     private static final String fromEmail = "tientpde180866@fpt.edu.vn";
-    private static final String password = "ctba ldcd nijo godd";
-    // Generate random OTP
+    private static final String password = "";
+
     public static String getRandom() {
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
         return String.format("%06d", number);
     }
 
-    // Send email method
     public static boolean sendEmail(Account user) {
         String toEmail = user.getEmail();
 
@@ -31,6 +30,7 @@ public class Email {
             props.put("mail.smtp.port", "587");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.debug", "true");
 
             Session session = Session.getInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -38,19 +38,17 @@ public class Email {
                 }
             });
 
-            // Create message
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Your OTP Code");
             message.setText("Your OTP is: " + user.getCode());
 
-            // Send email
             Transport.send(message);
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace(); // Consider logging this
+            e.printStackTrace();
             return false;
         }
     }
