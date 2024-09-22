@@ -13,7 +13,7 @@ import model.Account;
 
 public class Email {
     private static final String fromEmail = "tientpde180866@fpt.edu.vn";
-    private static final String password = "ctba ldcd nijo godd";
+    private static final String password = "czwm irwi ttyx tvog";
     // Generate random OTP
     public static String getRandom() {
         Random rnd = new Random();

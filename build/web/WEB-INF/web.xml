@@ -24,6 +24,10 @@
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>controller.AccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <servlet-class>controller.ForgotPasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -48,10 +52,13 @@
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/account</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
-    
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>controller.filter.AccessFilter</filter-class>
