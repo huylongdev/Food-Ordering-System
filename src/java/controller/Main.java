@@ -17,7 +17,7 @@ public class Main {
     // check ket noi database successfully
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        List<Account> a = dao.getCustomerList();
+        List<Account> a = dao.getAccountList();
         for(Account ac: a){
              System.out.println(ac.getFullName());
         }

@@ -22,17 +22,21 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if ("sendOTP".equals(action)) {
-            sendOTP(request, response);
+        if ("register".equals(action)) {
+            register(request, response);
         } else if ("verifyOTP".equals(action)) {
             verifyOTP(request, response);
         }
     }
 
-    private void sendOTP(HttpServletRequest request, HttpServletResponse response) 
+    private void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountDAO acDAO = new AccountDAO();
         String email = request.getParameter("email");
+        String fullName = request.getParameter("fullname");
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
+        String phoneNumber = request.getParameter("phonenumber");
+        String address = request.getParameter("address");
 
         // Validate email format
         if (!isValidEmail(email)) {
@@ -45,14 +49,20 @@ public class RegisterServlet extends HttpServlet {
         String otp = Email.getRandom();
 
         // Create account object without saving to DB yet
-        Account ac = new Account();
-        ac.setEmail(email);
-        ac.setCode(otp); // Store OTP for verification
+        Account tempAccount = new Account();
+        tempAccount.setEmail(email);
+        tempAccount.setCode(otp); // Store OTP for verification
+        tempAccount.setFullName(fullName);
+        tempAccount.setUserName(userName);
+        tempAccount.setPassword(PasswordUtil.hashPassword(password));
+        tempAccount.setPhoneNumber(phoneNumber);
+        tempAccount.setAddress(address);
+        tempAccount.setRole(1); // Assuming role is set to 1
 
         // Send OTP email
-        if (Email.sendEmail(ac)) {
+        if (Email.sendEmail(tempAccount)) {
             HttpSession session = request.getSession();
-            session.setAttribute("tempAccount", ac); // Store account temporarily
+            session.setAttribute("tempAccount", tempAccount); // Store account temporarily
             request.setAttribute("message", "OTP sent to your email. Please verify.");
             request.getRequestDispatcher("WEB-INF/view/verifyOtp.jsp").forward(request, response);
         } else {
@@ -70,20 +80,6 @@ public class RegisterServlet extends HttpServlet {
         if (tempAccount != null && tempAccount.getCode().equals(inputOtp)) {
             // OTP is correct, now save the account
             AccountDAO acDAO = new AccountDAO();
-            String fullName = request.getParameter("fullname");
-            String userName = request.getParameter("user");
-            String password = request.getParameter("pass");
-            String hashedPassword = PasswordUtil.hashPassword(password);
-            String phoneNumber = request.getParameter("phonenumber");
-            String address = request.getParameter("address");
-
-            tempAccount.setUserName(userName);
-            tempAccount.setPassword(hashedPassword);
-            tempAccount.setFullName(fullName);
-            tempAccount.setPhoneNumber(phoneNumber);
-            tempAccount.setAddress(address);
-            tempAccount.setRole(1); // Assuming role is set to 1
-
             if (acDAO.createAccount(tempAccount)) {
                 session.removeAttribute("tempAccount"); // Clear temp account
                 session.setAttribute("message", "Registered successfully! Login to continue.");
