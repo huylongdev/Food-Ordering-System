@@ -6,7 +6,7 @@ go
 create table Users
 (
    UserID int PRIMARY KEY,
-   UserName VARCHAR(100) UNIQUE NOT NULL,
+   UserName VARCHAR(100) NOT NULL,
    Pass varchar(255) NOT NULL,
    FullName nvarchar(50) NOT NULL,
    PhoneNumber VARCHAR(10) CHECK (PhoneNumber LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -69,14 +69,25 @@ END;
 
 GO
 
-INSERT INTO Users ( UserName, Pass, FullName, PhoneNumber, Email, Address, AvtImg, Role)
-VALUES ( 'john_doe', 'johndoe123', 'John Doe', '0123456789', 'john.doe@example.com', '123 Main St, Hometown', 'https://i.pinimg.com/564x/69/54/88/695488b8d0648689a41a5de24a2d6902.jpg', 1);
 
-go
-INSERT INTO Users ( UserName, Pass, FullName, PhoneNumber, Email, Address, AvtImg, Role)
-VALUES ( 'jane_smith', 'jane123', 'Jane Smith', '0987654321', 'jane.smith@example.com', '456 Elm St, Hometown', 'https://i.pinimg.com/564x/69/54/88/695488b8d0648689a41a5de24a2d6902.jpg', 1);
-go
+CREATE TABLE password_reset_tokens (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    UserID INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expiration_time DATETIME NOT NULL,
+    CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+
+
+
 select * from Users
 
-drop database ordering_system
+delete from users where UserName like 'huesuong'
+
+ALTER TABLE Users
+ADD code nvarchar(25);
+
+
+
 
