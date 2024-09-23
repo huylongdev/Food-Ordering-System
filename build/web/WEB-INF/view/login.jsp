@@ -310,6 +310,7 @@
                     <input type="password" placeholder="Password" name="pass"/>
                     <button type = 'submit'>Sign In</button><br>
                     <span><a href = "./forgot-password">Forgot Password?</a></span>
+        <p class="text-danger text-center mt-3">${message}</p>
                 </form>
             </div>
             <div class="overlay-container">
