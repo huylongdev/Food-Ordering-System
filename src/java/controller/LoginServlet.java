@@ -69,8 +69,8 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account acc = accountDAO.checkAccountByUserName(u);
-        String hashedPassword = acc.getPassword();
-        if (acc != null && PasswordUtil.checkPassword(p, hashedPassword)) {
+        
+        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
             session.setAttribute("username", u);
             session.setAttribute("user", acc);
             if (acc.getRole() == 1) {
@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("/OrderingSystem");
             }
         } else {
-            request.setAttribute("message", "Error name and passwword");
+            request.setAttribute("message", "Error name and password");
             request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
         }
     }
