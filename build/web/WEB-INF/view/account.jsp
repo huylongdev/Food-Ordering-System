@@ -81,6 +81,11 @@
                 >
               </li>
               <li>
+                <a href="./changePassword">
+                  <i class="fa fa-edit"></i> Change password</a
+                >
+              </li>
+              <li>
                 <a href="/OrderingSystem">
                   <i class="fa fa-home"></i> Back to hompage</a
                 >
