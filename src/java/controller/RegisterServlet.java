@@ -39,8 +39,13 @@ public class RegisterServlet extends HttpServlet {
         String address = request.getParameter("address");
 
         // Validate email format
-        if (!isValidEmail(email)) {
+        if (!isValidEmail(email) ) {
             request.setAttribute("message", "Invalid email format.");
+            request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+            return;
+        }
+        if (!isValidPassword(password)) {
+            request.setAttribute("message", "Invalid password. Need to have both number and letter and more than 8 characters.");
             request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
             return;
         }
@@ -98,6 +103,29 @@ public class RegisterServlet extends HttpServlet {
         // Basic email validation regex
         String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         return email.matches(emailRegex);
+    }
+    
+    public static boolean isValidPassword(String password) {
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Kiểm tra có ít nhất một chữ cái và một chữ số
+        boolean hasLetter = false;
+        boolean hasDigit = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c)) {
+                hasLetter = true;
+            }
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+        }
+
+        // Nếu mật khẩu chứa cả chữ cái và số thì hợp lệ
+        return hasLetter && hasDigit;
     }
 
     @Override

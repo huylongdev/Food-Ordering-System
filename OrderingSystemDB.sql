@@ -81,12 +81,148 @@ CREATE TABLE password_reset_tokens (
 
 
 
+delete from users where UserName like 'huesuong'
+
 select * from Users
 
-delete from users where UserName like 'huesuong'
 
 ALTER TABLE Users
 ADD code nvarchar(25);
+
+-- start here------------------------------
+
+ALTER TABLE Users
+ADD Status BIT NOT NULL;
+
+CREATE TABLE Shop (
+    ShopID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(MAX),
+    Status BIT NOT NULL,
+    ShopImage NVARCHAR(255),
+    Address NVARCHAR(255),
+    TimeOpen TIME,
+    TimeClose TIME
+);
+
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY IDENTITY(1,1),
+    Type NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(MAX)
+);
+
+
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(MAX),
+    Price DECIMAL(18, 2) NOT NULL,
+    Status BIT NOT NULL,
+    ShopID INT FOREIGN KEY REFERENCES Shop(ShopID),
+    CategoryID INT FOREIGN KEY REFERENCES Categories(CategoryID),
+    PurchaseCount INT DEFAULT 0,
+    Rating DECIMAL(3, 2) CHECK (Rating BETWEEN 0 AND 5)
+);
+
+
+CREATE TABLE ProductImage (
+    ImageID INT PRIMARY KEY IDENTITY(1,1),
+    ProductID INT NOT NULL FOREIGN KEY REFERENCES Product(ProductID),
+	IsAvatar BIT,
+	ImgURL nvarchar(200) NOT NULL
+
+);
+
+CREATE TABLE CartItem (
+    CartItemID INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+	ProductID INT NOT NULL FOREIGN KEY REFERENCES Product(ProductID),
+	Quantity INT DEFAULT 1,
+	ShopID INT NOT NULL FOREIGN KEY REFERENCES Shop(ShopID)
+);
+
+CREATE TABLE Favourite (
+    UserID INT PRIMARY KEY FOREIGN KEY REFERENCES Users(UserID),
+	ProductID INT NOT NULL FOREIGN KEY REFERENCES Product(ProductID)
+);
+
+CREATE TABLE Feedback (
+    FeedbackID INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+	ProductID INT NOT NULL FOREIGN KEY REFERENCES Product(ProductID),
+	Rating INT NOT NULL,
+	Comment NVARCHAR (MAX),
+	CreatedDate DATETIME DEFAULT GETDATE(),
+);
+
+CREATE TABLE Discount (
+    DiscountID INT IDENTITY(1,1) PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),  
+    DiscountName NVARCHAR(100) NOT NULL,
+    StartDate DATETIME NOT NULL,
+    EndDate DATETIME NOT NULL,
+    DiscountPercentage DECIMAL(5, 2) NOT NULL,   
+    Type NVARCHAR(50) NOT NULL
+);
+
+
+
+
+
+
+CREATE TABLE [Order] (
+    OrderID INT IDENTITY(1,1) PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),  
+    Status NVARCHAR(50) NOT NULL,
+    Address NVARCHAR(255),
+    CreatedDate DATETIME DEFAULT GETDATE(),
+    DeliveryOption NVARCHAR(50),
+    TimePickup DATETIME,
+    TotalAmount DECIMAL(18, 2) NOT NULL,
+    DiscountID INT FOREIGN KEY REFERENCES Discount(DiscountID),  
+    PaymentOption NVARCHAR(50) NOT NULL
+);
+
+
+
+
+
+CREATE TABLE OrderItem (
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL,
+    TotalPrice DECIMAL(18, 2) NOT NULL,
+    PRIMARY KEY (OrderID, ProductID),
+    FOREIGN KEY (OrderID) REFERENCES [Order](OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)  
+
+)
+
+CREATE TABLE RewardRedemption (
+    RedemptionID INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT,
+    NumberOfPoint INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE Post (
+    PostID INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+	ImgURL nvarchar(200) NOT NULL,
+	Heading NVARCHAR (MAX) NOT NULL,
+	Content NVARCHAR (MAX) NOT NULL,
+	CreatedDate DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE Comment(
+    CommentID INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+	PostID INT NOT NULL FOREIGN KEY REFERENCES Post(PostID),
+	Content NVARCHAR (MAX) NOT NULL
+);
+
+
 
 
 
