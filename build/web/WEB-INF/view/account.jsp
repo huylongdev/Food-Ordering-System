@@ -52,19 +52,19 @@
                     <div class="panel">
                         <div class="user-heading round">
 
-                                <div class = img-wrapper>
-                            <a href="#">
+                            <div class = img-wrapper>
+                                <a href="#">
                                     <img
                                         src="${user.getAvtImg()}"
                                         onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
                                         alt="Profile Picture"
                                         class="img-responsive img-circle"
                                         />
-                            </a>
-                                    <div class="icon-wrapper">
-                                        <i id ="user-icon" class="fa fa-edit" onclick="showUpdateAvatarOverlay()"></i>
-                                    </div>
+                                </a>
+                                <div class="icon-wrapper">
+                                    <i id ="user-icon" class="fa fa-edit" onclick="showUpdateAvatarOverlay()"></i>
                                 </div>
+                            </div>
                             <h1>${user.getFullName()}</h1>
                             <p>${user.getEmail()}</p>
                         </div>
@@ -157,24 +157,27 @@
                     </div>
                 </div>
             </div>
-                                
-                                
-                         
-                <div id="update-avatar-overlay" class="overlay">
-                    <div class="overlay-content">
-                        <span class="close-btn" onclick="hideUpdateAvatarOverlay()">&times;</span></br>
-                        
-                                <label for="imgURL">Upload Img:</label>
-                                <input type="file" id="img" name="img" accept="image/*" >
 
-                                </br><button type='submit'>Save</button>
-                    </div>
-                    </div>       
-                                
-                                
-                                
-                                
+
+
+            <div id="update-avatar-overlay" class="overlay center">
+                <div class="overlay-content">
+                    <span class="close-btn" onclick="hideUpdateAvatarOverlay()">&times;</span></br>
+                    <form name = "changeAvatar" action = "account" method = "post" enctype="multipart/form-data">
+                        <label for="imgURL">Upload Avatar:</label>
+                        <input type="file" id="img" name="img" accept=".jpg,.jpeg,.png" >
+                        <input type = "hidden" name = "userID" value =${user.getUserID()}>
+                        <input type = "hidden" name = "mt" value ="changeAvatar">
+                        </br></br></br>
+                        <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
+                    </form>
+                </div>
+            </div>       
+
+
+
+
         </div>
-                                <script src="index.js"></script>
+        <script src="index.js"></script>
     </body>
 </html>
