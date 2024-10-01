@@ -1,5 +1,5 @@
 // 
-console.clear();
+//console.clear();
 
 const loginBtn = document.getElementById('login');
 const signupBtn = document.getElementById('signup');
@@ -27,3 +27,32 @@ signupBtn.addEventListener('click', (e) => {
 		}
 	});
 });
+
+
+
+
+
+const userIcon = document.getElementById('user-icon');
+const overlay = document.getElementById('update-avatar-overlay');
+
+// Add a click event listener to the icon
+userIcon.addEventListener('click', () => {
+    console.log("click");
+    // Toggle the overlay's visibility
+    if (overlay.style.display === 'none' || overlay.style.display === '') {
+        overlay.style.display = 'block'; // Show overlay
+    } else {
+        overlay.style.display = 'none'; // Hide overlay
+    }
+});
+
+
+
+
+function showUpdateAvatarOverlay() {
+    document.getElementById("update-avatar-overlay").style.display = "block";
+}
+
+function hideUpdateAvatarOverlay() {
+    document.getElementById("update-avatar-overlay").style.display = "none";
+}

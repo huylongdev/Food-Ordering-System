@@ -27,13 +27,15 @@
                             <div class="card" style="border-radius: 15px;">
                                 <div class="card-body p-5">
                                     <h2 class="text-uppercase text-center mb-5">Reset Password</h2>
-                                   
+
                                     <form action="reset-password" method="post">
                                         <div class="form-group">
-                                        <input  type="hidden" name="token" value="${token}">
-                                        <label class="form-label" for="newPassword">New password:</label>
-                                        <input class="form-control" type="password" id="newPassword" name="newPassword" required>
-                                        <button class="btn btn-primary mt-4" type="submit">Submit</button>
+                                            <input  type="hidden" name="token" value="${token}">
+                                            <label class="form-label" for="newPassword">New password:</label>
+                                            <input class="form-control" type="password" id="newPassword" name="newPassword" required>
+                                            <button class="btn btn-primary mt-4" type="submit">Submit</button>
+
+                                            <p class="text-danger">${message}</p>
                                         </div>
                                     </form>
                                     <p class="text-danger text-center mt-3">${message}</p> <!-- Hiển thị thông báo lỗi nếu có -->
