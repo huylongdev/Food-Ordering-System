@@ -65,3 +65,23 @@ function showAddProductOverlay() {
 function hideAddProductOverlay() {
     document.getElementById("add-product-overlay").style.display = "none";
 }
+
+
+
+
+function increment(button) {
+    let input = button.previousElementSibling;
+    if (parseInt(input.value) < 10) {
+        input.value = parseInt(input.value) + 1;
+        updateAmount(input);
+    }
+}
+
+function decrement(button) {
+    let input = button.nextElementSibling;
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+        updateAmount(input);
+    }
+}
+
