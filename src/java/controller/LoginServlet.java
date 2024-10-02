@@ -69,17 +69,17 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account acc = accountDAO.checkAccountByUserName(u);
-//        String hashedPassword = acc.getPassword();
+        
         if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
             session.setAttribute("username", u);
             session.setAttribute("user", acc);
             if (acc.getRole() == 1) {
                 session.setAttribute("role", "customer");
                 session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("account");
+                response.sendRedirect("/OrderingSystem");
             }
         } else {
-            request.setAttribute("message", "Error name and passwword");
+            request.setAttribute("message", "Error name and password");
             request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
         }
     }

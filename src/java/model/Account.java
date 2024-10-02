@@ -19,6 +19,7 @@ public class Account {
     private String avtImg; // Optional
     private int shopID; // Optional
     private int role; // Not null
+    private String code;
 
     public Account() {
     }
@@ -69,6 +70,30 @@ public class Account {
         this.shopID = shopID;
         this.role = role;
     }
+
+    public Account(int userID, String userName, String password, String fullName, String phoneNumber, String email, String address, String avtImg, int shopID, int role, String code) {
+        this.userID = userID;
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.avtImg = avtImg;
+        this.shopID = shopID;
+        this.role = role;
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+ 
 
     public int getUserID() {
         return userID;

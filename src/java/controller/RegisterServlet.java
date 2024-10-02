@@ -1,107 +1,135 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import context.AccountDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import util.Email;
 import util.PasswordUtil;
 
-/**
- *
- * @author LENOVO
- */
 public class RegisterServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        registerCustomer(request, response);
+        String action = request.getParameter("action");
+        if ("register".equals(action)) {
+            register(request, response);
+        } else if ("verifyOTP".equals(action)) {
+            verifyOTP(request, response);
+        }
     }
-    
-    private void registerCustomer(HttpServletRequest request, HttpServletResponse response)
+
+    private void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        AccountDAO acDAO = new AccountDAO();
-
-        String fullName = request.getParameter("fullname");
-
-        String phoneNumber = request.getParameter("phonenumber");
-
         String email = request.getParameter("email");
-
-        String userName = request.getParameter("user");
-
-        String password = request.getParameter("pass");
-        String hashedPassword = PasswordUtil.hashPassword(password);
-
+        String fullName = request.getParameter("fullname");
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
+        String phoneNumber = request.getParameter("phonenumber");
         String address = request.getParameter("address");
 
-        Account ac = new Account(userName, hashedPassword, fullName, phoneNumber, email, address, 1);
+        // Validate email format
+        if (!isValidEmail(email) ) {
+            request.setAttribute("message", "Invalid email format.");
+            request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+            return;
+        }
+        if (!isValidPassword(password)) {
+            request.setAttribute("message", "Invalid password. Need to have both number and letter and more than 8 characters.");
+            request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+            return;
+        }
 
-        if (acDAO.createAccount(ac)) {
+        // Generate OTP
+        String otp = Email.getRandom();
+
+        // Create account object without saving to DB yet
+        Account tempAccount = new Account();
+        tempAccount.setEmail(email);
+        tempAccount.setCode(otp); // Store OTP for verification
+        tempAccount.setFullName(fullName);
+        tempAccount.setUserName(userName);
+        tempAccount.setPassword(PasswordUtil.hashPassword(password));
+        tempAccount.setPhoneNumber(phoneNumber);
+        tempAccount.setAddress(address);
+        tempAccount.setRole(1); // Assuming role is set to 1
+
+        // Send OTP email
+        if (Email.sendEmail(tempAccount)) {
             HttpSession session = request.getSession();
-            session.setAttribute("message", "Register successfully! Login to continue.");
-            response.sendRedirect("login");
+            session.setAttribute("tempAccount", tempAccount); // Store account temporarily
+            request.setAttribute("message", "OTP sent to your email. Please verify.");
+            request.getRequestDispatcher("WEB-INF/view/verifyOtp.jsp").forward(request, response);
         } else {
-            request.setAttribute("message", "Error, failed to regist new account!");
+            request.setAttribute("message", "Failed to send OTP.");
             request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    private void verifyOTP(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account tempAccount = (Account) session.getAttribute("tempAccount");
+        String inputOtp = request.getParameter("otp");
+
+        if (tempAccount != null && tempAccount.getCode().equals(inputOtp)) {
+            // OTP is correct, now save the account
+            AccountDAO acDAO = new AccountDAO();
+            if (acDAO.createAccount(tempAccount)) {
+                session.removeAttribute("tempAccount"); // Clear temp account
+                session.setAttribute("message", "Registered successfully! Login to continue.");
+                response.sendRedirect("login");
+            } else {
+                request.setAttribute("message", "Failed to register account.");
+                request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+            }
+        } else {
+            request.setAttribute("message", "Invalid OTP. Please try again.");
+            request.getRequestDispatcher("WEB-INF/view/verifyOtp.jsp").forward(request, response);
+        }
+    }
+
+    private boolean isValidEmail(String email) {
+        // Basic email validation regex
+        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        return email.matches(emailRegex);
+    }
+    
+    public static boolean isValidPassword(String password) {
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Kiểm tra có ít nhất một chữ cái và một chữ số
+        boolean hasLetter = false;
+        boolean hasDigit = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c)) {
+                hasLetter = true;
+            }
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+        }
+
+        // Nếu mật khẩu chứa cả chữ cái và số thì hợp lệ
+        return hasLetter && hasDigit;
+    }
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Register Servlet";
+    }
 }

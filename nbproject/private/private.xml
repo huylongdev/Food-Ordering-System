@@ -3,16 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/LoginGoogleServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/AccountServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/login.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/AccountDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/index.js</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/Main.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/UpdateUserServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/updateUser.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/home.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/filter/AccessFilter.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/register.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/index.css</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
         </group>
     </open-files>
 </project-private>
