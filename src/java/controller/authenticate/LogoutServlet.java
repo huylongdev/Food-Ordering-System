@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.authenticate;
 
-import context.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +11,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
-import util.PasswordUtil;
 
 /**
  *
  * @author LENOVO
  */
-public class LoginServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +29,13 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute("username");
+            session.invalidate(); 
+        }
+        
+        response.sendRedirect("/OrderingSystem/");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,27 +64,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        AccountDAO accountDAO = new AccountDAO();
-        String u = request.getParameter("user");
-
-        String p = request.getParameter("pass");
-
-        HttpSession session = request.getSession();
-        Account acc = accountDAO.checkAccountByUserName(u);
-        
-        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
-            session.setAttribute("username", u);
-            session.setAttribute("user", acc);
-            if (acc.getRole() == 1) {
-                session.setAttribute("role", "customer");
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem");
-            }
-        } else {
-            request.setAttribute("message", "Error name and password");
-            request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
