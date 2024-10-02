@@ -55,7 +55,7 @@
               <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
             </div>
             <div class="navbar__item">
-              <a class="navbar__item--login" href="">Login</a>
+              <a class="navbar__item--login" href="./account">Account</a>
               <div class="icon">
                 <i class="ti-shopping-cart"></i>
               </div>
