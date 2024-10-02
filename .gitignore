@@ -1,8 +1,1 @@
-/src/java/controller/accessgoogle/Constants.java
-
-# Ignore other common files and directories
-*.log
-*.tmp
-target/
-*.class
 /dist/
