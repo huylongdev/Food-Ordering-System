@@ -8,17 +8,29 @@
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/account.jsp</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/util/PasswordUtil.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/AccountServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/banner.jpg</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/ChangePasswordServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/updateUser.jsp</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/assets/css/style.css</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/nbproject/build-impl.xml</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GooglePojo.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/CommunityBlogServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/logo.png</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/assets/css/blogdetails.css</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/BlogDetailsServlet.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/LoginGoogleServlet.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/web.xml</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/updateUser.jsp</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/require-password.jsp</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/RegisterServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/blogdetails.jsp</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/util/Email.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/nbproject/build-impl.xml</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GooglePojo.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/index.js</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/LoginServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/assets/css/blog.css</file>
         </group>
     </open-files>
 </project-private>
