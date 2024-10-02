@@ -2,32 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.authenticate;
 
 import context.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
 import model.Account;
+import util.PasswordUtil;
 
 /**
  *
  * @author LENOVO
  */
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class AccountServlet extends HttpServlet {
-
-    private static final String SAVE_DIR = "avatarImages";
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,8 +32,7 @@ public class AccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("WEB-INF/view/account.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,42 +61,27 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("mt").equals("changeAvatar")) {
-            updateAvatar(request, response);
+
+        AccountDAO accountDAO = new AccountDAO();
+        String u = request.getParameter("user");
+
+        String p = request.getParameter("pass");
+
+        HttpSession session = request.getSession();
+        Account acc = accountDAO.checkAccountByUserName(u);
+        
+        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
+            session.setAttribute("username", u);
+            session.setAttribute("user", acc);
+            if (acc.getRole() == 1) {
+                session.setAttribute("role", "customer");
+                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+                response.sendRedirect("/OrderingSystem");
+            }
+        } else {
+            request.setAttribute("message", "Error name and password");
+            request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
         }
-
-    }
-
-    private void updateAvatar(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String appPath = request.getServletContext().getRealPath("/");
-        String savePath = appPath + File.separator + SAVE_DIR;
-
-        File fileSaveDir = new File(savePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
-        }
-
-        Part filePart = request.getPart("img");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-        String relativePath;
-        if (filePart != null && filePart.getSize() > 0) {
-            String filePath = savePath + File.separator + uniqueFileName;
-            filePart.write(filePath);
-            relativePath = SAVE_DIR + File.separator + uniqueFileName;
-
-            int userID = Integer.parseInt(request.getParameter("userID"));
-            AccountDAO userDAO = new AccountDAO();
-            Account account = userDAO.getUserById(userID);
-            account.setAvtImg(relativePath);
-            userDAO.changeAvatarByUserID(account);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", account);
-        }
-        response.sendRedirect("account");
-
     }
 
     /**

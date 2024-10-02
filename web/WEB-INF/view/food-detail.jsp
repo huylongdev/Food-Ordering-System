@@ -30,7 +30,7 @@
         <script src="/js/blog.js"></script>
         <link rel="stylesheet" href="./assets/css/style.css">
         <!--<link rel="stylesheet" href="./assets/css/blog.css" />-->
-        <link href="product.css" rel="stylesheet">
+        <link href="./assets/css/product.css" rel="stylesheet">
         <script src="index.js"></script>
     </head>
     <body>

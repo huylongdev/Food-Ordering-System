@@ -1,4 +1,4 @@
-package controller;
+package controller.authenticate;
 
 import context.AccountDAO;
 import java.io.IOException;
