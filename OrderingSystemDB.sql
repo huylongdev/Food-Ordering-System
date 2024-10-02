@@ -92,7 +92,7 @@ ADD code nvarchar(25);
 -- start here------------------------------
 
 ALTER TABLE Users
-ADD Status BIT NOT NULL;
+ADD Status BIT;
 
 CREATE TABLE Shop (
     ShopID INT PRIMARY KEY IDENTITY(1,1),
