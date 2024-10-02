@@ -56,3 +56,12 @@ function showUpdateAvatarOverlay() {
 function hideUpdateAvatarOverlay() {
     document.getElementById("update-avatar-overlay").style.display = "none";
 }
+
+
+function showAddProductOverlay() {
+    document.getElementById("add-product-overlay").style.display = "block";
+}
+
+function hideAddProductOverlay() {
+    document.getElementById("add-product-overlay").style.display = "none";
+}
