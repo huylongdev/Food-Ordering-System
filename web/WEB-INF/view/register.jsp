@@ -23,7 +23,7 @@
 
                         <input type="text" class="input" placeholder="UserName" id="username" name="username" required>
 
-                        <input type="text" class="input" placeholder="Password"id="password" name="password" required>
+                        <input type="password" class="input" placeholder="Password"id="password" name="password" required>
 
 
                         <input type="text" class="input" placeholder="Phone Number" id="phonenumber" name="phonenumber" required>
@@ -41,7 +41,7 @@
 
                 </div>
 
-                <div class="login slide-up">
+<!--                <div class="login slide-up">
                     <div class="center">
                         <h2 class="form-title" id="login">Log in</h2>
                         <div class="social-container">
@@ -62,7 +62,7 @@
                             <p class="text-danger text-center mt-3">${message}</p>
                         </form>
                     </div>
-                </div>
+                </div>-->
 
 
             </div>

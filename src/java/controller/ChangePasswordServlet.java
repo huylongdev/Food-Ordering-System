@@ -6,6 +6,7 @@
 package controller;
 
 import context.AccountDAO;
+import static controller.RegisterServlet.isValidPassword;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -88,6 +89,12 @@ public class ChangePasswordServlet extends HttpServlet {
         // Kiểm tra mật khẩu mới và mật khẩu xác nhận có khớp không
         if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("error", "New passwords do not match");
+            request.getRequestDispatcher("/WEB-INF/view/change-password.jsp").forward(request, response);
+            return;
+        }
+        
+        if (!isValidPassword(newPassword)) {
+            request.setAttribute("error", "Invalid password. Need to have both number and letter and more than 8 characters.");
             request.getRequestDispatcher("/WEB-INF/view/change-password.jsp").forward(request, response);
             return;
         }
