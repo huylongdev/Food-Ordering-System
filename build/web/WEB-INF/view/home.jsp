@@ -52,10 +52,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">Food</a>
-              <a class="nav-link" href="#">Restaurant</a>
-              <a class="nav-link" href="#">Submit</a>
+              <a class="nav-link" aria-current="page" href="/OrderingSystem/">Home</a>
+              <a class="nav-link" href="/OrderingSystem/food">Food</a>
+              <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
+              <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
             </div>
             <div class="navbar__item">
                 <nav id="nav-bar">
