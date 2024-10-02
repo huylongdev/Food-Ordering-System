@@ -5,6 +5,7 @@
 package controller;
 
 import context.AccountDAO;
+import static controller.RegisterServlet.isValidPassword;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -96,6 +97,13 @@ public class ResetPasswordServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
 
         AccountDAO userDAO = new AccountDAO();
+        
+        if (!isValidPassword(newPassword)) {
+            request.setAttribute("message", "Invalid password. Need to have both number and letter and more than 8 characters.");
+            request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+            return;
+        }
+        
         if (userDAO.isValidToken(token)) {
             // Cập nhật mật khẩu mới
             userDAO.updatePassword(token, PasswordUtil.hashPassword(newPassword));
@@ -104,7 +112,7 @@ public class ResetPasswordServlet extends HttpServlet {
         } else {
 
             request.setAttribute("message", "Failed to reset password.");
-            request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
         }
     }
 

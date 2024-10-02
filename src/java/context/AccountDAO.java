@@ -326,4 +326,23 @@ public class AccountDAO {
         return flag;
     }
     
+     public boolean changeAvatarByUserID(Account a){
+        boolean flag = false;
+        String sql = "UPDATE Users SET AvtImg=? WHERE UserID=?";
+        try(Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setString(1, a.getAvtImg());
+            ps.setInt(2, a.getUserID());
+            
+            int rowsAffected = ps.executeUpdate();
+            
+            if(rowsAffected > 0){
+                flag = true;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return flag;
+    }
+    
 }
