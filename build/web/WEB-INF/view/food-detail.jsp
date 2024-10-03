@@ -4,7 +4,7 @@
     Author     : LENOVO
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="model.*,java.util.*,util.*" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -49,15 +49,11 @@
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://i.pinimg.com/564x/76/19/ef/7619ef4dfcf7382aab410d57e796ffbf.jpg" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://i.pinimg.com/474x/78/c4/33/78c433eb22a7fb53e31df6150ca867b2.jpg" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://i.pinimg.com/564x/c6/5b/37/c65b37a8d0f002c9ff17f6d13b58de67.jpg" class="d-block w-100" alt="...">
-                        </div>
+                        <c:forEach var ="i" items='${images}'>
+                            <div class="carousel-item active">
+                                <img src=${i.getImgURL()} class="d-block w-100" alt="...">
+                            </div>
+                        </c:forEach>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -73,25 +69,26 @@
 
             <div id ="details"class ="col-12 col-sm-6 col-md-6 col-lg-7">
                 <div class="product-details ">
-                    <h1 class="title-product">Salmon Rice Bowls</h1>
+                    <h1 class="title-product">${p.getName()}</h1>
                     <div class="group-status">
-                        <p><b>2500 </b>orders</p>
-                        <p><b>Category: </b><a href="./all-book?category=rice" title="Rice">Rice</a></p>
+                        <p><b>${p.getPurchaseCount()} </b>orders</p>
+                        <p><b>Category: </b><a href="./all-book?category=rice" title="Rice">${cateName}</a></p>
                     </div>
                     <h4 class = "price">
-                        <c:out value="79.000 VND" />
+                        <c:out value="${FormatString.formatCurrency(p.getPrice())}" />
                     </h4>
-                    <p>Delicately grilled salmon fillet served with a variety of roasted vegetables, drizzled with a tangy lemon butter sauce for a flavorful experience.</p>
+                    <p>${p.getDescription()}</p>
                     <form name = "addCart" action = "cart" method ="post">
                         <div>
                             <div class = "quantity-label">Quantity</div>
                             <div class="number-input">
                                 <button type="button"  onclick="decrement(this)">-</button>
-                                <input type="number" id ="${book.getId()}" name ="quantity" class ="quantity" value="1" min="1" max="10"onchange="updateAmount(this)">
+                                <input type="number" id ="${p.getProductId()}" name ="quantity" class ="quantity" value="1" min="1" max="10"onchange="updateAmount(this)">
                                 <button  type="button" onclick="increment(this)">+</button>
                                 <input type = "hidden" name ="isAdd" value = "true">
-                                <input type = "hidden" name ="bookID" value = "bID">
-                                <input type = "hidden" name ="userID" value = "uID">
+                                <input type = "hidden" name ="productID" value = "${p.getProductId()}">
+                                <input type = "hidden" name ="shopID" value = "${p.getShopId()}">
+                                <input type = "hidden" name ="userID" value = "${user.getUserID()}">
                             </div>
                         </div>
                         <div class ="add-cart-btn">
@@ -99,9 +96,9 @@
                             <c:if test="${sessionScope.role != 'admin'}">
                                 <button type ="submit" id ="cart-btn">Add to cart</button>
                                 <button id ="fav"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-</svg></button>
-                            </c:if>
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                    </svg></button>
+                                </c:if>
                         </div>
 
                     </form>
@@ -146,8 +143,15 @@
 
         </div> 
 
-        <%@ include file="/include/footer.jsp" %>
 
+        <%@ include file="/include/footer.jsp" %>
+        <c:if test="${not empty sessionScope.alert}">
+
+            <script>
+                alert("${alert}");
+            </script>
+            <%session.setAttribute("alert", null);%>
+        </c:if>
 
         <script src="js/Jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>

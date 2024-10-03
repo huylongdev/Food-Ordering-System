@@ -4,12 +4,15 @@
  */
 package controller;
 
+import context.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.CartItem;
 
 /**
  *
@@ -69,8 +72,61 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (request.getParameter("isAdd") != null) {
+            addProduct(request, response);
+        } else {
+            processRequest(request, response);
+        }
+        
     }
+    
+    
+    private void addProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        CartItem c = new CartItem( userID, productID, quantity, shopID);
+
+        CartDAO cartDAO = new CartDAO();
+        if (cartDAO.addToCart(c)) {
+            session.setAttribute("alert", "Added to cart successfully!");
+        } else {
+            session.setAttribute("alert", "Failed to add product!");
+        }
+        response.sendRedirect("food-detail?productId=" + productID);
+    }
+//
+//    private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        HttpSession session = request.getSession(false);
+//        String[] selected = request.getParameterValues("isSelected");
+//        if (selected == null) {
+//            session.setAttribute("cartStatus", "Choose books to delete!");
+//            response.sendRedirect("cart");
+//
+//        } else {
+//            for (String bookID : selected) {
+//                int id, userID;
+//                try {
+//                    userID = Integer.parseInt(request.getParameter("userID"));
+//                    id = Integer.parseInt(bookID);
+//                    CartDAO cartDAO = new CartDAO();
+//                    if (!cartDAO.deleteCartProduct(id, userID)) {
+//                        session.setAttribute("cartStatus", "Cannot delete!");
+//                    }
+//                } catch (NumberFormatException e) {
+//                    throw new ServletException("invalid id");
+//                }
+//
+//            }
+//            session.setAttribute("cartStatus", "Delete products successfully!");
+//            response.sendRedirect("cart");
+//        }
+//    }
 
     /**
      * Returns a short description of the servlet.
