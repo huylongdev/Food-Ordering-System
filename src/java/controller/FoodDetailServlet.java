@@ -4,6 +4,8 @@
  */
 package controller;
 
+import context.ProductDAO;
+import context.ProductImageDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Category;
+import model.Product;
+import model.ProductImage;
 
 /**
  *
@@ -57,6 +63,17 @@ public class FoodDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        int id = Integer.parseInt(request.getParameter("productId"));
+            ProductDAO pDAO = new ProductDAO();
+            ProductImageDAO iDAO = new ProductImageDAO();
+            Product p = pDAO.getProductByID(1);
+            List<ProductImage> images = iDAO.getListImageByProductID(1);
+            request.setAttribute("images", images);
+            String cateName = pDAO.getCategoryNameByID(1);
+            
+            request.setAttribute("cateName", cateName);
+            request.setAttribute("p", p);
+            
         request.getRequestDispatcher("WEB-INF/view/food-detail.jsp").forward(request, response);
     }
 

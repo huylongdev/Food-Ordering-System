@@ -90,5 +90,6 @@
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
         <url-pattern>/account</url-pattern>
+        <url-pattern>/cart</url-pattern>
     </filter-mapping>
 </web-app>

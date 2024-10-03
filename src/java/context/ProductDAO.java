@@ -31,6 +31,7 @@ public class ProductDAO {
     }
     
     
+    
     public boolean createProduct(Product p) {
         String query = "INSERT INTO Product (Name, Description, Price, Status, ShopID, CategoryID, Rating) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbContext.getConnection();
@@ -79,5 +80,50 @@ public class ProductDAO {
         return products;
     }
     
+    public Product getProductByID(int productID) {
+    Product product = null;
+    String query = "SELECT * FROM Product WHERE ProductID = ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+
+        ps.setInt(1, productID); 
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                product = new Product(
+                    rs.getInt("ProductID"),
+                    rs.getString("Name"),
+                    rs.getString("Description"),
+                    rs.getDouble("Price"),
+                    rs.getBoolean("Status"),
+                    rs.getInt("ShopID"),
+                    rs.getInt("CategoryID"),
+                    rs.getInt("PurchaseCount"),
+                    rs.getDouble("Rating")
+                );
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return product;
+}
+
+    public String getCategoryNameByID(int categoryID) {
+    String categoryName = null;
+    String query = "SELECT Type FROM Categories WHERE CategoryID = ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+
+        ps.setInt(1, categoryID); // Đặt giá trị CategoryID vào câu truy vấn
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                categoryName = rs.getString("Type");
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return categoryName;
+}
 
 }

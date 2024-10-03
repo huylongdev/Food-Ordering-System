@@ -38,7 +38,7 @@
     <div id="header">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">FOODIE</a>
+          <a class="navbar-brand" href="./">FOODIE</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -89,9 +89,9 @@
             </li>
             </ul>
             </nav>
-              <div class="icon">
+              <a href = "./cart"><div class="icon">
                 <i class="ti-shopping-cart"></i>
-              </div>
+              </div></a>
             </div>
           </div>
         </div>
