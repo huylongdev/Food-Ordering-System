@@ -1,0 +1,54 @@
+package model;
+
+
+import model.Product;
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/**
+ *
+ * @author LENOVO
+ */
+public class CartItemDTO {
+    private Product product;
+    private int quantity;
+    private String imgURL;
+
+    public CartItemDTO(Product product, int quantity, String imgURL) {
+        this.product = product;
+        this.quantity = quantity;
+        this.imgURL = imgURL;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    
+
+    
+}
+
