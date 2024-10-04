@@ -73,7 +73,7 @@
                                     <div style="width: 16%">
                                         <div class="number-input">
                                             <button type="button" onclick="decrement(this)">-</button>
-                                            <input type='number' id=''243' name ='quantity_234' class ='quantity' value='${item.getQuantity()}' min='1' max='10'onchange='updateAmount(this)'>
+                                            <input type='number' id='${item.getProduct().getProductId()}' name ='quantity_${item.getProduct().getProductId()}' class ='quantity' value='${item.getQuantity()}' min='1' max='10'onchange='updateAmount(this)'>
                                             <button type="button" onclick="increment(this)">+</button>
                                         </div></div>
                                     <div id = "col3"style="width: 13%;text-align: right!important;align-items: flex-end;padding-right: 0" >
@@ -98,7 +98,7 @@
                     <tr><button id="delete-btn" type='submit' onclick="submitForm('method1')">Delete</button>
                     <button type="submit" onclick="submitForm('method2')">Order</button></tr>
                 </form>
-
+                <p>${cartStatus}</p>
             </div>
 
 
