@@ -310,7 +310,10 @@ strong {
     max-width: 1000px;
 }
 
-
+.shop-info a{
+    color: #3F3F3F;
+    text-decoration: none;
+}
 
 
 
