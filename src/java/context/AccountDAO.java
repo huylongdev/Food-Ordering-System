@@ -228,121 +228,131 @@ public class AccountDAO {
             return false;
         }
     }
-    
-    
+
     public void savePasswordResetToken(String email, String token) {
-    String queryUserID = "SELECT UserID FROM Users WHERE Email = ?";
-    String insertToken = "INSERT INTO password_reset_tokens (UserID, token, expiration_time) VALUES (?, ?, DATEADD(HOUR, 24, GETDATE()))";
+        String queryUserID = "SELECT UserID FROM Users WHERE Email = ?";
+        String insertToken = "INSERT INTO password_reset_tokens (UserID, token, expiration_time) VALUES (?, ?, DATEADD(HOUR, 24, GETDATE()))";
 
-    try (Connection conn = dbContext.getConnection();
-         PreparedStatement psUserID = conn.prepareStatement(queryUserID);
-         PreparedStatement psInsertToken = conn.prepareStatement(insertToken)) {
+        try (Connection conn = dbContext.getConnection(); PreparedStatement psUserID = conn.prepareStatement(queryUserID); PreparedStatement psInsertToken = conn.prepareStatement(insertToken)) {
 
-        // Lấy UserID từ email
-        psUserID.setString(1, email);
-        ResultSet rs = psUserID.executeQuery();
-        if (rs.next()) {
-            int userID = rs.getInt("UserID");
+            // Lấy UserID từ email
+            psUserID.setString(1, email);
+            ResultSet rs = psUserID.executeQuery();
+            if (rs.next()) {
+                int userID = rs.getInt("UserID");
 
-            // Lưu token vào database
-            psInsertToken.setInt(1, userID);
-            psInsertToken.setString(2, token);
-            psInsertToken.executeUpdate();
-        } else {
-            System.out.println("Email không tồn tại trong hệ thống.");
+                // Lưu token vào database
+                psInsertToken.setInt(1, userID);
+                psInsertToken.setString(2, token);
+                psInsertToken.executeUpdate();
+            } else {
+                System.out.println("Email không tồn tại trong hệ thống.");
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi lưu token: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.out.println("Lỗi khi lưu token: " + e.getMessage());
-        e.printStackTrace();
     }
-}
 
     public boolean isValidToken(String token) {
-    String query = "SELECT * FROM password_reset_tokens WHERE token = ? AND expiration_time > GETDATE()";
+        String query = "SELECT * FROM password_reset_tokens WHERE token = ? AND expiration_time > GETDATE()";
 
-    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, token);
-        ResultSet rs = ps.executeQuery();
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, token);
+            ResultSet rs = ps.executeQuery();
 
-        return rs.next(); // Token hợp lệ nếu có kết quả trả về
-    } catch (Exception e) {
-        System.out.println("Lỗi khi kiểm tra token: " + e.getMessage());
-        e.printStackTrace();
-    }
-    return false;
-}
-
-    
-    public void updatePassword(String token, String newPassword) {
-    String queryUserID = "SELECT UserID FROM password_reset_tokens WHERE token = ?";
-    String updatePassword = "UPDATE Users SET Pass = ? WHERE UserID = ?";
-    String deleteToken = "DELETE FROM password_reset_tokens WHERE token = ?";
-
-    try (Connection conn = dbContext.getConnection();
-         PreparedStatement psUserID = conn.prepareStatement(queryUserID);
-         PreparedStatement psUpdatePassword = conn.prepareStatement(updatePassword);
-         PreparedStatement psDeleteToken = conn.prepareStatement(deleteToken)) {
-
-        // Lấy UserID từ token
-        psUserID.setString(1, token);
-        ResultSet rs = psUserID.executeQuery();
-        if (rs.next()) {
-            int userID = rs.getInt("UserID");
-
-            // Cập nhật mật khẩu mới (mã hóa nếu cần)
-            psUpdatePassword.setString(1, newPassword); // Cân nhắc mã hóa mật khẩu
-            psUpdatePassword.setInt(2, userID);
-            psUpdatePassword.executeUpdate();
-
-            // Xóa token sau khi đã sử dụng
-            psDeleteToken.setString(1, token);
-            psDeleteToken.executeUpdate();
-        } else {
-            System.out.println("Token không hợp lệ.");
+            return rs.next(); // Token hợp lệ nếu có kết quả trả về
+        } catch (Exception e) {
+            System.out.println("Lỗi khi kiểm tra token: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.out.println("Lỗi khi cập nhật mật khẩu: " + e.getMessage());
-        e.printStackTrace();
+        return false;
     }
-}
+
+    public void updatePassword(String token, String newPassword) {
+        String queryUserID = "SELECT UserID FROM password_reset_tokens WHERE token = ?";
+        String updatePassword = "UPDATE Users SET Pass = ? WHERE UserID = ?";
+        String deleteToken = "DELETE FROM password_reset_tokens WHERE token = ?";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement psUserID = conn.prepareStatement(queryUserID); PreparedStatement psUpdatePassword = conn.prepareStatement(updatePassword); PreparedStatement psDeleteToken = conn.prepareStatement(deleteToken)) {
+
+            // Lấy UserID từ token
+            psUserID.setString(1, token);
+            ResultSet rs = psUserID.executeQuery();
+            if (rs.next()) {
+                int userID = rs.getInt("UserID");
+
+                // Cập nhật mật khẩu mới (mã hóa nếu cần)
+                psUpdatePassword.setString(1, newPassword); // Cân nhắc mã hóa mật khẩu
+                psUpdatePassword.setInt(2, userID);
+                psUpdatePassword.executeUpdate();
+
+                // Xóa token sau khi đã sử dụng
+                psDeleteToken.setString(1, token);
+                psDeleteToken.executeUpdate();
+            } else {
+                System.out.println("Token không hợp lệ.");
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật mật khẩu: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     // change password
-    public boolean changePasswordByUserID(Account a){
+    public boolean changePasswordByUserID(Account a) {
         boolean flag = false;
         String sql = "UPDATE Users SET Pass=? WHERE UserID=?";
-        try(Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, a.getPassword());
             ps.setInt(2, a.getUserID());
-            
+
             int rowsAffected = ps.executeUpdate();
-            
-            if(rowsAffected > 0){
+
+            if (rowsAffected > 0) {
                 flag = true;
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return flag;
     }
-    
-     public boolean changeAvatarByUserID(Account a){
+
+    public boolean changeAvatarByUserID(Account a) {
         boolean flag = false;
         String sql = "UPDATE Users SET AvtImg=? WHERE UserID=?";
-        try(Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, a.getAvtImg());
             ps.setInt(2, a.getUserID());
-            
+
             int rowsAffected = ps.executeUpdate();
-            
-            if(rowsAffected > 0){
+
+            if (rowsAffected > 0) {
                 flag = true;
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return flag;
     }
+
+    // Lấy tên đầy đủ của người dùng theo UserID
+    public String getFullNameByUserId(int userId) {
+        String fullName = null;
+        String sql = "SELECT FullName FROM Users WHERE UserID = ?";
+
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                fullName = rs.getString("FullName");
+            }
+        } catch (Exception e) {
+            System.out.println("Error while retrieving full name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return fullName;
+    }
     
+
 }
