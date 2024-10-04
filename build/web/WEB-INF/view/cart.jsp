@@ -32,6 +32,9 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/cart.css" rel="stylesheet">
         <!--<link href="./assets/css/hs-test.css" rel="stylesheet">-->
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <script src="./assets/js/cart.js"></script>
         <script>document.addEventListener('DOMContentLoaded', function () {
 

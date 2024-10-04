@@ -39,9 +39,9 @@ public class CartDAO {
             return false;
         }
     }
-    
-     public List <CartItem> getCartByUserID(int id) {
-        List <CartItem> cart = new ArrayList<>();
+
+    public List<CartItem> getCartByUserID(int id) {
+        List<CartItem> cart = new ArrayList<>();
         String query = "SELECT * FROM CartItem where UserID = ? ";
         try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
@@ -65,9 +65,7 @@ public class CartDAO {
         System.out.println("not found products");
         return null;
     }
-     
-     
-     
+
     public boolean deleteCartProduct(int productID, int userID) {
         String query = "DELETE FROM CartItem WHERE ProductID = ? AND UserID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -79,5 +77,18 @@ public class CartDAO {
             return false;
         }
     }
-    
+
+    public boolean updateCartItemQuantity(int userId, int productId, int quantity) {
+        String query = "UPDATE CartItem SET Quantity = ? WHERE UserID = ? AND ProductID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, userId);
+            ps.setInt(3, productId);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

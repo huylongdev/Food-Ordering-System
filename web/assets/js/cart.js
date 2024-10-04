@@ -28,11 +28,38 @@ function updateAmount(input) {
     let price = parseInt(priceElement.textContent.split('.')[0]); // Remove dot separator from price
     let amountElement = input.closest('.cart-item').querySelector('.amount');
     let amount = price * quantity;
+    let productId = input.id;
     amountElement.textContent = formatPrice(amount) + '₫';
     
     console.log("Calling updateAmount for input with value:", input.value);
-    updateTotal();
+    
+    
+    
+    $.ajax({
+        url: '/OrderingSystem/cart',  
+        type: 'POST',
+        data: {
+            isUpdate: true,
+            productId: productId,
+            quantity: quantity
+        },
+        success: function(response) {
+            console.log("Cập nhật thành công cho sản phẩm ID:", productId);
+            updateTotal();  
+        },
+        error: function(error) {
+            console.log("Lỗi khi cập nhật sản phẩm ID:", productId, error);
+        }
+    });
 }
+    
+    
+
+
+
+
+
+
 
 function updateTotal() {
     let total = 0;
@@ -67,3 +94,7 @@ function submitForm(method) {
     }
     form.submit();
 }
+
+
+
+
