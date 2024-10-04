@@ -41,7 +41,7 @@
 
                 </div>
 
-<!--                <div class="login slide-up">
+                <div class="login slide-up">
                     <div class="center">
                         <h2 class="form-title" id="login">Log in</h2>
                         <div class="social-container">
@@ -52,7 +52,7 @@
                         </div>
                         <form action="login" method="post">
                             <div class="form-holder">
-                                <input type="email" class="input" placeholder="Email" name ="user" />
+                                <input type="text" class="input" placeholder="Username" name ="user" />
                                 <input type="password" class="input" placeholder="Password" name="pass"/>
                                 <div id="forgot-password">
                                     <a class="forgot-pass" href="./forgot-password">Forgot password?</a>  
@@ -62,7 +62,7 @@
                             <p class="text-danger text-center mt-3">${message}</p>
                         </form>
                     </div>
-                </div>-->
+                </div>
 
 
             </div>
