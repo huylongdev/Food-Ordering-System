@@ -45,10 +45,10 @@
 
         <%@ include file="/include/header.jsp" %>
 
-        
-        
-        
-        
+
+
+
+
         <div>
 
             <br><br>
@@ -62,17 +62,18 @@
 
                         <div class="cart-tbody">
 
+                            <c:forEach var ="item" items='${cart}'>
                                 <div class="cart-item">
                                     <tr>
                                     <div style="width: 6%" ><input name="isSelected" type="checkbox" value ="621636532" ></div>
-                                    <div style="width: 6%;text-align: left;"><img width="120" height="auto" alt="Salmon Rice Bowls" src="https://i.pinimg.com/564x/76/19/ef/7619ef4dfcf7382aab410d57e796ffbf.jpg"></div>
+                                    <div style="width: 6%;text-align: left;"><img width="120" height="auto" alt="Salmon Rice Bowls" src="${item.getImgURL()}"/></div>
                                     <div style="width: 6%" ></div>
-                                    <div id ="col1" style="width: 30%;align-items: flex-start;" class="a-center cart2"><h2 class="product-name" title="Salmon Rice Bowls"> <a href="./detail?bookId=ID">Salmon Rice Bowls</a><span class="variant-title">Good / Paperback</span> </h2></div>
-                                    <div id ="col2" style="width: 21%;" ><span class ="price">79000.0</span></div>
+                                    <div id ="col1" style="width: 30%;align-items: flex-start;" class="a-center cart2"><h2 class="product-name" title="${item.getProduct().getName()}"> <a href="./detail?bookId=ID">Salmon Rice Bowls</a><span class="variant-title">Good / Paperback</span> </h2></div>
+                                    <div id ="col2" style="width: 21%;" ><span class ="price">${item.getProduct().getPrice()}</span></div>
                                     <div style="width: 16%">
                                         <div class="number-input">
                                             <button type="button" onclick="decrement(this)">-</button>
-                                            <input type='number' id=''243' name ='quantity_234' class ='quantity' value='2' min='1' max='10'onchange='updateAmount(this)'>
+                                            <input type='number' id=''243' name ='quantity_234' class ='quantity' value='${item.getQuantity()}' min='1' max='10'onchange='updateAmount(this)'>
                                             <button type="button" onclick="increment(this)">+</button>
                                         </div></div>
                                     <div id = "col3"style="width: 13%;text-align: right!important;align-items: flex-end;padding-right: 0" >
@@ -81,9 +82,10 @@
 
                                     </tr>
                                 </div>
-                            
+                            </c:forEach>
+
                             <input  type="hidden" id="mt" name="mt" value ="display" >
-                            <input  type="hidden" id="userID" name="userID" value ="23" >
+                            <input  type="hidden" id="userID" name="userID" value ="${user.getUserID()}" >
 
                         </div>
 
@@ -105,18 +107,18 @@
 
 
         </div>
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         <%@ include file="/include/footer.jsp" %>
 
 
         <script src="js/Jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        
+
 
     </body>
 </html>
