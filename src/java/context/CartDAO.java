@@ -65,5 +65,19 @@ public class CartDAO {
         System.out.println("not found products");
         return null;
     }
+     
+     
+     
+    public boolean deleteCartProduct(int productID, int userID) {
+        String query = "DELETE FROM CartItem WHERE ProductID = ? AND UserID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productID);
+            ps.setInt(2, userID);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     
 }
