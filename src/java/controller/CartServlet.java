@@ -104,12 +104,29 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         if (request.getParameter("isAdd") != null) {
             addProduct(request, response);
-        } else {
+        } else if (request.getParameter("isUpdate") != null){ 
+            updateCartQuantity(request, response);
+        }else{
             deleteProduct(request, response);
         }
+    }
+    
+    
+    private void updateCartQuantity(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
 
+        
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("user");
+        
+        CartDAO cd = new CartDAO();
+        cd.updateCartItemQuantity(user.getUserID(), productId, quantity);
     }
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response)
