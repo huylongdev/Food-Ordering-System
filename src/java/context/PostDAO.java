@@ -17,18 +17,28 @@ import model.Post;
  * @author phuct
  */
 public class PostDAO {
-    AccountDAO userDAO = new AccountDAO();   
+
+    AccountDAO userDAO = new AccountDAO();
     private DBContext dbContext;
 
     public PostDAO() {
         dbContext = new DBContext();
     }
 
+    public boolean checkConnection() throws Exception {
+        try (Connection conn = dbContext.getConnection()) {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Connection failed
+        }
+    }
+
     // Get all posts
     public List<Post> getAllPosts() throws Exception {
         List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC"; 
-        System.out.println("Executing query: " + query); 
+        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        System.out.println("Executing query: " + query);
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -53,8 +63,8 @@ public class PostDAO {
     // Get all posts have FullName
     public List<Post> getAllPostsHaveFullName() throws Exception {
         List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC"; 
-        System.out.println("Executing query: " + query); 
+        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        System.out.println("Executing query: " + query);
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
@@ -175,15 +185,6 @@ public class PostDAO {
             e.printStackTrace();
         }
         return posts;
-    }
-
-    public boolean checkConnection() throws Exception {
-        try (Connection conn = dbContext.getConnection()) {
-            return conn != null && !conn.isClosed();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // Connection failed
-        }
     }
 
     // Get the latest post
