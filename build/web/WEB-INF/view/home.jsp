@@ -38,7 +38,7 @@
     <div id="header">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">FOODIE</a>
+          <a class="navbar-brand" href="./">FOODIE</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -52,10 +52,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">Food</a>
-              <a class="nav-link" href="#">Restaurant</a>
-              <a class="nav-link" href="#">Submit</a>
+              <a class="nav-link" aria-current="page" href="/OrderingSystem/">Home</a>
+              <a class="nav-link" href="/OrderingSystem/food">Food</a>
+              <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
+              <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
             </div>
             <div class="navbar__item">
                 <nav id="nav-bar">
@@ -89,9 +89,9 @@
             </li>
             </ul>
             </nav>
-              <div class="icon">
+              <a href = "./cart"><div class="icon">
                 <i class="ti-shopping-cart"></i>
-              </div>
+              </div></a>
             </div>
           </div>
         </div>
