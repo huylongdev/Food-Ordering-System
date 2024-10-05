@@ -85,5 +85,36 @@ public class ProductImageDAO {
     }
 }
 
+public boolean updateProductImage(ProductImage img) {
+    String query = "UPDATE ProductImage SET ProductID = ?, IsAvatar = ?, ImgURL = ? WHERE ProductID = ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+         
+        ps.setInt(1, img.getProductID());
+        ps.setBoolean(2, img.isAvatar());
+        ps.setString(3, img.getImgURL());
+        ps.setInt(4, img.getProductID()); 
+
+        return ps.executeUpdate() > 0;  
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;  
+    }
+}
+
+public boolean deleteProductImageByProductID(int productID) {
+    String query = "DELETE FROM ProductImage WHERE ProductID = ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+         
+        ps.setInt(1, productID); 
+
+        return ps.executeUpdate() > 0;  
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;  
+    }
+}
+
 
 }
