@@ -90,7 +90,9 @@
                         <input type="text" placeholder="Search for a food..." />
                         <button>Search</button>
                     </div>
-                    <button class ="sticky-button" onclick = "showAddProductOverlay()" >Add product</button>
+                    <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
+                        <button class ="sticky-button" onclick = "showAddProductOverlay()" >Add product</button>
+                    </c:if>
                     <select>
                         <option>Sort by Popularity</option>
                         <option>Sort by Rating</option>
@@ -124,11 +126,8 @@
         <div id ="add-product-overlay" class ="overlay center">
             <div class="overlay-content">
                 <span class="close-btn" onclick="hideAddProductOverlay()">&times;</span></br>
-                <form name = "changeAvatar" action = "account" method = "post" enctype="multipart/form-data">
-                    <label for="imgURL">Upload Avatar:</label>
-
-                    <input type = "hidden" name = "userID" value =${user.getUserID()}>
-                    <input type = "hidden" name = "mt" value ="changeAvatar">
+                <form name = "add-product" action = "restaurant-detail" method = "post" enctype="multipart/form-data">
+                    
                     </br></br></br>
                     <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
                 </form>
