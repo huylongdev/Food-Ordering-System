@@ -68,5 +68,22 @@ public class ProductImageDAO {
     }
     return image; 
 }
+    
+    public boolean insertProductImage(ProductImage img) {
+    String query = "INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL) VALUES (?, ?, ?)";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+         
+        ps.setInt(1, img.getProductID());
+        ps.setBoolean(2, img.isAvatar());
+        ps.setString(3, img.getImgURL());
+
+        return ps.executeUpdate() > 0;  
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;  
+    }
+}
+
 
 }

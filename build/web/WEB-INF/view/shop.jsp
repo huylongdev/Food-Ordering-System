@@ -27,12 +27,11 @@
             rel="stylesheet"
             href="./assets/font/themify-icons/themify-icons.css"
             />
-        <script src="/js/shop.js"></script>
+        <script src="./assets/js/shop.js"></script>
         <link rel="stylesheet" href="./assets/css/header-footer.css">
         <!--<link rel="stylesheet" href="./assets/css/blog.css" />-->
         <link href="./assets/css/shop.css" rel="stylesheet">
         <link href="./assets/css/restaurant.css" rel="stylesheet">
-        <script src="index.js"></script>
     </head>
     <body>
 
@@ -54,7 +53,7 @@
             <div class="page-info-more">
                 <a href="./">Home</a>
                 <p>Time Open: ${shop.getTimeOpen()}</p>
-                <p>Time Close ${shop.getTimeClose()}</p>
+                <p>Time Close: ${shop.getTimeClose()}</p>
 
             </div>
         </div>
@@ -90,9 +89,11 @@
                         <input type="text" placeholder="Search for a food..." />
                         <button>Search</button>
                     </div>
-                    <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
-                        <button class ="sticky-button" onclick = "showAddProductOverlay()" >Add product</button>
-                    </c:if>
+                    <%--<c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">--%>
+                    <button class ="sticky-button" 
+                            data-shopId="3"
+                            onclick = "showAddProductOverlay();addButton(this)" >Add product</button>
+                    <%--</c:if>--%>
                     <select>
                         <option>Sort by Popularity</option>
                         <option>Sort by Rating</option>
@@ -127,9 +128,28 @@
             <div class="overlay-content">
                 <span class="close-btn" onclick="hideAddProductOverlay()">&times;</span></br>
                 <form name = "add-product" action = "restaurant-detail" method = "post" enctype="multipart/form-data">
-                    
-                    </br></br></br>
-                    <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
+                    <div class = "add-product-form">
+                        <h1>Add product</h1>
+                        <input type="hidden" name="mt" value="add">
+                        <input id ="overlayShopID" type ="hidden" name ="shopID" value ="" >
+                        <label for="title">Name</label>
+                        <input type="text" id="overlayTitle" name="name" required>
+                        <label for="price">Price:</label>
+                        <input type="number" id="overlayPrice" name="price" required>
+                        <label for="category">Category:</label>
+                        <select id="category" name="category">
+                            <option value="1">Food </option>
+                            <option value="2">Drink</option>
+                            <option value="3">Dessert</option>
+                            <option value="4">Snacks</option>
+                            <option value="5">Beverages</option>
+                        </select><br>
+                        <label for="description">Description:</label>
+                        <input type="text"id="overlayDescription" name="description" required>
+                        <label for="imgs">Images</label>
+                        <input type="file" id="img" name="img" accept="image/*" multiple required><br>
+                        <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
+                    </div>
                 </form>
             </div> 
         </div>
