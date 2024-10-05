@@ -175,7 +175,11 @@ VALUES
     ('Iced Green Tea', 'Refreshing iced green tea brewed from high-quality leaves, with a hint of lemon for a balanced and naturally sweet flavor.', 3.99, 1, 3, 5, 350, 4.7),
     ('Sparkling Water', 'Crisp and bubbly sparkling water with a touch of natural lime essence, offering a refreshing and hydrating experience any time of day.', 2.99, 1, 4, 5, 200, 4.5),
     ('Herbal Chamomile Tea', 'Calming chamomile tea made from organic flowers, perfect for relaxation and soothing your senses before bedtime.', 2.99, 1, 3, 5, 150, 4.8);
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> main
 	select * from product
 
 CREATE TABLE ProductImage (
@@ -187,6 +191,14 @@ CREATE TABLE ProductImage (
 );
 
 
+<<<<<<< HEAD
+INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
+VALUES
+    (1, 1, 'https://i.pinimg.com/564x/78/b8/a8/78b8a8068cae03ae1918c553ebb5b59f.jpg'),  
+    (1, 0, 'https://i.pinimg.com/564x/50/83/f6/5083f664913f20fc6efe9e378f2a62f1.jpg'), 
+    (1, 0, 'https://i.pinimg.com/564x/e8/bd/db/e8bddb0b456b9b7f8417b5dd6bc6e75b.jpg'); 
+=======
+>>>>>>> main
 
 CREATE TABLE CartItem (
     CartItemID INT PRIMARY KEY IDENTITY(1,1),
@@ -199,7 +211,10 @@ select * from CartItem
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 CREATE TRIGGER UpdateCartItemQuantity
 ON CartItem
 INSTEAD OF INSERT

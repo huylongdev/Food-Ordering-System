@@ -30,7 +30,14 @@ public class ProductDAO {
         dbContext = new DBContext();
     }
     
-    
+    public boolean checkConnection() throws Exception {
+        try (Connection conn = dbContext.getConnection()) {
+            return conn != null && !conn.isClosed();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Connection failed
+        }
+    }
     
     public boolean createProduct(Product p) {
         String query = "INSERT INTO Product (Name, Description, Price, Status, ShopID, CategoryID, Rating) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -125,5 +132,37 @@ public class ProductDAO {
     }
     return categoryName;
 }
+    
+    public boolean updateProduct(Product product) throws Exception {
+        String query = "UPDATE Product SET Name = ?, Description = ?, Price = ?, Status = ?, ShopID = ?, CategoryID = ?, PurchaseCount = ?, Rating = ?  WHERE ProductID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getDescription());
+            ps.setDouble(3, product.getPrice());
+            ps.setBoolean(4, product.isStatus());
+            ps.setInt(5, product.getShopId());
+            ps.setInt(6, product.getCategoryId());
+            ps.setInt(7, product.getPurchaseCount());
+            ps.setDouble(8, product.getRating());
+            ps.setInt(9, product.getProductId());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error updating product: " + e.getMessage());
+        }
+    }
+
+    // DELETE: Delete a product by ID
+    public boolean deleteProduct(int productId) throws Exception {
+        String query = "DELETE FROM Product WHERE ProductID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error deleting product: " + e.getMessage());
+        }
+    }
 
 }

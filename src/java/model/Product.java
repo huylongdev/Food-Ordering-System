@@ -20,6 +20,7 @@ public class Product {
     private double rating;      // Rating
 
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
+
         this.name = name;
         this.description = description;
         this.price = price;
@@ -29,6 +30,9 @@ public class Product {
         this.purchaseCount = purchaseCount;
         this.rating = rating;
     }
+    
+    
+
 
     public Product(int productId, String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
         this.productId = productId;
@@ -41,6 +45,8 @@ public class Product {
         this.purchaseCount = purchaseCount;
         this.rating = rating;
     }
+    
+   
 
     public int getProductId() {
         return productId;
@@ -48,6 +54,7 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
+
     }
 
     public String getName() {
@@ -96,6 +103,7 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+
     }
 
     public int getPurchaseCount() {
@@ -113,7 +121,7 @@ public class Product {
     public void setRating(double rating) {
         this.rating = rating;
     }
-    
+
     
     
 }
