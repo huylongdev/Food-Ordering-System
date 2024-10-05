@@ -1,7 +1,4 @@
-/src/java/controller/accessgoogle/Constants.java
-
-# Ignore other common files and directories
-*.log
-*.tmp
-target/
-*.class
+/dist/
+build/web/WEB-INF/classes/controller/accessgoogle/Constants.class
+build/web/WEB-INF/classes/controller/accessgoogle/Constants.class
+src/java/controller/accessgoogle/Constants.java

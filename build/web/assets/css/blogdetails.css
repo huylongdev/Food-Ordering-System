@@ -1,0 +1,115 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 2, 2024, 1:55:55 PM
+    Author     : phuct
+*/
+
+.blog-ad {
+  width: 100%;
+}
+
+#footer {
+  margin-top: 0;
+}
+
+div#blog-details {
+  padding: 40px 15%;
+}
+
+.blog-details-title {
+  width: 100%;
+  display: flex;
+  font-size: 37px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.blog-details-author {
+  display: flex;
+  padding: 15px 0;
+}
+
+img.details-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  margin-right: 10px;
+}
+
+p.details-name {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  color: var(--Secondary-500, #696a75);
+  font-weight: 500;
+}
+
+.blog-details-date {
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  color: var(--Secondary-500, #696a75);
+  font-weight: 400;
+}
+
+img.blog-content-img {
+  width: 100%;
+  height: 462px;
+  border-radius: 15px;
+}
+
+/* COMMENT */
+.comment-container {
+  width: 80%;
+  margin: 10px auto 50px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.comment-container h2 {
+  text-align: center;
+}
+.comment-box {
+  margin-bottom: 20px;
+}
+.comment-box textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.comment-box button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.comment-box button:hover {
+  background-color: #218838;
+}
+.comments-display {
+  margin-top: 20px;
+}
+.comment {
+  background-color: #f8f9fa;
+  border: 1px solid #e2e6ea;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#login-text {
+  font-size: 16px;
+  color: #5eae53;
+  justify-content: center;
+  display: flex;
+  padding-bottom: 7px;
+}
+
