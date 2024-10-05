@@ -4,22 +4,44 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+<<<<<<< HEAD
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/style/register.css</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/context/AccountDAO.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/account.jsp</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/LogoutServlet.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/style/updateUser.css</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/model/Account.java</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/register.jsp</file>
-            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/UpdateUserServelet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/util/SendMailServlet.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_loader.png</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/web.xml</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/updateUser.jsp</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_pic.jpg</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/web_page_loader.gif</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/img/bg_more.jpg</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/style/account.css</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/UpdateUserServlet.java</file>
 =======
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/RegisterServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/LoginGoogleServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/AccountDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/login.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/SendMailServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/GoogleUtils.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Account.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/ResetPasswordServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/PasswordUtil.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
+>>>>>>> origin/main
+=======
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/context/AccountDAO.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
+=======
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ProductImageDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CartServlet.java</file>
 >>>>>>> main
+>>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
         </group>
     </open-files>
 </project-private>

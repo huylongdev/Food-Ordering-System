@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <filter>
-        <filter-name>AccessFilter</filter-name>
-        <filter-class>controller.filter.AccessFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AccessFilter</filter-name>
-        <url-pattern>/account</url-pattern>
-    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controller.LoginServlet</servlet-class>
+        <servlet-class>controller.authenticate.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginGoogleServlet</servlet-name>
@@ -22,28 +14,40 @@
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>controller.LogoutServlet</servlet-class>
+        <servlet-class>controller.authenticate.LogoutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>controller.RegisterServlet</servlet-class>
+        <servlet-class>controller.authenticate.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountServlet</servlet-name>
-        <servlet-class>controller.AccountServlet</servlet-class>
+        <servlet-class>controller.authenticate.AccountServlet</servlet-class>
     </servlet>
     <servlet>
 <<<<<<< HEAD
-        <servlet-name>UpdateUserServelet</servlet-name>
-        <servlet-class>controller.UpdateUserServelet</servlet-class>
-=======
         <servlet-name>SendMailServlet</servlet-name>
         <servlet-class>util.SendMailServlet</servlet-class>
->>>>>>> main
+=======
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+<<<<<<< HEAD
+        <servlet-class>controller.ForgotPasswordServlet</servlet-class>
+>>>>>>> origin/main
+=======
+        <servlet-class>controller.authenticate.ForgotPasswordServlet</servlet-class>
+>>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
     </servlet>
     <servlet>
-        <servlet-name>UpdateUserServlet</servlet-name>
-        <servlet-class>controller.UpdateUserServlet</servlet-class>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <servlet-class>controller.authenticate.ResetPasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>controller.authenticate.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>controller.CartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -71,18 +75,39 @@
     </servlet-mapping>
     <servlet-mapping>
 <<<<<<< HEAD
-        <servlet-name>UpdateUserServelet</servlet-name>
-        <url-pattern>/editUser</url-pattern>
-=======
         <servlet-name>SendMailServlet</servlet-name>
         <url-pattern>/sendmail</url-pattern>
->>>>>>> main
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateUserServlet</servlet-name>
-        <url-pattern>/updateUser</url-pattern>
+        <url-pattern>/editUser</url-pattern>
+=======
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <url-pattern>/reset-password</url-pattern>
+>>>>>>> origin/main
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>controller.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/account</url-pattern>
+        <url-pattern>/cart</url-pattern>
+    </filter-mapping>
 </web-app>
