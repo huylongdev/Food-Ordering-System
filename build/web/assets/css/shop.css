@@ -63,7 +63,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .overlay-content {
     position: absolute;
     width: 50%;
-    min-width: 400px;
+    min-width: 450px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -172,4 +172,78 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .restaurant-list a {
     
     text-decoration: none;
+}
+
+
+.add-product-form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-form h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.add-product-form label {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form select,
+.add-product-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.add-product-form input[type="text"]:focus,
+.add-product-form input[type="number"]:focus,
+.add-product-form select:focus {
+    border-color: #6495ed;
+    outline: none;
+}
+
+.save-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6495ed;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #5a82ca;
+}
+
+.add-product-form input[type="file"] {
+    padding: 5px;
+    background-color: #f5f5f5;
+}
+
+
+.btn-update, .btn-delete {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
