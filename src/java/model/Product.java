@@ -28,7 +28,16 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    
+     public Product( int productId, String name, String description, double price, boolean status, int shopId, int categoryId) {
+         this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+    }
+
     
     
     
