@@ -6,44 +6,55 @@ package model;
 
 /**
  *
- * @author phuct
+ * @author LENOVO
  */
 public class Product {
-    private int productID;
-    private String name;
-    private String description;
-    private double price;
-    private boolean status;
-    private int shopID;
-    private int categoryID;
-    private int purchaseCount;
-    private double rating;
-    private String productImg;
+    private int productId;         // ProductID
+    private String name;           // Name
+    private String description;    // Description
+    private double price;      // Price
+    private boolean status;        // Status
+    private int shopId;            // ShopID
+    private int categoryId;        // CategoryID
+    private int purchaseCount;     // PurchaseCount
+    private double rating;      // Rating
 
-    public Product() {}
+    public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
 
-    public Product(int productID, String name, String description, double price, boolean status, int shopID, int categoryID, int purchaseCount, double rating, String productImg) {
-        this.productID = productID;
         this.name = name;
         this.description = description;
         this.price = price;
         this.status = status;
-        this.shopID = shopID;
-        this.categoryID = categoryID;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
         this.purchaseCount = purchaseCount;
         this.rating = rating;
-        this.productImg = productImg;
     }
     
     
 
-    // Getters and Setters
-    public int getProductID() {
-        return productID;
+
+    public Product(int productId, String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+        this.purchaseCount = purchaseCount;
+        this.rating = rating;
+    }
+    
+   
+
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(int productId) {
+        this.productId = productId;
+
     }
 
     public String getName() {
@@ -78,20 +89,21 @@ public class Product {
         this.status = status;
     }
 
-    public int getShopID() {
-        return shopID;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+
     }
 
     public int getPurchaseCount() {
@@ -110,13 +122,6 @@ public class Product {
         this.rating = rating;
     }
 
-    public String getProductImg() {
-        return productImg;
-    }
-
-    public void setProductImg(String productImg) {
-        this.productImg = productImg;
-    }
     
     
 }
