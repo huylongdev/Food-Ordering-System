@@ -76,7 +76,7 @@ public class FoodDetailServlet extends HttpServlet {
             Product p = pDAO.getProductByID(id);
             List<ProductImage> images = iDAO.getListImageByProductID(id);
             request.setAttribute("images", images);
-            String cateName = pDAO.getCategoryNameByID(id);
+            String cateName = pDAO.getCategoryNameByID(p.getCategoryId());
             
             ShopDAO sDAO = new ShopDAO();
             Shop shop = sDAO.getShopByID(p.getShopId());
