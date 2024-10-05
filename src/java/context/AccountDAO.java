@@ -228,93 +228,7 @@ public class AccountDAO {
             return false;
         }
     }
-<<<<<<< HEAD
-    
-<<<<<<< HEAD
-    public Account checkAccountByEmail(String email) {
 
-        String sql = "SELECT * FROM Users WHERE Email LIKE ?";
-
-        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Account account = new Account(
-                        rs.getInt("UserID"),
-                        rs.getString("UserName"),
-                        rs.getString("Pass"),
-                        rs.getString("FullName"),
-                        rs.getString("PhoneNumber"),
-                        rs.getString("Email"),
-                        rs.getString("Address"),
-                        rs.getString("AvtImg"),
-                        rs.getInt("ShopID"),
-                        rs.getInt("Role")
-                );
-                return account;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-//    
-//    public void updateUser(int userId, String username, String fullName, String phoneNumber, String email, String address) {
-//    String sql = "UPDATE Users SET UserName=?, FullName=?, PhoneNumber=?, Email=?, Address=? WHERE UserID=?";
-//    
-//    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-//        ps.setString(1, username);
-//        ps.setString(2, fullName);
-//        ps.setString(3, phoneNumber);
-//        ps.setString(4, email);
-//        ps.setString(5, address);
-//        ps.setInt(6, userId);
-//
-//        int rowsUpdated = ps.executeUpdate();
-//        if (rowsUpdated > 0) {
-//            System.out.println("User updated successfully!");
-//        } else {
-//            System.out.println("No user found with the given ID.");
-//        }
-//    } catch (Exception e) {
-//        System.out.println("Error while updating user: " + e.getMessage());
-//        e.printStackTrace();
-//    }
-//}
-//    
-//    public Account getUserById(int userId) {
-//        Account user = null;
-//        String sql = "SELECT UserID, UserName, FullName, PhoneNumber, Email, Address, AvtImg, ShopID, Role FROM Users WHERE UserID=?";
-//        
-//        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-//            ps.setInt(1, userId);
-//            ResultSet rs = ps.executeQuery();
-//            
-//            if (rs.next()) {
-//                user = new Account();
-//                user.setUserID(rs.getInt("UserID"));
-//                user.setUserName(rs.getString("UserName"));
-//                user.setFullName(rs.getString("FullName"));
-//                user.setPhoneNumber(rs.getString("PhoneNumber"));
-//                user.setEmail(rs.getString("Email"));
-//                user.setAddress(rs.getString("Address"));
-//                user.setAvtImg(rs.getString("AvtImg"));
-//                user.setShopID(rs.getInt("ShopID"));
-//                user.setRole(rs.getInt("Role"));
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error while retrieving user: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//        
-//        return user;
-//    }
-=======
-    
-=======
-
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
     public void savePasswordResetToken(String email, String token) {
         String queryUserID = "SELECT UserID FROM Users WHERE Email = ?";
         String insertToken = "INSERT INTO password_reset_tokens (UserID, token, expiration_time) VALUES (?, ?, DATEADD(HOUR, 24, GETDATE()))";
@@ -347,44 +261,6 @@ public class AccountDAO {
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
 
-<<<<<<< HEAD
-        return rs.next(); // Token hợp lệ nếu có kết quả trả về
-    } catch (Exception e) {
-        System.out.println("Lỗi khi kiểm tra token: " + e.getMessage());
-        e.printStackTrace();
-    }
-    return false;
-}
->>>>>>> origin/main
-
-    
-    public void updatePassword(String token, String newPassword) {
-    String queryUserID = "SELECT UserID FROM password_reset_tokens WHERE token = ?";
-    String updatePassword = "UPDATE Users SET Pass = ? WHERE UserID = ?";
-    String deleteToken = "DELETE FROM password_reset_tokens WHERE token = ?";
-
-    try (Connection conn = dbContext.getConnection();
-         PreparedStatement psUserID = conn.prepareStatement(queryUserID);
-         PreparedStatement psUpdatePassword = conn.prepareStatement(updatePassword);
-         PreparedStatement psDeleteToken = conn.prepareStatement(deleteToken)) {
-
-        // Lấy UserID từ token
-        psUserID.setString(1, token);
-        ResultSet rs = psUserID.executeQuery();
-        if (rs.next()) {
-            int userID = rs.getInt("UserID");
-
-            // Cập nhật mật khẩu mới (mã hóa nếu cần)
-            psUpdatePassword.setString(1, newPassword); // Cân nhắc mã hóa mật khẩu
-            psUpdatePassword.setInt(2, userID);
-            psUpdatePassword.executeUpdate();
-
-            // Xóa token sau khi đã sử dụng
-            psDeleteToken.setString(1, token);
-            psDeleteToken.executeUpdate();
-        } else {
-            System.out.println("Token không hợp lệ.");
-=======
             return rs.next(); // Token hợp lệ nếu có kết quả trả về
         } catch (Exception e) {
             System.out.println("Lỗi khi kiểm tra token: " + e.getMessage());
@@ -420,7 +296,6 @@ public class AccountDAO {
         } catch (Exception e) {
             System.out.println("Lỗi khi cập nhật mật khẩu: " + e.getMessage());
             e.printStackTrace();
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
         }
     }
 

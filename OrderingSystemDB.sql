@@ -329,10 +329,7 @@ CREATE TABLE Comment(
 	Content NVARCHAR (MAX) NOT NULL
 );
 
--- Start here Update 22:00 04/10
-DROP table ProductImage
-ALTER TABLE Product
-add ProductImg nvarchar(200) null
+
 
 
 select * from product
@@ -403,13 +400,6 @@ VALUES
 
 
 
-select * from product
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (1, 1, 'https://i.pinimg.com/564x/78/b8/a8/78b8a8068cae03ae1918c553ebb5b59f.jpg'),  
-    (1, 0, 'https://i.pinimg.com/564x/50/83/f6/5083f664913f20fc6efe9e378f2a62f1.jpg'), 
-    (1, 0, 'https://i.pinimg.com/564x/e8/bd/db/e8bddb0b456b9b7f8417b5dd6bc6e75b.jpg'); 
 
 	
 INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
@@ -417,75 +407,6 @@ VALUES
     (10, 1, 'https://i.pinimg.com/474x/80/27/aa/8027aab180b25938201a60897ed17d2c.jpg'),  
     (10, 0, 'https://i.pinimg.com/474x/12/3b/10/123b1037d2654b5de3428849287df0c4.jpg'); 
 
-<<<<<<< HEAD
-=======
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (2, 1, 'https://i.pinimg.com/564x/8e/a1/38/8ea138d9fedca1f76cf4310b00e6c452.jpg'),  
-    (2, 0, 'https://i.pinimg.com/474x/d9/b4/a7/d9b4a7273b8d7bcb0972806fe425144e.jpg'), 
-    (2, 0, 'https://i.pinimg.com/474x/d1/77/d8/d177d8ae87485414cacd5b7e26792c68.jpg'); 
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (3, 1, 'https://i.pinimg.com/control/474x/4d/1e/85/4d1e856247793d122d674af58fb386ad.jpg'),  
-    (3, 0, 'https://i.pinimg.com/control/474x/2f/88/6a/2f886a2c26919593cb658e76664708e0.jpg');
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (4, 1, 'https://i.pinimg.com/474x/21/4a/41/214a41d1c28f5f02d4439d129252281e.jpg'),  
-    (4, 0, 'https://i.pinimg.com/474x/3d/7c/7d/3d7c7d47fad02baf7d903fcce0a7e5e9.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (5, 1, 'https://i.pinimg.com/control/474x/70/0f/11/700f116df1ff53ecc03ca6aa75404ee8.jpg'),  
-    (5, 0, 'https://i.pinimg.com/474x/02/d3/d5/02d3d53f06208bd21ebf396828a1777d.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (6, 1, 'https://i.pinimg.com/control/474x/ff/02/5b/ff025bc01db3a954679604c06cd73b00.jpg'),  
-    (6, 0, 'https://i.pinimg.com/control/474x/7d/c5/2a/7dc52a2e06d9c703cce83627dd8c9cc7.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (7, 1, 'https://i.pinimg.com/474x/f1/44/21/f144215b5844b9265879b22952259022.jpg'),  
-    (7, 0, 'https://i.pinimg.com/474x/b1/80/7f/b1807fb41b72e16edc165a5e85c4e91c.jpg'); 
-
-
-	
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (8, 1, 'https://i.pinimg.com/control/474x/d5/7a/04/d57a041198ee755555cfd6797308051c.jpg'),  
-    (8, 0, 'https://i.pinimg.com/control/474x/9d/8c/93/9d8c93ac5dfbebea6dd1ede27aeee719.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (9, 1, 'https://i.pinimg.com/474x/19/73/8d/19738dbeac866d5cff287cb9d8f2822a.jpg'),  
-    (9, 0, 'https://i.pinimg.com/474x/cb/5b/2f/cb5b2f828cf5c572a36e75e865d1308a.jpg'); 
-
-
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (10, 1, 'https://i.pinimg.com/474x/80/27/aa/8027aab180b25938201a60897ed17d2c.jpg'),  
-    (10, 0, 'https://i.pinimg.com/474x/12/3b/10/123b1037d2654b5de3428849287df0c4.jpg'); 
-
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
 
 	
 INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)

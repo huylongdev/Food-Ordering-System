@@ -25,17 +25,8 @@
         <servlet-class>controller.authenticate.AccountServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
-        <servlet-name>SendMailServlet</servlet-name>
-        <servlet-class>util.SendMailServlet</servlet-class>
-=======
         <servlet-name>ForgotPasswordServlet</servlet-name>
-<<<<<<< HEAD
-        <servlet-class>controller.ForgotPasswordServlet</servlet-class>
->>>>>>> origin/main
-=======
         <servlet-class>controller.authenticate.ForgotPasswordServlet</servlet-class>
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
     </servlet>
     <servlet>
         <servlet-name>ResetPasswordServlet</servlet-name>
@@ -74,21 +65,12 @@
         <url-pattern>/account</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
-        <servlet-name>SendMailServlet</servlet-name>
-        <url-pattern>/sendmail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateUserServlet</servlet-name>
-        <url-pattern>/editUser</url-pattern>
-=======
         <servlet-name>ForgotPasswordServlet</servlet-name>
         <url-pattern>/forgot-password</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <url-pattern>/reset-password</url-pattern>
->>>>>>> origin/main
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChangePasswordServlet</servlet-name>

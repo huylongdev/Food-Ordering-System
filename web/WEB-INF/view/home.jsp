@@ -4,20 +4,12 @@
     Author     : phuct
 --%>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-=======
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%@ page import="model.Account" %>
-=======
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.Account" %>
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     Account user = (Account) session.getAttribute("loggedUser");
 %>
->>>>>>> origin/main
 <!DOCTYPE html>
 <html>
     <head>
@@ -69,9 +61,6 @@
               <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
             </div>
             <div class="navbar__item">
-<<<<<<< HEAD
-              <a class="navbar__item--login" href="/OrderingSystem/login">Login</a>
-=======
                 <nav id="nav-bar">
             <ul class="nav-list">
             <li class="nav-item">
@@ -103,12 +92,7 @@
             </li>
             </ul>
             </nav>
-<<<<<<< HEAD
->>>>>>> origin/main
-              <div class="icon">
-=======
               <a href = "./cart"><div class="icon">
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
                 <i class="ti-shopping-cart"></i>
               </div></a>
             </div>
