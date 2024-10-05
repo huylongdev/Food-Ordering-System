@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.authenticate;
+package controller;
 
-import context.AccountDAO;
+import context.ProductDAO;
+import context.ProductImageDAO;
+import context.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +14,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
-import util.PasswordUtil;
+import model.Product;
+import model.ProductDTO;
+import model.Shop;
 
 /**
  *
  * @author LENOVO
  */
-public class LoginServlet extends HttpServlet {
+public class RestaurantDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +38,19 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RestaurantDetailServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RestaurantDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,7 +65,25 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        int shopId = Integer.parseInt(request.getParameter("shopId"));
+        ProductDAO pDAO = new ProductDAO();
+            
+            List<Product> foodList = pDAO.getProductByShopID(shopId);
+            List<ProductDTO> productList = new ArrayList<>();
+            ProductImageDAO pid= new ProductImageDAO();
+            for(Product p: foodList){
+                ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+                productList.add(pd);
+            }
+            
+            ShopDAO sDAO = new ShopDAO();
+            Shop s = sDAO.getShopByID(shopId);
+            
+            
+            request.setAttribute("shop", s);
+            request.setAttribute("productList", productList);
+        request.getRequestDispatcher("WEB-INF/view/shop.jsp").forward(request, response);
     }
 
     /**
@@ -61,32 +97,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        AccountDAO accountDAO = new AccountDAO();
-        String u = request.getParameter("user");
-
-        String p = request.getParameter("pass");
-
-        HttpSession session = request.getSession();
-        Account acc = accountDAO.checkAccountByUserName(u);
-        
-        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
-            session.setAttribute("username", u);
-            session.setAttribute("user", acc);
-            if (acc.getRole() == 1) {
-                session.setAttribute("role", "customer");
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem");
-            }
-            if (acc.getRole() == 2) {
-                session.setAttribute("role", "shop");
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem/restaurant-detail?shopId="+acc.getShopID());
-            }
-        } else {
-            request.setAttribute("message", "Error name and password");
-            request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
