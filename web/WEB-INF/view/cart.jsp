@@ -71,7 +71,7 @@
                                     <div style="width: 6%" ><input name="isSelected" type="checkbox" value ="${item.getProduct().getProductId()}" ></div>
                                     <div style="width: 6%;text-align: left;"><img width="120" height="auto" alt="Salmon Rice Bowls" src="${item.getImgURL()}"/></div>
                                     <div style="width: 6%" ></div>
-                                    <div id ="col1" style="width: 30%;align-items: flex-start;" class="a-center cart2"><h2 class="product-name" title="${item.getProduct().getName()}"> <a href="./detail?productId=${item.getProduct().getProductId()}">${item.getProduct().getName()}</a><span class="variant-title">Food/ Drink</span> </h2></div>
+                                    <div id ="col1" style="width: 30%;align-items: flex-start;" class="a-center cart2"><h2 class="product-name" title="${item.getProduct().getName()}"> <a href="./food-detail?productId=${item.getProduct().getProductId()}">${item.getProduct().getName()}</a><span class="variant-title">Food/ Drink</span> </h2></div>
                                     <div id ="col2" style="width: 21%;" ><span class ="price">${item.getProduct().getPrice()}</span></div>
                                     <div style="width: 16%">
                                         <div class="number-input">

@@ -10,21 +10,31 @@ import context.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Product;
 import model.ProductDTO;
+import model.ProductImage;
 import model.Shop;
 
 /**
  *
  * @author LENOVO
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class RestaurantDetailServlet extends HttpServlet {
 
     /**
@@ -94,10 +104,122 @@ public class RestaurantDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private static final String SAVE_DIR = "foodImages";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String mt = request.getParameter("mt");
+        if (mt != null && mt.equalsIgnoreCase("update")) {
+            updateProduct(request, response);
+        } else if (mt != null && mt.equalsIgnoreCase("delete")) {
+            deleteBook(request, response);
+        } else {
+            addProduct(request, response);
+        }
+    }
+    
+    private void addProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
+        String savePath = appPath + File.separator + SAVE_DIR;
+
+        File fileSaveDir = new File(savePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
+        
+        
+        ProductDAO pDAO = new ProductDAO();
+        String name = request.getParameter("name");
+        double price = Double.parseDouble(request.getParameter("price"));
+        int category = Integer.parseInt(request.getParameter("category"));
+        String description = request.getParameter("description");
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        Product p = new Product(name, description, price, true, shopID, category);
+        int productID = pDAO.createProductGetID(p);
+
+        
+        ProductImageDAO pid = new ProductImageDAO();
+
+        
+        Part filePart = request.getPart("img");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String relativePath;
+        if (filePart != null && filePart.getSize() > 0) {
+            String filePath = savePath + File.separator + fileName;
+            filePart.write(filePath);
+            relativePath = SAVE_DIR + File.separator + fileName;
+                
+                pid.insertProductImage(new ProductImage(productID, true, relativePath));
+            }
+        
+        
+        response.sendRedirect("restaurant-detail?shopId="+ shopID);
+    }
+    
+    
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
+        String savePath = appPath + File.separator + SAVE_DIR;
+
+        File fileSaveDir = new File(savePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
+        
+        
+        ProductDAO pDAO = new ProductDAO();
+        String name = request.getParameter("name");
+        double price = Double.parseDouble(request.getParameter("price"));
+        int category = Integer.parseInt(request.getParameter("category"));
+        String description = request.getParameter("description");
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        Product p = new Product(productID, name, description, price, true, shopID, category);
+        try {
+            pDAO.updateProduct(p);
+        } catch (Exception ex) {
+            System.out.println("db error update");
+        }
+        
+
+        
+        ProductImageDAO pid = new ProductImageDAO();
+
+        
+        Part filePart = request.getPart("img");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String relativePath;
+        if (filePart != null && filePart.getSize() > 0) {
+            String filePath = savePath + File.separator + fileName;
+            filePart.write(filePath);
+            relativePath = SAVE_DIR + File.separator + fileName;
+                
+                pid.updateProductImage(new ProductImage(productID, true, relativePath));
+            }
+        
+        
+        response.sendRedirect("restaurant-detail?shopId="+ shopID);
+    }
+    
+    private void deleteBook(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        
+        ProductImageDAO pid = new ProductImageDAO();
+        pid.deleteProductImageByProductID(productId);
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        ProductDAO pDAO = new ProductDAO();
+        try {
+            pDAO.deleteProduct(productId);
+        } catch (Exception ex) {
+            Logger.getLogger(RestaurantDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        response.sendRedirect("restaurant-detail?shopId="+ shopID);
+        
     }
 
     /**
