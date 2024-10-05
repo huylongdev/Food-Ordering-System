@@ -2,29 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-<<<<<<< HEAD
-package controller.authenticate;
-
-<<<<<<<< HEAD:src/java/controller/FoodDetailServlet.java
-=======
 package controller;
 
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
 import context.ProductDAO;
 import context.ProductImageDAO;
 
 import context.ShopDAO;
 
-<<<<<<< HEAD
-========
-import context.AccountDAO;
-import static controller.authenticate.RegisterServlet.isValidPassword;
-<<<<<<<< HEAD:src/java/controller/FoodDetailServlet.java
->>>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c:src/java/controller/authenticate/ResetPasswordServlet.java
-========
->>>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c:src/java/controller/authenticate/ResetPasswordServlet.java
-=======
->>>>>>> 2bee1e92edb910b65689712aaf1d5bca6787b54c
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
