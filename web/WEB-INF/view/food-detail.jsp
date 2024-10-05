@@ -76,7 +76,7 @@
                     </div>
 
                     <div class ="shop-info">
-                        <a href = "./shop?id=${p.getShopId()}"><p><b>${shop.getName()}</b>: ${shop.getAddress()}</p></a>
+                        <a href = "./restaurant-detail?shopId=${p.getShopId()}"><p><b>${shop.getName()}</b>: ${shop.getAddress()}</p></a>
                     </div>
 
                     <h4 class = "price">

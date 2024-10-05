@@ -19,6 +19,28 @@ public class Product {
     private int purchaseCount;     // PurchaseCount
     private double rating;      // Rating
 
+    public Product(String name, String description, double price, boolean status, int shopId, int categoryId) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+    }
+
+     public Product( int productId, String name, String description, double price, boolean status, int shopId, int categoryId) {
+         this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+    }
+
+    
+    
+    
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
 
         this.name = name;
