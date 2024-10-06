@@ -27,7 +27,7 @@
                     </form>
                 </div> 
         </div>
-<<<<<<< HEAD
+
         
 
         <div id="update-product-overlay" class="overlay center">
@@ -88,7 +88,6 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"
         ></script>
-=======
->>>>>>> cbf9322c3b242371e94b9d0461585a9c57bfd713
+
     </body>
 </html>
