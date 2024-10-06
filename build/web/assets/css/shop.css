@@ -237,31 +237,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 
 
-
-
-
-
-.img-wrapper {
-    position: relative;
-    width: 100%;
-    height: auto;
-}
-
-.action-buttons {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.img-wrapper:hover .action-buttons {
-    display: block;
-}
-
-.btn-update,
-.btn-delete {
+.btn-update, .btn-delete {
     display: inline-block;
     margin: 5px;
     padding: 10px 15px;
@@ -270,12 +246,4 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.btn-update:hover {
-    background-color: #5cb85c;
-}
-
-.btn-delete:hover {
-    background-color: #d9534f;
 }

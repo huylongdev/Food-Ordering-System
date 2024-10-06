@@ -135,7 +135,7 @@ public class ProductDAO {
 }
     
     public boolean updateProduct(Product product) throws Exception {
-        String query = "UPDATE Product SET Name = ?, Description = ?, Price = ?, Status = ?, ShopID = ?, CategoryID = ?  WHERE ProductID = ?";
+        String query = "UPDATE Product SET Name = ?, Description = ?, Price = ?, Status = ?, ShopID = ?, CategoryID = ?, PurchaseCount = ?, Rating = ?  WHERE ProductID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
@@ -143,7 +143,9 @@ public class ProductDAO {
             ps.setBoolean(4, product.isStatus());
             ps.setInt(5, product.getShopId());
             ps.setInt(6, product.getCategoryId());
-            ps.setInt(7, product.getProductId());
+            ps.setInt(7, product.getPurchaseCount());
+            ps.setDouble(8, product.getRating());
+            ps.setInt(9, product.getProductId());
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
