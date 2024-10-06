@@ -9,6 +9,7 @@ package model;
  * @author LENOVO
  */
 public class Product {
+
     private int productId;         // ProductID
     private String name;           // Name
     private String description;    // Description
@@ -19,6 +20,14 @@ public class Product {
     private int purchaseCount;     // PurchaseCount
     private double rating;      // Rating
 
+    public Product() {
+    }
+
+    public Product(int productId, String productName) {
+        this.productId = productId;
+        this.name = name;
+    }
+
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId) {
         this.name = name;
         this.description = description;
@@ -28,8 +37,8 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-     public Product( int productId, String name, String description, double price, boolean status, int shopId, int categoryId) {
-         this.productId = productId;
+    public Product(int productId, String name, String description, double price, boolean status, int shopId, int categoryId) {
+        this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -38,9 +47,6 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    
-    
-    
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
 
         this.name = name;
@@ -52,9 +58,6 @@ public class Product {
         this.purchaseCount = purchaseCount;
         this.rating = rating;
     }
-    
-    
-
 
     public Product(int productId, String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
         this.productId = productId;
@@ -67,8 +70,6 @@ public class Product {
         this.purchaseCount = purchaseCount;
         this.rating = rating;
     }
-    
-   
 
     public int getProductId() {
         return productId;
@@ -76,7 +77,6 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
-
     }
 
     public String getName() {
@@ -125,7 +125,6 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-
     }
 
     public int getPurchaseCount() {
@@ -144,6 +143,4 @@ public class Product {
         this.rating = rating;
     }
 
-    
-    
 }

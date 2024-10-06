@@ -440,3 +440,13 @@ VALUES
     (15, 0, 'https://i.pinimg.com/474x/84/7c/61/847c61710be1177bb997310fdcbcf699.jpg'); 
 
 	select * from ProductImage
+
+    CREATE TABLE Bill (
+    BillID BIGINT IDENTITY(1,1) PRIMARY KEY,
+    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+    Total MONEY NOT NULL,
+    Payment VARCHAR(250) NOT NULL,
+    Address NVARCHAR(255) NOT NULL,
+    Date DATETIME NOT NULL,
+    Phone VARCHAR(10) NOT NULL CHECK (Phone LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+);
