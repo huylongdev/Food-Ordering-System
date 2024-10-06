@@ -354,24 +354,5 @@ public class AccountDAO {
         return fullName;
     }
     
-    
-    public boolean createShopAccount(Account account) {
-        String query = "INSERT INTO Users (UserName, Pass, FullName, PhoneNumber, Email, Address, ShopID, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, account.getUserName());
-            ps.setString(2, account.getPassword());
-            ps.setString(3, account.getFullName());
-            ps.setString(4, account.getPhoneNumber());
-            ps.setString(5, account.getEmail());
-            ps.setString(6, account.getAddress());
-            ps.setInt(7, account.getShopID());
-            ps.setInt(8, account.getRole());
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    
 
 }
