@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/model/Product.java</file>
             <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/web.xml</file>
+=======
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/login.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/HomeServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/RestaurantDetailServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/authenticate/LoginServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.properties</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/build-impl.xml</file>
+>>>>>>> SuongNH
         </group>
     </open-files>
 </project-private>
