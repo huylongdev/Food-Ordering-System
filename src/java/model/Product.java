@@ -28,8 +28,10 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    
-    
+    public Product(int productId, String productName) {
+        this.productId = productId;
+        this.name = name;
+    }
     
     
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
