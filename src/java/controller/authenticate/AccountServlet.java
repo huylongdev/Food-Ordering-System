@@ -78,9 +78,7 @@ public class AccountServlet extends HttpServlet {
 
     private void updateAvatar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
-
+        String appPath = request.getServletContext().getRealPath("/");
         String savePath = appPath + File.separator + SAVE_DIR;
 
         File fileSaveDir = new File(savePath);

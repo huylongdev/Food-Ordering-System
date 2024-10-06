@@ -6,9 +6,6 @@ package controller;
 
 import context.ProductDAO;
 import context.ProductImageDAO;
-
-import context.ShopDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,9 +17,6 @@ import java.util.List;
 import model.Category;
 import model.Product;
 import model.ProductImage;
-
-import model.Shop;
-
 
 /**
  *
@@ -69,21 +63,14 @@ public class FoodDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        int id = Integer.parseInt(request.getParameter("productId"));
+//        int id = Integer.parseInt(request.getParameter("productId"));
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO iDAO = new ProductImageDAO();
-            Product p = pDAO.getProductByID(id);
-            List<ProductImage> images = iDAO.getListImageByProductID(id);
+            Product p = pDAO.getProductByID(1);
+            List<ProductImage> images = iDAO.getListImageByProductID(1);
             request.setAttribute("images", images);
-            String cateName = pDAO.getCategoryNameByID(p.getCategoryId());
+            String cateName = pDAO.getCategoryNameByID(1);
             
-            ShopDAO sDAO = new ShopDAO();
-            Shop shop = sDAO.getShopByID(p.getShopId());
-            
-            
-            request.setAttribute("shop", shop);
-
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
             
