@@ -175,11 +175,7 @@ VALUES
     ('Iced Green Tea', 'Refreshing iced green tea brewed from high-quality leaves, with a hint of lemon for a balanced and naturally sweet flavor.', 3.99, 1, 3, 5, 350, 4.7),
     ('Sparkling Water', 'Crisp and bubbly sparkling water with a touch of natural lime essence, offering a refreshing and hydrating experience any time of day.', 2.99, 1, 4, 5, 200, 4.5),
     ('Herbal Chamomile Tea', 'Calming chamomile tea made from organic flowers, perfect for relaxation and soothing your senses before bedtime.', 2.99, 1, 3, 5, 150, 4.8);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> main
 	select * from product
 
 CREATE TABLE ProductImage (
@@ -191,14 +187,11 @@ CREATE TABLE ProductImage (
 );
 
 
-<<<<<<< HEAD
 INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
 VALUES
     (1, 1, 'https://i.pinimg.com/564x/78/b8/a8/78b8a8068cae03ae1918c553ebb5b59f.jpg'),  
     (1, 0, 'https://i.pinimg.com/564x/50/83/f6/5083f664913f20fc6efe9e378f2a62f1.jpg'), 
     (1, 0, 'https://i.pinimg.com/564x/e8/bd/db/e8bddb0b456b9b7f8417b5dd6bc6e75b.jpg'); 
-=======
->>>>>>> main
 
 CREATE TABLE CartItem (
     CartItemID INT PRIMARY KEY IDENTITY(1,1),
@@ -211,10 +204,6 @@ select * from CartItem
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 CREATE TRIGGER UpdateCartItemQuantity
 ON CartItem
 INSTEAD OF INSERT
@@ -332,121 +321,5 @@ CREATE TABLE Comment(
 
 
 
-select * from product
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (1, 1, 'https://i.pinimg.com/564x/78/b8/a8/78b8a8068cae03ae1918c553ebb5b59f.jpg'),  
-    (1, 0, 'https://i.pinimg.com/564x/50/83/f6/5083f664913f20fc6efe9e378f2a62f1.jpg'), 
-    (1, 0, 'https://i.pinimg.com/564x/e8/bd/db/e8bddb0b456b9b7f8417b5dd6bc6e75b.jpg'); 
 
 
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (2, 1, 'https://i.pinimg.com/564x/8e/a1/38/8ea138d9fedca1f76cf4310b00e6c452.jpg'),  
-    (2, 0, 'https://i.pinimg.com/474x/d9/b4/a7/d9b4a7273b8d7bcb0972806fe425144e.jpg'), 
-    (2, 0, 'https://i.pinimg.com/474x/d1/77/d8/d177d8ae87485414cacd5b7e26792c68.jpg'); 
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (3, 1, 'https://i.pinimg.com/control/474x/4d/1e/85/4d1e856247793d122d674af58fb386ad.jpg'),  
-    (3, 0, 'https://i.pinimg.com/control/474x/2f/88/6a/2f886a2c26919593cb658e76664708e0.jpg');
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (4, 1, 'https://i.pinimg.com/474x/21/4a/41/214a41d1c28f5f02d4439d129252281e.jpg'),  
-    (4, 0, 'https://i.pinimg.com/474x/3d/7c/7d/3d7c7d47fad02baf7d903fcce0a7e5e9.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (5, 1, 'https://i.pinimg.com/control/474x/70/0f/11/700f116df1ff53ecc03ca6aa75404ee8.jpg'),  
-    (5, 0, 'https://i.pinimg.com/474x/02/d3/d5/02d3d53f06208bd21ebf396828a1777d.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (6, 1, 'https://i.pinimg.com/control/474x/ff/02/5b/ff025bc01db3a954679604c06cd73b00.jpg'),  
-    (6, 0, 'https://i.pinimg.com/control/474x/7d/c5/2a/7dc52a2e06d9c703cce83627dd8c9cc7.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (7, 1, 'https://i.pinimg.com/474x/f1/44/21/f144215b5844b9265879b22952259022.jpg'),  
-    (7, 0, 'https://i.pinimg.com/474x/b1/80/7f/b1807fb41b72e16edc165a5e85c4e91c.jpg'); 
-
-
-	
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (8, 1, 'https://i.pinimg.com/control/474x/d5/7a/04/d57a041198ee755555cfd6797308051c.jpg'),  
-    (8, 0, 'https://i.pinimg.com/control/474x/9d/8c/93/9d8c93ac5dfbebea6dd1ede27aeee719.jpg'); 
-
-
-
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (9, 1, 'https://i.pinimg.com/474x/19/73/8d/19738dbeac866d5cff287cb9d8f2822a.jpg'),  
-    (9, 0, 'https://i.pinimg.com/474x/cb/5b/2f/cb5b2f828cf5c572a36e75e865d1308a.jpg'); 
-
-
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (10, 1, 'https://i.pinimg.com/474x/80/27/aa/8027aab180b25938201a60897ed17d2c.jpg'),  
-    (10, 0, 'https://i.pinimg.com/474x/12/3b/10/123b1037d2654b5de3428849287df0c4.jpg'); 
-
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (11, 1, 'https://i.pinimg.com/control/474x/da/1e/af/da1eaff9e88f15d7d9ccd0304d4fa3ff.jpg'),  
-    (11, 0, 'https://i.pinimg.com/control/474x/44/8a/d2/448ad28a830d3b73d78a31c61b0472ca.jpg'); 
-
-	
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (12, 1, 'https://i.pinimg.com/474x/0b/2f/51/0b2f5103ac649178ceacc418e8f577fc.jpg'),  
-    (12, 0, 'https://i.pinimg.com/control/474x/ee/38/ab/ee38ab9a3fc95be435c74f75d5adc27a.jpg'); 
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (13, 1, 'https://i.pinimg.com/474x/bf/5e/4a/bf5e4ade35d7f69d067975d06ae65bad.jpg'),  
-    (13, 0, 'https://i.pinimg.com/474x/a6/99/85/a69985621f0a297d34cb8dd1822548af.jpg'); 
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (14, 1, 'https://i.pinimg.com/474x/fb/76/4f/fb764fb4308fd0fcc4bfe122a537f903.jpg'),  
-    (14, 0, 'https://i.pinimg.com/474x/0a/85/75/0a8575a3726b99926282dc42b4b90ebe.jpg'); 
-
-	
-INSERT INTO ProductImage (ProductID, IsAvatar, ImgURL)
-VALUES
-    (15, 1, 'https://i.pinimg.com/474x/89/74/69/89746945cde435909f8fa2719908fe4e.jpg'),  
-    (15, 0, 'https://i.pinimg.com/474x/84/7c/61/847c61710be1177bb997310fdcbcf699.jpg'); 
-
-	select * from ProductImage
-
-    CREATE TABLE Bill (
-    BillID BIGINT IDENTITY(1,1) PRIMARY KEY,
-    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
-    Total MONEY NOT NULL,
-    Payment VARCHAR(250) NOT NULL,
-    Address NVARCHAR(255) NOT NULL,
-    Date DATETIME NOT NULL,
-    Phone VARCHAR(10) NOT NULL CHECK (Phone LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
-);
