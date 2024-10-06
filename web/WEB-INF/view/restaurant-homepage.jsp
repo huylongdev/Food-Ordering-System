@@ -1,15 +1,12 @@
 <%-- 
-    Document   : food
-    Created on : Oct 2, 2024, 2:21:28 PM
+    Document   : restaurant
+    Created on : Oct 2, 2024, 2:16:53 PM
     Author     : phuct
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.Account" %>
-<%@ page import="model.Product" %>
-<%@ page import="context.ProductDAO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%
     Account user = (Account) session.getAttribute("loggedUser");
 %>
@@ -39,7 +36,6 @@
         <link rel="stylesheet" href="./assets/css/blog.css" />
         <link rel="stylesheet" href="./assets/css/blogdetails.css" />
         <link rel="stylesheet" href="./assets/css/restaurant.css" />
-        <link rel="stylesheet" href="./assets/css/food.css" />
     </head>
     <body>
         <!-- HEADER -->
@@ -108,115 +104,123 @@
 
         <!-- PAGE INFO -->
         <div id="page-info">
-            <div class="page-title">Food/Drink</div>
+            <div class="page-title">Restaurant</div>
             <div class="page-info-more">
-                <a href="./index.html">Home</a>
+                <a href="/OrderingSystem/">Home</a>
                 <a style="border-left: 1px solid #e8e8ea" href="#"
-                   >Food/Drink Management</a
+                   >Restaurant Management</a
                 >
             </div>
         </div>
 
-        <!-- FOOD CONTENT -->
-        <div class="container">
-            <aside class="filter-section">
-                <h3>Categories</h3>
-                <ul>
-                    <li><input type="checkbox" /> Pizza (42)</li>
-                    <li><input type="checkbox" /> Sushi (35)</li>
-                    <li><input type="checkbox" checked /> Burgers (28)</li>
-                    <li><input type="checkbox" /> Vegetarian (23)</li>
-                    <li><input type="checkbox" /> Asian (15)</li>
-                    <li><input type="checkbox" /> Bakery (8)</li>
-                </ul>
-
-                <h3>Rating</h3>
-                <select>
-                    <option>9+</option>
-                    <option>8+</option>
-                    <option>7+</option>
-                </select>
-
-                <h3>Distance, KM</h3>
-                <input type="range" min="0" max="50" value="40" />
-
-                <h3>Price, $</h3>
-                <input type="range" min="20" max="150" value="50" />
-
-                <button class="filter-btn">Filter</button>
-            </aside>
-
-            <main class="restaurant-section">
-                <div class="header">
+        <!-- RESTAURANT CONTENT -->
+        <div class="container container-res">
+            <main class="restaurant-section res-section">
+                <div class="header res-header">
                     <div class="restaurant-search">
-                        <input type="text" placeholder="Search for a food..." />
-                        <button>Search</button>
+                        <form style="display: flex" action="restaurant" method="post">
+                            <input  type="text" name="keyword" placeholder="Search for a restaurant..." required />
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
-                    <select>
-                        <option>Sort by Popularity</option>
-                        <option>Sort by Rating</option>
-                        <option>Sort by Price</option>
-                    </select>
+                    <form style="display: flex;
+                          gap: 10px;" action="restaurant" method="GET" class="filter-form">
+                        <select name="sortOption">
+                            <option value="none">None</option>
+                            <option value="timeOpen">Sort by Time Open</option>
+                            <option value="timeClose">Sort by Time Close</option>
+                        </select>
+                        <button class="filter-search" type="submit">Filter</button>
+                    </form>
                 </div>
-
+<!--                <option>Sort by Rating</option>-->
                 <div class="restaurant-list">
-                    <c:if test="${not empty productList}">
-                        <c:forEach var="product" items="${productList}">
+                    <c:if test="${not empty restaurantList}">
+                        <c:forEach var="restaurant" items="${restaurantList}">
                             <div class="restaurant-card">
-                                <img src="./assets/img/nulldataimg.png" alt="${product.getName()}" />
+                                <img src="${restaurant.getShopImage()}" alt="${restaurant.getName()}" />
                                 <div class="restaurant-info">
-                                    <span class="rating">${product.getRating()}</span>
-                                    <h4>${product.getName()}</h4>
-                                    <p>${product.getPrice()} $</p>
+                                    <span class="rating">4.5</span>
+                                    <h4>${restaurant.getName()}</h4>
+                                    <p>${restaurant.getDescription()}</p>
                                     <div class="restaurant-more-info">
-                                        <p>${product.getDescription()}</p>
+                                        <p>${restaurant.getTimeOpen()}</p>
+                                        <p>${restaurant.getTimeClose()}</p>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </c:if>
                 </div>
+
+
+                <div class="pagination">
+                    <c:set var="currentPage" value="${currentPage}" />
+                    <c:set var="pageSize" value="${pageSize}" />
+                    <c:set var="totalProducts" value="${totalProducts}" />
+                    <c:set var="totalPages" value="${totalPages}" />
+
+                    <c:if test="${currentPage > 1}">
+                        <a href="?page=${currentPage - 1}">&laquo;</a>
+                    </c:if>
+
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <c:choose>
+                            <c:when test="${i == currentPage}">
+                                <span class="active">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="?page=${i}">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="?page=${currentPage + 1}">&raquo;</a>
+                    </c:if>
+                </div>
+            </main>
         </div>
 
-        <div class="pagination">
-            <button>&laquo;</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>&raquo;</button>
-        </div>
-    </main>
-</div>
+        <!-- AD BLOG -->
+        <img src="./assets/img/adblog.svg" alt="" class="blog-ad" />
 
-<!-- AD BLOG -->
-<img src="./assets/img/adblog.svg" alt="" class="blog-ad" />
-
-<!-- FOOTER -->
-<footer id="footer">
-    <div class="footer-content">
-        <div class="footer-logo">
-            <h2>FOODIE</h2>
-            <div class="footer-social">
-                <a class="icon-footer" href="#"><i class="ti-facebook"></i></a>
-                <a class="icon-footer" href="#"><i class="ti-instagram"></i></a>
-                <a class="icon-footer" href="#"><i class="ti-location-pin"></i></a>
+        <!-- FOOTER -->
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>FOODIE</h2>
+                    <div class="footer-social">
+                        <a class="icon-footer" href="#"><i class="ti-facebook"></i></a>
+                        <a class="icon-footer" href="#"><i class="ti-instagram"></i></a>
+                        <a class="icon-footer" href="#"><i class="ti-location-pin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-menu">
+                    <h4 style="display: flex; justify-content: center">MENU</h4>
+                    <div class="menu-item">
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Restaurants</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Map</a></li>
+                            <li><a href="#">Submit</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="footer-menu">
-            <h4 style="display: flex; justify-content: center">MENU</h4>
-            <div class="menu-item">
-                <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Restaurants</a></li>
-                </ul>
-                <ul>
-                    <li><a href="#">Map</a></li>
-                    <li><a href="#">Submit</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-</body>
+        </footer>
+        <script>
+            document.querySelectorAll(".pagination button").forEach((button) => {
+                button.addEventListener("click", function () {
+                    document
+                            .querySelector(".pagination button.active")
+                            .classList.remove("active");
+                    this.classList.add("active");
+                    // Load new content based on the page clicked
+                });
+            });
+        </script>
+    </body>
 </html>
