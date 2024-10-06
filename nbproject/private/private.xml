@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< OURS
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/filter/AccessFilter.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/FilterProductsServlet.java</file>
@@ -21,6 +22,19 @@
             <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/shop.jsp</file>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/authenticate/AccountServlet.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/ProductDAO.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/context/AccountDAO.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
+            <file>file:/D:/LEARN/SE%20V/PROJECT/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
+=======
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ProductImageDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CartServlet.java</file>
+>>>>>>> main
+>>>>>>> THEIRS
         </group>
     </open-files>
 </project-private>

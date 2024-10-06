@@ -4,7 +4,10 @@ package controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
+import context.CategoryDAO;
+import context.ProductDAO;
+import context.ShopDAO;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import model.Category;
+import model.Product;
+import model.Shop;
 
 /**
  *
@@ -31,7 +38,7 @@ public class RestaurantServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/restaurant.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -46,7 +53,45 @@ public class RestaurantServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ShopDAO shopDAO = new ShopDAO();
+
+        // Pagination
+        int page = 1; // Khởi tạo trang mặc định là 1
+        int size = 9; // Số lượng sản phẩm trên mỗi trang
+
+        // Kiểm tra tham số 'page' từ request
+        if (request.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu có lỗi định dạng, quay về trang 1
+            }
+        }
+
+        // Lấy tham số sắp xếp từ request
+        String sortOption = request.getParameter("sortOption");
+        List<Shop> restaurantList;
+
+        // Lựa chọn cách sắp xếp
+        if ("timeOpen".equals(sortOption)) {
+            restaurantList = shopDAO.getShopsSortedByTimeOpen(page, size);
+        } else if ("timeClose".equals(sortOption)) {
+            restaurantList = shopDAO.getShopsSortedByTimeClose(page, size);
+        } else {
+            restaurantList = shopDAO.getShops(page, size);
+        }
+
+        int totalRestaurants = shopDAO.getTotalShops();
+        int totalPages = (int) Math.ceil((double) totalRestaurants / size); // Tính tổng số trang
+
+        request.setAttribute("restaurantList", restaurantList);
+        request.setAttribute("totalRestaurants", totalRestaurants);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", size);
+        request.setAttribute("totalPages", totalPages);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -60,7 +105,16 @@ public class RestaurantServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String keyword = request.getParameter("keyword");
+        ShopDAO shopDAO = new ShopDAO();
+
+        List<Shop> foundShops = shopDAO.searchShop(keyword); // Gọi phương thức tìm kiếm
+
+        // Thiết lập thuộc tính để chuyển đến trang JSP
+        request.setAttribute("restaurantList", foundShops);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
