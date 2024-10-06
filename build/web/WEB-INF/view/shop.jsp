@@ -62,29 +62,41 @@
         <div class="container">
             <aside class="filter-section">
                 <h3>Categories</h3>
-                <ul>
-                    <li><input type="checkbox" /> Pizza (42)</li>
-                    <li><input type="checkbox" /> Sushi (35)</li>
-                    <li><input type="checkbox" checked /> Burgers (28)</li>
-                    <li><input type="checkbox" /> Vegetarian (23)</li>
-                    <li><input type="checkbox" /> Asian (15)</li>
-                    <li><input type="checkbox" /> Bakery (8)</li>
-                </ul>
+                <form action="filterproducts" method="post">
+                    <ul>
+                        <c:if test="${not empty categoryList}">
+                            <c:forEach var="category" items="${categoryList}">
+                                <li>
+                                    <input type="checkbox" name="categoryIds" value="${category.categoryID}" /> ${category.getType()}
+                                </li>
+                            </c:forEach>
+                        </c:if>
+                    </ul>
 
-                <h3>Rating</h3>
-                <select>
-                    <option>9+</option>
-                    <option>8+</option>
-                    <option>7+</option>
-                </select>
+                    <h3>Rating</h3>
+                    <select name="rating">
+                        <option value="None">None</option>
+                        <option value="4.5">4.5+</option>
+                        <option value="4.0">4.0+</option>
+                        <option value="3.5">3.5+</option>
+                    </select>
 
-
-
-                <button class="filter-btn">Filter</button>
+                    <h3>Sort by</h3>
+                    <select name="sortBy">
+                        <option value="none">None</option>
+                        <option value="popularity">Sort by Popularity</option>
+                        <option value="rating">Sort by Rating</option>
+                        <option value="price">Sort by Price</option>
+                    </select>
+                    <div class="filter-button">
+                        <button class="filter-btn" type="submit">Filter</button>
+                        <a href="/OrderingSystem/food" class="unfilter-btn" >Delete Filter</a>
+                    </div>
+                </form>
             </aside>
 
             <main class="restaurant-section">
-                <div class="header">
+                <div class="head">
                     <div class="restaurant-search">
                         <input type="text" placeholder="Search for a food..." />
                         <button>Search</button>

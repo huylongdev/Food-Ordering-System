@@ -69,7 +69,7 @@ public class CartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
-        if (!session.getAttribute("role").equals("customer")) {
+        if (session.getAttribute("role") == null) {
             response.sendRedirect("login");
         } else {
             ProductDAO pDAO = new ProductDAO();

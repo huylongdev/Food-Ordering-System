@@ -137,6 +137,7 @@
                 <div class="restaurant-list">
                     <c:if test="${not empty restaurantList}">
                         <c:forEach var="restaurant" items="${restaurantList}">
+                            <a href="./restaurant-detail?shopId=${restaurant.getShopID()}">
                             <div class="restaurant-card">
                                 <img src="${restaurant.getShopImage()}" alt="${restaurant.getName()}" />
                                 <div class="restaurant-info">
@@ -149,6 +150,7 @@
                                     </div>
                                 </div>
                             </div>
+                                    </a>
                         </c:forEach>
                     </c:if>
                 </div>
