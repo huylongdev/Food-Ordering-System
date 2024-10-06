@@ -175,7 +175,7 @@
                 </form>
             </div> 
         </div>
-        <!--==================================================================-->
+        
 
         <div id="update-product-overlay" class="overlay center">
             <div class="overlay-content">
