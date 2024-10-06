@@ -139,7 +139,7 @@ public class ProductDAO {
 
             ResultSet rs = ps.executeQuery();
 
-                while (rs.next()) {
+            while (rs.next()) {
                 Product product = new Product();
                 product.setProductId(rs.getInt("ProductID"));
                 product.setName(rs.getString("Name"));
@@ -151,43 +151,15 @@ public class ProductDAO {
                 product.setPurchaseCount(rs.getInt("PurchaseCount"));
                 product.setRating(rs.getDouble("Rating"));
 
-                    products.add(product);
-                }
+                products.add(product);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return products;
     }
 
-    public int createProductGetID(Product p) {
-        String query = "INSERT INTO Product (Name, Description, Price, Status, ShopID, CategoryID, Rating) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
-            ps.setString(1, p.getName());
-            ps.setString(2, p.getDescription());
-            ps.setDouble(3, p.getPrice());
-            ps.setBoolean(4, p.isStatus());
-            ps.setInt(5, p.getShopId());
-            ps.setInt(6, p.getCategoryId());
-            ps.setDouble(7, p.getRating());
-
-            int affectedRows = ps.executeUpdate();
-
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1);  // Trả về ProductID tự động tạo
-                    }
-                }
-            }
-            return -1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
-
-     public List<Product> filterProducts(List<Integer> categoryIDs, double minRating, String sortBy) {
+    public List<Product> filterProducts(List<Integer> categoryIDs, double minRating, String sortBy) {
         List<Product> products = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM Product WHERE 1=1");
 
