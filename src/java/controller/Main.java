@@ -16,8 +16,9 @@ import util.PasswordUtil;
 public class Main {
     // check ket noi database successfully
     public static void main(String[] args) {
-//        Account a = new Account(0, userName, password, fullName, phoneNumber, email, address, avtImg, 0, 0);
-        AccountDAO dao = new AccountDAO();
+        
+//        AccountDAO dao = new AccountDAO();
+//        dao.createShopAccount(new Account("shop3", PasswordUtil.hashPassword("123"), "Nguyen Hue Linh", "0389898742", "nhs211306@gmail.com", "Ngu Hanh Son - Da Nang", 3, 2));
         
     }
 }

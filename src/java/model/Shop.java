@@ -11,6 +11,16 @@ import java.time.LocalTime;
  * @author LENOVO
  */
 public class Shop {
+    /*
+    ShopID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(MAX),
+    Status BIT NOT NULL,
+    ShopImage NVARCHAR(255),
+    Address NVARCHAR(255),
+    TimeOpen TIME,
+    TimeClose TIME
+    */
     private int shopID;
     private String name;
     private String description;
@@ -39,9 +49,6 @@ public class Shop {
         this.address = address;
         this.timeOpen = timeOpen;
         this.timeClose = timeClose;
-    }
-
-    public Shop() {
     }
 
     public int getShopID() {
