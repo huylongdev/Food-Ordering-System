@@ -43,7 +43,7 @@ public class ProductImage {
         this.productID = productID;
     }
 
-    public boolean isIsAvatar() {
+    public boolean isAvatar() {
         return isAvatar;
     }
 
