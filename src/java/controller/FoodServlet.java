@@ -4,6 +4,8 @@
  */
 package controller;
 
+import context.ProductDAO;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import model.Product;
 
 /**
  *
@@ -45,7 +49,28 @@ public class FoodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                ProductDAO productDAO = new ProductDAO();
+        List<Product> productList = null;
+
+        try {
+            boolean isConnected = productDAO.checkConnection();
+            if (isConnected) {
+                System.out.println("Connected to database.");
+
+                // Lấy tất cả các bài viết
+                productList = productDAO.getAllProducts();
+
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+        request.setAttribute("productList", productList);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**

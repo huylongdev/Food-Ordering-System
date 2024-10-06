@@ -197,6 +197,7 @@ a.nav-link {
 
 .content-load {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .card-post {
@@ -266,7 +267,49 @@ a.nav-link {
 .nav-link:hover {
   color: #2b5a27;
 }
-a.navbar__item--login:hover {
-  background-color: #2b5a27;
+
+#nav-bar {
+  background-color: white;
+  padding: 7px 0 0 0;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #5eae53;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#nav-bar:hover {
+  background-color: #4a9445;
   transform: scale(1.05);
+  color: white;
+}
+#nav-bar .nav-link:hover #user-name,
+#nav-bar .nav-link:hover #login-text {
+  color: white;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #5eae53;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 18px;
+  color: white;
+  border: 1px solid;
+}
+#user-name {
+  font-size: 16px;
+  color: #5eae53;
+}
+#user-name:hover {
+  color: white;
+}
+#login-text {
+  font-size: 16px;
+  color: #5eae53;
+  justify-content: center;
+  display: flex;
+  padding-bottom: 7px;
 }
