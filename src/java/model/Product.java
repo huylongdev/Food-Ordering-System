@@ -22,12 +22,12 @@ public class Product {
 
     public Product() {
     }
-    
-     public Product(int productId, String productName) {
+
+    public Product(int productId, String productName) {
         this.productId = productId;
         this.name = name;
     }
-    
+
     public Product(String name, String description, double price, boolean status, int shopId, int categoryId, int purchaseCount, double rating) {
         this.name = name;
         this.description = description;
@@ -51,12 +51,33 @@ public class Product {
         this.rating = rating;
     }
 
+    
+    public Product(String name, String description, double price, boolean status, int shopId, int categoryId) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+    }
+
+    public Product(int productId, String name, String description, double price, boolean status, int shopId, int categoryId) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.shopId = shopId;
+        this.categoryId = categoryId;
+    }
+
     public int getProductId() {
         return productId;
     }
 
     public void setProductId(int productId) {
         this.productId = productId;
+
     }
 
     public String getName() {
@@ -105,6 +126,7 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+
     }
 
     public int getPurchaseCount() {

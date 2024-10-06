@@ -4,7 +4,6 @@
  */
 package controller;
 
-import context.CategoryDAO;
 import context.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import model.Category;
 import model.Product;
 
 /**
@@ -36,7 +34,7 @@ public class FoodServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/food.jsp").forward(request, response);
+                        request.getRequestDispatcher("WEB-INF/view/food.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,44 +49,27 @@ public class FoodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
+                ProductDAO productDAO = new ProductDAO();
+        List<Product> productList = null;
 
-        // Pagination
-        int page = 1; // Khởi tạo trang mặc định là 1
-        int size = 9; // Số lượng sản phẩm trên mỗi trang
-
-        // Kiểm tra tham số 'page' từ request
-        if (request.getParameter("page") != null) {
-            try {
-                page = Integer.parseInt(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                page = 1; // Nếu có lỗi định dạng, quay về trang 1
-            }
-        }
-
-        // Lấy danh sách sản phẩm cho trang hiện tại
-        List<Product> productList = productDAO.getProducts(page, size);
-        int totalProducts = productDAO.getTotalProducts();
-        int totalPages = (int) Math.ceil((double) totalProducts / size); // Tính tổng số trang
-
-        request.setAttribute("productList", productList);
-        request.setAttribute("totalProducts", totalProducts);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("pageSize", size);
-        request.setAttribute("totalPages", totalPages);
-
-        // Fetching categories
         try {
-            if (categoryDAO.checkConnection()) {
-                List<Category> categoryList = categoryDAO.getAllCategories();
-                request.setAttribute("categoryList", categoryList);
+            boolean isConnected = productDAO.checkConnection();
+            if (isConnected) {
+                System.out.println("Connected to database.");
+
+                // Lấy tất cả các bài viết
+                productList = productDAO.getAllProducts();
+
+            } else {
+                System.out.println("Failed to connect to the database.");
             }
         } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
+        request.setAttribute("productList", productList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -103,30 +84,7 @@ public class FoodServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO productDAO = new ProductDAO();
-        String keyword = request.getParameter("keyword");
-        CategoryDAO categoryDAO = new CategoryDAO();
-        List<Category> categoryList = null;
-
-        List<Product> products = productDAO.searchProducts(keyword);
-
-        try {
-            if (categoryDAO.checkConnection()) {
-                System.out.println("Connected to category database.");
-                categoryList = categoryDAO.getAllCategories();
-            } else {
-                System.out.println("Failed to connect to the category database.");
-            }
-        } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        request.setAttribute("categoryList", categoryList);
-        request.setAttribute("productList", products);
-        request.setAttribute("keyword", keyword);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
-        dispatcher.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
