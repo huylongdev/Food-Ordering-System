@@ -78,11 +78,6 @@ public class LoginServlet extends HttpServlet {
                 session.setMaxInactiveInterval(10 * 24 * 60 * 60);
                 response.sendRedirect("/OrderingSystem");
             }
-            if (acc.getRole() == 2) {
-                session.setAttribute("role", "shop");
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem/restaurant-detail?shopId="+acc.getShopID());
-            }
         } else {
             request.setAttribute("message", "Error name and password");
             request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
