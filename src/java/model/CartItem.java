@@ -9,28 +9,12 @@ package model;
  * @author LENOVO
  */
 public class CartItem {
-    Product product;
     private int cartItemID;
     private int userID;
     private int productID;
     private int quantity;
     private int shopID;
 
-    public CartItem() {
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-    
-  public CartItem(Product product, int quantity) {
-        this.product = product;
-        this.quantity = quantity;
-    }    
     public CartItem(int cartItemID, int userID, int productID, int quantity, int shopID) {
         this.cartItemID = cartItemID;
         this.userID = userID;

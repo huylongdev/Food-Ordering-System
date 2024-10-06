@@ -9,12 +9,11 @@ package model;
  * @author LENOVO
  */
 public class Account {
-
     private int userID; // not null 
     private String userName; //  not null
     private String password; // not null
     private String fullName; //  not null
-    private String phoneNumber;
+    private String phoneNumber; 
     private String email; // Optional
     private String address; // Optional
     private String avtImg; // Optional
@@ -23,10 +22,6 @@ public class Account {
     private String code;
 
     public Account() {
-    }
-
-    public Account(String userName) {
-        this.userName = userName;
     }
 
     public Account(String userName, String password, String fullName, String phoneNumber, String email, String address, int role) {
@@ -49,6 +44,20 @@ public class Account {
         this.avtImg = avtImg;
         this.role = role;
     }
+
+    public Account(String userName, String password, String fullName, String phoneNumber, String email, String address, int shopID, int role) {
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.shopID = shopID;
+        this.role = role;
+    }
+    
+    
+    
 
     public Account(int userID, String userName, String password, String fullName, String phoneNumber, String email, int role) {
         this.userID = userID;
@@ -94,6 +103,8 @@ public class Account {
     public void setCode(String code) {
         this.code = code;
     }
+    
+ 
 
     public int getUserID() {
         return userID;
@@ -174,5 +185,6 @@ public class Account {
     public void setRole(int role) {
         this.role = role;
     }
-
+    
+    
 }
