@@ -224,7 +224,6 @@
             <button>&raquo;</button>
         </div>
 
-        <img src="./assets/img/adblog.svg" alt="" class="img-ad">
         <%@ include file="/include/footer.jsp" %>
 
 
