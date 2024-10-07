@@ -78,7 +78,7 @@
                         <c:out value="${FormatString.formatCurrency(p.getPrice())}" />
                     </h4>
                     <p>${p.getDescription()}</p>
-                    <form name = "addCart" action = "cart" method ="post">
+                    <form id ="myForm" name = "addCart" action = "" method ="">
                         <div>
                             <div class = "quantity-label">Quantity</div>
                             <div class="number-input">
@@ -94,8 +94,8 @@
                         <div class ="add-cart-btn">
                             <h4 class="status">Foodie </h4>
                             <c:if test="${sessionScope.role != 'admin'}">
-                                <button type ="submit" id ="cart-btn">Add to cart</button>
-                                <button id ="fav"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
+                                <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                                     </svg></button>
                                 </c:if>
