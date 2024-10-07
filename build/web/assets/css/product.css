@@ -1,7 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans");
 
 
-
+a{
+    text-decoration: none;
+    color: darkslategray;
+}
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background-color: white !important;
   z-index: 10;

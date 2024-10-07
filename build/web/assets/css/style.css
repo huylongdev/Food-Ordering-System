@@ -5,6 +5,9 @@
   box-sizing: border-box;
   line-height: 1.8;
 }
+a{
+    text-decoration: none;
+}
 
 html {
   scroll-behavior: smooth;
@@ -170,6 +173,7 @@ i.slider-icon {
   border-radius: 18px;
   transition: background-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
+    height: 17rem;
 }
 
 .card.col-md-2:hover {
@@ -194,6 +198,11 @@ img.card-img-top-category {
   width: 60%;
   border-radius: 100px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-list img{
+    width: 100px; /* Tùy chỉnh kích thước theo ý muốn */
+    height: 100px;
 }
 
 .card.col-md-2:hover img.card-img-top-category {

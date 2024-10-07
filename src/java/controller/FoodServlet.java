@@ -69,9 +69,34 @@ public class FoodServlet extends HttpServlet {
                 page = 1; // Nếu có lỗi định dạng, quay về trang 1
             }
         }
+        
+        List<Product> products = new ArrayList<>();
+        
+        String category = request.getParameter("category");
 
-        // Lấy danh sách sản phẩm cho trang hiện tại
-        List<Product> products = productDAO.getProducts(page, size);
+        switch (category) {
+            case null:
+                products = productDAO.getProducts(page, size);
+                break;
+            case "1":
+                products = productDAO.getProductByCategoryID(1);
+                break;
+            case "2":
+                products = productDAO.getProductByCategoryID(2);
+                break;
+            case "3":
+                products = productDAO.getProductByCategoryID(3);
+                break;
+            case "4":
+                products = productDAO.getProductByCategoryID(4);
+                break;
+            case "5":
+                products = productDAO.getProductByCategoryID(5);
+                break;
+            default:
+                throw new AssertionError();
+        }
+        
         
         
             List<ProductDTO> productList = new ArrayList<>();
@@ -102,7 +127,7 @@ public class FoodServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-list.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -146,7 +171,7 @@ public class FoodServlet extends HttpServlet {
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("productList", productList);
         request.setAttribute("keyword", keyword);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-list.jsp");
         dispatcher.forward(request, response);
     }
 
