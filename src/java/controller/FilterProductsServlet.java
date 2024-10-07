@@ -2,6 +2,7 @@ package controller;
 
 import context.CategoryDAO;
 import context.ProductDAO;
+import context.ProductImageDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 
 import model.Category;
 import model.Product;
+import model.ProductDTO;
 
 @WebServlet(name = "FilterProductsServlet", urlPatterns = {"/filterproducts"})
 public class FilterProductsServlet extends HttpServlet {
@@ -76,7 +78,14 @@ public class FilterProductsServlet extends HttpServlet {
 
         List<Product> products = productDAO.filterProducts(categoryIds, minRating, sortBy);
         
-        request.setAttribute("productList", products);
+            List<ProductDTO> productList = new ArrayList<>();
+            ProductImageDAO pid= new ProductImageDAO();
+            for(Product p: products){
+                ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+                productList.add(pd);
+            }
+        
+        request.setAttribute("productList", productList);
         request.setAttribute("categoryList", categoryList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
         dispatcher.forward(request, response);

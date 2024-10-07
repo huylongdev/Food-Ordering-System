@@ -123,6 +123,13 @@ public class FoodServlet extends HttpServlet {
         List<Category> categoryList = null;
 
         List<Product> products = productDAO.searchProducts(keyword);
+        
+            List<ProductDTO> productList = new ArrayList<>();
+            ProductImageDAO pid= new ProductImageDAO();
+            for(Product p: products){
+                ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+                productList.add(pd);
+            }
 
         try {
             if (categoryDAO.checkConnection()) {
@@ -137,7 +144,7 @@ public class FoodServlet extends HttpServlet {
         }
 
         request.setAttribute("categoryList", categoryList);
-        request.setAttribute("productList", products);
+        request.setAttribute("productList", productList);
         request.setAttribute("keyword", keyword);
         RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/food-homepage.jsp");
         dispatcher.forward(request, response);
