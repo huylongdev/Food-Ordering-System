@@ -449,6 +449,45 @@ public class ProductDAO {
         return products;
     }
     
+    
+    
+    public List<Product> getProductByShopIDInPage(int shopID, int page, int size) {
+        List<Product> products = new ArrayList<>();
+        int offset = (page - 1) * size; // Tính toán offset
+        String query = "SELECT * FROM Product WHERE ShopID = ? ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(2, offset);
+            ps.setInt(3, size); 
+//            ResultSet rs = ps.executeQuery();
+//        String query = "SELECT * FROM Product WHERE ShopID = ?";
+//        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, shopID);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Product product = new Product(
+                            rs.getInt("ProductID"),
+                            rs.getString("Name"),
+                            rs.getString("Description"),
+                            rs.getDouble("Price"),
+                            rs.getBoolean("Status"),
+                            rs.getInt("ShopID"),
+                            rs.getInt("CategoryID"),
+                            rs.getInt("PurchaseCount"),
+                            rs.getDouble("Rating")
+                    );
+                    products.add(product);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    
+    
      public List<Product> getProductByCategoryID(int categoryID) {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE CategoryID = ?";

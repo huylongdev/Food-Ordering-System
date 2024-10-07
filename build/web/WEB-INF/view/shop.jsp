@@ -36,7 +36,7 @@
     <body>
 
         <%@ include file="/include/header.jsp" %>
-
+        
 
 
 
@@ -228,12 +228,29 @@
 
 
         <div class="pagination">
-            <button>&laquo;</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>&raquo;</button>
+            <c:set var="currentPage" value="${currentPage}" />
+            <c:set var="pageSize" value="${pageSize}" />
+            <c:set var="totalProducts" value="${totalProducts}" />
+            <c:set var="totalPages" value="${totalPages}" />
+
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="active">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}">&raquo;</a>
+            </c:if>
         </div>
 
         <%@ include file="/include/footer.jsp" %>

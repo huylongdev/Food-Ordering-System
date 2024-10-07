@@ -11,7 +11,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-    Account user = (Account) session.getAttribute("loggedUser");
+    Account user = (Account) session.getAttribute("user");
 %>
 <!DOCTYPE html>
 <html>
