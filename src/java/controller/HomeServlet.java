@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // xử lí hiển thị trang chủ
+        
          request.getRequestDispatcher("WEB-INF/view/home.jsp").forward(request, response);
     }
 
@@ -45,6 +45,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         processRequest(request, response);
     }
 
