@@ -87,3 +87,18 @@ function decrement(button) {
 
 
 
+
+function submitForm(method) {
+    var form = document.getElementById('myForm');
+    if (method === 'method1') {
+        form.action = './cart';
+        form.method = 'post';
+    } else if (method === 'method2') {
+        form.action = './food-detail';
+        form.method = 'post';
+    }
+    form.submit();
+}
+
+
+
