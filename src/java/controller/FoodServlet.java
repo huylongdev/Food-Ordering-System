@@ -6,6 +6,7 @@ package controller;
 
 import context.CategoryDAO;
 import context.ProductDAO;
+import context.ProductImageDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,9 +15,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import model.Category;
 import model.Product;
+import model.ProductDTO;
 
 /**
  *
@@ -68,7 +71,18 @@ public class FoodServlet extends HttpServlet {
         }
 
         // Lấy danh sách sản phẩm cho trang hiện tại
-        List<Product> productList = productDAO.getProducts(page, size);
+        List<Product> products = productDAO.getProducts(page, size);
+        
+        
+            List<ProductDTO> productList = new ArrayList<>();
+            ProductImageDAO pid= new ProductImageDAO();
+            for(Product p: products){
+                ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+                productList.add(pd);
+            }
+        
+        
+        
         int totalProducts = productDAO.getTotalProducts();
         int totalPages = (int) Math.ceil((double) totalProducts / size); // Tính tổng số trang
 
