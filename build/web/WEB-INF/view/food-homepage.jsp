@@ -166,17 +166,23 @@
 
                 <div class="restaurant-list">
                     <c:if test="${not empty productList}">
-                        <c:forEach var="product" items="${productList}">
+<c:forEach var="product" items="${productList}">
                             <div class="restaurant-card">
-                                <img src="./assets/img/nulldataimg.png" alt="${product.name}" />
-                                <div class="restaurant-info">
-                                    <span class="rating">${product.rating}</span>
-                                    <h4>${product.name}</h4>
-                                    <p>${product.price} $</p>
-                                    <div class="restaurant-more-info">
-                                        <p>${product.description}</p>
-                                    </div>
+                                <div class = "img-wrapper">
+                                    <img src="${product.getImgURL()}" alt="${product.getProduct().getName()}" />
+                                    
                                 </div>
+
+                                <a href ="./food-detail?productId=${product.getProduct().getProductId()}">
+                                    <div class="restaurant-info">
+                                        <span class="rating">${product.getProduct().getRating()}</span>
+                                        <h4>${product.getProduct().getName()}</h4>
+                                        <p>${product.getProduct().getPrice()} $</p>
+                                        <div class="restaurant-more-info">
+                                            <p>${product.getProduct().getDescription()}</p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </c:forEach>
                     </c:if>
