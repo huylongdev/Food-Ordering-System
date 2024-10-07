@@ -80,8 +80,22 @@ public class RestaurantDetailServlet extends HttpServlet {
         
         int shopId = Integer.parseInt(request.getParameter("shopId"));
         ProductDAO pDAO = new ProductDAO();
+        
+        
+        // Pagination
+        int page = 1; // Khởi tạo trang mặc định là 1
+        int size = 9; // Số lượng sản phẩm trên mỗi trang
+
+        // Kiểm tra tham số 'page' từ request
+        if (request.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu có lỗi định dạng, quay về trang 1
+            }
+        }
             
-            List<Product> foodList = pDAO.getProductByShopID(shopId);
+            List<Product> foodList = pDAO.getProductByShopIDInPage(shopId, page, size);
             List<ProductDTO> productList = new ArrayList<>();
             ProductImageDAO pid= new ProductImageDAO();
             for(Product p: foodList){
@@ -93,6 +107,14 @@ public class RestaurantDetailServlet extends HttpServlet {
             Shop s = sDAO.getShopByID(shopId);
             
             
+        
+        int totalProducts = pDAO.getProductByShopID(shopId).size();
+        int totalPages = (int) Math.ceil((double) totalProducts / size); // Tính tổng số trang
+
+        request.setAttribute("totalProducts", totalProducts);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", size);
+        request.setAttribute("totalPages", totalPages);
             request.setAttribute("shop", s);
             request.setAttribute("productList", productList);
         request.getRequestDispatcher("WEB-INF/view/shop.jsp").forward(request, response);

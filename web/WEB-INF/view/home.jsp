@@ -142,61 +142,9 @@
             </div>
             <div class="default-title default-title-category">Popular Categories</div>
             <div class="category-list">
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
+                
+                
+                
                 <div onclick="" class="card col-md-2" style="width: 11rem">
                     <img
                         src="./assets/img/banhmi.png"
