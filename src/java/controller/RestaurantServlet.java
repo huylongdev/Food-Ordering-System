@@ -38,7 +38,7 @@ public class RestaurantServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/restaurant-list.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,7 +90,7 @@ public class RestaurantServlet extends HttpServlet {
         request.setAttribute("pageSize", size);
         request.setAttribute("totalPages", totalPages);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-list.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -113,7 +113,7 @@ public class RestaurantServlet extends HttpServlet {
         // Thiết lập thuộc tính để chuyển đến trang JSP
         request.setAttribute("restaurantList", foundShops);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-homepage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/restaurant-list.jsp");
         dispatcher.forward(request, response);
     }
 

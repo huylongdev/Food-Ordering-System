@@ -60,20 +60,20 @@
                             <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
                             <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
                         </div>
-                        
-                          <c:if test="${sessionScope.user != null && role == 'shop'}">
-                                <div class="navbar__item">
-                                    <nav id="nav-bar">
-                                        <ul class="nav-list">
-                                            <li class="nav-item">
-                                                <a href="./restaurant-detail?shopId=${user.getShopID()}" class="nav-link">
-                                                    <span id="login-text">Go to Shop</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </c:if>
+
+                        <c:if test="${sessionScope.user != null && role == 'shop'}">
+                            <div class="navbar__item">
+                                <nav id="nav-bar">
+                                    <ul class="nav-list">
+                                        <li class="nav-item">
+                                            <a href="./restaurant-detail?shopId=${user.getShopID()}" class="nav-link">
+                                                <span id="login-text">Go to Shop</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </c:if>
                         <div class="navbar__item">
 
 
@@ -136,137 +136,34 @@
         </div>
 
         <!-- CATEGORY -->
+
+
         <div id="category">
             <div class="default-text-category">
                 <div class="default-tag default-tag-category">CATEGORIES</div>
             </div>
             <div class="default-title default-title-category">Popular Categories</div>
             <div class="category-list">
-                
-                
-                
-                <div onclick="" class="card col-md-2" style="width: 11rem">
-                    <img
-                        src="./assets/img/banhmi.png"
-                        class="card-img-top card-img-top-category"
-                        alt="..."
-                        />
-                    <div class="card-body">
-                        <h5 class="card-title card-title-category">Food</h5>
-                        <p class="card-text">20 shop</p>
-                    </div>
-                </div>
+
+
+                <c:if test="${not empty cateList}">
+                    <c:forEach var="c" items="${cateList}">
+                        <a href = "./food?category=${c.getCategory().getCategoryID()}"><div onclick="" class="card col-md-2" style="width: 11rem">
+                            <img
+                                src="${c.getAvtImg()}"
+                                class="card-img-top card-img-top-category"
+                                alt="..."
+                                />
+                            <div class="card-body">
+                                <h5 class="card-title card-title-category">${c.getCategory().getType()}</h5>
+                                <p class="card-text">${c.getCategory().getDescription()}</p>
+                            </div>
+                        </div></a>
+                    </c:forEach>
+                </c:if>
             </div>
         </div>
 
-        <!-- RESTAURANTS -->
-        <div id="restaurant">
-            <div class="default-text-restaurant">
-                <div class="default-tag">RESTAURANTS</div>
-                <div class="default-title">Restaurants</div>
-                <div class="default-des">
-                    <p class="default-slogan">
-                        "Discover a world of flavors and enjoy the convenience of ordering
-                        your favorite meals today!"
-                    </p>
-                    <a href="#" class="restaurant-viewall">
-                        View all <i class="ti-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="restaurant-list">
-                    <!-- Restaurant Card 1 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurant Card 2 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurant Card 3 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurant Card 4 -->
-                    <div class="card card-restaurant" style="width: 18rem;">
-                        <!-- Rating -->
-                        <div class="rating-box">9.8</div>
-
-                        <img class="card-img-top" src="./assets/img/category.png" alt="Card image cap" />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- MAP RESTAURANTS -->
-        <div id="map">
-            <img src="./assets/img/mapimg.svg" alt="" class="map-img" />
-            <div class="map-info col-md-5">
-                <div class="map-tag">MAP</div>
-                <div class="map-title default-title">
-                    Food Map with more than 900 Restaurants
-                </div>
-                <div class="map-des default-slogan">
-                    Explore a diverse menu from top-rated restaurants, all ready to serve
-                    you with just a few clicks!
-                </div>
-                <div class="map-search">
-                    <input
-                        class="map-input default-input"
-                        type="text"
-                        value="Find Restaurant..."
-                        />
-                    <button class="map-btnsearch default-btnsearch">Search</button>
-                </div>
-            </div>
-        </div>
 
         <!-- BEST DEALS -->
         <div id="bestseller">
@@ -373,31 +270,143 @@
                 </div>
             </div>
         </div>
-    </div>
-    <footer id="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <h2>FOODIE</h2>
-                <div class="footer-social">
-                    <a class="icon-footer" href="#"><i class="ti-facebook"></i></a>
-                    <a class="icon-footer" href="#"><i class="ti-instagram"></i></a>
-                    <a class="icon-footer" href="#"><i class="ti-location-pin"></i></a>
+
+        <!-- MAP RESTAURANTS -->
+        <div id="map">
+            <img src="./assets/img/mapimg.svg" alt="" class="map-img" />
+            <div class="map-info col-md-5">
+                <div class="map-tag">MAP</div>
+                <div class="map-title default-title">
+                    Food Map with more than 900 Restaurants
                 </div>
-            </div>
-            <div class="footer-menu">
-                <h4 style="display: flex; justify-content: center;">MENU</h4>
-                <div class="menu-item">
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Restaurants</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="#">Map</a></li>
-                        <li><a href="#">Submit</a></li>
-                    </ul>
+                <div class="map-des default-slogan">
+                    Explore a diverse menu from top-rated restaurants, all ready to serve
+                    you with just a few clicks!
+                </div>
+                <div class="map-search">
+                    <input
+                        class="map-input default-input"
+                        type="text"
+                        value="Find Restaurant..."
+                        />
+                    <button class="map-btnsearch default-btnsearch">Search</button>
                 </div>
             </div>
         </div>
-    </footer>
-</body>
+
+
+
+        <!-- RESTAURANTS -->
+        <div id="restaurant">
+            <div class="default-text-restaurant">
+                <div class="default-tag">RESTAURANTS</div>
+                <div class="default-title">Restaurants</div>
+                <div class="default-des">
+                    <p class="default-slogan">
+                        "Discover a world of flavors and enjoy the convenience of ordering
+                        your favorite meals today!"
+                    </p>
+                    <a href="#" class="restaurant-viewall">
+                        View all <i class="ti-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="restaurant-list">
+                    <!-- Restaurant Card 1 -->
+                    <div class="card card-restaurant" style="width: 18rem">
+                        <div class="rating-box">9.8</div>
+                        <img
+                            class="card-img-top"
+                            src="./assets/img/category.png"
+                            alt="Card image cap"
+                            />
+                        <div class="card-body">
+                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+                            <div class="restaurant-info">
+                                <p class="res-time">~20-30 min</p>
+                                <div class="res-category">Pizza</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Card 2 -->
+                    <div class="card card-restaurant" style="width: 18rem">
+                        <div class="rating-box">9.8</div>
+                        <img
+                            class="card-img-top"
+                            src="./assets/img/category.png"
+                            alt="Card image cap"
+                            />
+                        <div class="card-body">
+                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+                            <div class="restaurant-info">
+                                <p class="res-time">~20-30 min</p>
+                                <div class="res-category">Pizza</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Card 3 -->
+                    <div class="card card-restaurant" style="width: 18rem">
+                        <div class="rating-box">9.8</div>
+                        <img
+                            class="card-img-top"
+                            src="./assets/img/category.png"
+                            alt="Card image cap"
+                            />
+                        <div class="card-body">
+                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+                            <div class="restaurant-info">
+                                <p class="res-time">~20-30 min</p>
+                                <div class="res-category">Pizza</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Card 4 -->
+                    <div class="card card-restaurant" style="width: 18rem;">
+                        <!-- Rating -->
+                        <div class="rating-box">9.8</div>
+
+                        <img class="card-img-top" src="./assets/img/category.png" alt="Card image cap" />
+                        <div class="card-body">
+                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
+                            <div class="restaurant-info">
+                                <p class="res-time">~20-30 min</p>
+                                <div class="res-category">Pizza</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>FOODIE</h2>
+                    <div class="footer-social">
+                        <a class="icon-footer" href="#"><i class="ti-facebook"></i></a>
+                        <a class="icon-footer" href="#"><i class="ti-instagram"></i></a>
+                        <a class="icon-footer" href="#"><i class="ti-location-pin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-menu">
+                    <h4 style="display: flex; justify-content: center;">MENU</h4>
+                    <div class="menu-item">
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Restaurants</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Map</a></li>
+                            <li><a href="#">Submit</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>

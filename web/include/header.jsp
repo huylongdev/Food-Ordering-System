@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"  import="model.*" %> 
 <!-- HEADER -->
+
 <%
     Account user = (Account) session.getAttribute("user");
 %>
@@ -73,3 +74,4 @@
             </nav>
         </div>
                                            
+
