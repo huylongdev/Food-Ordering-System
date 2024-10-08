@@ -98,9 +98,11 @@
                                     </li>
                                 </ul>
                             </nav>
+
                             <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
+
                         </div>
                     </div>
                 </div>

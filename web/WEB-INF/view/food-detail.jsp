@@ -72,7 +72,10 @@
                     <h1 class="title-product">${p.getName()}</h1>
                     <div class="group-status">
                         <p><b>${p.getPurchaseCount()} </b>orders</p>
-                        <p><b>Category: </b><a href="./all-book?category=rice" title="Rice">${cateName}</a></p>
+                        <p><b>Category: </b><a href="#" title="Rice">${cateName}</a></p>
+                    </div>
+                    <div class ="shop-info">
+                        <a href = "./restaurant-detail?shopId=${p.getShopId()}"><p><b>${shop.getName()}</b>: ${shop.getAddress()}</p></a>
                     </div>
                     <h4 class = "price">
                         <c:out value="${FormatString.formatCurrency(p.getPrice())}" />

@@ -6,6 +6,7 @@ package controller;
 
 import context.ProductDAO;
 import context.ProductImageDAO;
+import context.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.List;
 import model.Category;
 import model.Product;
 import model.ProductImage;
+import model.Shop;
 
 /**
  *
@@ -71,6 +73,12 @@ public class FoodDetailServlet extends HttpServlet {
             request.setAttribute("images", images);
             String cateName = pDAO.getCategoryNameByID(id);
             
+            ShopDAO sDAO = new ShopDAO();
+            Shop shop = sDAO.getShopByID(p.getShopId());
+            
+            
+            request.setAttribute("shop", shop);
+
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
             

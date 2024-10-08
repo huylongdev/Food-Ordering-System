@@ -22,6 +22,10 @@ public class CartItemDTO {
         this.quantity = quantity;
         this.imgURL = imgURL;
     }
+    public CartItemDTO(Product product, String imgURL) {
+        this.product = product;
+        this.imgURL = imgURL;
+    }
 
     public Product getProduct() {
         return product;
