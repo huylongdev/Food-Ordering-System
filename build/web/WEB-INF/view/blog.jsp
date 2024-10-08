@@ -88,9 +88,9 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <div class="icon">
-                                <i class="ti-shopping-cart"></i>
-                            </div>
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
+                                    <i class="ti-shopping-cart"></i>
+                                </div></a>
                         </div>
                     </div>
                 </div>
@@ -114,11 +114,11 @@
                     <div class="title">
                         <h2 style="color: white; width: 90%">
                             ${newPost.getHeading()}
-                            
+
                         </h2>
                         <div class="slider-author">
                             <img src="./assets/img/image.png" alt="" class="author_avatar" />
-                        <p class="author_name">${fullNameNewPost}</p>
+                            <p class="author_name">${fullNameNewPost}</p>
                         </div>
                     </div>
                 </div>

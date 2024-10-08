@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ProductDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/include/header.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/cart.jsp</file>
@@ -14,6 +15,30 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/RestaurantDetailServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/authenticate/LoginServlet.java</file>
+=======
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/food.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/com/vnpay/common/Config.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/CartDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/food-homepage.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/Account.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/CartItemDTO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/food-detail.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/include/footer.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/RestaurantDetailServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/Product.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/error.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/include/header.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/CartItem.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/OrderDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/PostDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/CheckoutServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/checkout.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/PaymentStatusServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/Order.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/shop.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/checkout.css</file>
+>>>>>>> 78d0e45b54b60690da9e2a5dd64c7fd1b42a623e
         </group>
     </open-files>
 </project-private>

@@ -349,7 +349,9 @@ html,body {
     color: #000; /* Màu sắc của icon */
 }
 
-
+a {
+    text-decoration: none;
+}
 
 .overlay {
     position: fixed;

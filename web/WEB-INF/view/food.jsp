@@ -97,12 +97,11 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <div class="icon">
-                                <i class="ti-shopping-cart"></i>
-                            </div>
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
+                                    <i class="ti-shopping-cart"></i>
+                                </div></a>
                         </div>
                     </div>
-                </div>
             </nav>
         </div>
 
@@ -167,7 +166,7 @@
                                 <div class="restaurant-info">
                                     <span class="rating">${product.getRating()}</span>
                                     <h4>${product.getName()}</h4>
-                                    <p>${product.getPrice()} $</p>
+                                    <p>${product.getPrice()}</p>
                                     <div class="restaurant-more-info">
                                         <p>${product.getDescription()}</p>
                                     </div>
