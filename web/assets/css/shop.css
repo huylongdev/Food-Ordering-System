@@ -211,6 +211,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 
 .add-product-form input[type="text"],
+.add-product-form textarea,
 .add-product-form input[type="number"],
 .add-product-form select,
 .add-product-form input[type="file"] {

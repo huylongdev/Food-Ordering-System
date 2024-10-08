@@ -219,3 +219,44 @@
     li {
       padding: 0 6px 0 0;
     }
+    
+    
+    
+    
+    
+    .orders-table,
+.list-table {
+    
+    min-width: 300px;
+    margin-bottom: 40px;
+    margin-top: -10px;
+}
+
+.orders-table th,
+.orders-table td,
+.list-table th,
+.list-table td {
+    padding: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 15px;
+}
+
+.list-table thead th,
+.list-table thead td {
+    padding: 10px;
+    color: #fff;
+}
+
+.orders-table thead,
+.list-table thead {
+    background-color: #BFBFBF;
+}
+
+.account h1{
+    font-weight: 600;
+    font-size: 24px !important;
+}
+
+.orders-table{
+    width:100%;
+}
