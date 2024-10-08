@@ -38,16 +38,7 @@
                 });
             });
 
-            // Hàm để xử lý form submit
-            function submitForm(method) {
-                var form = document.getElementById("myForm");
-                if (method === 'method1') {
-                    form.action = 'delete'; // Gửi đến action 'delete'
-                } else if (method === 'method2') {
-                    form.action = 'checkout'; // Gửi đến action 'checkout'
-                }
-                form.submit();
-            }
+
         </script>
     </head>
     <body>
