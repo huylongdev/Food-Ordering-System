@@ -4,29 +4,28 @@
  */
 package context;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import java.sql.Connection;
+import java.sql.*;
 
 /**
  *
  * @author LENOVO
  */
 public class DBContext {
-    private String server = "localhost";
-    private String user = "sa";
-    private String password = "123456";
-    private String db = "ordering_system";
-    private int port = 1433;
-
-    public Connection getConnection() throws Exception {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setUser(user);
-        ds.setPassword(password);
-        ds.setDatabaseName(db);
-        ds.setServerName(server);
-        ds.setPortNumber(port);
-        ds.setEncrypt(false);
-        return ds.getConnection();
+    private static String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static String username = "sa";
+    private static String password = "2104";
+    private static String jdbcURL = "jdbc:sqlserver://YANG;databaseName=ordering_system;encrypt=true;trustServerCertificate=true;loginTimeout=30";
+    //kết nối datebase dùng URL username, password. Thả ra lỗi 
+    
+    public static Connection getConnection(){
+        Connection con = null;
+        try{
+            Class.forName(driverClass);
+            con = (Connection) DriverManager.getConnection(jdbcURL, username, password);
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+        }
+        return con;
     }
 
     public void closeConnection(Connection conn) {

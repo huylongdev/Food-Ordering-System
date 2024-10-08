@@ -93,7 +93,7 @@
                                 <td class = "a-right"></td></tr>
                         </table>
                     </div>
-                    <tr><button id="delete-btn" type='submit' onclick="submitForm('method1')">Delete</button>
+                    <tr><button id="delete-btn" type='submit' onclick="submitForm('method1')">Remove</button>
                 </form>
                 <p>${cartStatus}</p>
             </div>

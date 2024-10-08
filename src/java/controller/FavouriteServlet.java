@@ -124,7 +124,7 @@ public class FavouriteServlet extends HttpServlet {
         if (favouriteDAO.addToWishlist(c)) {
             session.setAttribute("alert", "Added to wishlist successfully!");
         } else {
-            session.setAttribute("alert", "Failed to add product!");
+            session.setAttribute("alert", "Already in wishlist!");
         }
         response.sendRedirect("food-detail?productId=" + productID);
     }
@@ -134,7 +134,7 @@ public class FavouriteServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         String[] selected = request.getParameterValues("isSelected");
         if (selected == null) {
-            session.setAttribute("cartStatus", "Choose product to delete!");
+            session.setAttribute("cartStatus", "Choose product to remove!");
             response.sendRedirect("favourite");
 
         } else {
@@ -145,14 +145,14 @@ public class FavouriteServlet extends HttpServlet {
                     id = Integer.parseInt(productID);
                     FavouriteDAO fDAO = new FavouriteDAO();
                     if (!fDAO.deleteWishlistProduct(id, userID)) {
-                        session.setAttribute("cartStatus", "Cannot delete!");
+                        session.setAttribute("cartStatus", "Cannot remove!");
                     }
                 } catch (NumberFormatException e) {
                     throw new ServletException("invalid id");
                 }
 
             }
-            session.setAttribute("cartStatus", "Delete products successfully!");
+            session.setAttribute("cartStatus", "Remove products successfully!");
             response.sendRedirect("favourite");
         }
     }

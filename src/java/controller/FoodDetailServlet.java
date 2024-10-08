@@ -86,7 +86,7 @@ public class FoodDetailServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response

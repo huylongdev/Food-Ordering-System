@@ -97,7 +97,19 @@ i.ti-shopping-cart {
   content: "\e60d";
   line-height: 36px;
 }
+i.ti-heart {
+  padding: 10px;
+  font-size: 25px;
+  border-radius: 25px;
+  color: white;
+  background-color: #ff6b6b;
+  margin-left: 17px;
+}
 
+.ti-heart:before {
+  content: "\2764";
+  line-height: 36px;
+}
 #slider .sliderback {
   width: 100%;
 }

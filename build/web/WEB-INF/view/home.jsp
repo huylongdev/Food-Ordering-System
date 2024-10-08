@@ -108,9 +108,15 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <a href = "./cart"><div class="icon">
-                                    <i class="ti-shopping-cart"></i>
-                                </div></a>
+                             <div class="icon">
+                        <a href = "./cart"><i class="ti-shopping-cart"></i></a>
+                    </div>
+                    
+                        <a href = "./favourite">
+                            <div class="icon">
+                            <i class="ti-heart"></i>
+                            </div>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -299,8 +305,8 @@
         <!-- RESTAURANTS -->
         <div id="restaurant">
             <div class="default-text-restaurant">
-                <div class="default-tag">RESTAURANTS</div>
-                <div class="default-title">Restaurants</div>
+                <div class="default-tag">TOP RESTAURANTS</div>
+                <div class="default-title"> Top Restaurants</div>
                 <div class="default-des">
                     <p class="default-slogan">
                         "Discover a world of flavors and enjoy the convenience of ordering

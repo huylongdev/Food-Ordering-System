@@ -92,9 +92,15 @@
             </li>
             </ul>
             </nav>
-              <div class="icon">
-                <i class="ti-shopping-cart"></i>
-              </div>
+               <div class="icon">
+                        <a href = "./cart"><i class="ti-shopping-cart"></i></a>
+                    </div>
+                    
+                        <a href = "./favourite">
+                            <div class="icon">
+                            <i class="ti-heart"></i>
+                            </div>
+                        </a>
             </div>
           </div>
         </div>
