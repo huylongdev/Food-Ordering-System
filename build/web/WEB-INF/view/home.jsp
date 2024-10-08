@@ -60,20 +60,20 @@
                             <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
                             <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
                         </div>
-                        
-                          <c:if test="${sessionScope.user != null && role == 'shop'}">
-                                <div class="navbar__item">
-                                    <nav id="nav-bar">
-                                        <ul class="nav-list">
-                                            <li class="nav-item">
-                                                <a href="./restaurant-detail?shopId=${user.getShopID()}" class="nav-link">
-                                                    <span id="login-text">Go to Shop</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </c:if>
+
+                        <c:if test="${sessionScope.user != null && role == 'shop'}">
+                            <div class="navbar__item">
+                                <nav id="nav-bar">
+                                    <ul class="nav-list">
+                                        <li class="nav-item">
+                                            <a href="./restaurant-detail?shopId=${user.getShopID()}" class="nav-link">
+                                                <span id="login-text">Go to Shop</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </c:if>
                         <div class="navbar__item">
 
 
@@ -108,7 +108,7 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <a href = "./cart"><div class="icon">
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
                         </div>
@@ -123,10 +123,14 @@
             <div class="slider-info">
                 <h3 class="slider-des">Best food in city</h3>
                 <h1 class="title">Delivery Food from the Best Restaurants.</h1>
-                <div class="slider-search">
-                    <input class="default-input" type="text" value="Find Food..." />
-                    <button class="default-btnsearch">Search</button>
-                </div>
+                <!--                <div class="slider-search">
+                                    <input class="default-input" type="text" placeholder="Find Food..." />
+                                    <button class="default-btnsearch">Search</button>
+                                </div>-->
+                <form class="slider-search" action="food" method="post">
+                    <input class="default-input" type="text" name="keyword" placeholder="Find Food..." required>
+                    <button class="default-btnsearch" type="submit">Search</button>
+                </form>
                 <div class="icon-group">
                     <i class="ti-facebook slider-icon"></i>
                     <i class="ti-instagram slider-icon"></i>
@@ -257,14 +261,18 @@
                     Explore a diverse menu from top-rated restaurants, all ready to serve
                     you with just a few clicks!
                 </div>
-                <div class="map-search">
+<!--                <div class="map-search">
                     <input
                         class="map-input default-input"
                         type="text"
-                        value="Find Restaurant..."
+                        placeholder="Find Restaurant..."
                         />
                     <button class="map-btnsearch default-btnsearch">Search</button>
-                </div>
+                </div>-->
+                <form class="map-search" style="display: flex" action="restaurant" method="post">
+                    <input class="map-input default-input"  type="text" name="keyword" placeholder="Search for a restaurant..." required />
+                    <button style="margin-left: 20px " class="map-btnsearch default-btnsearch" type="submit">Search</button>
+                </form>
             </div>
         </div>
 

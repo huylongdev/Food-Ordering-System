@@ -450,3 +450,31 @@ VALUES
     Date DATETIME NOT NULL,
     Phone VARCHAR(10) NOT NULL CHECK (Phone LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
 );
+
+
+//Fix
+DROP TABLE IF EXISTS OrderItem;
+
+DROP TABLE IF EXISTS [Order];
+
+CREATE TABLE [Order] (
+    OrderID INT, -- Không tự động tăng
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),  
+    Status NVARCHAR(50) NOT NULL,
+    Address NVARCHAR(255),
+    CreatedDate DATETIME DEFAULT GETDATE(),
+    DeliveryOption NVARCHAR(50),
+    TimePickup DATETIME,
+    TotalAmount DECIMAL(18, 2) NOT NULL,
+    DiscountID INT FOREIGN KEY REFERENCES Discount(DiscountID),  
+    PaymentOption NVARCHAR(50) NOT NULL,
+    PRIMARY KEY(OrderID)  
+);
+
+CREATE TABLE OrderItem (
+    OrderItemID INT IDENTITY(1,1) PRIMARY KEY,
+    OrderID INT FOREIGN KEY REFERENCES [Order](OrderID),
+    ProductID INT FOREIGN KEY REFERENCES Product(ProductID),
+    Quantity INT NOT NULL,
+    TotalPrice DECIMAL(18, 2) NOT NULL
+);
