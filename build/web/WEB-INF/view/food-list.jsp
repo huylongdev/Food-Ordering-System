@@ -10,6 +10,7 @@
 <%@ page import="context.ProductDAO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+
 <%
     Account user = (Account) session.getAttribute("loggedUser");
 %>
@@ -97,9 +98,11 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <div class="icon">
-                                <a href = "./cart"><i class="ti-shopping-cart"></i></a>
-                            </div>
+
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
+                                    <i class="ti-shopping-cart"></i>
+                                </div></a>
+
                         </div>
                     </div>
                 </div>
@@ -166,14 +169,14 @@
 
                 <div class="restaurant-list">
                     <c:if test="${not empty productList}">
-<c:forEach var="product" items="${productList}">
+                        <c:forEach var="product" items="${productList}">
                             <div class="restaurant-card">
                                 <div class = "img-wrapper">
                                     <img src="${product.getImgURL()}" alt="${product.getProduct().getName()}" />
-                                    
+
                                 </div>
 
-                                <a href ="./food-detail?productId=${product.getProduct().getProductId()}">
+                                    <a style="text-decoration: none" href ="./food-detail?productId=${product.getProduct().getProductId()}">
                                     <div class="restaurant-info">
                                         <span class="rating">${product.getProduct().getRating()}</span>
                                         <h4>${product.getProduct().getName()}</h4>

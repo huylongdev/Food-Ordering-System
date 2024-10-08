@@ -108,7 +108,7 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <a href = "./cart"><div class="icon">
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
                         </div>
@@ -123,10 +123,14 @@
             <div class="slider-info">
                 <h3 class="slider-des">Best food in city</h3>
                 <h1 class="title">Delivery Food from the Best Restaurants.</h1>
-                <div class="slider-search">
-                    <input class="default-input" type="text" value="Find Food..." />
-                    <button class="default-btnsearch">Search</button>
-                </div>
+                <!--                <div class="slider-search">
+                                    <input class="default-input" type="text" placeholder="Find Food..." />
+                                    <button class="default-btnsearch">Search</button>
+                                </div>-->
+                <form class="slider-search" action="food" method="post">
+                    <input class="default-input" type="text" name="keyword" placeholder="Find Food..." required>
+                    <button class="default-btnsearch" type="submit">Search</button>
+                </form>
                 <div class="icon-group">
                     <i class="ti-facebook slider-icon"></i>
                     <i class="ti-instagram slider-icon"></i>
