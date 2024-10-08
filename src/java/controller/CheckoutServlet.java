@@ -2,6 +2,7 @@ package controller;
 
 import com.vnpay.common.Config;
 import context.OrderDAO;
+import context.ProductDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,10 +34,12 @@ public class CheckoutServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        
 
         try {
             HttpSession session = request.getSession(true);
             List<CartItemDTO> cartDTO = (List<CartItemDTO>) session.getAttribute("cart");
+            
             Account acc = (Account) session.getAttribute("user");
 
             if (acc == null) {
@@ -191,7 +194,28 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
+        
+            List<CartItemDTO> cartDTO = new ArrayList<>();
+
+        
+            HttpSession session = request.getSession(true);
+            ProductDAO pDAO = new ProductDAO();
+            String [] selected = request.getParameterValues("isSelected");
+            for (String productID : selected) {
+                int id;
+                try {
+                    id = Integer.parseInt(productID);
+                } catch (NumberFormatException e) {
+                    throw new ServletException("invalid id");
+                }
+                int quantity = Integer.parseInt(request.getParameter("quantity_" + productID));
+                CartItemDTO cDTO = new CartItemDTO();
+                cDTO.setProduct(pDAO.getProductByID(id));
+                cDTO.setQuantity(quantity);
+                cartDTO.add(cDTO);
+
+            }
+            session.setAttribute("cart", cartDTO);
         Object u = session.getAttribute("user");
         if (u != null) {
             request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
