@@ -269,7 +269,7 @@
                         </select><br>
 
                         <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" value=""required>
+                        <textarea type="text" id="description" rows="4" cols="50" name="description" value=""required></textarea>
 
                         <label for="imgs">Images</label>
                         <input type="file" id="image" name="img" accept="image/*" multiple required><br>

@@ -203,6 +203,7 @@ img.card-img-top-category {
 .category-list img{
     width: 100px; /* Tùy chỉnh kích thước theo ý muốn */
     height: 100px;
+    object-fit: cover;
 }
 
 .card.col-md-2:hover img.card-img-top-category {

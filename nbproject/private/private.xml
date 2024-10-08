@@ -4,16 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ProductDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/include/header.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/cart.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/login.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/shop.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/shop.css</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/style.css</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/account.css</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/RestaurantDetailServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/authenticate/LoginServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
         </group>
     </open-files>
 </project-private>

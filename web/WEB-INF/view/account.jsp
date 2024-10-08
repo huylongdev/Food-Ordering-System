@@ -155,8 +155,34 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                          
+                                
+                                <div id ="order-history account" class ="center account">
+                <h1>Orders History</h1>
+                <table class ="orders-table" >
+                    <thead>
+                        <tr><th>Order</th><th>Date</th><th>Address</th><th>Order value</th><th>Transport</th></tr></br>
+                    </thead>
+                    <c:forEach var ="o" items='${listUserOrder}'>
+                        <tr>
+                            <td name='order'><a href="./view-order?orderID=12">12</a></td>
+                            <td name='date'><a href="./view-order?orderID=">22-12-2022</a></td>
+                            <td name='address'><a href="./view-order?orderID=">Ngu Hanh Son- Da Nang</a></td>
+                            <td name='value'><a href="./view-order?orderID=">25000</a></td>
+                            <td name='status'><a href="./view-order?orderID=">Peding</a></td>
+                        </tr>
+
+                    </c:forEach>
+
+                </table>
+
             </div>
+                                
+                </div>
+
+            </div>
+
+
 
 
 
@@ -172,9 +198,11 @@
                         <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
                     </form>
                 </div>
-            </div>       
+            </div>   
 
 
+
+ 
 
 
         </div>
