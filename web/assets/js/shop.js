@@ -46,3 +46,34 @@ function showUpdateProductOverlay() {
 function hideUpdateProductOverlay() {
     document.getElementById("update-product-overlay").style.display = "none";
 }
+
+
+
+
+function updateStoreButton(button) {
+    // Lấy các thuộc tính từ button
+    const shopId = button.getAttribute('data-shopId');
+    const name = button.getAttribute('data-name');
+    const description = button.getAttribute('data-description');
+    const address = button.getAttribute('data-address');
+    const timeOpen = button.getAttribute('data-timeOpen');
+    const timeClose = button.getAttribute('data-timeClose');
+
+    // Gán giá trị cho các trường trong form
+    document.getElementById('restaurantID').value = shopId;
+    document.getElementById('restaurantName').value = name;
+    document.getElementById('restaurantDescription').value = description;
+    
+    
+    document.getElementById('restaurantAddress').value = address;
+    document.getElementById('timeOpen').value = timeOpen;
+    document.getElementById('timeClose').value = timeClose;
+}
+
+function showUpdateStoreOverlay() {
+    document.getElementById("update-store-overlay").style.display = "block";
+}
+
+function hideUpdateStoreOverlay() {
+    document.getElementById("update-store-overlay").style.display = "none";
+}

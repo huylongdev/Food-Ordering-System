@@ -4,6 +4,7 @@
     Author     : LENOVO
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.Account" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -11,12 +12,14 @@
 <%
     Account user = (Account) session.getAttribute("user");
 %>
-    
+
 
 <div id="header">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
+
             <a class="navbar-brand" href="./">FOODIE</a>
+
             <button
                 class="navbar-toggler"
                 type="button"
@@ -38,7 +41,11 @@
                 <div class="navbar__item">
                     <nav id="nav-bar">
                         <ul class="nav-list">
+
                             <li class="nav-item">
+
+                            <!--<li class="navbar__item--login">-->
+
                                 <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
                                     <c:choose>
                                         <c:when test="${user != null}">
@@ -67,12 +74,21 @@
                             </li>
                         </ul>
                     </nav>
+
                     <a style="text-decoration: none" href = "./cart"><div class="icon">
                             <i class="ti-shopping-cart"></i>
                         </div></a>
+
+<!--                    
+                        <a href = "./favourite">
+                            <div class="icon">
+                            <i class="ti-heart"></i>
+                            </div>
+                        </a>-->
+                    
+
                 </div>
             </div>
         </div>
     </nav>
 </div>
-                                    

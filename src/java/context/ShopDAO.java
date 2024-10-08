@@ -24,7 +24,7 @@ public class ShopDAO {
         dbContext = new DBContext();
     }
 
-    // Create a new restaurant
+    
     public boolean createRestaurant(Shop r) {
         String query = "INSERT INTO Shop (Name, Description, Status, ShopImage, Address, TimeOpen, TimeClose) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -44,19 +44,16 @@ public class ShopDAO {
         }
     }
 
-    // Update a restaurant
     public boolean updateRestaurant(Shop r) {
-        String query = "UPDATE Shop SET Name = ?, Description = ?, Status = ?, ShopImage = ?, Address = ?, TimeOpen = ?, TimeClose = ? WHERE ShopID = ?";
+        String query = "UPDATE Shop SET Name = ?, Description = ?,  Address = ?, TimeOpen = ?, TimeClose = ? WHERE ShopID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, r.getName());
             ps.setString(2, r.getDescription());
-            ps.setBoolean(3, r.getStatus());
-            ps.setString(4, r.getShopImage());
-            ps.setString(5, r.getAddress());
-            ps.setTime(6, Time.valueOf(r.getTimeOpen()));
-            ps.setTime(7, Time.valueOf(r.getTimeClose()));
-            ps.setInt(8, r.getShopID());
+            ps.setString(3, r.getAddress());
+            ps.setTime(4, Time.valueOf(r.getTimeOpen()));
+            ps.setTime(5, Time.valueOf(r.getTimeClose()));
+            ps.setInt(6, r.getShopID());
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -65,7 +62,7 @@ public class ShopDAO {
         }
     }
 
-    // Delete a restaurant by ShopID
+    
     public boolean deleteRestaurant(int shopID) {
         String query = "DELETE FROM Shop WHERE ShopID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -78,7 +75,7 @@ public class ShopDAO {
         }
     }
 
-    // Get a restaurant by ShopID
+    
     public Shop getRestaurantByID(int shopID) {
         String query = "SELECT * FROM Shop WHERE ShopID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
