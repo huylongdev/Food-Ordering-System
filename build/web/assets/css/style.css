@@ -9,6 +9,10 @@ a{
     text-decoration: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 html {
   scroll-behavior: smooth;
   /*Có hiệu ứng cuộn khi href vào */
