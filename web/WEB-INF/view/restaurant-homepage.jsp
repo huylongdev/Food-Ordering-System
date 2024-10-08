@@ -93,9 +93,9 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <div class="icon">
-                                <i class="ti-shopping-cart"></i>
-                            </div>
+                            <a style="text-decoration: none" href = "./cart"><div class="icon">
+                                    <i class="ti-shopping-cart"></i>
+                                </div></a>
                         </div>
                     </div>
                 </div>
@@ -133,24 +133,24 @@
                         <button class="filter-search" type="submit">Filter</button>
                     </form>
                 </div>
-<!--                <option>Sort by Rating</option>-->
+                <!--                <option>Sort by Rating</option>-->
                 <div class="restaurant-list">
                     <c:if test="${not empty restaurantList}">
                         <c:forEach var="restaurant" items="${restaurantList}">
-                            <a href="./restaurant-detail?shopId=${restaurant.getShopID()}">
-                            <div class="restaurant-card">
-                                <img src="${restaurant.getShopImage()}" alt="${restaurant.getName()}" />
-                                <div class="restaurant-info">
-                                    <span class="rating">4.5</span>
-                                    <h4>${restaurant.getName()}</h4>
-                                    <p>${restaurant.getDescription()}</p>
-                                    <div class="restaurant-more-info">
-                                        <p>${restaurant.getTimeOpen()}</p>
-                                        <p>${restaurant.getTimeClose()}</p>
+                            <a style="text-decoration: none" href="./restaurant-detail?shopId=${restaurant.getShopID()}">
+                                <div class="restaurant-card">
+                                    <img src="${restaurant.getShopImage()}" alt="${restaurant.getName()}" />
+                                    <div class="restaurant-info">
+                                        <span class="rating">4.5</span>
+                                        <h4>${restaurant.getName()}</h4>
+                                        <p>${restaurant.getDescription()}</p>
+                                        <div class="restaurant-more-info">
+                                            <p>${restaurant.getTimeOpen()}</p>
+                                            <p>${restaurant.getTimeClose()}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                                    </a>
+                            </a>
                         </c:forEach>
                     </c:if>
                 </div>

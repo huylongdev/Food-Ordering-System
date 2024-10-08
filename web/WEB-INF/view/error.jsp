@@ -28,7 +28,6 @@
 
     <body>
         <div class="off_canvars_overlay"></div>
-        <jsp:include page="layout/menu.jsp"/>
 
         <!--error section area start-->
         <div class="error_section">
@@ -45,7 +44,6 @@
         </div>
         <!--error section area end--> 
         <!--footer area start-->
-        <jsp:include page="layout/footer.jsp"/>
         <!--footer area end-->
 
         <!-- JS
