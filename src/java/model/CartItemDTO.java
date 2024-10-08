@@ -17,6 +17,10 @@ public class CartItemDTO {
     private int quantity;
     private String imgURL;
 
+    public CartItemDTO() {
+    }
+    
+
     public CartItemDTO(Product product, int quantity, String imgURL) {
         this.product = product;
         this.quantity = quantity;
