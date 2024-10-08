@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Product;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class OrderDAO {
 
@@ -171,9 +174,19 @@ public class OrderDAO {
         return order;
     }
 
-    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status, String deliveryOption, Date timePickup) {
-        LocalDate curDate = LocalDate.now();
-        String createdDate = curDate.toString();
+    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status, String deliveryOption, String timePickupString) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        java.util.Date timePickup = null;
+
+        try {
+            if (timePickupString != null && !timePickupString.isEmpty()) {
+                timePickup = sdf.parse(timePickupString);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        java.util.Date createdDate = new java.util.Date();
 
         String insertOrderSql = "INSERT INTO [Order] (OrderID, UserID, Status, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
@@ -195,11 +208,11 @@ public class OrderDAO {
                 ps.setInt(2, account.getUserID());
                 ps.setString(3, status);
                 ps.setString(4, address);
-                ps.setString(5, createdDate);
+                ps.setDate(5, new java.sql.Date(createdDate.getTime()));
                 ps.setDouble(6, totalAmount);
                 ps.setString(7, paymentOption);
                 ps.setString(8, deliveryOption);
-                ps.setDate(9, (java.sql.Date) timePickup);
+                ps.setDate(9, timePickup != null ? new java.sql.Date(timePickup.getTime()) : null);
 
                 ps.executeUpdate();
             }
@@ -215,15 +228,14 @@ public class OrderDAO {
             }
 
             conn.commit();
+            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
 
-            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate);
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             if (conn != null) {
                 try {
                     conn.rollback();
-                } catch (Exception rollbackEx) {
+                } catch (SQLException rollbackEx) {
                     rollbackEx.printStackTrace();
                 }
             }
@@ -232,7 +244,7 @@ public class OrderDAO {
                 try {
                     conn.setAutoCommit(true);
                     conn.close();
-                } catch (Exception e) {
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
