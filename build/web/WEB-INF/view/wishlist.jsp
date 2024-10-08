@@ -32,10 +32,10 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/cart.css" rel="stylesheet">
         <!--<link href="./assets/css/hs-test.css" rel="stylesheet">-->
-        
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <script src="./assets/js/cart.js"></script>
+        <script src="./assets/js/wishlist.js"></script>
         <script>document.addEventListener('DOMContentLoaded', function () {
 
                 var quantityInputs = document.querySelectorAll('.quantity');
@@ -56,12 +56,12 @@
 
             <br><br>
             <div  class ="center  container cart">
-                <h1>Your cart</h1>
+                <h1>Your Wishlist</h1>
                 <form id ="myForm" name= 'process' action='' method = ''>
                     <div class = "cart-products">
                         <div class="cart-thead"><div style="width: 6%" ></div><div style="width: 21%;text-align: left;">Product</div>
-                            <div style="width: 21%;text-align: left;padding-left: 5px;"></div><div id ="head2" style="width: 21%"><span>Price</span></div>
-                            <div style="width: 16%">Quantity</div><div id ="head3" style="width: 13%;text-align: right!important;" >Amount</div></div>
+                            <div style="width: 21%;text-align: left;padding-left: 5px;"></div><div id ="head2" style="width: 21%"><span></span></div>
+                            <div style="width: 16%"></div><div id ="head3" style="width: 13%;text-align: right!important;" >Price</div></div>
 
                         <div class="cart-tbody">
 
@@ -72,15 +72,11 @@
                                     <div style="width: 6%;text-align: left;"><img width="120" height="auto" alt="Salmon Rice Bowls" src="${item.getImgURL()}"/></div>
                                     <div style="width: 6%" ></div>
                                     <div id ="col1" style="width: 30%;align-items: flex-start;" class="a-center cart2"><h2 class="product-name" title="${item.getProduct().getName()}"> <a href="./food-detail?productId=${item.getProduct().getProductId()}">${item.getProduct().getName()}</a><span class="variant-title">Food/ Drink</span> </h2></div>
-                                    <div id ="col2" style="width: 21%;" ><span class ="price">${item.getProduct().getPrice()}</span></div>
+                                    <div id ="col2" style="width: 21%;" ><span class ="price"></span></div>
                                     <div style="width: 16%">
-                                        <div class="number-input">
-                                            <button type="button" onclick="decrement(this)">-</button>
-                                            <input type='number' id='${item.getProduct().getProductId()}' name ='quantity_${item.getProduct().getProductId()}' class ='quantity' value='${item.getQuantity()}' min='1' max='10'onchange='updateAmount(this)'>
-                                            <button type="button" onclick="increment(this)">+</button>
-                                        </div></div>
+                                        </div>
                                     <div id = "col3"style="width: 13%;text-align: right!important;align-items: flex-end;padding-right: 0" >
-                                        <span class="amount"></span>
+                                        <span class="price">${item.getProduct().getPrice()}</span>
                                     </div>
 
                                     </tr>
@@ -94,12 +90,10 @@
 
                         <table class = "total-table">
                             <tr>
-                                <td class = "a-right"><span class="total_tt">Total:</span> 
-                                    <span class="totals_price"></span></td></tr>
+                                <td class = "a-right"></td></tr>
                         </table>
                     </div>
                     <tr><button id="delete-btn" type='submit' onclick="submitForm('method1')">Delete</button>
-                    <button type="submit" onclick="submitForm('method2')">Order</button></tr>
                 </form>
                 <p>${cartStatus}</p>
             </div>
