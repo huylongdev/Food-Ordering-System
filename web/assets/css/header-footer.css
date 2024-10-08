@@ -27,8 +27,12 @@ html {
 #header {
 }
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
-  background-color: #5eae53 !important;
-  z-index: 10;
+    background-color: white !important;
+    z-index: 10;
+    display: block;
+    /* border: 1px solid #5eae53; */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
 }
 div#navbarNavAltMarkup {
   justify-content: space-between;
@@ -43,18 +47,16 @@ div#navbarNavAltMarkup {
   width: 100%;
   justify-content: center;
 }
-
 a.navbar-brand {
-  font-weight: 700;
-  font-size: 40px;
-  margin-left: 50px;
-  color: white;
+    font-weight: 700;
+    font-size: 40px;
+    margin-left: 50px;
+    color: #5eae53;
 }
 
 a.nav-link {
-  margin: 0px 18px;
-  color: white;
-  font-size: 18px;
+    margin: 0px 18px;
+    color: #5eae53;
 }
 .navbar__item {
   width: 25%;
@@ -193,12 +195,13 @@ i.ti-shopping-cart {
 
 
 #nav-bar {
-    background-color: #F6B76C;
-    padding: 7px 0px 0px 0px;
+    background-color: white;
+    padding: 7px 0 0 0;
     display: flex;
     justify-content: center;
-    border: 1px solid white;
-    border-radius: 24px;
+    border: 1px solid #5eae53;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .nav-list {
     list-style: none;
@@ -232,7 +235,7 @@ i.ti-shopping-cart {
 
 #login-text {
     font-size: 16px;
-    color: white;
+    color: #5eae53;
     justify-content: center;
     display: flex;
     padding-bottom: 7px;

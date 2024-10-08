@@ -243,14 +243,12 @@ BEGIN
 END;
 
 
-
-
-
-
-
 CREATE TABLE Favourite (
-    UserID INT PRIMARY KEY FOREIGN KEY REFERENCES Users(UserID),
-	ProductID INT NOT NULL FOREIGN KEY REFERENCES Product(ProductID)
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
 CREATE TABLE Feedback (

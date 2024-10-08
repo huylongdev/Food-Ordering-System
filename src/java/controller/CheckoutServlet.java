@@ -47,19 +47,21 @@ public class CheckoutServlet extends HttpServlet {
             String payment_method = request.getParameter("payment_method");
             String address = request.getParameter("address");
             String deliveryOption = request.getParameter("shipping_method");
-            Date timePickup = null;
-            if ("pickup".equals(deliveryOption)) {
-                String timePickupString = request.getParameter("pickup_time");
+//            Date timePickup = null;
+//            if ("pickup".equals(deliveryOption)) {
+//                String timePickupString = request.getParameter("pickup_time");
+//
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//
+//                try {
+//                    timePickup = dateFormat.parse(timePickupString);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+            String timePickup = request.getParameter("pickup_time");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
-
-                try {
-                    timePickup = dateFormat.parse(timePickupString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            }
             String phone = request.getParameter("phone");
 
             if (cartDTO != null && !cartDTO.isEmpty()) {

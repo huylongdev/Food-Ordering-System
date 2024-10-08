@@ -46,6 +46,7 @@
         <section class="banner jumbotron text-center" style="background-image: url('${shop.getShopImage()}');">
             <div class="page-title">${shop.getName()}</div>
             <p>${shop.getDescription()}</p>
+            <p>${shop.getAddress()}</p>
         </section>
 
         <div id="page-info">
@@ -54,8 +55,61 @@
                 <a href="./">Home</a>
                 <p>Time Open: ${shop.getTimeOpen()}</p>
                 <p>Time Close: ${shop.getTimeClose()}</p>
-
+                <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
+                <button type="button" class=""
+                        data-shopId="${shop.getShopID()}" 
+                        data-name="${shop.getName()}"
+                        data-description="${shop.getDescription()}"
+                        data-address="${shop.getAddress()}"
+                        data-timeOpen="${shop.getTimeOpen()}"
+                        data-timeClose="${shop.getTimeClose()}"
+                        onclick="showUpdateStoreOverlay(); updateStoreButton(this)">Update Store</button>
+                </c:if>
             </div>
+            <!-- Overlay form -->
+            <div id="update-store-overlay" class="overlay center">
+    <div class="overlay-content">
+        <span class="close-btn" onclick="hideUpdateStoreOverlay()">&times;</span><br>
+        <form name="update-store" action="restaurant-detail" method="post">
+            <div class="add-product-form">
+                <h1>Update Store</h1>
+                <input type="hidden" name="mt" value="updateStore">
+                <input id="restaurantID" type="hidden" name="shopID" value="" required>
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="restaurantName" name="name" class="form-control" value="" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="restaurantDescription" name="description" class="form-control" rows="4" cols="50" required></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" id="restaurantAddress" name="address" class="form-control" value="" required>
+                    
+                </div>
+
+                <div class="form-group">
+                    <label for="timeOpen">Time Open:</label>
+                    <input type="time" id="timeOpen" name="timeOpen" class="form-control" value="" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeClose">Time Close:</label>
+                    <input type="time" id="timeClose" name="timeClose" class="form-control" value="" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
         </div>
 
         <!-- FOOD CONTENT -->
@@ -102,9 +156,9 @@
                         <button>Search</button>
                     </div>
                     <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
-                    <button class ="sticky-button" 
-                            data-shopId="${user.getShopID()}"
-                            onclick = "showAddProductOverlay();addButton(this)" >Add product</button>
+                        <button class ="sticky-button" 
+                                data-shopId="${user.getShopID()}"
+                                onclick = "showAddProductOverlay();addButton(this)" >Add product</button>
                     </c:if>
                     <select>
                         <option>Sort by Popularity</option>
@@ -122,23 +176,23 @@
                                 <div class = "img-wrapper">
                                     <img src="${product.getImgURL()}" alt="${product.getProduct().getName()}" />
                                     <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-update"
-                                                data-shopId="3" 
-                                                data-productId="${product.getProduct().getProductId()}"
-                                                data-name="${product.getProduct().getName()}"
-                                                data-price="${product.getProduct().getPrice()}"
-                                                data-category="${product.getProduct().getCategoryId()}"
-                                                data-description="${product.getProduct().getDescription()}"
-                                                data-image="${product.getImgURL()}"
-                                                onclick="showUpdateProductOverlay(); updateButton(this)">Update</button>
-                                        <form action="restaurant-detail" method="post">
-                                            <input type="hidden" name="mt" value="delete">
-                                            <input type="hidden" name="shopID" value="${user.getShopID()}">
-                                            <input type="hidden" name="productId" value="${product.getProduct().getProductId()}">
-                                            <button type="submit" class="btn-delete">Delete</button>
-                                        </form>
-                                    </div>
+                                        <div class="action-buttons">
+                                            <button type="button" class="btn-update"
+                                                    data-shopId="3" 
+                                                    data-productId="${product.getProduct().getProductId()}"
+                                                    data-name="${product.getProduct().getName()}"
+                                                    data-price="${product.getProduct().getPrice()}"
+                                                    data-category="${product.getProduct().getCategoryId()}"
+                                                    data-description="${product.getProduct().getDescription()}"
+                                                    data-image="${product.getImgURL()}"
+                                                    onclick="showUpdateProductOverlay(); updateButton(this)">Update</button>
+                                            <form action="restaurant-detail" method="post">
+                                                <input type="hidden" name="mt" value="delete">
+                                                <input type="hidden" name="shopID" value="${user.getShopID()}">
+                                                <input type="hidden" name="productId" value="${product.getProduct().getProductId()}">
+                                                <button type="submit" class="btn-delete">Delete</button>
+                                            </form>
+                                        </div>
                                     </c:if>
                                 </div>
 
@@ -215,7 +269,7 @@
                         </select><br>
 
                         <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" value=""required>
+                        <textarea type="text" id="description" rows="4" cols="50" name="description" value=""required></textarea>
 
                         <label for="imgs">Images</label>
                         <input type="file" id="image" name="img" accept="image/*" multiple required><br>
@@ -228,12 +282,29 @@
 
 
         <div class="pagination">
-            <button>&laquo;</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>&raquo;</button>
+            <c:set var="currentPage" value="${currentPage}" />
+            <c:set var="pageSize" value="${pageSize}" />
+            <c:set var="totalProducts" value="${totalProducts}" />
+            <c:set var="totalPages" value="${totalPages}" />
+
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="active">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}">&raquo;</a>
+            </c:if>
         </div>
 
         <%@ include file="/include/footer.jsp" %>

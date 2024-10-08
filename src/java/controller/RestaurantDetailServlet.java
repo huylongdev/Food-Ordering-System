@@ -19,6 +19,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,7 +59,7 @@ public class RestaurantDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RestaurantDetailServlet</title>");            
+            out.println("<title>Servlet RestaurantDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RestaurantDetailServlet at " + request.getContextPath() + "</h1>");
@@ -77,24 +80,43 @@ public class RestaurantDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         int shopId = Integer.parseInt(request.getParameter("shopId"));
         ProductDAO pDAO = new ProductDAO();
-            
-            List<Product> foodList = pDAO.getProductByShopID(shopId);
-            List<ProductDTO> productList = new ArrayList<>();
-            ProductImageDAO pid= new ProductImageDAO();
-            for(Product p: foodList){
-                ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
-                productList.add(pd);
+
+        // Pagination
+        int page = 1; // Khởi tạo trang mặc định là 1
+        int size = 9; // Số lượng sản phẩm trên mỗi trang
+
+        // Kiểm tra tham số 'page' từ request
+        if (request.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu có lỗi định dạng, quay về trang 1
             }
-            
-            ShopDAO sDAO = new ShopDAO();
-            Shop s = sDAO.getShopByID(shopId);
-            
-            
-            request.setAttribute("shop", s);
-            request.setAttribute("productList", productList);
+        }
+
+        List<Product> foodList = pDAO.getProductByShopIDInPage(shopId, page, size);
+        List<ProductDTO> productList = new ArrayList<>();
+        ProductImageDAO pid = new ProductImageDAO();
+        for (Product p : foodList) {
+            ProductDTO pd = new ProductDTO(p, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+            productList.add(pd);
+        }
+
+        ShopDAO sDAO = new ShopDAO();
+        Shop s = sDAO.getShopByID(shopId);
+
+        int totalProducts = pDAO.getProductByShopID(shopId).size();
+        int totalPages = (int) Math.ceil((double) totalProducts / size); // Tính tổng số trang
+
+        request.setAttribute("totalProducts", totalProducts);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", size);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("shop", s);
+        request.setAttribute("productList", productList);
         request.getRequestDispatcher("WEB-INF/view/shop.jsp").forward(request, response);
     }
 
@@ -106,8 +128,8 @@ public class RestaurantDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     private static final String SAVE_DIR = "foodImages";
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -116,11 +138,13 @@ public class RestaurantDetailServlet extends HttpServlet {
             updateProduct(request, response);
         } else if (mt != null && mt.equalsIgnoreCase("delete")) {
             deleteBook(request, response);
+        } else if (mt != null && mt.equalsIgnoreCase("updateStore")) {
+            updateStore(request, response);
         } else {
             addProduct(request, response);
         }
     }
-    
+
     private void addProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
@@ -130,8 +154,7 @@ public class RestaurantDetailServlet extends HttpServlet {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdir();
         }
-        
-        
+
         ProductDAO pDAO = new ProductDAO();
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -141,10 +164,8 @@ public class RestaurantDetailServlet extends HttpServlet {
         Product p = new Product(name, description, price, true, shopID, category);
         int productID = pDAO.createProductGetID(p);
 
-        
         ProductImageDAO pid = new ProductImageDAO();
 
-        
         Part filePart = request.getPart("img");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String relativePath;
@@ -152,15 +173,13 @@ public class RestaurantDetailServlet extends HttpServlet {
             String filePath = savePath + File.separator + fileName;
             filePart.write(filePath);
             relativePath = SAVE_DIR + File.separator + fileName;
-                
-                pid.insertProductImage(new ProductImage(productID, true, relativePath));
-            }
-        
-        
-        response.sendRedirect("restaurant-detail?shopId="+ shopID);
+
+            pid.insertProductImage(new ProductImage(productID, true, relativePath));
+        }
+
+        response.sendRedirect("restaurant-detail?shopId=" + shopID);
     }
-    
-    
+
     private void updateProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
@@ -170,8 +189,7 @@ public class RestaurantDetailServlet extends HttpServlet {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdir();
         }
-        
-        
+
         ProductDAO pDAO = new ProductDAO();
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -185,12 +203,9 @@ public class RestaurantDetailServlet extends HttpServlet {
         } catch (Exception ex) {
             System.out.println("db error update");
         }
-        
 
-        
         ProductImageDAO pid = new ProductImageDAO();
 
-        
         Part filePart = request.getPart("img");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String relativePath;
@@ -198,18 +213,17 @@ public class RestaurantDetailServlet extends HttpServlet {
             String filePath = savePath + File.separator + fileName;
             filePart.write(filePath);
             relativePath = SAVE_DIR + File.separator + fileName;
-                
-                pid.updateProductImage(new ProductImage(productID, true, relativePath));
-            }
-        
-        
-        response.sendRedirect("restaurant-detail?shopId="+ shopID);
+
+            pid.updateProductImage(new ProductImage(productID, true, relativePath));
+        }
+
+        response.sendRedirect("restaurant-detail?shopId=" + shopID);
     }
-    
+
     private void deleteBook(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int productId = Integer.parseInt(request.getParameter("productId"));
-        
+
         ProductImageDAO pid = new ProductImageDAO();
         pid.deleteProductImageByProductID(productId);
         int shopID = Integer.parseInt(request.getParameter("shopID"));
@@ -219,9 +233,43 @@ public class RestaurantDetailServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(RestaurantDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        response.sendRedirect("restaurant-detail?shopId=" + shopID);
+
+    }
+
+    private void updateStore(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String address = request.getParameter("address");
         
-        response.sendRedirect("restaurant-detail?shopId="+ shopID);
-        
+        String timeOpenStr = request.getParameter("timeOpen");
+        String timeCloseStr = request.getParameter("timeClose");
+
+        LocalTime timeOpen = null;
+        LocalTime timeClose = null;
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            timeOpen = LocalTime.parse(timeOpenStr, formatter);
+            timeClose = LocalTime.parse(timeCloseStr, formatter);
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            response.sendRedirect("404.jsp"); 
+            return;
+        }
+        Shop s = new Shop();
+        s.setShopID(shopID);
+        s.setName(name);
+        s.setAddress(address);
+        s.setDescription(description);
+        s.setTimeOpen(timeOpen);
+        s.setTimeClose(timeClose);
+        ShopDAO sDAO = new ShopDAO();
+        sDAO.updateRestaurant(s);
+        response.sendRedirect("restaurant-detail?shopId=" + shopID);
     }
 
     /**

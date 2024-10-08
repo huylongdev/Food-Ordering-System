@@ -4,12 +4,20 @@
  */
 package controller;
 
+import context.CategoryDAO;
+import context.ProductDAO;
+import context.ProductImageDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import model.Category;
+import model.CategoryDTO;
+import model.Product;
 
 /**
  *
@@ -29,7 +37,18 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
+        CategoryDAO cateDAO = new CategoryDAO();
+        List<Category> categories = cateDAO.getAllCategories();
+        List<CategoryDTO> cateList = new ArrayList<>();
+        ProductDAO pDAO = new ProductDAO();
+        ProductImageDAO pid = new ProductImageDAO();
+        for (Category cate : categories){
+            
+            Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
+            CategoryDTO cateDTO = new CategoryDTO(cate,pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+            cateList.add(cateDTO);
+        }
+        request.setAttribute("cateList", cateList);
          request.getRequestDispatcher("WEB-INF/view/home.jsp").forward(request, response);
     }
 
