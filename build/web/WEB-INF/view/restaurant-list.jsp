@@ -94,7 +94,7 @@
                                 </ul>
                             </nav>
                             <div class="icon">
-                                <i class="ti-shopping-cart"></i>
+                                <a href = "./cart"><i class="ti-shopping-cart"></i></a>
                             </div>
                         </div>
                     </div>
