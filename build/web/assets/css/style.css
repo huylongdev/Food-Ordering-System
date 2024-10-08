@@ -6,6 +6,10 @@
   line-height: 1.8;
 }
 
+a {
+    text-decoration: none;
+}
+
 html {
   scroll-behavior: smooth;
   /*Có hiệu ứng cuộn khi href vào */
