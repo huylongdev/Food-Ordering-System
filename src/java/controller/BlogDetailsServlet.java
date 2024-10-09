@@ -4,6 +4,7 @@
  */
 package controller;
 
+import context.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import model.Post;
 
 /**
  *
@@ -18,6 +20,8 @@ import java.io.PrintWriter;
  */
 @WebServlet(name = "BlogDetailsServlet", urlPatterns = {"/blogdetails"})
 public class BlogDetailsServlet extends HttpServlet {
+
+    PostDAO postDAO = new PostDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,7 +49,31 @@ public class BlogDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            String postIdParam = request.getParameter("postId");
+            String fullName = postDAO.getFullNameByPostId(Integer.parseInt(postIdParam));
+            String avtURL = postDAO.getAvatarByUserId(Integer.parseInt(postIdParam));
+            if (postIdParam != null) {
+                int postId = Integer.parseInt(postIdParam);
+                Post post = postDAO.getPostById(postId);
+                if (post != null) {
+                    request.setAttribute("postId", postIdParam);
+                    request.setAttribute("post", post);
+                    request.setAttribute("fullName", fullName);
+                    request.setAttribute("avtURL", avtURL);
+                    processRequest(request, response);
+                } else {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -57,9 +85,26 @@ public class BlogDetailsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int postID = Integer.parseInt(request.getParameter("postID"));
+
+            PostDAO postDAO = new PostDAO();
+
+            boolean success = postDAO.deletePost(postID);
+
+            if (success) {
+                response.sendRedirect("blog");
+            } else {
+                request.setAttribute("error", "Failed to delete the post.");
+                request.getRequestDispatcher("WEB-INF/view/blog.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "An error occurred while deleting the post.");
+            request.getRequestDispatcher("/OrderingSystem/blog").forward(request, response);
+        }
     }
 
     /**
