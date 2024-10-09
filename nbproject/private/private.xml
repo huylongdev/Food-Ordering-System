@@ -4,22 +4,22 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/Post.java</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/blogdetails.jsp</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/CartDAO.java</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/authenticate/UpdateUserServlet.java</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/nbproject/project.properties</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/js/blog.js</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/Account.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/CategoryDTO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/FoodServlet.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/web/index.js</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/OrderDAO.java</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/CheckoutServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/AccountDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/AddPostServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/blog.css</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/hs-test.css</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/BlogDetailsServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/modal.css</file>
             <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/PostDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/model/OrderDTO.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/checkout.jsp</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/nbproject/build-impl.xml~</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/DBContext.java</file>
             <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/cart.jsp</file>
-            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/account.jsp</file>
         </group>
     </open-files>
 </project-private>
