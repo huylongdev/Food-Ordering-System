@@ -18,7 +18,7 @@ import java.util.*;
 import model.Account;
 import model.CartItem;
 import model.CartItemDTO;
-import model.Order;
+import model.OrderDTO;
 import model.Product;
 
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
@@ -80,8 +80,8 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 // Create a temporary order with payment status PENDING and set orderID
-//                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
-                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
+//                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
+                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
                 // Handle COD payment
                 if ("cod".equals(payment_method)) {
                     // For COD, set payment status to PAID immediately
@@ -122,7 +122,7 @@ public class CheckoutServlet extends HttpServlet {
         session.setAttribute("size", 0);
     }
 
-    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, Order order, String orderID) throws IOException {
+    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, OrderDTO order, String orderID) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
