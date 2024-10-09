@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Order {
+public class OrderDTO {
 
     private int orderId;
     private Account user;
@@ -16,10 +16,10 @@ public class Order {
     private Date timePickup;        
     private int discountId;   
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption) {
+    public OrderDTO(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption) {
         this.orderId = orderId;
         this.user = user;
         this.address = address;
@@ -28,7 +28,7 @@ public class Order {
         this.paymentOption = paymentOption;
     }
 
-    public Order(int orderID, Account user, double totalAmount, String paymentOption, String status, String address, String createdDateString) {
+    public OrderDTO(int orderID, Account user, double totalAmount, String paymentOption, String status, String address, String createdDateString) {
         this.orderId = orderID;
         this.user = user;
         this.totalAmount = totalAmount;
@@ -38,7 +38,7 @@ public class Order {
         this.createdDateString = createdDateString;
     }
 
-    public Order(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption, String status, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
+    public OrderDTO(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption, String status, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
         this.orderId = orderId;
         this.user = user;
         this.address = address;

@@ -9,7 +9,7 @@ package context;
  * @author phuct
  */
 import context.DBContext;
-import model.Order;
+import model.OrderDTO;
 import model.OrderItem;
 import model.Account;
 import model.CartItem;
@@ -102,7 +102,7 @@ public class OrderDAO {
         }
     }
 
-    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status) {
+    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status) {
         LocalDate curDate = LocalDate.now();
         String createdDate = curDate.toString();
 
@@ -110,7 +110,7 @@ public class OrderDAO {
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
-        Order order = null;
+        OrderDTO order = null;
 
         try {
             conn = new DBContext().getConnection();
@@ -144,7 +144,7 @@ public class OrderDAO {
 
             conn.commit();
 
-            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate);
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,7 +169,7 @@ public class OrderDAO {
         return order;
     }
 
-    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption,
+    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption,
             String address, String status, String deliveryOption, String timePickupString) throws Exception {
 
         Date timePickup = null;
@@ -190,7 +190,7 @@ public class OrderDAO {
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
-        Order order = null;
+        OrderDTO order = null;
 
         try {
             conn = new DBContext().getConnection();
@@ -226,7 +226,7 @@ public class OrderDAO {
             }
 
             conn.commit();
-            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -251,8 +251,8 @@ public class OrderDAO {
         return order;
     }
 
-    public List<Order> getOrderInfo() {
-        List<Order> list = new ArrayList<>();
+    public List<OrderDTO> getOrderInfo() {
+        List<OrderDTO> list = new ArrayList<>();
         String sql = "SELECT o.OrderID, u.UserName, o.Address, o.CreatedDate, o.TotalAmount, o.PaymentOption "
                 + "FROM [Order] o INNER JOIN Users u ON o.UserID = u.UserID";
         try {
@@ -261,7 +261,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getString(2));
-                list.add(new Order(rs.getInt(1), account, rs.getString(3), rs.getDate(4), rs.getDouble(5), rs.getString(6)));
+                list.add(new OrderDTO(rs.getInt(1), account, rs.getString(3), rs.getDate(4), rs.getDouble(5), rs.getString(6)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -320,8 +320,8 @@ public class OrderDAO {
         return list;
     }
 
-    public Order getLatestOrder(int userId) {
-        Order latestOrder = null;
+    public OrderDTO getLatestOrder(int userId) {
+        OrderDTO latestOrder = null;
         String sql = "SELECT TOP 1 * FROM [Order] WHERE UserID = ? ORDER BY CreatedDate DESC";
 
         try (Connection conn = new DBContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -330,7 +330,7 @@ public class OrderDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                latestOrder = new Order();
+                latestOrder = new OrderDTO();
                 latestOrder.setOrderId(rs.getInt("OrderID"));
                 latestOrder.setUser(new Account());
                 latestOrder.getUser().setUserID(userId);

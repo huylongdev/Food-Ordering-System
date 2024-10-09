@@ -105,46 +105,42 @@
         <div id="page-info">
             <div class="page-title">Foodie Community Blog</div>
             <div class="page-info-more">
-                <a href="./index.html">Home</a>
+                <a href="/OrderingSystem/">Home</a>
                 <a style="border-left: 1px solid #e8e8ea" href="#">Post Management</a>
             </div>
         </div>
 
         <!-- BLOG DETAILS -->
         <div id="blog-details">
-            <div class="blog-details-title">
-                The Impact of Technology on the Workplace: How Technology is Changing
-            </div>
-            <div class="blog-details-author">
-                <img
-                    src="./assets/img/banhmi.png
-                    "
-                    alt=""
-                    class="details-avatar"
-                    />
-                <p class="details-name">Tran Phuc Tien</p>
-                <div class="blog-details-date">August 20, 2022</div>
-            </div>
-            <div class="blog-content">
-                <img src="./assets/img/image.png" alt="" class="blog-content-img" />
-                <p class="blog-content">
-                    <br>
-                    Hungry for unbeatable offers? Look no further! Whether you’re craving a delicious meal or a refreshing drink, we’ve got mouth-watering promotions that will leave you satisfied and your wallet happy! <br><br>
+            <c:if test="${not empty post}">
+                <div class="blog-details-title">
+                    <h2>${post.heading}</h2>
+                    <div class="dropdown-container">
+                        <i class="ti-more-alt" id="more-options"></i>
+                        <div class="dropdown-menu" id="dropdown-menu" style="display:none;">
+                            <a href="#" id="edit"><i class="ti-pencil"> Edit</i></a>
+                            <a href="#" id="delete" onclick="confirmDelete(${postId})"><i class="ti-trash"> Delete</i></a>
+                        </div>
+                    </div>
 
-                    🍔 <strong>Meal Combo Madness:</strong> Enjoy our exclusive meal combos with up to <strong>50% off</strong>! Treat yourself to your favorite burger, fries, and drink combination, all for a price you can’t resist. Perfect for lunch, dinner, or whenever hunger strikes! <br><br>
-
-                    🥤 <strong>Buy One, Get One Free on Drinks!</strong> Quench your thirst with our incredible <strong>BOGO offer</strong> on all beverages. From fresh smoothies to iced coffees, your second drink is <strong>on us</strong>. Bring a friend or indulge in double the refreshment! <br><br>
-
-                    🍕 <strong>Pizza Party Deals:</strong> Pizza lovers, rejoice! Order any large pizza and get a <strong>free medium pizza</strong> with your choice of toppings. Whether you’re sharing with friends or treating yourself, it’s the ultimate pizza deal. <br><br>
-
-                    🍩 <strong>Desserts for Just $1:</strong> Craving something sweet? All desserts are only <strong>$1</strong> with any main course purchase. Choose from a variety of delicious treats – from donuts to ice cream sundaes. <br><br>
-
-                    🥗 <strong>Healthy & Fresh:</strong> On a health kick? Enjoy our <strong>light and nutritious salads</strong> at <strong>30% off</strong>. Packed with fresh ingredients, they’re the perfect guilt-free option for a quick, tasty meal. <br><br>
-
-                    These amazing offers are available for a <strong>limited time only</strong>, so hurry and grab them before they’re gone! Head to your nearest location or order online today for delivery or pickup. Your next meal just got a whole lot better!
-                </p>
-                </p>
-            </div>
+                    <!-- Hidden form for deletion -->
+                    <form id="deleteForm" action="blogdetails" method="post" style="display:none;">
+                        <input type="hidden" name="postID" id="postID">
+                    </form>
+                </div>
+                <div class="blog-details-author">
+                    <img src="${avtURL}" alt="Author Avatar" class="details-avatar" />
+                    <p class="details-name">${fullName}</p>
+                    <div class="blog-details-date">${post.createdDate}</div>
+                </div>
+                <div class="blog-content">
+                    <img src="${post.imgURL}" alt="Post Image" class="blog-content-img" />
+                    <p>${post.content}</p>
+                </div>
+            </c:if>
+            <c:if test="${empty post}">
+                <p>Bài viết không tồn tại.</p>
+            </c:if>
         </div>
 
         <!-- COOMMENT -->
@@ -205,6 +201,31 @@
                     document.getElementById("commentInput").value = "";
                 } else {
                     alert("Please write a comment before posting!");
+                }
+            }
+
+            // Toggle dropdown visibility
+            document.getElementById("more-options").addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent window click from firing
+                var dropdown = document.getElementById("dropdown-menu");
+                dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            });
+
+            // Hide dropdown when clicking outside
+            window.addEventListener("click", function (event) {
+                var dropdown = document.getElementById("dropdown-menu");
+                if (dropdown.style.display === "block" && !event.target.closest('.dropdown-container')) {
+                    dropdown.style.display = "none";
+                }
+            });
+
+            // Function to confirm deletion
+            function confirmDelete(postID) {
+                const confirmAction = confirm("Are you sure you want to delete this post?");
+                if (confirmAction) {
+                    // If confirmed, submit the form
+                    document.getElementById('postID').value = postID;
+                    document.getElementById('deleteForm').submit();
                 }
             }
         </script>
