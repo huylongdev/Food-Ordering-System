@@ -80,18 +80,17 @@ window.onload = function () {
 };
 
 
-
-
-
-            function submitForm(method) {
-                var form = document.getElementById("myForm");
-                if (method === 'method1') {
-                    form.action = 'delete'; // Gửi đến action 'delete'
-                } else if (method === 'method2') {
-                    form.action = 'checkout'; // Gửi đến action 'checkout'
-                }
-                form.submit();
-            }
+function submitForm(method) {
+    var form = document.getElementById('myForm');
+    if (method === 'method1') {
+        form.action = './cart';
+        form.method = 'post';
+    } else if (method === 'method2') {
+        form.action = './checkout';
+        form.method = 'get';
+    }
+    form.submit();
+}
 
 
 

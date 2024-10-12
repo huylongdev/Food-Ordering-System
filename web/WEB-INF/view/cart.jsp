@@ -47,7 +47,7 @@
             <br><br>
             <div class="center container cart">
                 <h1>Your cart</h1>
-                <form id="myForm" name="process" action="checkout" method="GET">
+                <form id="myForm" name="process" action="" method="">
                     <div class="cart-products">
                         <div class="cart-thead">
                             <div style="width: 6%"></div>
@@ -84,7 +84,7 @@
                                                 <button type="button" onclick="increment(this)">+</button>
                                             </div>
                                         </div>
-                                        <div id="col3" style="width: 13%; text-align: right!important; padding-right: 0;">
+                                        <div id="col3" style="width: 13%; text-align: right!important;align-items: flex-end; padding-right: 0;">
                                             <span class="amount"></span>
                                         </div>
                                     </tr>

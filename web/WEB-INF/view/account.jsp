@@ -4,7 +4,9 @@
     Author     : phuct
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="model.*,java.util.*,util.*" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -161,15 +163,15 @@
                 <h1>Orders History</h1>
                 <table class ="orders-table" >
                     <thead>
-                        <tr><th>Order</th><th>Date</th><th>Address</th><th>Order value</th><th>Transport</th></tr></br>
+                        <tr><th>Order</th><th>Date</th><th>Address</th><th>Order value</th><th>Status</th></tr></br>
                     </thead>
-                    <c:forEach var ="o" items='${listUserOrder}'>
+                    <c:forEach var ="o" items='${orderList}'>
                         <tr>
-                            <td name='order'><a href="./view-order?orderID=12">12</a></td>
-                            <td name='date'><a href="./view-order?orderID=">22-12-2022</a></td>
-                            <td name='address'><a href="./view-order?orderID=">Ngu Hanh Son- Da Nang</a></td>
-                            <td name='value'><a href="./view-order?orderID=">25000</a></td>
-                            <td name='status'><a href="./view-order?orderID=">Peding</a></td>
+                             <td name='order'><a href="./view-order?orderID=${o.getOrderId()}">${o.getOrderId()}</a></td>
+                            <td name='date'><a href="./view-order?orderID=${o.getOrderId()}">${o.getCreatedDate()}</a></td>
+                            <td name='address'><a href="./view-order?orderID=${o.getOrderId()}">${o.getAddress()}</a></td>
+                            <td name='value'><a href="./view-order?orderID=${o.getOrderId()}">${o.getTotalAmount()}</a></td>
+                            <td name='status'><a href="./view-order?orderID=${o.getOrderId()}">${o.getStatus()}</a></td>
                         </tr>
 
                     </c:forEach>
@@ -191,8 +193,8 @@
                     <span class="close-btn" onclick="hideUpdateAvatarOverlay()">&times;</span></br>
                     <form name = "changeAvatar" action = "account" method = "post" enctype="multipart/form-data">
                         <label for="imgURL">Upload Avatar:</label>
-                        <input type="file" id="img" name="img" accept=".jpg,.jpeg,.png" >
-                        <input type = "hidden" name = "userID" value =${user.getUserID()}>
+                        <input type="file" id="img" name="img" accept=".jpg,.jpeg,.png" required>
+                        <input type = "hidden" name = "userID" value =${user.getUserID()} >
                         <input type = "hidden" name = "mt" value ="changeAvatar">
                         </br></br></br>
                         <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>

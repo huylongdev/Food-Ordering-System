@@ -5,6 +5,7 @@
 package controller.authenticate;
 
 import context.AccountDAO;
+import context.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.List;
 import model.Account;
+import model.Order;
+import model.OrderDTO;
 
 /**
  *
@@ -56,6 +60,11 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        OrderDAO oDAO = new OrderDAO();
+        Account u = (Account) session.getAttribute("user");
+        List<Order> o = oDAO.getOrderListByUserID(u.getUserID());
+        request.setAttribute("orderList", o);
         processRequest(request, response);
     }
 
