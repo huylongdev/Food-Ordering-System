@@ -1,6 +1,6 @@
 package controller;
 
-import com.vnpay.common.Config;
+import util.Config;
 import context.OrderDAO;
 import context.ProductDAO;
 import jakarta.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.*;
 import model.Account;
 import model.CartItem;
 import model.CartItemDTO;
-import model.Order;
+import model.OrderDTO;
 import model.Product;
 
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
@@ -34,12 +34,11 @@ public class CheckoutServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        
 
         try {
             HttpSession session = request.getSession(true);
             List<CartItemDTO> cartDTO = (List<CartItemDTO>) session.getAttribute("cart");
-            
+
             Account acc = (Account) session.getAttribute("user");
 
             if (acc == null) {
@@ -80,7 +79,7 @@ public class CheckoutServlet extends HttpServlet {
 
                 // Create a temporary order with payment status PENDING and set orderID
 //                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
-                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
+                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
                 // Handle COD payment
                 if ("cod".equals(payment_method)) {
                     // For COD, set payment status to PAID immediately
@@ -92,7 +91,7 @@ public class CheckoutServlet extends HttpServlet {
                     if (order != null) {
                         processVNPAY(request, response, order, orderID);
                     } else {
-                        response.sendRedirect("/OrderingSystem/error.jsp");
+                        request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
                     }
                 }
             } else {
@@ -120,7 +119,7 @@ public class CheckoutServlet extends HttpServlet {
         session.setAttribute("size", 0);
     }
 
-    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, Order order, String orderID) throws IOException {
+    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, OrderDTO order, String orderID) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
@@ -192,13 +191,19 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            List<CartItemDTO> cartDTO = new ArrayList<>();
 
-        
-            HttpSession session = request.getSession(true);
-            ProductDAO pDAO = new ProductDAO();
-            String [] selected = request.getParameterValues("isSelected");
+        List<CartItemDTO> cartDTO = new ArrayList<>();
+
+        HttpSession session = request.getSession(true);
+        ProductDAO pDAO = new ProductDAO();
+        String[] selected = request.getParameterValues("isSelected");
+
+        if (selected == null) {
+            session.setAttribute("cartStatus", "Choose product to order!");
+            response.sendRedirect("cart");
+
+        } else {
+
             for (String productID : selected) {
                 int id;
                 try {
@@ -214,11 +219,12 @@ public class CheckoutServlet extends HttpServlet {
 
             }
             session.setAttribute("cart", cartDTO);
-        Object u = session.getAttribute("user");
-        if (u != null) {
-            request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("/OrderingSystem/login");
+            Object u = session.getAttribute("user");
+            if (u != null) {
+                request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/OrderingSystem/login");
+            }
         }
     }
 

@@ -128,7 +128,8 @@ public class RestaurantDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static final String SAVE_DIR = "foodImages";
+    private static final String SAVE_DIR1 = "foodImages";
+    private static final String SAVE_DIR2 = "restaurantImages";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -137,9 +138,11 @@ public class RestaurantDetailServlet extends HttpServlet {
         if (mt != null && mt.equalsIgnoreCase("update")) {
             updateProduct(request, response);
         } else if (mt != null && mt.equalsIgnoreCase("delete")) {
-            deleteBook(request, response);
+            deleteProduct(request, response);
         } else if (mt != null && mt.equalsIgnoreCase("updateStore")) {
             updateStore(request, response);
+        } else if (mt != null && mt.equalsIgnoreCase("changeImage")) {
+            changeAvatar(request, response);
         } else {
             addProduct(request, response);
         }
@@ -148,7 +151,7 @@ public class RestaurantDetailServlet extends HttpServlet {
     private void addProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
-        String savePath = appPath + File.separator + SAVE_DIR;
+        String savePath = appPath + File.separator + SAVE_DIR1;
 
         File fileSaveDir = new File(savePath);
         if (!fileSaveDir.exists()) {
@@ -172,7 +175,7 @@ public class RestaurantDetailServlet extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             String filePath = savePath + File.separator + fileName;
             filePart.write(filePath);
-            relativePath = SAVE_DIR + File.separator + fileName;
+            relativePath = SAVE_DIR1 + File.separator + fileName;
 
             pid.insertProductImage(new ProductImage(productID, true, relativePath));
         }
@@ -183,7 +186,7 @@ public class RestaurantDetailServlet extends HttpServlet {
     private void updateProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
-        String savePath = appPath + File.separator + SAVE_DIR;
+        String savePath = appPath + File.separator + SAVE_DIR1;
 
         File fileSaveDir = new File(savePath);
         if (!fileSaveDir.exists()) {
@@ -212,15 +215,43 @@ public class RestaurantDetailServlet extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             String filePath = savePath + File.separator + fileName;
             filePart.write(filePath);
-            relativePath = SAVE_DIR + File.separator + fileName;
+            relativePath = SAVE_DIR1 + File.separator + fileName;
 
             pid.updateProductImage(new ProductImage(productID, true, relativePath));
         }
 
         response.sendRedirect("restaurant-detail?shopId=" + shopID);
     }
+    
+    
+    private void changeAvatar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String appPath = request.getServletContext().getRealPath("").replace("build\\web", "web");
+        String savePath = appPath + File.separator + SAVE_DIR2;
 
-    private void deleteBook(HttpServletRequest request, HttpServletResponse response)
+        File fileSaveDir = new File(savePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
+        ShopDAO sDAO = new ShopDAO();
+        int shopID = Integer.parseInt(request.getParameter("shopID"));
+        
+
+        Part filePart = request.getPart("img");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String relativePath;
+        if (filePart != null && filePart.getSize() > 0) {
+            String filePath = savePath + File.separator + fileName;
+            filePart.write(filePath);
+            relativePath = "./"+SAVE_DIR2 + "/" + fileName;
+
+            sDAO.updateShopImage(shopID, relativePath);
+        }
+
+        response.sendRedirect("restaurant-detail?shopId=" + shopID);
+    }
+
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int productId = Integer.parseInt(request.getParameter("productId"));
 

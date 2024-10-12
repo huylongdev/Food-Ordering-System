@@ -44,6 +44,7 @@
         <!-- PAGE INFO -->
 
         <section class="banner jumbotron text-center" style="background-image: url('${shop.getShopImage()}');">
+            <button class="edit-image-btn" onclick="showUpdateAvatarStoreOverlay()">Edit Image</button>
             <div class="page-title">${shop.getName()}</div>
             <p>${shop.getDescription()}</p>
             <p>${shop.getAddress()}</p>
@@ -279,6 +280,22 @@
                 </form>
             </div>
         </div>
+        
+        <div id="update-avatar-overlay" class="overlay center">
+                <div class="overlay-content">
+                    <span class="close-btn" onclick="hideUpdateStoreAvatarOverlay()">&times;</span></br>
+                    <form name = "changeAvatar" action = "restaurant-detail" method = "post" enctype="multipart/form-data">
+                        <input type="hidden" name="mt" value="changeImage">
+
+                        <label for="imgURL">Upload Image</label>
+                        <input type="file" id="img" name="img" accept="image/*" required >
+                        <input type = "hidden" name = "shopID" value =${shop.getShopID()}>
+                        <input type = "hidden" name = "mt" value ="changeAvatar">
+                        </br></br></br>
+                        <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
+                    </form>
+                </div>
+            </div>   
 
 
         <div class="pagination">

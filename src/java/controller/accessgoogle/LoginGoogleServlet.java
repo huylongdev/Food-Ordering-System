@@ -64,7 +64,7 @@ public class LoginGoogleServlet extends HttpServlet {
                 request.setAttribute("email", googlePojo.getEmail());
                 request.setAttribute("name", googlePojo.getName());
                 request.setAttribute("picture", googlePojo.getPicture());
-                request.getRequestDispatcher("WEB-INF/view/require-password.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/view/set-password.jsp").forward(request, response);
 
             }
 

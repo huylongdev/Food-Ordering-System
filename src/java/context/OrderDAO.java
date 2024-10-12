@@ -9,8 +9,8 @@ package context;
  * @author phuct
  */
 import context.DBContext;
-import model.Order;
-import model.OrderItem;
+import model.OrderDTO;
+import model.OrderItemDTO;
 import model.Account;
 import model.CartItem;
 import java.sql.Connection;
@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import model.Order;
 import model.Product;
 
 public class OrderDAO {
@@ -104,7 +105,7 @@ public class OrderDAO {
         }
     }
 
-    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status) {
+    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status) {
         LocalDate curDate = LocalDate.now();
         String createdDate = curDate.toString();
 
@@ -112,7 +113,7 @@ public class OrderDAO {
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
-        Order order = null;
+        OrderDTO order = null;
 
         try {
             conn = new DBContext().getConnection();
@@ -146,7 +147,7 @@ public class OrderDAO {
 
             conn.commit();
 
-            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate);
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +172,7 @@ public class OrderDAO {
         return order;
     }
 
-    public Order createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status, String deliveryOption, Date timePickup) {
+    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status, String deliveryOption, Date timePickup) {
         LocalDate curDate = LocalDate.now();
         String createdDate = curDate.toString();
 
@@ -179,7 +180,7 @@ public class OrderDAO {
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
-        Order order = null;
+        OrderDTO order = null;
 
         try {
             conn = new DBContext().getConnection();
@@ -216,7 +217,7 @@ public class OrderDAO {
 
             conn.commit();
 
-            order = new Order(orderID, account, totalAmount, paymentOption, status, address, createdDate);
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,8 +242,8 @@ public class OrderDAO {
         return order;
     }
 
-    public List<Order> getOrderInfo() {
-        List<Order> list = new ArrayList<>();
+    public List<OrderDTO> getOrderInfo() {
+        List<OrderDTO> list = new ArrayList<>();
         String sql = "SELECT o.OrderID, u.UserName, o.Address, o.CreatedDate, o.TotalAmount, o.PaymentOption "
                 + "FROM [Order] o INNER JOIN Users u ON o.UserID = u.UserID";
         try {
@@ -251,7 +252,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getString(2));
-                list.add(new Order(rs.getInt(1), account, rs.getString(3), rs.getDate(4), rs.getDouble(5), rs.getString(6)));
+                list.add(new OrderDTO(rs.getInt(1), account, rs.getString(3), rs.getDate(4), rs.getDouble(5), rs.getString(6)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -274,8 +275,8 @@ public class OrderDAO {
         return list;
     }
 
-    public List<OrderItem> getOrderItems(int orderId) {
-        List<OrderItem> list = new ArrayList<>();
+    public List<OrderItemDTO> getOrderItems(int orderId) {
+        List<OrderItemDTO> list = new ArrayList<>();
         String sql = "SELECT oi.ProductID, p.ProductName, oi.Quantity, oi.TotalPrice "
                 + "FROM OrderItem oi INNER JOIN Product p ON oi.ProductID = p.ProductID "
                 + "WHERE oi.OrderID = ?";
@@ -287,7 +288,7 @@ public class OrderDAO {
             while (rs.next()) {
                 // Assuming you have a constructor in Product that takes ProductID and ProductName
                 Product product = new Product(rs.getInt(1), rs.getString(2));
-                list.add(new OrderItem(orderId, product, rs.getInt(3), rs.getDouble(4)));
+                list.add(new OrderItemDTO(orderId, product, rs.getInt(3), rs.getDouble(4)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -311,8 +312,8 @@ public class OrderDAO {
         return list;
     }
 
-    public Order getLatestOrder(int userId) {
-        Order latestOrder = null;
+    public OrderDTO getLatestOrder(int userId) {
+        OrderDTO latestOrder = null;
         String sql = "SELECT TOP 1 * FROM [Order] WHERE UserID = ? ORDER BY CreatedDate DESC";
 
         try (Connection conn = new DBContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -321,7 +322,7 @@ public class OrderDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                latestOrder = new Order();
+                latestOrder = new OrderDTO();
                 latestOrder.setOrderId(rs.getInt("OrderID"));
                 latestOrder.setUser(new Account());
                 latestOrder.getUser().setUserID(userId);
@@ -354,5 +355,44 @@ public class OrderDAO {
         }
 
     }
+    
+    
+    private DBContext dbContext;
+
+    public OrderDAO() {
+        dbContext = new DBContext();
+    }
+    
+    
+
+    public List<Order> getOrderListByUserID(int userId) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM [Order] WHERE UserID = ? ORDER BY CreatedDate DESC";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order(
+                    rs.getInt("OrderID"),
+                    rs.getInt("UserID"),
+                    rs.getString("Status"),
+                    rs.getString("Address"),
+                    rs.getDate("CreatedDate"),
+                    rs.getString("DeliveryOption"),
+                    rs.getDate("TimePickup"),
+                    rs.getDouble("TotalAmount"),
+                    rs.getInt("DiscountID"),
+                    rs.getString("PaymentOption")
+                );
+                orders.add(order);
+            }
+            return orders;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("No orders found for the user");
+        return null;
+    }
+
 
 }
