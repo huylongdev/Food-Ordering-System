@@ -18,7 +18,10 @@ public class Post {
     private String content;
     private Date createdDate;
     private String userFullName;
-    // Constructor
+
+    public Post() {
+    }
+    
     public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate) {
         this.postID = postID;
         this.userID = userID;
@@ -38,9 +41,7 @@ public class Post {
         this.createdDate = createdDate;
         this.userFullName = userFullName;
     }
-    
-    
-    // Getters and setters
+
     public int getPostID() {
         return postID;
     }
