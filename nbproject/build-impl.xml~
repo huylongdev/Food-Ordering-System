@@ -780,6 +780,7 @@ is divided into following sections:
     </target>
     <target name="-init-taskdefs">
         <property name="libs.CopyLibs.classpath" value="C:\\Program Files\\NetBeans-21\\netbeans\\java\\ant\\extra\\org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
+
         <fail unless="libs.CopyLibs.classpath">
             The libs.CopyLibs.classpath property is not set up.
             This property must point to 

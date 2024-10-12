@@ -247,5 +247,5 @@ public class PostDAO {
         }
         return avatarImg;
     }
-
+   
 }

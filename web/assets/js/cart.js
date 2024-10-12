@@ -30,30 +30,30 @@ function updateAmount(input) {
     let amount = price * quantity;
     let productId = input.id;
     amountElement.textContent = formatPrice(amount) + '₫';
-    
+
     console.log("Calling updateAmount for input with value:", input.value);
-    
-    
-    
+
+
+
     $.ajax({
-        url: '/OrderingSystem/cart',  
+        url: '/OrderingSystem/cart',
         type: 'POST',
         data: {
             isUpdate: true,
             productId: productId,
             quantity: quantity
         },
-        success: function(response) {
+        success: function (response) {
             console.log("Cập nhật thành công cho sản phẩm ID:", productId);
-            updateTotal();  
+            updateTotal();
         },
-        error: function(error) {
+        error: function (error) {
             console.log("Lỗi khi cập nhật sản phẩm ID:", productId, error);
         }
     });
 }
-    
-    
+
+
 
 
 
@@ -79,7 +79,10 @@ window.onload = function () {
     updateTotal();
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1200b1d61b158877619765441255394db8af4180
 function submitForm(method) {
     var form = document.getElementById('myForm');
     if (method === 'method1') {
@@ -91,7 +94,10 @@ function submitForm(method) {
     }
     form.submit();
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1200b1d61b158877619765441255394db8af4180
 
 
 

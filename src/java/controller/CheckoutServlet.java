@@ -49,19 +49,21 @@ public class CheckoutServlet extends HttpServlet {
             String payment_method = request.getParameter("payment_method");
             String address = request.getParameter("address");
             String deliveryOption = request.getParameter("shipping_method");
-            Date timePickup = null;
-            if ("pickup".equals(deliveryOption)) {
-                String timePickupString = request.getParameter("pickup_time");
+//            Date timePickup = null;
+//            if ("pickup".equals(deliveryOption)) {
+//                String timePickupString = request.getParameter("pickup_time");
+//
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//
+//                try {
+//                    timePickup = dateFormat.parse(timePickupString);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+            String timePickup = request.getParameter("pickup_time");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
-
-                try {
-                    timePickup = dateFormat.parse(timePickupString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            }
             String phone = request.getParameter("phone");
 
             if (cartDTO != null && !cartDTO.isEmpty()) {
@@ -78,7 +80,11 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 // Create a temporary order with payment status PENDING and set orderID
+<<<<<<< HEAD
 //                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
+=======
+//                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
+>>>>>>> 1200b1d61b158877619765441255394db8af4180
                 OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
                 // Handle COD payment
                 if ("cod".equals(payment_method)) {
@@ -89,6 +95,7 @@ public class CheckoutServlet extends HttpServlet {
                 } else if ("vnpay".equals(payment_method)) {
                     // Process VNPAY payment and set vnp_TxnRef to orderID
                     if (order != null) {
+                        clearCart(session);
                         processVNPAY(request, response, order, orderID);
                     } else {
                         request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
@@ -98,7 +105,7 @@ public class CheckoutServlet extends HttpServlet {
                 response.sendRedirect("/OrderingSystem/");
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Consider logging instead of printing stack trace
+            e.printStackTrace();
             request.getRequestDispatcher("WEB-INF/view/404.jsp").forward(request, response);
         }
     }
@@ -205,19 +212,20 @@ public class CheckoutServlet extends HttpServlet {
         } else {
 
             for (String productID : selected) {
+                // Existing logic to process productID
                 int id;
                 try {
                     id = Integer.parseInt(productID);
                 } catch (NumberFormatException e) {
-                    throw new ServletException("invalid id");
+                    throw new ServletException("Invalid product ID");
                 }
                 int quantity = Integer.parseInt(request.getParameter("quantity_" + productID));
                 CartItemDTO cDTO = new CartItemDTO();
                 cDTO.setProduct(pDAO.getProductByID(id));
                 cDTO.setQuantity(quantity);
                 cartDTO.add(cDTO);
-
             }
+
             session.setAttribute("cart", cartDTO);
             Object u = session.getAttribute("user");
             if (u != null) {

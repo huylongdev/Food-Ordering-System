@@ -11,6 +11,7 @@ package context;
 import context.DBContext;
 import model.OrderDTO;
 import model.OrderItemDTO;
+import model.OrderItem;
 import model.Account;
 import model.CartItem;
 import java.sql.Connection;
@@ -22,6 +23,9 @@ import java.util.Date;
 import java.util.List;
 import model.Order;
 import model.Product;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class OrderDAO {
 
@@ -41,18 +45,16 @@ public class OrderDAO {
 
         try {
             conn = new DBContext().getConnection();
-            conn.setAutoCommit(false);  // Begin transaction
+            conn.setAutoCommit(false);
 
-            // Calculate total amount for the order
             double totalAmount = 0;
             for (CartItem item : cartItems) {
                 totalAmount += item.getQuantity() * item.getProduct().getPrice();
             }
 
-            // Insert order into the Order table
             try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
                 ps.setInt(1, account.getUserID());
-                ps.setString(2, "Pending");  // Set initial status
+                ps.setString(2, "Pending"); 
                 ps.setString(3, address);
                 ps.setString(4, createdDate);
                 ps.setDouble(5, totalAmount);
@@ -60,7 +62,6 @@ public class OrderDAO {
                 ps.executeUpdate();
             }
 
-            // Get the generated OrderID
             int orderId;
             try (PreparedStatement ps = conn.prepareStatement(selectOrderIdSql); ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -70,7 +71,6 @@ public class OrderDAO {
                 }
             }
 
-            // Insert order items into the OrderItem table
             for (CartItem item : cartItems) {
                 try (PreparedStatement ps = conn.prepareStatement(insertOrderItemSql)) {
                     ps.setInt(1, orderId);
@@ -81,22 +81,21 @@ public class OrderDAO {
                 }
             }
 
-            conn.commit();  // Commit transaction
+            conn.commit(); 
 
         } catch (Exception e) {
             e.printStackTrace();
             if (conn != null) {
                 try {
-                    conn.rollback();  // Rollback transaction on error
+                    conn.rollback();  
                 } catch (Exception rollbackEx) {
                     rollbackEx.printStackTrace();
                 }
             }
         } finally {
-            // Close the connection
             if (conn != null) {
                 try {
-                    conn.setAutoCommit(true);  // Restore auto-commit mode
+                    conn.setAutoCommit(true);  
                     conn.close();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -172,9 +171,23 @@ public class OrderDAO {
         return order;
     }
 
-    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status, String deliveryOption, Date timePickup) {
-        LocalDate curDate = LocalDate.now();
-        String createdDate = curDate.toString();
+    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption,
+            String address, String status, String deliveryOption, String timePickupString) throws Exception {
+
+        Date timePickup = null;
+
+        try {
+            if (timePickupString != null && !timePickupString.isEmpty()) {
+                timePickup = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(timePickupString);
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new Exception("Invalid time format: " + timePickupString, e);
+        }
+
+        java.util.Date createdDate = new java.util.Date();
+        
 
         String insertOrderSql = "INSERT INTO [Order] (OrderID, UserID, Status, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
@@ -196,11 +209,11 @@ public class OrderDAO {
                 ps.setInt(2, account.getUserID());
                 ps.setString(3, status);
                 ps.setString(4, address);
-                ps.setString(5, createdDate);
+                ps.setTimestamp(5, new java.sql.Timestamp(createdDate.getTime()));
                 ps.setDouble(6, totalAmount);
                 ps.setString(7, paymentOption);
                 ps.setString(8, deliveryOption);
-                ps.setDate(9, (java.sql.Date) timePickup);
+                ps.setTimestamp(9, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
 
                 ps.executeUpdate();
             }
@@ -216,15 +229,17 @@ public class OrderDAO {
             }
 
             conn.commit();
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
 
-            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate);
+
 
         } catch (Exception e) {
+
             e.printStackTrace();
             if (conn != null) {
                 try {
                     conn.rollback();
-                } catch (Exception rollbackEx) {
+                } catch (SQLException rollbackEx) {
                     rollbackEx.printStackTrace();
                 }
             }
@@ -233,7 +248,7 @@ public class OrderDAO {
                 try {
                     conn.setAutoCommit(true);
                     conn.close();
-                } catch (Exception e) {
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -286,7 +301,6 @@ public class OrderDAO {
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                // Assuming you have a constructor in Product that takes ProductID and ProductName
                 Product product = new Product(rs.getInt(1), rs.getString(2));
                 list.add(new OrderItemDTO(orderId, product, rs.getInt(3), rs.getDouble(4)));
             }
