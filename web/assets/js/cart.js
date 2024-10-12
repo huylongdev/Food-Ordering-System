@@ -79,10 +79,7 @@ window.onload = function () {
     updateTotal();
 };
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1200b1d61b158877619765441255394db8af4180
 function submitForm(method) {
     var form = document.getElementById('myForm');
     if (method === 'method1') {
@@ -94,10 +91,7 @@ function submitForm(method) {
     }
     form.submit();
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 1200b1d61b158877619765441255394db8af4180
 
 
 

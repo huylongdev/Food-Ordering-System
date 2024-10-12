@@ -80,11 +80,9 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 // Create a temporary order with payment status PENDING and set orderID
-<<<<<<< HEAD
+
 //                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
-=======
-//                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
->>>>>>> 1200b1d61b158877619765441255394db8af4180
+
                 OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
                 // Handle COD payment
                 if ("cod".equals(payment_method)) {
