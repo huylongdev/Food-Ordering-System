@@ -88,9 +88,6 @@ function submitForm(method) {
     if (method === 'method1') {
         form.action = './favourite';
         form.method = 'post';
-    } else if (method === 'method2') {
-        form.action = './order';
-        form.method = 'post';
     }
     form.submit();
 }

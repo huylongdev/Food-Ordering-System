@@ -69,7 +69,7 @@ public class FoodDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("productId"));
-        Account user = (Account) request.getSession(false).getAttribute("user");
+        Account user = (Account) request.getSession().getAttribute("user");
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO iDAO = new ProductImageDAO();
             Product p = pDAO.getProductByID(id);
@@ -80,11 +80,12 @@ public class FoodDetailServlet extends HttpServlet {
             ShopDAO sDAO = new ShopDAO();
             Shop shop = sDAO.getShopByID(p.getShopId());
             FavouriteDAO fDAO = new FavouriteDAO();
+            if(user!=null){
             Favourite fav = fDAO.getFavouriteByUserIdandProductID(user.getUserID(),id);
-            
+            request.setAttribute("fav", fav);
+            }
             
             request.setAttribute("shop", shop);
-            request.setAttribute("fav", fav);
             
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
