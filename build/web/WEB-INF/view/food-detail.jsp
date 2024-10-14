@@ -88,7 +88,7 @@
                                 <button type="button"  onclick="decrement(this)">-</button>
                                 <input type="number" id ="${p.getProductId()}" name ="quantity" class ="quantity" value="1" min="1" max="10"onchange="updateAmount(this)">
                                 <button  type="button" onclick="increment(this)">+</button>
-                                <input type = "hidden" id="action" name ="" value = "true">
+                                <input type = "hidden" id="action" name ="isAdd" value = "true">
                                 <input type = "hidden" name ="productID" value = "${p.getProductId()}">
                                 <input type = "hidden" name ="shopID" value = "${p.getShopId()}">
                                 <input type = "hidden" name ="userID" value = "${user.getUserID()}">

@@ -94,11 +94,11 @@ function submitForm(method) {
         form.action = './cart';
         form.method = 'post';
     } else if (method === 'method2') {
-        action.name = 'isAdd';
+        action.name = 'addWishList';
         form.action = './favourite';
         form.method = 'post';
     } else if (method === 'method3') {
-        action.name = 'isDelete';
+        action.name = 'removeWishList';
         form.action = './favourite';
         form.method = 'post';
     }
