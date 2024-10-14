@@ -1,0 +1,163 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 12, 2024, 6:01:48 PM
+    Author     : ACER
+*/
+/*Reset CSS */
+body, html{
+    background-color: #5EAE53 !important;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    line-height: 1.8;
+}
+
+.navbar-brand{
+    margin-right:20em !important;
+    color:red ;
+    margin-top:20px;
+}
+
+.user-dropdown a{
+    display: flex !important;
+
+}
+#user-name{
+    margin-top: 5px
+}
+.navbar{
+    margin-top: -120px !important;
+
+}
+div.dashContainer{
+    border: solid black 0.8em;
+    border-radius:20px;
+    padding:0em 2em;
+    background-color:white !important;
+}
+.nav-list:hover{
+    opacity:0.8;
+    transition: width 2s;
+}
+
+
+#banUserModal {
+    display: none; /* Ẩn modal ban đầu */
+    position: fixed; /* Định vị modal */
+    z-index: 1; /* Đảm bảo modal nằm trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn màn hình */
+    height: 100%; /* Toàn màn hình */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+    justify-content: center;
+    align-items: center;
+}
+
+
+#banUserModalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    margin: auto;
+    position: relative;
+    top: 20%;
+}
+
+#banUserForm {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    font-family: 'Arial', sans-serif;
+    width: 100%;
+    max-width: 400px;
+    margin-right:3.5em;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left:20px
+
+}
+
+input[type="text"]:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-confirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background-color: #45a049;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #d32f2f;
+}
+
+
+div.navbar__item{
+    margin-top:30px;
+}
+
+.title-dash{
+    display: block;
+    background: linear-gradient(to right,#2dfcc8, #00bf8f, #010f0c);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    justify-self: center;
+    align-content: center;
+    margin-left:37%;
+    font-weight: 900;
+    font-size:3.2em;
+}
