@@ -1,6 +1,6 @@
 package controller;
 
-import util.Config;
+import com.vnpay.common.Config;
 import context.OrderDAO;
 import context.ProductDAO;
 import jakarta.servlet.ServletException;
