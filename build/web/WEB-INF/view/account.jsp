@@ -98,6 +98,9 @@
                                     <i class="fa fa-home"></i> Back to hompage</a
                                 >
                             </li>
+                            <div class="text-center btn-dash" style="margin-top:2em; line-height:200px; ">
+                        <a href="./dashboard"  class="btn btn-primary">View Admin Dashboard</a>
+                    </div>
                         </ul>
                     </div>
                 </div>
