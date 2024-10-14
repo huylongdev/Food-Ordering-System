@@ -1,5 +1,5 @@
 
-package util;
+package com.vnpay.common;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
