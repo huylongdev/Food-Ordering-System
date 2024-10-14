@@ -88,7 +88,7 @@
                                 <button type="button"  onclick="decrement(this)">-</button>
                                 <input type="number" id ="${p.getProductId()}" name ="quantity" class ="quantity" value="1" min="1" max="10"onchange="updateAmount(this)">
                                 <button  type="button" onclick="increment(this)">+</button>
-                                <input type = "hidden" name ="isAdd" value = "true">
+                                <input type = "hidden" id="action" name ="" value = "true">
                                 <input type = "hidden" name ="productID" value = "${p.getProductId()}">
                                 <input type = "hidden" name ="shopID" value = "${p.getShopId()}">
                                 <input type = "hidden" name ="userID" value = "${user.getUserID()}">
@@ -98,10 +98,19 @@
                             <h4 class="status">Foodie </h4>
                             <c:if test="${sessionScope.role != 'admin'}">
                                 <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
-                                <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <c:if test="${fav == null}">
+                                    <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                    </svg></button>
+                                    </svg>
+                                </button>
                                 </c:if>
+                                <c:if test="${fav != null}">
+                                    <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                    </svg>
+                                </button>
+                                </c:if>
+                            </c:if>
                         </div>
 
                     </form>

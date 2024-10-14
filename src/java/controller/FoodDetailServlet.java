@@ -4,6 +4,7 @@
  */
 package controller;
 
+import context.FavouriteDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
 import context.ShopDAO;
@@ -15,10 +16,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.Category;
+import model.Account;
+import model.Favourite;
 import model.Product;
 import model.ProductImage;
 import model.Shop;
+import org.apache.catalina.User;
 
 /**
  *
@@ -66,6 +69,7 @@ public class FoodDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("productId"));
+        Account user = (Account) request.getSession(false).getAttribute("user");
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO iDAO = new ProductImageDAO();
             Product p = pDAO.getProductByID(id);
@@ -75,10 +79,13 @@ public class FoodDetailServlet extends HttpServlet {
             
             ShopDAO sDAO = new ShopDAO();
             Shop shop = sDAO.getShopByID(p.getShopId());
+            FavouriteDAO fDAO = new FavouriteDAO();
+            Favourite fav = fDAO.getFavouriteByUserIdandProductID(user.getUserID(),id);
             
             
             request.setAttribute("shop", shop);
-
+            request.setAttribute("fav", fav);
+            
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
             

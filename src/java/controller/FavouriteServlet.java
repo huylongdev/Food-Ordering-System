@@ -107,7 +107,9 @@ public class FavouriteServlet extends HttpServlet {
             throws ServletException, IOException {
         if (request.getParameter("isAdd") != null) {
             addWishlist(request, response);
-        }else{
+        }else if(request.getParameter("isDelete") != null) {
+            removeWishlist(request, response);
+        } else{
             deleteWishlist(request, response);
         }
     }
@@ -125,6 +127,21 @@ public class FavouriteServlet extends HttpServlet {
             session.setAttribute("alert", "Added to wishlist successfully!");
         } else {
             session.setAttribute("alert", "Failed to add product!");
+        }
+        response.sendRedirect("food-detail?productId=" + productID);
+    }
+    
+    private void removeWishlist(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        int userID = Integer.parseInt(request.getParameter("userID"));
+
+        FavouriteDAO favouriteDAO = new FavouriteDAO();
+        if (favouriteDAO.deleteWishlistProduct(productID,userID)) {
+            session.setAttribute("alert", "Remove to wishlist successfully!");
+        } else {
+            session.setAttribute("alert", "Failed to remove product!");
         }
         response.sendRedirect("food-detail?productId=" + productID);
     }
