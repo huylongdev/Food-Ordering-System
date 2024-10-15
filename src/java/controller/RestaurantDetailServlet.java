@@ -117,7 +117,7 @@ public class RestaurantDetailServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("shop", s);
         request.setAttribute("productList", productList);
-        request.getRequestDispatcher("WEB-INF/view/shop.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/restaurant.jsp").forward(request, response);
     }
 
     /**
@@ -255,8 +255,7 @@ public class RestaurantDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         int productId = Integer.parseInt(request.getParameter("productId"));
 
-        ProductImageDAO pid = new ProductImageDAO();
-        pid.deleteProductImageByProductID(productId);
+        
         int shopID = Integer.parseInt(request.getParameter("shopID"));
         ProductDAO pDAO = new ProductDAO();
         try {

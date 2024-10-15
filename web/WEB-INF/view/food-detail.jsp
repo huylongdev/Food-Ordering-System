@@ -96,7 +96,7 @@
                         </div>
                         <div class ="add-cart-btn">
                             <h4 class="status">Foodie </h4>
-                            <c:if test="${sessionScope.role != 'admin'}">
+                            <c:if test="${sessionScope.role != 'admin' && p.isStatus()}">
                                 <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
                                 <c:if test="${fav == null}">
                                     <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
