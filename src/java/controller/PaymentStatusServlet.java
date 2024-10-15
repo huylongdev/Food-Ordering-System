@@ -45,12 +45,12 @@ public class PaymentStatusServlet extends HttpServlet {
         int orderId = Integer.parseInt(vnp_TxnRef);
         if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
 
-            dao.updateOrderPaymentStatus(orderId, "DONE");
+            dao.updateOrderPaymentStatus(orderId, "PAID");
 
             request.getRequestDispatcher("WEB-INF/view/paymentStatus.jsp").forward(request, response);
 
         } else {
-            dao.updateOrderPaymentStatus(orderId, "FAILD");
+            dao.updateOrderPaymentStatus(orderId, "FAILED");
             request.getRequestDispatcher("WEB-INF/view/paymentStatus.jsp").forward(request, response);
 
         }

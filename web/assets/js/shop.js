@@ -77,3 +77,13 @@ function showUpdateStoreOverlay() {
 function hideUpdateStoreOverlay() {
     document.getElementById("update-store-overlay").style.display = "none";
 }
+
+
+
+function showUpdateAvatarStoreOverlay() {
+    document.getElementById("update-avatar-overlay").style.display = "block";
+}
+
+function hideUpdateStoreAvatarOverlay() {
+    document.getElementById("update-avatar-overlay").style.display = "none";
+}

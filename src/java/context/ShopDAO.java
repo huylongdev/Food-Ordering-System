@@ -349,5 +349,19 @@ public class ShopDAO {
         System.out.println("Shop not found");
         return null;
     }
+    
+    public boolean updateShopImage(int shopId, String imageUrl) {
+    String query = "UPDATE Shop SET ShopImage = ? WHERE ShopID = ?";
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, imageUrl);
+        ps.setInt(2, shopId);
+
+        return ps.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 
 }

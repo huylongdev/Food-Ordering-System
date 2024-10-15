@@ -80,7 +80,9 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 // Create a temporary order with payment status PENDING and set orderID
-//                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
+
+//                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
+
                 OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
                 // Handle COD payment
                 if ("cod".equals(payment_method)) {
@@ -94,7 +96,7 @@ public class CheckoutServlet extends HttpServlet {
                         clearCart(session);
                         processVNPAY(request, response, order, orderID);
                     } else {
-                        response.sendRedirect("/OrderingSystem/error.jsp");
+                        request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
                     }
                 }
             } else {

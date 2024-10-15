@@ -10,6 +10,7 @@ package context;
  */
 import context.DBContext;
 import model.OrderDTO;
+import model.OrderItemDTO;
 import model.OrderItem;
 import model.Account;
 import model.CartItem;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import model.Order;
 import model.Product;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -185,6 +187,7 @@ public class OrderDAO {
         }
 
         java.util.Date createdDate = new java.util.Date();
+        
 
         String insertOrderSql = "INSERT INTO [Order] (OrderID, UserID, Status, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
@@ -228,7 +231,10 @@ public class OrderDAO {
             conn.commit();
             order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
 
-        } catch (SQLException e) {
+
+
+        } catch (Exception e) {
+
             e.printStackTrace();
             if (conn != null) {
                 try {
@@ -284,8 +290,8 @@ public class OrderDAO {
         return list;
     }
 
-    public List<OrderItem> getOrderItems(int orderId) {
-        List<OrderItem> list = new ArrayList<>();
+    public List<OrderItemDTO> getOrderItems(int orderId) {
+        List<OrderItemDTO> list = new ArrayList<>();
         String sql = "SELECT oi.ProductID, p.ProductName, oi.Quantity, oi.TotalPrice "
                 + "FROM OrderItem oi INNER JOIN Product p ON oi.ProductID = p.ProductID "
                 + "WHERE oi.OrderID = ?";
@@ -296,7 +302,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(rs.getInt(1), rs.getString(2));
-                list.add(new OrderItem(orderId, product, rs.getInt(3), rs.getDouble(4)));
+                list.add(new OrderItemDTO(orderId, product, rs.getInt(3), rs.getDouble(4)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -363,5 +369,44 @@ public class OrderDAO {
         }
 
     }
+    
+    
+    private DBContext dbContext;
+
+    public OrderDAO() {
+        dbContext = new DBContext();
+    }
+    
+    
+
+    public List<Order> getOrderListByUserID(int userId) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM [Order] WHERE UserID = ? ORDER BY CreatedDate DESC";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order(
+                    rs.getInt("OrderID"),
+                    rs.getInt("UserID"),
+                    rs.getString("Status"),
+                    rs.getString("Address"),
+                    rs.getDate("CreatedDate"),
+                    rs.getString("DeliveryOption"),
+                    rs.getDate("TimePickup"),
+                    rs.getDouble("TotalAmount"),
+                    rs.getInt("DiscountID"),
+                    rs.getString("PaymentOption")
+                );
+                orders.add(order);
+            }
+            return orders;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("No orders found for the user");
+        return null;
+    }
+
 
 }

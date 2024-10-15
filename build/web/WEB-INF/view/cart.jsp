@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="./assets/css/style.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/cart.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/header-footer.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./assets/js/cart.js"></script>
         
@@ -47,7 +48,7 @@
             <br><br>
             <div class="center container cart">
                 <h1>Your cart</h1>
-                <form id="myForm" name="process" action="checkout" method="GET">
+                <form id="myForm" name="process" action="" method="">
                     <div class="cart-products">
                         <div class="cart-thead">
                             <div style="width: 6%"></div>
@@ -84,7 +85,7 @@
                                                 <button type="button" onclick="increment(this)">+</button>
                                             </div>
                                         </div>
-                                        <div id="col3" style="width: 13%; text-align: right!important; padding-right: 0;">
+                                        <div id="col3" style="width: 13%; text-align: right!important;align-items: flex-end; padding-right: 0;">
                                             <span class="amount"></span>
                                         </div>
                                     </tr>
