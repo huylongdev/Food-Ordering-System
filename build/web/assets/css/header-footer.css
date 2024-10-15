@@ -295,3 +295,10 @@ i.ti-shopping-cart {
     background-color: #f1f1f1;
 }
     
+
+
+.navbar__item {
+    width: 33%!important;
+    display: flex;
+    align-items: center;
+}
