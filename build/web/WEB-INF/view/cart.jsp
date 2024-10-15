@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="./assets/css/style.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/cart.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/header-footer.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="./assets/js/cart.js"></script>
         
