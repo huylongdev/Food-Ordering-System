@@ -89,10 +89,16 @@ function decrement(button) {
 
 function submitForm(method) {
     var form = document.getElementById('myForm');
+    var action = document.getElementById('action');
     if (method === 'method1') {
         form.action = './cart';
         form.method = 'post';
     } else if (method === 'method2') {
+        action.name = 'addWishList';
+        form.action = './favourite';
+        form.method = 'post';
+    } else if (method === 'method3') {
+        action.name = 'removeWishList';
         form.action = './favourite';
         form.method = 'post';
     }

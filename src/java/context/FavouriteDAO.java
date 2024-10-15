@@ -35,6 +35,25 @@ public class FavouriteDAO {
             return false;
         }
     }
+    
+    public Favourite getFavouriteByUserIdandProductID(int userId, int productId) {
+        Favourite fav = null;
+        String sql = "SELECT * FROM Favourite WHERE UserID=? and ProductID=?";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                fav = new Favourite();
+                fav.setUserID(rs.getInt("UserID"));
+                fav.setProductID(rs.getInt("ProductID"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return fav;
+    }
 
     public List<Favourite> getWishlistByUserID(int id) {
         List<Favourite> cart = new ArrayList<>();

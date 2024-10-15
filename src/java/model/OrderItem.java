@@ -6,22 +6,32 @@ package model;
 
 /**
  *
- * @author phuct
+ * @author LENOVO
  */
 public class OrderItem {
+    private int orderItemId;
     private int orderId;
-    private Product product;
+    private int productId;
     private int quantity;
     private double totalPrice;
 
     public OrderItem() {
     }
 
-    public OrderItem(int orderId, Product product, int quantity, double totalPrice) {
+    public OrderItem(int orderItemId, int orderId, int productId, int quantity, double totalPrice) {
+        this.orderItemId = orderItemId;
         this.orderId = orderId;
-        this.product = product;
+        this.productId = productId;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
+    }
+
+    public int getOrderItemId() {
+        return orderItemId;
+    }
+
+    public void setOrderItemId(int orderItemId) {
+        this.orderItemId = orderItemId;
     }
 
     public int getOrderId() {
@@ -32,12 +42,12 @@ public class OrderItem {
         this.orderId = orderId;
     }
 
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -55,6 +65,5 @@ public class OrderItem {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
-    
     
 }

@@ -79,6 +79,7 @@ window.onload = function () {
     updateTotal();
 };
 
+
 function submitForm(method) {
     var form = document.getElementById('myForm');
     if (method === 'method1') {
@@ -90,6 +91,7 @@ function submitForm(method) {
     }
     form.submit();
 }
+
 
 
 
