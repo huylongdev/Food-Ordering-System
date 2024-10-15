@@ -30,25 +30,112 @@ public class PostDAO {
             return conn != null && !conn.isClosed();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Connection failed
+            return false; 
         }
     }
 
-    // Get all posts
+    public String getAvatarByPostId(int postID) throws Exception {
+        String avatarImg = null;
+        String query = "SELECT u.AvtImg FROM Post p INNER JOIN Users u ON p.UserID = u.UserID WHERE p.PostID = ?";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, postID);  
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    avatarImg = rs.getString("AvtImg");  
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error retrieving avatar image by PostID: " + e.getMessage());
+        }
+
+        return avatarImg;
+    }
+
+    public int getUserIDByPostId(int postID) throws Exception {
+    int userID = 0;  
+    String query = "SELECT UserID FROM Post WHERE PostID = ?";
+
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, postID); 
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                userID = rs.getInt("UserID");  
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new Exception("Error retrieving UserID by PostID: " + e.getMessage());
+    }
+
+    return userID;
+}
+
+    
+    public List<Post> getAllPostsHaveFullNameAndAvtImg() throws Exception {
+        List<Post> posts = new ArrayList<>();
+        String query = "SELECT * FROM Post WHERE status = 1 ORDER BY CreatedDate DESC";
+        System.out.println("Executing query: " + query);
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Post post = new Post(
+                        rs.getInt("PostID"),
+                        rs.getInt("UserID"),
+                        rs.getString("ImgURL"),
+                        rs.getString("Heading"),
+                        rs.getString("Content"),
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("status") 
+                );
+
+                String fullName = userDAO.getFullNameByUserId(post.getUserID());
+                if (fullName != null) {
+                    post.setUserFullName(fullName);
+                } else {
+                    post.setUserFullName("Unknown User"); 
+                }
+
+                String avatarURL = userDAO.getAvatarByUserId(post.getUserID());
+                if (avatarURL != null) {
+                    post.setAvtUserImg(avatarURL);
+                } else {
+                    post.setAvtUserImg("default-avatar.png"); 
+                }
+
+                posts.add(post);  
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error retrieving posts: " + e.getMessage());
+        }
+
+        System.out.println("Number of posts retrieved: " + posts.size()); 
+        return posts;
+    }
+
+    // Get all active posts
     public List<Post> getAllPosts() throws Exception {
         List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        String query = "SELECT * FROM Post WHERE status = 1 ORDER BY CreatedDate DESC";
         System.out.println("Executing query: " + query);
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Post post = new Post(
+                Post post;
+                post = new Post(
                         rs.getInt("PostID"),
                         rs.getInt("UserID"),
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("status")
                 );
                 posts.add(post);
             }
@@ -56,47 +143,44 @@ public class PostDAO {
             e.printStackTrace();
             throw new Exception("Error retrieving posts: " + e.getMessage());
         }
-        System.out.println("Number of posts retrieved: " + posts.size()); // Ghi lại số lượng bài viết
+        System.out.println("Number of posts retrieved: " + posts.size());
         return posts;
     }
 
-    // Get all posts have FullName
+    // Get all posts with full name
     public List<Post> getAllPostsHaveFullName() throws Exception {
         List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        String query = "SELECT * FROM Post WHERE status = 1 ORDER BY CreatedDate DESC";
         System.out.println("Executing query: " + query);
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                // Lấy thông tin bài viết
                 Post post = new Post(
                         rs.getInt("PostID"),
                         rs.getInt("UserID"),
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("status")
                 );
-
-                // Lấy tên đầy đủ của người dùng theo UserID
                 String fullName = userDAO.getFullNameByUserId(post.getUserID());
-                post.setUserFullName(fullName); // Giả sử Post có setter cho FullName
-
+                post.setUserFullName(fullName); // Assuming Post has setter for FullName
                 posts.add(post);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Error retrieving posts: " + e.getMessage());
         }
-        System.out.println("Number of posts retrieved: " + posts.size()); // Ghi lại số lượng bài viết
+        System.out.println("Number of posts retrieved: " + posts.size());
         return posts;
     }
 
-    // Get post by ID
+    // Get post by ID if it's active
     public Post getPostById(int postID) throws Exception {
         Post post = null;
-        String query = "SELECT * FROM Post WHERE PostID = ?";
+        String query = "SELECT * FROM Post WHERE PostID = ? AND status = 1";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, postID);
             try (ResultSet rs = ps.executeQuery()) {
@@ -107,7 +191,8 @@ public class PostDAO {
                             rs.getString("ImgURL"),
                             rs.getString("Heading"),
                             rs.getString("Content"),
-                            rs.getTimestamp("CreatedDate")
+                            rs.getTimestamp("CreatedDate"),
+                            rs.getBoolean("status")
                     );
                 }
             }
@@ -119,7 +204,7 @@ public class PostDAO {
 
     // Create new post
     public boolean createPost(Post post) throws Exception {
-        String query = "INSERT INTO Post (UserID, ImgURL, Heading, Content, CreatedDate) VALUES (?, ?, ?, ?, GETDATE())";
+        String query = "INSERT INTO Post (UserID, ImgURL, Heading, Content, CreatedDate, status) VALUES (?, ?, ?, ?, GETDATE(), 1)";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, post.getUserID());
             ps.setString(2, post.getImgURL());
@@ -135,39 +220,38 @@ public class PostDAO {
 
     // Update post
     public boolean updatePost(Post post) throws Exception {
-        String query = "UPDATE Post SET UserID = ?, ImgURL = ?, Heading = ?, Content = ?, CreatedDate = ? WHERE PostID = ?";
+        String query = "UPDATE Post SET UserID = ?, ImgURL = ?, Heading = ?, Content = ?, CreatedDate = GETDATE() WHERE PostID = ? AND status = 1";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, post.getUserID());
-            ps.setString(2, post.getImgURL());
-            ps.setString(3, post.getHeading());
-            ps.setString(4, post.getContent());
-            ps.setTimestamp(5, new java.sql.Timestamp(post.getCreatedDate().getTime()));
-            ps.setInt(6, post.getPostID());
+            ps.setString(2, post.getImgURL());  // Update the image URL
+            ps.setString(3, post.getHeading());  // Update the heading
+            ps.setString(4, post.getContent());  // Update the content/description
+            ps.setInt(5, post.getPostID());  // Specify the post ID to update
             int result = ps.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new Exception("Error updating the post: " + e.getMessage());
         }
-        return false;
     }
 
-    // Delete post by ID
+    // Soft delete a post by setting its status to false
     public boolean deletePost(int postID) throws Exception {
-        String query = "DELETE FROM Post WHERE PostID = ?";
+        String query = "UPDATE Post SET status = 0 WHERE PostID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, postID);
             int result = ps.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     // Get posts ordered by latest (newest to oldest)
     public List<Post> getPostsOrderedByLatest() throws Exception {
         List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        String query = "SELECT * FROM Post WHERE status = 1 ORDER BY CreatedDate DESC";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -177,7 +261,8 @@ public class PostDAO {
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("status")
                 );
                 posts.add(post);
             }
@@ -190,7 +275,7 @@ public class PostDAO {
     // Get the latest post
     public Post getLatestPost() throws Exception {
         Post post = null;
-        String query = "SELECT TOP 1 * FROM Post ORDER BY CreatedDate DESC";
+        String query = "SELECT TOP 1 * FROM Post WHERE status = 1 ORDER BY CreatedDate DESC";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -200,7 +285,8 @@ public class PostDAO {
                             rs.getString("ImgURL"),
                             rs.getString("Heading"),
                             rs.getString("Content"),
-                            rs.getTimestamp("CreatedDate")
+                            rs.getTimestamp("CreatedDate"),
+                            rs.getBoolean("status")
                     );
                 }
             }
@@ -213,7 +299,7 @@ public class PostDAO {
     // Get the full name of the user based on the UserID of the post
     public String getFullNameByPostId(int postID) throws Exception {
         String fullName = null;
-        String query = "SELECT u.FullName FROM Post p INNER JOIN [Users] u ON p.UserID = u.UserID WHERE p.PostID = ?";
+        String query = "SELECT u.FullName FROM Post p INNER JOIN [Users] u ON p.UserID = u.UserID WHERE p.PostID = ? AND p.status = 1";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, postID);
@@ -232,14 +318,14 @@ public class PostDAO {
     // Get the avatar image URL of the user based on the UserID
     public String getAvatarByUserId(int userID) throws Exception {
         String avatarImg = null;
-        String query = "SELECT AvatarImg FROM [Users] WHERE UserID = ?";
+        String query = "SELECT AvtImg FROM [Users] WHERE UserID = ?";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userID);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    avatarImg = rs.getString("AvatarImg");
+                    avatarImg = rs.getString("AvtImg");
                 }
             }
         } catch (SQLException e) {
@@ -247,5 +333,5 @@ public class PostDAO {
         }
         return avatarImg;
     }
-   
+
 }

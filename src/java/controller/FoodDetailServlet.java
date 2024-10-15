@@ -21,7 +21,6 @@ import model.Favourite;
 import model.Product;
 import model.ProductImage;
 import model.Shop;
-import org.apache.catalina.User;
 
 /**
  *

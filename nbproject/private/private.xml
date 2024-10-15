@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/OrderDetailServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/index.js</file>
@@ -20,6 +21,18 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/restaurant-list.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/wishlist.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/filter/AccessFilter.java</file>
+=======
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/CommunityBlogServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/js/tinymceConfig.js</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/blogdetails.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/DeleteComment.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/tinymce/tinymce.min.js</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/CommentDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/PostDAO.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/js/blog.js</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/tinymce/skins/content/tinymce-5-dark/content.min.css</file>
+>>>>>>> c7a1c1a06316f9183aa64e995ca0e29e0997c4d7
         </group>
     </open-files>
 </project-private>
