@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
+import context.AccountDAO;
+import context.CommentDAO;
 import context.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,57 +9,40 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Date;
+import java.util.List;
+import model.Comment;
 import model.Post;
 
-/**
- *
- * @author phuct
- */
 @WebServlet(name = "BlogDetailsServlet", urlPatterns = {"/blogdetails"})
 public class BlogDetailsServlet extends HttpServlet {
 
-    PostDAO postDAO = new PostDAO();
+    private PostDAO postDAO = new PostDAO();
+    private CommentDAO commentDAO = new CommentDAO();
+    private AccountDAO accountDAO = new AccountDAO();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/blogdetails.jsp").forward(request, response);
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             String postIdParam = request.getParameter("postId");
-            String fullName = postDAO.getFullNameByPostId(Integer.parseInt(postIdParam));
-            String avtURL = postDAO.getAvatarByUserId(Integer.parseInt(postIdParam));
             if (postIdParam != null) {
                 int postId = Integer.parseInt(postIdParam);
                 Post post = postDAO.getPostById(postId);
+
                 if (post != null) {
+                    String fullName = postDAO.getFullNameByPostId(postId);
+                    String avtURL = postDAO.getAvatarByPostId(postId);
+
                     request.setAttribute("postId", postIdParam);
                     request.setAttribute("post", post);
                     request.setAttribute("fullName", fullName);
                     request.setAttribute("avtURL", avtURL);
-                    processRequest(request, response);
+
+                    List<Comment> comments = commentDAO.getCommentsByPostID(postId);
+                    request.setAttribute("comments", comments);
+
+                    request.getRequestDispatcher("/WEB-INF/view/blogdetails.jsp").forward(request, response);
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -76,45 +57,53 @@ public class BlogDetailsServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int postID = Integer.parseInt(request.getParameter("postID"));
+            String commentText = request.getParameter("commentInput");
+            String postIdParam = request.getParameter("postID");
+            String userIdParam = request.getParameter("userID");
+            if (postIdParam == null || postIdParam.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing post ID");
+                return;
+            }
+            if (userIdParam == null || userIdParam.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing user ID");
+                return;
+            }
+            int postId = Integer.parseInt(postIdParam);
+            int userID = Integer.parseInt(userIdParam);
+            String userFullName = accountDAO.getFullNameByUserId(userID);
+            String userAvtURL = accountDAO.getAvatarByUserId(userID);
 
-            PostDAO postDAO = new PostDAO();
+            Comment comment = new Comment(userID, userFullName, userAvtURL, postId, commentText);
+            comment.setCreatedDate(new Date());
+            boolean isAdded = commentDAO.addComment(comment);
 
-            boolean success = postDAO.deletePost(postID);
+            if (isAdded) {
+                List<Comment> comments = commentDAO.getCommentsByPostID(postId);
+                request.setAttribute("comments", comments);
 
-            if (success) {
-                response.sendRedirect("blog");
+                Post post = postDAO.getPostById(postId);
+                request.setAttribute("post", post);
+                request.setAttribute("postId", postIdParam);
+                request.setAttribute("fullName", userFullName); // or other necessary data
+                request.setAttribute("avtURL", userAvtURL); // or other necessary data
+
+                request.getRequestDispatcher("/WEB-INF/view/blogdetails.jsp").forward(request, response);
             } else {
-                request.setAttribute("error", "Failed to delete the post.");
-                request.getRequestDispatcher("WEB-INF/view/blog.jsp").forward(request, response);
+                request.setAttribute("error", "Failed to post comment. Please try again.");
+                request.getRequestDispatcher("/WEB-INF/view/blogdetails.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "An error occurred while deleting the post.");
-            request.getRequestDispatcher("/OrderingSystem/blog").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/blog");
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Handles blog details and comments";
+    }
 }

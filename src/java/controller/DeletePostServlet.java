@@ -4,26 +4,21 @@
  */
 package controller;
 
-import context.AccountDAO;
 import context.PostDAO;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import model.Post;
+import java.io.PrintWriter;
 
 /**
  *
  * @author phuct
  */
-@WebServlet(name = "CommunityBlog", urlPatterns = {"/blog"})
-public class CommunityBlogServlet extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
+@WebServlet(name = "DeletePostServlet", urlPatterns = {"/deletePost"})
+public class DeletePostServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,8 +31,19 @@ public class CommunityBlogServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/view/blog.jsp").forward(request, response);
-
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeletePostServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeletePostServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -50,42 +56,9 @@ public class CommunityBlogServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PostDAO postDAO = new PostDAO();
-        AccountDAO userDAO = new AccountDAO();
-        List<Post> postList = null;
-        Post newPost = null;
-        String fullNameNewPost = null;
-        String avatarURL = null;
-        String avatarURLNewPost = null;
-
-        try {
-            boolean isConnected = postDAO.checkConnection();
-            if (isConnected) {
-                postList = postDAO.getAllPostsHaveFullNameAndAvtImg();
-                newPost = postDAO.getLatestPost();
-
-                if (newPost != null) {
-                    avatarURLNewPost = userDAO.getAvatarByUserId(newPost.getUserID());
-                    fullNameNewPost = userDAO.getFullNameByUserId(newPost.getUserID());
-                    avatarURL = userDAO.getAvatarByUserId(newPost.getUserID());
-                    newPost.setAvtUserImg(avatarURL);  // Set the avatar URL in the Post object
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        request.setAttribute("postList", postList);
-        request.setAttribute("newPost", newPost);
-        request.setAttribute("fullNameNewPost", fullNameNewPost);
-        request.setAttribute("avatarURLNewPost", avatarURLNewPost);
-
-        System.out.println(avatarURL);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/blog.jsp");
-        dispatcher.forward(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -99,7 +72,21 @@ public class CommunityBlogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int postID = Integer.parseInt(request.getParameter("postID"));
+            PostDAO postDAO = new PostDAO();
+            boolean success = postDAO.deletePost(postID);
+            if (success) {
+                response.sendRedirect("blog");
+            } else {
+                request.setAttribute("error", "Failed to delete the post.");
+                request.getRequestDispatcher("/blog").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "An error occurred while deleting the post.");
+            request.getRequestDispatcher("/blog").forward(request, response);
+        }
     }
 
     /**

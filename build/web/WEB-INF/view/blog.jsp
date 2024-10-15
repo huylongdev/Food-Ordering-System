@@ -50,7 +50,13 @@
                                                 <c:when test="${user != null}">
                                                     <div class="user-dropdown">
                                                         <a style="text-decoration: none" href="/OrderingSystem/account">
-                                                            <img id="user-avatar" class="img-responsive img-circle" src="${user.getAvtImg()}" onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';" alt="Profile Picture" />
+                                                            <img 
+                                                                id="user-avatar" 
+                                                                class="img-responsive img-circle" 
+                                                                src="${user.getAvtImg()}" 
+                                                                onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
+                                                                alt="Profile Picture" 
+                                                                />
                                                             <span id="user-name">${user.getUserName()}</span>
                                                         </a>
                                                         <div class="dropdown-content">
@@ -101,7 +107,7 @@
                     <div class="title">
                         <h2 style="color: white; width: 90%">${newPost.getHeading()}</h2>
                         <div class="slider-author">
-                            <img src="./assets/img/image.png" alt="" class="author_avatar" />
+                            <img src="${newPost.getAvtUserImg()}" alt="" class="author_avatar" />
                             <p class="author_name">${fullNameNewPost}</p>
                         </div>
                     </div>
@@ -121,7 +127,7 @@
                         <div class="card-body">
                             <h5 class="card-title card-title-post">${post.getHeading()}</h5>
                             <div class="card-post-author">
-                                <img src="${post.getImgURL()}" alt="Author Avatar" class="author-post-avatar" />
+                                <img src="${post.getAvtUserImg()}" onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';" alt="Author Avatar" class="author-post-avatar" />
                                 <p class="author_name author-post-name">${post.getUserFullName()}</p>
                             </div>
                         </div>

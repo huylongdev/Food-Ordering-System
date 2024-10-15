@@ -155,3 +155,60 @@ img.blog-content-img {
     padding-bottom: 7px;
 }
 
+/*COMMENT*/
+img.comment-avt {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.comment-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-author {
+    font-weight: 600;
+}
+
+.comment-time {
+    color: #cccc;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+}
+
+.comment {
+    background-color: #f8f9fa;
+    border: 1px solid #e2e6ea;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.comment-time {
+    margin-top: -10px;
+}
+
+/* Căn chỉnh dropdown với comment options */
+.comment-options-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    display: none; /* Ẩn dropdown theo mặc định */
+}
+
+/* Định vị icon menu */
+.comment-options-dropdown {
+    position: relative;
+}
+
+/* Sử dụng vị trí chính xác cho dropdown */
+.comment-options-menu {
+    top: 20px; /* Đảm bảo rằng menu dropdown hiển thị ngay dưới biểu tượng menu */
+    right: 0;
+}
