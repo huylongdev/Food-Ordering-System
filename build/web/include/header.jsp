@@ -79,12 +79,12 @@
                             <i class="ti-shopping-cart"></i>
                         </div></a>
 
-<!--                    
+                  
                         <a href = "./favourite">
                             <div class="icon">
                             <i class="ti-heart"></i>
                             </div>
-                        </a>-->
+                        </a>
                     
 
                 </div>

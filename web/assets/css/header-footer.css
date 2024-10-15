@@ -97,6 +97,23 @@ i.ti-shopping-cart {
   line-height: 36px;
 }
 
+.icon {
+    margin: 0 10px 0 10px;
+}
+.ti-heart {
+    padding: 10px;
+    font-size: 25px;
+    border-radius: 25px;
+    background-color: #ff6b6b;
+    display: inline-block;
+    color: white;
+    text-align: center;
+}
+
+.ti-heart {
+    color: white;
+}
+
 
 
 #footer {
