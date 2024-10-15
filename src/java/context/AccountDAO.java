@@ -3,6 +3,7 @@ package context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -354,5 +355,22 @@ public class AccountDAO {
         return fullName;
     }
     
+    // Get the avatar image URL of the user based on the UserID
+    public String getAvatarByUserId(int userID) throws Exception {
+        String avatarImg = null;
+        String query = "SELECT AvtImg FROM [Users] WHERE UserID = ?";
 
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userID);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    avatarImg = rs.getString("AvtImg");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avatarImg;
+    }
 }

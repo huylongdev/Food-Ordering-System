@@ -18,10 +18,12 @@ public class Post {
     private String content;
     private Date createdDate;
     private String userFullName;
+    private String avtUserImg;
+    private boolean status;
 
     public Post() {
     }
-    
+
     public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate) {
         this.postID = postID;
         this.userID = userID;
@@ -29,10 +31,20 @@ public class Post {
         this.heading = heading;
         this.content = content;
         this.createdDate = createdDate;
-        this.userFullName = null;
+        this.status = true; 
     }
 
-    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, String userFullName) {
+    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, boolean status) {
+        this.postID = postID;
+        this.userID = userID;
+        this.imgURL = imgURL;
+        this.heading = heading;
+        this.content = content;
+        this.createdDate = createdDate;
+        this.status = status; 
+    }
+
+    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, String userFullName, boolean status) {
         this.postID = postID;
         this.userID = userID;
         this.imgURL = imgURL;
@@ -40,8 +52,10 @@ public class Post {
         this.content = content;
         this.createdDate = createdDate;
         this.userFullName = userFullName;
+        this.status = status;
     }
 
+    // Getters and Setters
     public int getPostID() {
         return postID;
     }
@@ -97,5 +111,21 @@ public class Post {
     public void setUserFullName(String userFullName) {
         this.userFullName = userFullName;
     }
-    
+
+    public String getAvtUserImg() {
+        return avtUserImg;
+    }
+
+    public void setAvtUserImg(String avtUserImg) {
+        this.avtUserImg = avtUserImg;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

@@ -11,13 +11,7 @@ import model.Post;
 import context.PostDAO;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Account;
 
 /**
  *
