@@ -60,7 +60,7 @@ public class ProductDAO {
 
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM Product";
+        String query = "SELECT * FROM Product Where Status LIKE 1";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -129,7 +129,7 @@ public class ProductDAO {
 
     public List<Product> searchProducts(String keyword) {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE Name LIKE ? OR Description LIKE ?";
+        String query = "SELECT * FROM Product WHERE (Name LIKE ? OR Description LIKE ?) AND status LIKE '1'";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -161,7 +161,7 @@ public class ProductDAO {
 
     public List<Product> filterProducts(List<Integer> categoryIDs, double minRating, String sortBy) {
         List<Product> products = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT * FROM Product WHERE 1=1");
+        StringBuilder query = new StringBuilder("SELECT * FROM Product WHERE 1=1 AND Status LIKE 1");
 
         // Lọc theo danh mục nếu có danh sách categoryIDs
         if (categoryIDs != null && !categoryIDs.isEmpty()) {
@@ -239,7 +239,7 @@ public class ProductDAO {
 
     public List<Product> filterProducts(List<Integer> categoryIDs, double minRating, String sortBy, int page, int size) {
         List<Product> products = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT * FROM Product WHERE 1=1");
+        StringBuilder query = new StringBuilder("SELECT * FROM Product WHERE 1=1 AND Status LIKE 1");
 
         if (categoryIDs != null && !categoryIDs.isEmpty()) {
             if (!categoryIDs.contains(0)) {
@@ -321,7 +321,7 @@ public class ProductDAO {
     public List<Product> getProducts(int page, int size) {
         List<Product> products = new ArrayList<>();
         int offset = (page - 1) * size; // Tính toán offset
-        String query = "SELECT * FROM Product ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String query = "SELECT * FROM Product Where Status LIKE 1 ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, offset);
             ps.setInt(2, size);
@@ -350,7 +350,7 @@ public class ProductDAO {
     // Lấy tổng số sản phẩm
     public int getTotalProducts() {
         int total = 0;
-        String query = "SELECT COUNT(*) FROM Product";
+        String query = "SELECT COUNT(*) FROM Product Where Status LIKE 1";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
@@ -410,19 +410,19 @@ public class ProductDAO {
 
     // DELETE: Delete a product by ID
     public boolean deleteProduct(int productId) throws Exception {
-        String query = "DELETE FROM Product WHERE ProductID = ?";
+        String query = "UPDATE Product SET status = 0 WHERE ProductID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, productId);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("Error deleting product: " + e.getMessage());
+            throw new Exception("Error updating product status: " + e.getMessage());
         }
     }
 
     public List<Product> getProductByShopID(int shopID) {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE ShopID = ?";
+        String query = "SELECT * FROM Product WHERE ShopID = ? AND Status LIKE 1";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, shopID);
@@ -448,16 +448,14 @@ public class ProductDAO {
         }
         return products;
     }
-    
-    
-    
+
     public List<Product> getProductByShopIDInPage(int shopID, int page, int size) {
         List<Product> products = new ArrayList<>();
         int offset = (page - 1) * size; // Tính toán offset
-        String query = "SELECT * FROM Product WHERE ShopID = ? ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String query = "SELECT * FROM Product WHERE ShopID = ? AND Status LIKE 1 ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(2, offset);
-            ps.setInt(3, size); 
+            ps.setInt(3, size);
 //            ResultSet rs = ps.executeQuery();
 //        String query = "SELECT * FROM Product WHERE ShopID = ?";
 //        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -485,12 +483,10 @@ public class ProductDAO {
         }
         return products;
     }
-    
-    
-    
-     public List<Product> getProductByCategoryID(int categoryID) {
+
+    public List<Product> getProductByCategoryID(int categoryID) {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE CategoryID = ?";
+        String query = "SELECT * FROM Product WHERE CategoryID = ? AND Status LIKE 1";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, categoryID);
