@@ -192,23 +192,26 @@ img.comment-avt {
     margin-top: -10px;
 }
 
-/* Căn chỉnh dropdown với comment options */
 .comment-options-menu {
     position: absolute;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 100;
-    display: none; /* Ẩn dropdown theo mặc định */
+    display: none; 
 }
 
-/* Định vị icon menu */
 .comment-options-dropdown {
     position: relative;
 }
 
-/* Sử dụng vị trí chính xác cho dropdown */
 .comment-options-menu {
-    top: 20px; /* Đảm bảo rằng menu dropdown hiển thị ngay dưới biểu tượng menu */
+    top: 20px;
     right: 0;
 }
+
+/*
+.comment-options-menu {
+    display: block !important; 
+    position: absolute; 
+}*/
