@@ -21,7 +21,7 @@
 }
 
 .product {
-    width: 50rem;
+    min-width: 30rem !important;
 }
 
 .table-wishlist th {
@@ -35,8 +35,10 @@
 }
 
 .name-product {
-    font-size: 15px;
-    color: #484848;
+     
+    color: #707070;
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
 .price {
@@ -46,12 +48,12 @@
 
 .round-black-btn {
     border-radius: 25px;
-    background: #212529;
+    background: #5EAE53;
     color: #fff;
     padding: 5px 10px;
-    border: solid 2px #212529; 
+    border: solid 2px #5EAE53; 
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     transition: all 0.5s ease-in-out 0s;
     margin-right: 5px; /* Space between buttons */
 }
@@ -61,9 +63,8 @@
     color: #212529;
 }
 
-.center, .table-wishlist {
-    width: 100%;
+.center {
     text-align: center;
-    margin: auto;
+    width: 80%;
     
 }
