@@ -56,37 +56,35 @@ public class CommunityBlogServlet extends HttpServlet {
         List<Post> postList = null;
         Post newPost = null;
         String fullNameNewPost = null;
+        String avatarURL = null;
+        String avatarURLNewPost = null;
 
         try {
             boolean isConnected = postDAO.checkConnection();
             if (isConnected) {
-                System.out.println("Connected to database.");
-
-                // Lấy tất cả các bài viết
-                postList = postDAO.getAllPostsHaveFullName();
+                postList = postDAO.getAllPostsHaveFullNameAndAvtImg();
                 newPost = postDAO.getLatestPost();
 
                 if (newPost != null) {
-                    System.out.println("Latest post found: " + newPost.getHeading());
+                    avatarURLNewPost = userDAO.getAvatarByUserId(newPost.getUserID());
                     fullNameNewPost = userDAO.getFullNameByUserId(newPost.getUserID());
-                    System.out.println("Full name of the user for the latest post: " + fullNameNewPost);
-                } else {
-                    System.out.println("No posts found.");
+                    avatarURL = userDAO.getAvatarByUserId(newPost.getUserID());
+                    newPost.setAvtUserImg(avatarURL);  // Set the avatar URL in the Post object
                 }
 
-            } else {
-                System.out.println("Failed to connect to the database.");
             }
         } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
 
         request.setAttribute("postList", postList);
         request.setAttribute("newPost", newPost);
         request.setAttribute("fullNameNewPost", fullNameNewPost);
+        request.setAttribute("avatarURLNewPost", avatarURLNewPost);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/blog.jsp"); // Thay thế đường dẫn chính xác đến JSP
+        System.out.println(avatarURL);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/view/blog.jsp");
         dispatcher.forward(request, response);
     }
 
