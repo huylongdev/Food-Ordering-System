@@ -78,7 +78,7 @@ public class OrderDetailServlet extends HttpServlet {
             ProductImageDAO pid= new ProductImageDAO();
             for (OrderItem c : oi) {
                 Product p = pDAO.getProductByID(c.getProductId());
-                
+                p.setPrice(c.getTotalPrice()/c.getQuantity());
                 CartItemDTO cid = new CartItemDTO(p, c.getQuantity(),pid.getAvatarProductImageByID(c.getProductId()).getImgURL());
                 cartList.add(cid);
                 
