@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="assets/css/plugins.css">
         <link rel="stylesheet" href="./assets/css/style.css" />
         <link rel="stylesheet" href="./assets/css/blog.css" />
+        <link rel="stylesheet" href="./assets/css/cart.css">
+        <link rel="stylesheet" href="./assets/css/header-footer.css">
         <link rel="stylesheet" href="./assets/css/checkout.css" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
