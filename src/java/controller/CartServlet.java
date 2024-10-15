@@ -75,17 +75,17 @@ public class CartServlet extends HttpServlet {
             ProductDAO pDAO = new ProductDAO();
             CartDAO cartDAO = new CartDAO();
             Account user = (Account) session.getAttribute("user");
-            
+
             List<CartItem> cart = cartDAO.getCartByUserID(user.getUserID());
-            
+
             List<CartItemDTO> cartList = new ArrayList<>();
-            ProductImageDAO pid= new ProductImageDAO();
+            ProductImageDAO pid = new ProductImageDAO();
             for (CartItem c : cart) {
                 Product p = pDAO.getProductByID(c.getProductID());
-                
-                CartItemDTO cid = new CartItemDTO(p, c.getQuantity(),pid.getAvatarProductImageByID(c.getProductID()).getImgURL());
+
+                CartItemDTO cid = new CartItemDTO(p, c.getQuantity(), pid.getAvatarProductImageByID(c.getProductID()).getImgURL());
                 cartList.add(cid);
-                
+
             }
             session.setAttribute("cart", cartList);
 
@@ -104,27 +104,25 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         if (request.getParameter("isAdd") != null) {
             addProduct(request, response);
-        } else if (request.getParameter("isUpdate") != null){ 
+        } else if (request.getParameter("isUpdate") != null) {
             updateCartQuantity(request, response);
-        }else{
+        } else {
             deleteProduct(request, response);
         }
     }
-    
-    
+
     private void updateCartQuantity(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         int productId = Integer.parseInt(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("user");
-        
+
         CartDAO cd = new CartDAO();
         cd.updateCartItemQuantity(user.getUserID(), productId, quantity);
     }
@@ -135,8 +133,12 @@ public class CartServlet extends HttpServlet {
         int productID = Integer.parseInt(request.getParameter("productID"));
         int shopID = Integer.parseInt(request.getParameter("shopID"));
         int userID = Integer.parseInt(request.getParameter("userID"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-
+        int quantity;
+        if (request.getParameter("quantity") == null) {
+            quantity = 1;
+        } else {
+            quantity = Integer.parseInt(request.getParameter("quantity"));
+        }
         CartItem c = new CartItem(userID, productID, quantity, shopID);
 
         CartDAO cartDAO = new CartDAO();
@@ -145,7 +147,11 @@ public class CartServlet extends HttpServlet {
         } else {
             session.setAttribute("alert", "Failed to add product!");
         }
-        response.sendRedirect("food-detail?productId=" + productID);
+        if (request.getParameter("fromWL") != null) {
+            response.sendRedirect("favourite");
+        } else {
+            response.sendRedirect("food-detail?productId=" + productID);
+        }
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
