@@ -88,8 +88,8 @@ public class BlogDetailsServlet extends HttpServlet {
                 Post post = postDAO.getPostById(postId);
                 request.setAttribute("post", post);
                 request.setAttribute("postId", postIdParam);
-                request.setAttribute("fullName", userFullName); // or other necessary data
-                request.setAttribute("avtURL", userAvtURL); // or other necessary data
+                request.setAttribute("fullName", userFullName); 
+                request.setAttribute("avtURL", userAvtURL); 
 
                 request.getRequestDispatcher("/WEB-INF/view/blogdetails.jsp").forward(request, response);
             } else {

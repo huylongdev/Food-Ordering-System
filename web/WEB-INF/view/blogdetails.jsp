@@ -193,6 +193,7 @@
                                         <input type="hidden" name="commentID" value="${comment.commentID}">
                                     </form>
                                 </div>
+
                             </c:if>
                         </div>
                     </c:forEach>
@@ -234,26 +235,24 @@
         </footer>
 
         <script>
-            // Modal functionality
             const modal = document.getElementById("myModal");
             const btn = document.getElementById("openModalBtn");
             const span = document.getElementsByClassName("close")[0];
 
             btn.onclick = function () {
-                modal.style.display = "block"; // Show modal
+                modal.style.display = "block";
             }
 
             span.onclick = function () {
-                modal.style.display = "none"; // Close modal
+                modal.style.display = "none";
             }
 
             window.onclick = function (event) {
                 if (event.target == modal) {
-                    modal.style.display = "none"; // Close modal if clicked outside
+                    modal.style.display = "none";
                 }
             }
 
-            // Confirm deletion
             function confirmDelete(postID) {
                 const confirmAction = confirm("Are you sure you want to delete this post?");
                 if (confirmAction) {
@@ -262,14 +261,12 @@
                 }
             }
 
-            // Toggle dropdown visibility
             document.getElementById("more-options").addEventListener("click", function (event) {
                 event.stopPropagation(); // Prevent window click from firing
                 const dropdown = document.getElementById("dropdown-menu");
                 dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
             });
 
-            // Hide dropdown when clicking outside
             window.addEventListener("click", function (event) {
                 const dropdown = document.getElementById("dropdown-menu");
                 if (dropdown.style.display === "block" && !event.target.closest('.dropdown-container')) {
@@ -279,39 +276,50 @@
 
 
             //Comment section
+            document.querySelector('.comments-display').addEventListener('click', function (event) {
+                if (event.target.classList.contains('comment-options-icon')) {
+                    const dropdownMenu = event.target.nextElementSibling;
+                    if (dropdownMenu) {
+                        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+                        event.stopPropagation();
+                    }
+                }
 
+                if (event.target.classList.contains('edit-comment-option')) {
+                    const editModal = event.target.closest('.comment-options-dropdown').querySelector('.edit-comment-modal');
+                    if (editModal) {
+                        editModal.style.display = 'block';
+                        event.stopPropagation();
+                    }
+                }
 
-            // Show/Hide Dropdown Menu
-            document.getElementById('comment-options').addEventListener('click', function () {
-                const dropdownMenu = document.getElementById('comment-options-menu');
-                dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+                if (event.target.classList.contains('delete-comment-option')) {
+                    confirmDeleteComment();
+                    event.stopPropagation();
+                }
             });
 
-            // Close Modal
-            document.querySelector('.close-modal').addEventListener('click', function () {
-                document.getElementById('edit-comment-modal').style.display = 'none';
+            window.addEventListener('click', function () {
+                const dropdowns = document.querySelectorAll('.comment-options-menu');
+                dropdowns.forEach(dropdown => {
+                    dropdown.style.display = 'none';
+                });
             });
 
-            // Edit Comment Action
-            document.querySelector('.edit-comment-option').addEventListener('click', function () {
-                document.getElementById('edit-comment-modal').style.display = 'block';
+            document.querySelectorAll('.close-modal').forEach(element => {
+                element.addEventListener('click', function () {
+                    const editModal = this.closest('.edit-comment-modal');
+                    if (editModal) {
+                        editModal.style.display = 'none';
+                    }
+                });
             });
 
-            // Confirm Delete Action
             function confirmDeleteComment() {
                 if (confirm("Are you sure you want to delete this comment?")) {
                     document.getElementById('delete-comment-form').submit();
                 }
             }
-
-            // Close modal when clicking outside the modal content
-            window.addEventListener('click', function (event) {
-                const modal = document.getElementById('edit-comment-modal');
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
         </script>
 
         <script src="./tinymce/tinymce.min.js"></script>
