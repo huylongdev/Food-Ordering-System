@@ -122,7 +122,7 @@
         <div id="content">
             <div class="post-row content-load">
                 <c:forEach var="post" items="${postList}">
-                    <a class="card card-post content" href="/OrderingSystem/blogdetails?postId=${post.getPostID()}" style="width: 30%">
+                    <a class="card card-post content" href="/OrderingSystem/postDetails?postID=${post.getPostID()}" style="width: 30%">
                         <img class="card-img-top card-img-post" src="${post.getImgURL()}" alt="Post image" />
                         <div class="card-body">
                             <h5 class="card-title card-title-post">${post.getHeading()}</h5>
@@ -168,7 +168,7 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <form action="addPost" method="POST" enctype="multipart/form-data">
+                <form action="postDetails" method="POST" enctype="multipart/form-data">
                     <h2>Add Blog Post</h2>
                     <label for="imgPost">Picture Cover:</label>
                     <input name="imgPost" type="file" class="input-field" required/><br>
@@ -177,6 +177,7 @@
                     <label for="description">Description:</label>
                     <input type="hidden" name="userID" value="${user.getUserID()}"/>
                     <textarea id="default" name="description"></textarea><br>
+                    <input type="hidden" name="action" value="addPost">
                     <button type="submit" class="submit-button">Submit</button>
                 </form>
             </div>
