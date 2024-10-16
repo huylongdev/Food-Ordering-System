@@ -60,11 +60,7 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        OrderDAO oDAO = new OrderDAO();
-        Account u = (Account) session.getAttribute("user");
-        List<Order> o = oDAO.getOrderListByUserID(u.getUserID());
-        request.setAttribute("orderList", o);
+        
         processRequest(request, response);
     }
 

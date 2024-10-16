@@ -94,6 +94,11 @@
                                 >
                             </li>
                             <li>
+                                <a href="./order-history">
+                                    <i class="fa fa-calendar"></i> View Orders</a
+                                >
+                            </li>
+                            <li>
                                 <a href="/OrderingSystem">
                                     <i class="fa fa-home"></i> Back to hompage</a
                                 >
@@ -162,26 +167,7 @@
                     </div>
                           
                                 
-                                <div id ="order-history account" class ="center account">
-                <h1>Orders History</h1>
-                <table class ="orders-table" >
-                    <thead>
-                        <tr><th>Order</th><th>Date</th><th>Address</th><th>Order value</th><th>Status</th></tr></br>
-                    </thead>
-                    <c:forEach var ="o" items='${orderList}'>
-                        <tr>
-                             <td name='order'><a href="./view-order?orderID=${o.getOrderId()}">${o.getOrderId()}</a></td>
-                            <td name='date'><a href="./view-order?orderID=${o.getOrderId()}">${o.getCreatedDate()}</a></td>
-                            <td name='address'><a href="./view-order?orderID=${o.getOrderId()}">${o.getAddress()}</a></td>
-                            <td name='value'><a href="./view-order?orderID=${o.getOrderId()}">${o.getTotalAmount()}</a></td>
-                            <td name='status'><a href="./view-order?orderID=${o.getOrderId()}">${o.getStatus()}</a></td>
-                        </tr>
-
-                    </c:forEach>
-
-                </table>
-
-            </div>
+                        
                                 
                 </div>
 

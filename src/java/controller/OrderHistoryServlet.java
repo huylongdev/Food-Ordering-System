@@ -4,6 +4,7 @@
  */
 package controller;
 
+import context.OrderDAO;
 import context.OrderItemDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
@@ -17,16 +18,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import model.CartItemDTO;
+import model.Account;
+import model.Order;
+import model.OrderHistoryDTO;
 import model.OrderItem;
+import model.OrderItemHistoryDTO;
 import model.Product;
+import util.Utility;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "OrderDetailServlet", urlPatterns = {"/view-order"})
-public class OrderDetailServlet extends HttpServlet {
+@WebServlet(name = "OrderHistoryServlet", urlPatterns = {"/order-history"})
+public class OrderHistoryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +50,10 @@ public class OrderDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderDetailServlet</title>");            
+            out.println("<title>Servlet OrderHistoryServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderHistoryServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,28 +71,32 @@ public class OrderDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       HttpSession session = request.getSession(false);
-        if (session.getAttribute("role") == null) {
-            response.sendRedirect("login"); 
-        } else {
-            int orderID = Integer.parseInt(request.getParameter("orderID"));
-            OrderItemDAO oDAO = new OrderItemDAO();
-            List<OrderItem> oi = oDAO.getOrderItemByOrderID(orderID);
+        HttpSession session = request.getSession();
+        OrderDAO oDAO = new OrderDAO();
+        Account u = (Account) session.getAttribute("user");
+        List<Order> orderList = oDAO.getOrderListByUserID(u.getUserID());
+        List<OrderHistoryDTO> oDTOList = new ArrayList<>();
+        for (Order order : orderList) {
+            OrderItemDAO oiDAO = new OrderItemDAO();
+            List<OrderItem> oiList = oiDAO.getOrderItemByOrderID(order.getOrderId());
+            List<OrderItemHistoryDTO> oihDTOList = new ArrayList<>();
             ProductDAO pDAO = new ProductDAO();
-            List<CartItemDTO> cartList = new ArrayList<>();
-            ProductImageDAO pid= new ProductImageDAO();
-            for (OrderItem c : oi) {
-                Product p = pDAO.getProductByID(c.getProductId());
-                p.setPrice(c.getTotalPrice()/c.getQuantity());
-                CartItemDTO cid = new CartItemDTO(p, c.getQuantity(),pid.getAvatarProductImageByID(c.getProductId()).getImgURL());
-                cartList.add(cid);
+            ProductImageDAO pid = new ProductImageDAO();
+            if (order.getTimePickup()!= null){
+                order.setAddress(Utility.getShopAddressByOrderID(order.getOrderId()) + " (At Restaurant)");
                 
             }
-            session.setAttribute("orderList", cartList);
-
-            request.getRequestDispatcher("WEB-INF/view/order-item.jsp").forward(request, response);
+            for (OrderItem oi : oiList) {
+                Product p = pDAO.getProductByID(oi.getProductId());
+                p.setPrice(oi.getTotalPrice() / oi.getQuantity());
+                OrderItemHistoryDTO oihDTO = new OrderItemHistoryDTO(p, oi.getQuantity(), pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+                oihDTOList.add(oihDTO);
+            }
+            OrderHistoryDTO ohDTO = new OrderHistoryDTO(order, oihDTOList);
+            oDTOList.add(ohDTO);
         }
-
+        request.setAttribute("orderList", oDTOList);
+        request.getRequestDispatcher("WEB-INF/view/order-history.jsp").forward(request, response);
     }
 
     /**

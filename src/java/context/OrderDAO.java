@@ -267,7 +267,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getString(2));
-                list.add(new OrderDTO(rs.getInt(1), account, rs.getString(3), rs.getDate(4), rs.getDouble(5), rs.getString(6)));
+                list.add(new OrderDTO(rs.getInt(1), account, rs.getString(3), rs.getTimestamp(4), rs.getDouble(5), rs.getString(6)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -393,7 +393,7 @@ public class OrderDAO {
                     rs.getString("Address"),
                     rs.getDate("CreatedDate"),
                     rs.getString("DeliveryOption"),
-                    rs.getDate("TimePickup"),
+                    rs.getTimestamp("TimePickup"),
                     rs.getDouble("TotalAmount"),
                     rs.getInt("DiscountID"),
                     rs.getString("PaymentOption")
