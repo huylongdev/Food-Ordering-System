@@ -96,6 +96,7 @@
                                                         </a>
                                                         <div class="dropdown-content">
                                                             <a href="/OrderingSystem/account">Account</a>
+                                                    <a href="/OrderingSystem/order-history">View Orders</a>
                                                             <a href="/OrderingSystem/logout">Logout</a>
                                                         </div>
                                                     </div>

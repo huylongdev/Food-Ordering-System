@@ -44,7 +44,9 @@
         <!-- PAGE INFO -->
 
         <section class="banner jumbotron text-center" style="background-image: url('${shop.getShopImage()}');">
+            <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
             <button class="edit-image-btn" onclick="showUpdateAvatarStoreOverlay()">Edit Image</button>
+            </c:if>
             <div class="page-title">${shop.getName()}</div>
             <p>${shop.getDescription()}</p>
             <p>${shop.getAddress()}</p>

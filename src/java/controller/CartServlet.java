@@ -148,6 +148,7 @@ public class CartServlet extends HttpServlet {
             session.setAttribute("alert", "Failed to add product!");
         }
         if (request.getParameter("fromWL") != null) {
+            session.removeAttribute("alert");
             response.sendRedirect("favourite");
         } else {
             response.sendRedirect("food-detail?productId=" + productID);
