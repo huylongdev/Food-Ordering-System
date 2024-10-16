@@ -99,28 +99,36 @@
                                 <div id="myModal" class="modal">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <form action="editPost" method="POST" enctype="multipart/form-data">
-                                            <h2>Edit Blog Post Id: ${postId}</h2>
+                                        <form action="postDetails" method="POST" enctype="multipart/form-data">
+                                            <h2>Edit Blog Post Id: ${post.postID}</h2>
                                             <label for="imgPost">Picture Cover:</label>
                                             <input name="imgPost" type="file" class="input-field" required><br>
+
                                             <label for="title">Heading:</label>
                                             <input name="title" type="text" required class="input-field" value="${post.heading}"><br>
+
                                             <label for="description">Description:</label>
                                             <textarea id="default" name="description">${post.content}</textarea><br>
-                                            <input type="hidden" name="postId" value="${post.postID}">
-                                            <input type="hidden" name="userID" value="${user.getUserID()}">
+
+                                            <input type="hidden" name="action" value="editPost">
+                                            <input type="hidden" name="postID" value="${post.postID}">
+                                            <input type="hidden" name="userID" value="${user.userID}">
+
                                             <button type="submit" class="submit-button">Submit</button>
                                         </form>
+
                                     </div>
                                 </div>
-                                <a href="#" id="delete" onclick="confirmDelete(${postId})"><i class="ti-trash"> Delete</i></a>
+                                <a href="#" id="delete" onclick="confirmDelete(${post.getPostID()})"><i class="ti-trash"> Delete</i></a>
                             </div>
                         </div>
-                    </c:if>
                     <!-- Hidden form for deletion -->
-                    <form id="deleteFormPost" action="deletePost" method="post" style="display:none;">
-                        <input type="hidden" name="postID" id="postID">
+                    <form id="deleteFormPost" action="postDetails" method="POST">
+                        <input type="hidden" name="action" value="deletePost">
+                        <input type="hidden" name="postID" id="postID" value="${post.getPostID()}">
                     </form>
+                    </c:if>
+
 
                 </div>
                 <div class="blog-details-author">
@@ -141,12 +149,13 @@
         <!-- COMMENT SECTION -->
         <div class="comment-container">
             <h2>Comment Section</h2>
-            <form action="blogdetails" method="post">
+            <form action="postDetails" method="POST">
                 <div class="comment-box">
                     <textarea name="commentInput" rows="4" placeholder="Write a comment..." required></textarea><br><br>
-                    <input type="hidden" name="postID" value="${postId}">
+                    <input type="hidden" name="postID" value="${post.postID}">
                     <input type="hidden" name="userID" value="${user.userID}">
-                    <input type="submit" value="Post Comment" class="btn btn-primary">
+                    <input type="hidden" name="action" value="addComment">
+                    <input type="submit" value="Add Comment" class="btn btn-primary">
                 </div>
             </form>
 
@@ -175,22 +184,26 @@
                                     <div id="edit-comment-modal" class="edit-comment-modal modal">
                                         <div class="modal-content">
                                             <span class="close-modal">&times;</span>
-                                            <form class="edit-comment-form" action="editComment" method="POST">
+                                            <form class="edit-comment-form" action="postDetails" method="POST">
                                                 <h2>Edit Comment</h2>
                                                 <textarea id="edit-comment-content" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
-                                                <!--<input type="hidden" id="edit-comment-id" name="commentID">-->
-                                                <input type="hidden" name="postId" value="${post.postID}">
+
+                                                <input type="hidden" name="postID" value="${post.postID}">
                                                 <input type="hidden" name="userID" value="${user.userID}">
                                                 <input type="hidden" name="commentID" value="${comment.commentID}">
+                                                <input type="hidden" name="action" value="editComment">
+
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
+
                                         </div>
                                     </div>
 
                                     <!-- Delete Comment Form -->
-                                    <form id="delete-comment-form" action="deleteComment" method="post" style="display:none;">
-                                        <input type="hidden" name="postId" value="${post.postID}">
+                                    <form id="delete-comment-form" action="postDetails" method="POST">
+                                        <input type="hidden" name="postID" value="${post.postID}">
                                         <input type="hidden" name="commentID" value="${comment.commentID}">
+                                        <input type="hidden" name="action" value="deleteComment">
                                     </form>
                                 </div>
 
@@ -257,7 +270,7 @@
                 const confirmAction = confirm("Are you sure you want to delete this post?");
                 if (confirmAction) {
                     document.getElementById('postID').value = postID;
-                    document.getElementById('deleteFormPost').submit();
+                    document.getElementById('deleteFormPost').submit('deletePost');
                 }
             }
 
