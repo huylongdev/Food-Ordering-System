@@ -32,6 +32,44 @@
         <!--<link rel="stylesheet" href="./assets/css/blog.css" />-->
         <link href="./assets/css/product.css" rel="stylesheet">
         <script src="index.js"></script>
+        <style>
+            .menu-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            .menu-btn {
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                font-size: 24px;
+            }
+
+            .menu-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #f9f9f9;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                min-width: 120px;
+            }
+
+            .menu-content button {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .menu-content button:hover {
+                background-color: #f1f1f1;
+            }
+
+            .menu-container.show .menu-content {
+                display: block;
+            }
+        </style>
     </head>
     <body>
 
@@ -100,15 +138,15 @@
                                 <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
                                 <c:if test="${fav == null}">
                                     <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                    </svg>
-                                </button>
+                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                        </svg>
+                                    </button>
                                 </c:if>
                                 <c:if test="${fav != null}">
                                     <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                    </svg>
-                                </button>
+                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                        </svg>
+                                    </button>
                                 </c:if>
                             </c:if>
                         </div>
@@ -129,49 +167,77 @@
                 <div class ="product-tab">
                     <h4>REVIEW</h4>
                 </div>
-                <form action="detail" method="POST">
-                    <div class ="rate-product">
-                        <label for="rating">Rate:</label>
-                        <select name="rating" id="rating">
-                            <option value="1">⭐</option>
-                            <option value="2">⭐ ⭐</option>
-                            <option value="3">⭐ ⭐ ⭐</option>
-                            <option value="4">⭐ ⭐ ⭐ ⭐</option>
-                            <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
-                        </select>
-                    </div>
-                    <div class ="review-content">
-                        <input type = "text" name = "comment" placeholder="Enter content...">
-                    </div>
-
+                <form action="FeedbackServlet" method="POST">
                     <c:if test="${sessionScope.role != null}">
-                        <input type = "hidden" name ="bookID" value = "bookID">
-                        <input type = "hidden" name ="userID" value = "userID">
-                        <div class ="center">
-                            <!--<button type="submit">Send</button></div>-->
-                        </c:if>
-                </form>
+                        <input type = "hidden" name ="productID" value = "${p.getProductId()}">
+                        <input type = "hidden" name ="action" value = "add">
+                        <div class ="rate-product">
+                            <label for="rating">Rate:</label>
+                            <select name="rating" id="rating">
+                                <option value="1">⭐</option>
+                                <option value="2">⭐ ⭐</option>
+                                <option value="3">⭐ ⭐ ⭐</option>
+                                <option value="4">⭐ ⭐ ⭐ ⭐</option>
+                                <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
+                            </select>
+                        </div>
+                        <div class ="review-content">
+                            <input type = "text" name = "comment" placeholder="Enter content...">
+                        </div>
+                        <button type="submit">Send</button></div>
+                    </c:if>
+        </form>
+        <c:forEach var="feedback" items="${flist}">
+            <div class ="review-content">
+                <p>${feedback.userName}  ${feedback.createdDate}</p>
             </div>
+            <div class ="review-content">
+                <p>${feedback.comment}  ${feedback.rating}</p>
+                <div class="menu-container">
+                    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+                    <div class="menu-content" id="dropdownMenu">
+                        <form action="FeedbackServlet" method="POST">
+                            <input type = "hidden" name ="feebackID" value = "${feedback.feedbackId}">
+                            <input type = "hidden" name ="productID" value = "${p.getProductId()}">
+                            <button name="action" value="edit">Edit</button>
+                        </form>
+                        <form action="FeedbackServlet" method="POST">
+                            <input type = "hidden" name ="feebackID" value = "${feedback.feedbackId}">
+                            <input type = "hidden" name ="productID" value = "${p.getProductId()}">
+                            <button name="action" value="delete">Delete</button>
 
-        </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+
+</div> 
 
 
-        <%@ include file="/include/footer.jsp" %>
-        <c:if test="${not empty sessionScope.alert}">
+<%@ include file="/include/footer.jsp" %>
+<c:if test="${not empty sessionScope.alert}">
 
-            <script>
-                alert("${alert}");
-            </script>
-            <%session.setAttribute("alert", null);%>
-        </c:if>
+    <script>
+        alert("${alert}");
+    </script>
+    <%session.setAttribute("alert", null);%>
+</c:if>
 
-        <script src="js/Jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+<script src="js/Jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+></script>
+<script>
+        function toggleMenu() {
+            document.querySelector('.menu-container').classList.toggle('show');
+        }
+
+</script>
+</body>
 </html>

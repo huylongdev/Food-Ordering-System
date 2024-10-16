@@ -4,7 +4,9 @@
  */
 package controller;
 
+import context.AccountDAO;
 import context.FavouriteDAO;
+import context.FeedbackDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
 import context.ShopDAO;
@@ -15,13 +17,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Favourite;
+import model.Feedback;
+import model.FeedbackDTO;
 import model.Product;
 import model.ProductImage;
 import model.Shop;
-import org.apache.catalina.User;
 
 /**
  *
@@ -72,6 +76,8 @@ public class FoodDetailServlet extends HttpServlet {
         Account user = (Account) request.getSession().getAttribute("user");
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO iDAO = new ProductImageDAO();
+            FeedbackDAO fdao = new FeedbackDAO();
+            AccountDAO adao = new AccountDAO();
             Product p = pDAO.getProductByID(id);
             List<ProductImage> images = iDAO.getListImageByProductID(id);
             request.setAttribute("images", images);
@@ -85,7 +91,15 @@ public class FoodDetailServlet extends HttpServlet {
             request.setAttribute("fav", fav);
             }
             
+            List<Feedback> flist = fdao.getFeedbackByProductID(id);
+            List<FeedbackDTO> flistdto = new ArrayList<>();
+            for(Feedback f : flist){
+                Account a = adao.getUserById(f.getUserId());
+                flistdto.add(new FeedbackDTO(f.getFeedbackId(),f.getProductId(),f.getRating(),f.getComment(),a.getFullName(),f.getCreatedDate()));
+            }
+                
             request.setAttribute("shop", shop);
+            request.setAttribute("flist", flistdto);
             
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
@@ -104,7 +118,7 @@ public class FoodDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**
