@@ -13,7 +13,7 @@ import model.Account;
 
 public class Email {
     private static final String fromEmail = "tientpde180866@fpt.edu.vn";
-    private static final String password = "czwm irwi ttyx tvog";
+    private static final String password = "yqve wbss xvde mfns";
 
     public static String getRandom() {
         Random rnd = new Random();

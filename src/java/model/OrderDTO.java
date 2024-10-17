@@ -5,6 +5,7 @@ import java.util.Date;
 public class OrderDTO {
 
     private int orderId;
+    private int paymentID;
     private Account user;
     private String address;
     private Date createdDate;
@@ -51,7 +52,30 @@ public class OrderDTO {
         this.timePickup = timePickup;
         this.discountId = discountId;
     }
+    
+    public OrderDTO(int orderId, int paymentID , Account user, String address, Date createdDate, double totalAmount, String paymentOption, String status, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
+        this.orderId = orderId;
+        this.paymentID = paymentID;
+        this.user = user;
+        this.address = address;
+        this.createdDate = createdDate;
+        this.totalAmount = totalAmount;
+        this.paymentOption = paymentOption;
+        this.status = status;
+        this.createdDateString = createdDateString;
+        this.deliveryOption = deliveryOption;
+        this.timePickup = timePickup;
+        this.discountId = discountId;
+    }
 
+    public int getPaymentID() {
+        return paymentID;
+    }
+
+    public void setPaymentID(int paymentID) {
+        this.paymentID = paymentID;
+    }
+    
     public String getDeliveryOption() {
         return deliveryOption;
     }

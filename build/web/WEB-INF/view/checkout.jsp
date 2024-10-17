@@ -8,13 +8,15 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Reid - Checkout Page</title>
+        <title>Checkout Page</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link rel="stylesheet" href="assets/css/plugins.css">
         <link rel="stylesheet" href="./assets/css/style.css" />
         <link rel="stylesheet" href="./assets/css/blog.css" />
+        <link rel="stylesheet" href="./assets/css/cart.css">
+        <link rel="stylesheet" href="./assets/css/header-footer.css">
         <link rel="stylesheet" href="./assets/css/checkout.css" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -60,15 +62,15 @@
                     <form action="checkout" method="POST">
                         <div class="row">
                             <div class="col-lg-5 col-md-5">
-                                <h3>Chi tiết đơn hàng</h3>
+                                <h3>Order details</h3>
                                 <div class="row">
                                     <div class="col-lg-12 mb-20">
-                                        <label>Tên khách hàng<span>*</span></label>
+                                        <label>Customer name<span>*</span></label>
                                         <c:if test="${not empty user}">
                                             <input readonly value="${user.getFullName()}" type="text">
                                         </c:if>
                                         <c:if test="${empty user}">
-                                            <input readonly value="Người dùng không xác định" type="text">
+                                            <input readonly value="User undefined" type="text">
                                         </c:if>
                                     </div>
                                     <div class="col-lg-12 mb-20">
@@ -77,19 +79,19 @@
                                             <input readonly value="${user.getEmail()}" type="text">
                                         </c:if>
                                         <c:if test="${empty user}">
-                                            <input readonly value="Người dùng không xác định" type="text">
+                                            <input readonly value="User undefined" type="text">
                                         </c:if>
                                     </div>
                                     <div class="col-lg-12 mb-20">
-                                        <label>Địa chỉ<span>*</span></label>
+                                        <label>Address<span>*</span></label>
                                         <input required name="address" type="text">
                                     </div>
                                     <div class="col-lg-12 mb-20">
-                                        <label>Số điện thoại<span>*</span></label>
-                                        <input required name="phone" type="tel" pattern="[0-9]{10}" title="Nhập số điện thoại 10 số" maxlength="10">
+                                        <label>Phone number<span>*</span></label>
+                                        <input required name="phone" type="tel" pattern="[0-9]{10}" title="Enter phone number 10 digit" maxlength="10">
                                     </div>
                                 </div>
-                                <h4>Phương thức thanh toán</h4>
+                                <h4>Payment type</h4>
                                 <div class="payment_method">
                                     <div>
                                         <input type="radio" name="payment_method" id="vnpay" value="vnpay">
@@ -97,42 +99,42 @@
                                     </div>
                                     <div>
                                         <input type="radio" name="payment_method" id="cod" value="cod">
-                                        <label for="cod">Thanh toán khi nhận hàng</label>
+                                        <label for="cod">COD</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-20">
-                                    <h4>Phương thức nhận hàng</h4>
+                                    <h4>Pickup method</h4>
                                     <div class="shipping_method">
                                         <div>
                                             <input type="radio" name="shipping_method" id="home_delivery" value="home_delivery" required>
-                                            <label for="home_delivery">Giao hàng tận nơi</label>
+                                            <label for="home_delivery">Delivery at home</label>
                                         </div>
                                         <div>
                                             <input type="radio" name="shipping_method" id="pickup" value="pickup" required>
-                                            <label for="pickup">Pick up tại cửa hàng</label>
+                                            <label for="pickup">Pick up at store</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Time Pickup Field -->
                                 <div class="col-lg-12 mb-20" id="pickup_time_field" style="display:none;">
-                                    <label>Thời gian pick up<span>*</span></label>
+                                    <label>Time pick up<span>*</span></label>
                                     <input name="pickup_time" type="datetime-local" id="pickup_time">
                                 </div>
 
-                                <button class="btn btn-primary" type="submit">Hoàn tất đơn hàng</button>
+                                <button class="btn btn-primary" type="submit">Complete the order</button>
 
                             </div>
 
                             <div class="col-lg-7 col-md-7">
-                                <h3>Giỏ hàng</h3>
+                                <h3>Cart</h3>
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Số lượng</th>
-                                            <th>Tổng</th>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -146,7 +148,7 @@
                                             </tr>
                                         </c:forEach>
                                         <tr>
-                                            <td colspan="3">Tổng cộng</td>
+                                            <td colspan="3">Total</td>
                                             <td>
                                                 <c:set var="total" value="0" />
                                                 <c:forEach var="item" items="${cart}">

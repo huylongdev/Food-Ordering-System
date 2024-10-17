@@ -476,3 +476,9 @@ CREATE TABLE OrderItem (
     Quantity INT NOT NULL,
     TotalPrice DECIMAL(18, 2) NOT NULL
 );
+
+
+select * from [Order] order by CreatedDate DESC
+--update 17/10
+ALTER TABLE [Order]
+add PaymentID int not null default 0000
