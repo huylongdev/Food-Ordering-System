@@ -1,26 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author LENOVO
- */
 public class Product {
 
     private int productId;         // ProductID
     private String name;           // Name
     private String description;    // Description
-    private double price;      // Price
+    private double price;          // Price
     private boolean status;        // Status
     private int shopId;            // ShopID
     private int categoryId;        // CategoryID
     private int purchaseCount;     // PurchaseCount
-    private double rating;      // Rating
+    private double rating;         // Rating
+    private String imgURL;         // ImgURL (thêm trường này)
+    private Shop shop;
 
     public Product() {
+    }
+
+    public Product(int productId, int shopId, String name, double price) {
+        this.productId = productId;
+        this.shopId = shopId;
+        this.name = name;
+        this.price = price;
     }
 
     public Product(int productId, String productName) {
@@ -143,4 +144,11 @@ public class Product {
         this.rating = rating;
     }
 
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 }
