@@ -18,17 +18,38 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>KẾT QUẢ THANH TOÁN</title>
-        <!-- Bootstrap core CSS -->
-        <link href="/vnpay_jsp/assets/bootstrap.min.css" rel="stylesheet"/>
-        <!-- Custom styles for this template -->
-        <link href="/vnpay_jsp/assets/jumbotron-narrow.css" rel="stylesheet"> 
-        <script src="/vnpay_jsp/assets/jquery-1.11.3.min.js"></script>
+        <title>Payment Status</title>
+        <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css"/>
+        <link rel="stylesheet" href="./assets/css/style.css">
+        <link rel="stylesheet" href="./assets/css/cart.css">
+        <link rel="stylesheet" href="./assets/css/header-footer.css">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+            />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
     </head>
+    <style>
+        #footer{
+            margin: 0!important;
+        }
+        .container {
+            text-align: center;
+            width: 100%;
+            padding: 50px;
+        }
+    </style>
     <body>
+        <%@ include file="/include/header.jsp" %>
+
         <%
             //Begin process return from VNPAY
             Map fields = new HashMap();
@@ -53,52 +74,52 @@
         <!--Begin display -->
         <div class="container">
             <div class="header clearfix">
-                <h3 class="text-muted">KẾT QUẢ THANH TOÁN</h3>
+                <h3 class="text-muted">PAYMENT RESULT</h3>
             </div>
             <div class="table-responsive">
                 <div class="form-group">
-                    <label >Mã giao dịch thanh toán:</label>
+                    <label>Transaction Reference Number:</label>
                     <label><%=request.getParameter("vnp_TxnRef")%></label>
                 </div>    
                 <div class="form-group">
-                    <label >Số tiền:</label>
+                    <label>Amount:</label>
                     <label><%=request.getParameter("vnp_Amount")%></label>
                 </div>  
                 <div class="form-group">
-                    <label >Mô tả giao dịch:</label>
+                    <label>Transaction Description:</label>
                     <label><%=request.getParameter("vnp_OrderInfo")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Mã lỗi thanh toán:</label>
+                    <label>Payment Error Code:</label>
                     <label><%=request.getParameter("vnp_ResponseCode")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Mã giao dịch tại CTT VNPAY-QR:</label>
+                    <label>Transaction ID at CTT VNPAY-QR:</label>
                     <label><%=request.getParameter("vnp_TransactionNo")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Mã ngân hàng thanh toán:</label>
+                    <label>Bank Code:</label>
                     <label><%=request.getParameter("vnp_BankCode")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Thời gian thanh toán:</label>
+                    <label>Payment Time:</label>
                     <label><%=request.getParameter("vnp_PayDate")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Tình trạng giao dịch:</label>
+                    <label>Transaction Status:</label>
                     <label>
                         <%
                             if (signValue.equals(vnp_SecureHash)) {
                                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                                    out.print("Thành công");
+                                    out.print("Successful");
                                 } else {
-                                    out.print("Không thành công");
+                                    out.print("Not successful");
                                 }
-
                             } else {
-                                out.print("invalid signature");
+                                out.print("Invalid signature");
                             }
-                        %></label>
+                        %>
+                    </label>
                 </div> 
             </div>
             <p>
@@ -107,6 +128,11 @@
             <footer class="footer">
                 <p>&copy; VNPAY 2020</p>
             </footer>
-        </div>  
+        </div>
+        <!-- AD BLOG -->
+        <img style="width: 100%" src="./assets/img/adblog.svg" alt="" class="blog-ad" />
+
+        <%@ include file="/include/footer.jsp" %>
+
     </body>
 </html>

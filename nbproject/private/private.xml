@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/cart.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/js/shop.js</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
@@ -15,6 +16,7 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/genfiles.properties</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/filter/AccessFilter.java</file>
+
         </group>
     </open-files>
 </project-private>

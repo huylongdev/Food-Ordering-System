@@ -1,20 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.CartItem;
+import model.CartItemDTO;
+import model.Product;
 
-/**
- *
- * @author LENOVO
- */
 public class CartDAO {
 
     private DBContext dbContext;
@@ -26,12 +22,10 @@ public class CartDAO {
     public boolean addToCart(CartItem c) {
         String query = "INSERT INTO CartItem (UserID, ProductID, Quantity, ShopID) VALUES (?, ?, ?, ?)";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setInt(1, c.getUserID());
             ps.setInt(2, c.getProductID());
             ps.setInt(3, c.getQuantity());
             ps.setInt(4, c.getShopID());
-
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -55,7 +49,6 @@ public class CartDAO {
                         rs.getInt("ShopID")
                 );
                 cart.add(c);
-
             }
             return cart;
 
@@ -89,6 +82,73 @@ public class CartDAO {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<CartItemDTO> getCartItems(int userID) {
+    List<CartItemDTO> cartItems = new ArrayList<>();
+    // Cập nhật câu truy vấn để bao gồm giá sản phẩm
+    String query = "SELECT p.ProductID, p.ShopID, p.Name, p.Price, ci.Quantity " +
+                   "FROM CartItem ci " +
+                   "JOIN Product p ON ci.ProductID = p.ProductID " +
+                   "WHERE ci.UserID = ?";
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, userID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int productID = rs.getInt("ProductID");
+            int shopID = rs.getInt("ShopID");
+            String productName = rs.getString("Name");
+            int quantity = rs.getInt("Quantity");
+            double price = rs.getDouble("Price"); // Lấy giá sản phẩm
+
+            // Tạo Product và CartItemDTO
+            Product product = new Product(productID, shopID, productName, price); // Cập nhật constructor để nhận giá
+            CartItemDTO cartItemDTO = new CartItemDTO(product, quantity, price); // Cập nhật để bao gồm giá
+
+            // Lấy hình ảnh sản phẩm
+            String productImageUrl = getProductImage(productID);
+            cartItemDTO.setImgURL(productImageUrl);
+
+            cartItems.add(cartItemDTO);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return cartItems;
+}
+
+
+// Phương thức lấy URL hình ảnh của sản phẩm
+    private String getProductImage(int productID) {
+        String imageUrl = null;
+        String query = "SELECT ImgURL FROM ProductImage WHERE ProductID = ? AND IsAvatar = 1";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                imageUrl = rs.getString("ImgURL");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return imageUrl;
+    }
+
+// Phương thức nhóm CartItemDTO theo ShopID
+    public Map<Integer, List<CartItemDTO>> groupCartItemsByShop(int userID) {
+        List<CartItemDTO> cartItems = getCartItems(userID);
+        Map<Integer, List<CartItemDTO>> shopCartItemsMap = new HashMap<>();
+
+        for (CartItemDTO cartItemDTO : cartItems) {
+            Product product = cartItemDTO.getProduct();
+            int shopID = product.getShopId();
+
+            shopCartItemsMap.putIfAbsent(shopID, new ArrayList<>());
+            shopCartItemsMap.get(shopID).add(cartItemDTO);
+        }
+
+        return shopCartItemsMap;
     }
 
 }
