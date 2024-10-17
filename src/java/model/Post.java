@@ -18,21 +18,23 @@ public class Post {
     private String content;
     private Date createdDate;
     private String userFullName;
+    private boolean status;
+    
 
     public Post() {
     }
-    
-    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate) {
+
+    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, boolean status) {
         this.postID = postID;
         this.userID = userID;
         this.imgURL = imgURL;
         this.heading = heading;
         this.content = content;
         this.createdDate = createdDate;
-        this.userFullName = null;
+        this.status = status;
     }
 
-    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, String userFullName) {
+    public Post(int postID, int userID, String imgURL, String heading, String content, Date createdDate, String userFullName, boolean status) {
         this.postID = postID;
         this.userID = userID;
         this.imgURL = imgURL;
@@ -40,8 +42,20 @@ public class Post {
         this.content = content;
         this.createdDate = createdDate;
         this.userFullName = userFullName;
+        this.status = status;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    
+
+    
     public int getPostID() {
         return postID;
     }
@@ -97,5 +111,12 @@ public class Post {
     public void setUserFullName(String userFullName) {
         this.userFullName = userFullName;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" + "postID=" + postID + ", userID=" + userID + ", imgURL=" + imgURL + ", heading=" + heading + ", content=" + content + ", createdDate=" + createdDate + ", userFullName=" + userFullName + ", status=" + status + '}';
+    }
+    
+    
     
 }

@@ -101,6 +101,9 @@
                             <div class="text-center btn-dash" style="margin-top:2em; line-height:200px; ">
                         <a href="./dashboard"  class="btn btn-primary">View Admin Dashboard</a>
                     </div>
+                             <div class="text-center btn-dash" style="margin-top:2em; line-height:200px; ">
+                        <a href="admin-item"  class="btn btn-primary">Admin Dashboard Demo</a>
+                    </div>
                         </ul>
                     </div>
                 </div>

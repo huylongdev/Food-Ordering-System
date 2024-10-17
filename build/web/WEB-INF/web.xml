@@ -44,6 +44,14 @@
         <servlet-name>FavouriteServlet</servlet-name>
         <servlet-class>controller.FavouriteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminPostServlet</servlet-name>
+        <servlet-class>controller.AdminPostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminProductServlet</servlet-name>
+        <servlet-class>controller.AdminProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>FavouriteServlet</servlet-name>
         <url-pattern>/favourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminPostServlet</servlet-name>
+        <url-pattern>/admin-post</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminProductServlet</servlet-name>
+        <url-pattern>/admin-item</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>

@@ -48,7 +48,8 @@ public class PostDAO {
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("Status")
                 );
                 posts.add(post);
             }
@@ -76,7 +77,8 @@ public class PostDAO {
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("Status")
                 );
 
                 // Lấy tên đầy đủ của người dùng theo UserID
@@ -107,7 +109,8 @@ public class PostDAO {
                             rs.getString("ImgURL"),
                             rs.getString("Heading"),
                             rs.getString("Content"),
-                            rs.getTimestamp("CreatedDate")
+                            rs.getTimestamp("CreatedDate"),
+                            rs.getBoolean("Status")
                     );
                 }
             }
@@ -177,7 +180,8 @@ public class PostDAO {
                         rs.getString("ImgURL"),
                         rs.getString("Heading"),
                         rs.getString("Content"),
-                        rs.getTimestamp("CreatedDate")
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("Status")
                 );
                 posts.add(post);
             }
@@ -200,7 +204,8 @@ public class PostDAO {
                             rs.getString("ImgURL"),
                             rs.getString("Heading"),
                             rs.getString("Content"),
-                            rs.getTimestamp("CreatedDate")
+                            rs.getTimestamp("CreatedDate"),
+                            rs.getBoolean("Status")
                     );
                 }
             }
@@ -247,5 +252,31 @@ public class PostDAO {
         }
         return avatarImg;
     }
-   
+
+    public boolean deleteIllegalPost(int postID) {
+        boolean flag = false;
+        String sql = " UPDATE Post\n"
+                + "  SET status = 0\n"
+                + "  WHERE PostID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, postID);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                flag = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public static void main(String[] args) throws Exception {
+        PostDAO postDAO = new PostDAO();
+       List<Post> list = postDAO.getAllPosts();
+       for(Post p : list){
+           System.out.println(p.toString());
+       }
+       
+    }
 }

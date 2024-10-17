@@ -448,16 +448,14 @@ public class ProductDAO {
         }
         return products;
     }
-    
-    
-    
+
     public List<Product> getProductByShopIDInPage(int shopID, int page, int size) {
         List<Product> products = new ArrayList<>();
         int offset = (page - 1) * size; // Tính toán offset
         String query = "SELECT * FROM Product WHERE ShopID = ? ORDER BY ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(2, offset);
-            ps.setInt(3, size); 
+            ps.setInt(3, size);
 //            ResultSet rs = ps.executeQuery();
 //        String query = "SELECT * FROM Product WHERE ShopID = ?";
 //        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -485,10 +483,8 @@ public class ProductDAO {
         }
         return products;
     }
-    
-    
-    
-     public List<Product> getProductByCategoryID(int categoryID) {
+
+    public List<Product> getProductByCategoryID(int categoryID) {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE CategoryID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -515,6 +511,24 @@ public class ProductDAO {
             e.printStackTrace();
         }
         return products;
+    }
+
+    public boolean deleteIllegalProduct(int productID) {
+        boolean flag = false;
+        String sql = "UPDATE Product \n"
+                + "SET Status = 0\n"
+                + "WHERE ProductID= ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productID);
+            int rowsAffected = ps.executeUpdate();  // Lấy số dòng bị ảnh hưởng
+            if (rowsAffected > 0) {
+                flag = true;  // Nếu có dòng bị cập nhật, đánh dấu flag thành true
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
     }
 
 }

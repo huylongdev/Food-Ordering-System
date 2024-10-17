@@ -450,7 +450,7 @@ VALUES
 );
 
 
-//Fix
+--Fix
 DROP TABLE IF EXISTS OrderItem;
 
 DROP TABLE IF EXISTS [Order];
@@ -476,3 +476,12 @@ CREATE TABLE OrderItem (
     Quantity INT NOT NULL,
     TotalPrice DECIMAL(18, 2) NOT NULL
 );
+
+-- Demo delete items
+UPDATE Product 
+SET Status = 1
+WHERE ProductID= 14
+
+SELECT * FROM Product
+
+-- Demo delete post
