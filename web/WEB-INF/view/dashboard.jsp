@@ -230,7 +230,7 @@
 
 
 
-                        <div class="user-list">
+                        <div class="user-list" style="max-height: 300px; overflow-y: scroll;">
                             <h2>List of Users</h2>
                             <table class="table table-striped">
                                 <thead>
@@ -254,77 +254,76 @@
                                             <td>${user.fullName}</td>
                                             <td>${user.phoneNumber}</td>
                                             <td>
-                                                           <button class="btn btn-danger" onclick="openBanUserModal('${user.userID}')">Ban</button>
-
+                                                <button class="btn btn-danger" onclick="openBanUserModal('${user.userID}')">Ban</button>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-
                         </div>
+
                     </div>
                 </div>
             </div> 
         </div>  
-        
+
 
         <script src="index.js">
 
         </script>
         <div id="overlay"></div>
 
-    <!-- Ban User Modal -->
-    <div id="banUserModal">
-        <h3>Ban User</h3>
-        <p id="banUserId"></p>
-        <form id="banUserForm">
-    <div class="form-group">
-        <input type="checkbox" id="abusiveLanguage" name="banReasons" value="abusiveLanguage">
-        <label for="abusiveLanguage">The user has used abusive language.</label>
-    </div>
-    <div class="form-group">
-        <input type="checkbox" id="spammedOrders" name="banReasons" value="spammedOrders">
-        <label for="spammedOrders">The user has spammed orders too many times.</label>
-    </div>
-    <div class="form-group">
-        <input type="checkbox" id="violatedStandards" name="banReasons" value="violatedStandards">
-        <label for="violatedStandards">The user has violated community standards.</label>
-    </div>
-    <div class="form-group">
-        <input type="checkbox" id="spreadMalware" name="banReasons" value="spreadMalware">
-        <label for="spreadMalware">The user has spread viruses or malware.</label>
-    </div>
-    <div class="form-group">
-        <input type="checkbox" id="others" name="banReasons" value="others">
-        <label for="others">Others:</label>
-        <input type="text" id="othersInput" name="othersInput" placeholder="Please specify">
-    </div>
-    <div class="button-group">
-        <button type="button" class="btn-confirm" onclick="confirmBan()">Confirm</button>
-        <button type="button" class="btn-cancel" onclick="closeBanUserModal()">Cancel</button>
-    </div>
-</form>
-    </div>
+        <!-- Ban User Modal -->
+        <div id="banUserModal">
+            <h3>Ban User</h3>
+            <p id="banUserId"></p>
+            <form id="banUserForm">
+                <div class="form-group">
+                    <input type="checkbox" id="abusiveLanguage" name="banReasons" value="abusiveLanguage">
+                    <label for="abusiveLanguage">The user has used abusive language.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="spammedOrders" name="banReasons" value="spammedOrders">
+                    <label for="spammedOrders">The user has spammed orders too many times.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="violatedStandards" name="banReasons" value="violatedStandards">
+                    <label for="violatedStandards">The user has violated community standards.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="spreadMalware" name="banReasons" value="spreadMalware">
+                    <label for="spreadMalware">The user has spread viruses or malware.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="others" name="banReasons" value="others">
+                    <label for="others">Others:</label>
+                    <input type="text" id="othersInput" name="othersInput" placeholder="Please specify">
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn-confirm" onclick="confirmBan()">Confirm</button>
+                    <button type="button" class="btn-cancel" onclick="closeBanUserModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
 
-    <script>
-       // Hiển thị modal
-function openBanUserModal(userId) {
-    document.getElementById('banUserId').innerText = `Ban User ID: ${userId}`;
-    document.getElementById('banUserModal').style.display = 'flex'; // Hiển thị modal
-}
+        <script>
+            // Hiển thị modal
+            function openBanUserModal(userId) {
+                document.getElementById('banUserId').innerText = `Ban User ID: ${userId}`;
+                document.getElementById('banUserModal').style.display = 'flex'; // Hiển thị modal
+            }
 
-// Đóng modal
-function closeBanUserModal() {
-    document.getElementById('banUserModal').style.display = 'none'; // Ẩn modal
-}
+    // Đóng modal
+            function closeBanUserModal() {
+                document.getElementById('banUserModal').style.display = 'none'; // Ẩn modal
+            }
 
-// Xác nhận việc ban user
-function confirmBan() {
-    // Logic xử lý khi xác nhận ban user
-    alert("User has been banned!");
-    closeBanUserModal(); // Đóng modal sau khi xác nhận
-}
-    </script>
+    // Xác nhận việc ban user
+            function confirmBan() {
+                // Logic xử lý khi xác nhận ban user
+                alert("User has been banned!");
+                closeBanUserModal(); // Đóng modal sau khi xác nhận
+            }
+        </script>
     </body>
 </html>
