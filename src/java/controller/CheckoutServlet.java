@@ -23,7 +23,8 @@ import model.Product;
 
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
 public class CheckoutServlet extends HttpServlet {
-
+    String paymentID = Config.getRandomNumber(8);
+    
     public CheckoutServlet() {
         super();
         System.out.println("CheckoutServlet initialized!");
@@ -37,7 +38,7 @@ public class CheckoutServlet extends HttpServlet {
 
         try {
             HttpSession session = request.getSession(true);
-            List<CartItemDTO> cartDTO = (List<CartItemDTO>) session.getAttribute("cart");
+            List<CartItemDTO> cartItems = (List<CartItemDTO>) session.getAttribute("cart");
 
             Account acc = (Account) session.getAttribute("user");
 
@@ -49,52 +50,50 @@ public class CheckoutServlet extends HttpServlet {
             String payment_method = request.getParameter("payment_method");
             String address = request.getParameter("address");
             String deliveryOption = request.getParameter("shipping_method");
-//            Date timePickup = null;
-//            if ("pickup".equals(deliveryOption)) {
-//                String timePickupString = request.getParameter("pickup_time");
-//
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-//
-//                try {
-//                    timePickup = dateFormat.parse(timePickupString);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
             String timePickup = request.getParameter("pickup_time");
-
             String phone = request.getParameter("phone");
 
-            if (cartDTO != null && !cartDTO.isEmpty()) {
-                OrderDAO dao = new OrderDAO();
-                String payment = determinePaymentMethod(payment_method);
+            if (cartItems != null && !cartItems.isEmpty()) {
+                OrderDAO orderDAO = new OrderDAO();
+                double totalAmount = 0;
+                List<OrderDTO> allOrders = new ArrayList<>();
 
-                String orderID = Config.getRandomNumber(8);
+                Map<Integer, List<CartItemDTO>> groupedCartItems = groupCartItemsByShop(cartItems);
 
-                List<CartItem> cart = new ArrayList<>();
-                for (CartItemDTO itemDTO : cartDTO) {
-                    Product product = itemDTO.getProduct(); // Ensure this returns a valid Product object
-                    CartItem item = new CartItem(product, itemDTO.getQuantity());
-                    cart.add(item);
+                for (Map.Entry<Integer, List<CartItemDTO>> entry : groupedCartItems.entrySet()) {
+                    List<CartItemDTO> shopCartItems = entry.getValue();
+                    String shopOrderID = Config.getRandomNumber(8); 
+                    
+
+                    List<CartItem> cartItemsForShop = new ArrayList<>();
+                    double shopTotalAmount = 0;
+
+                    for (CartItemDTO itemDTO : shopCartItems) {
+                        Product product = itemDTO.getProduct();
+                        CartItem cartItem = new CartItem(product, itemDTO.getQuantity());
+                        cartItemsForShop.add(cartItem);
+                        shopTotalAmount += product.getPrice() * itemDTO.getQuantity();
+                    }
+
+                    // Create the order for this shop
+                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID),Integer.parseInt(paymentID), acc, cartItemsForShop, determinePaymentMethod(payment_method), address, "PENDING", deliveryOption, timePickup);
+                    shopOrder.setTotalAmount(shopTotalAmount);
+                    allOrders.add(shopOrder); // Store the order
+
+                    totalAmount += shopTotalAmount;
                 }
 
-                // Create a temporary order with payment status PENDING and set orderID
-
-//                Order order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING");
-
-                OrderDTO order = dao.createOrder(Integer.parseInt(orderID), acc, cart, payment, address, "PENDING", deliveryOption, timePickup);
-                // Handle COD payment
                 if ("cod".equals(payment_method)) {
-                    // For COD, set payment status to PAID immediately
-                    dao.updateOrderPaymentStatus(Integer.parseInt(orderID), "PAID");
+                    // For COD, mark all orders as paid immediately
+                    for (OrderDTO order : allOrders) {
+                        orderDAO.updateOrderPaymentStatus(order.getOrderId(), "PAID");
+                    }
                     clearCart(session);
-                    response.sendRedirect("/OrderingSystem/");
+                    response.sendRedirect("/OrderingSystem/account");
                 } else if ("vnpay".equals(payment_method)) {
-                    // Process VNPAY payment and set vnp_TxnRef to orderID
-                    if (order != null) {
+                    if (!allOrders.isEmpty()) {
                         clearCart(session);
-                        processVNPAY(request, response, order, orderID);
+                        processVNPAY(request, response, allOrders, totalAmount);
                     } else {
                         request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
                     }
@@ -106,6 +105,17 @@ public class CheckoutServlet extends HttpServlet {
             e.printStackTrace();
             request.getRequestDispatcher("WEB-INF/view/404.jsp").forward(request, response);
         }
+    }
+
+    private Map<Integer, List<CartItemDTO>> groupCartItemsByShop(List<CartItemDTO> cartItems) {
+        Map<Integer, List<CartItemDTO>> groupedItems = new HashMap<>();
+
+        for (CartItemDTO item : cartItems) {
+            int shopId = item.getProduct().getShopId(); // Assuming Product has a method getShopId
+            groupedItems.computeIfAbsent(shopId, k -> new ArrayList<>()).add(item);
+        }
+
+        return groupedItems;
     }
 
     private String determinePaymentMethod(String paymentMethod) {
@@ -124,14 +134,13 @@ public class CheckoutServlet extends HttpServlet {
         session.setAttribute("size", 0);
     }
 
-    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, OrderDTO order, String orderID) throws IOException {
+    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> allOrders, double totalAmount) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = (long) (Math.round(order.getTotalAmount()) * 100);
+        long amount = (long) (Math.round(totalAmount) * 100);
 
-        // Set vnp_TxnRef as the orderID
-        String vnp_TxnRef = orderID;
+        String vnp_TxnRef = paymentID ; // Unique transaction reference
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
 
@@ -142,7 +151,7 @@ public class CheckoutServlet extends HttpServlet {
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + vnp_TxnRef);
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang");
         vnp_Params.put("vnp_OrderType", orderType);
 
         String locate = request.getParameter("language");
@@ -189,7 +198,6 @@ public class CheckoutServlet extends HttpServlet {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
 
-        // Redirect to VNPAY payment URL
         response.sendRedirect(paymentUrl);
     }
 
@@ -206,31 +214,31 @@ public class CheckoutServlet extends HttpServlet {
         if (selected == null) {
             session.setAttribute("cartStatus", "Choose product to order!");
             response.sendRedirect("cart");
+            return;
+        }
 
-        } else {
-
-            for (String productID : selected) {
-                // Existing logic to process productID
-                int id;
-                try {
-                    id = Integer.parseInt(productID);
-                } catch (NumberFormatException e) {
-                    throw new ServletException("Invalid product ID");
-                }
+        for (String productID : selected) {
+            try {
+                int id = Integer.parseInt(productID);
                 int quantity = Integer.parseInt(request.getParameter("quantity_" + productID));
+
                 CartItemDTO cDTO = new CartItemDTO();
                 cDTO.setProduct(pDAO.getProductByID(id));
                 cDTO.setQuantity(quantity);
                 cartDTO.add(cDTO);
+            } catch (NumberFormatException e) {
+                throw new ServletException("Invalid product ID or quantity", e);
             }
+        }
 
-            session.setAttribute("cart", cartDTO);
-            Object u = session.getAttribute("user");
-            if (u != null) {
-                request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
-            } else {
-                response.sendRedirect("/OrderingSystem/login");
-            }
+        session.setAttribute("cart", cartDTO);
+        session.setAttribute("size", cartDTO.size());
+
+        Object user = session.getAttribute("user");
+        if (user != null) {
+            request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("/OrderingSystem/login");
         }
     }
 

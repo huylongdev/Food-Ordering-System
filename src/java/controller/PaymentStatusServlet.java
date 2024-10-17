@@ -35,22 +35,20 @@ public class PaymentStatusServlet extends HttpServlet {
         String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
         String vnp_TxnRef = request.getParameter("vnp_TxnRef");
 
-        // Log all parameters for debugging (optional)
         System.out.println("Response Code: " + vnp_ResponseCode);
         System.out.println("Transaction Status: " + vnp_TransactionStatus);
         System.out.println("Transaction Reference: " + vnp_TxnRef);
 
-        // Only proceed if both vnp_ResponseCode and vnp_TransactionStatus are "00"
         OrderDAO dao = new OrderDAO();
-        int orderId = Integer.parseInt(vnp_TxnRef);
+        int paymentID = Integer.parseInt(vnp_TxnRef);
         if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
 
-            dao.updateOrderPaymentStatus(orderId, "PAID");
+            dao.updateOrderPaymentStatus(paymentID, "PAID");
 
             request.getRequestDispatcher("WEB-INF/view/paymentStatus.jsp").forward(request, response);
 
         } else {
-            dao.updateOrderPaymentStatus(orderId, "FAILED");
+            dao.updateOrderPaymentStatus(paymentID, "FAILED");
             request.getRequestDispatcher("WEB-INF/view/paymentStatus.jsp").forward(request, response);
 
         }
