@@ -54,7 +54,7 @@ public class OrderDAO {
 
             try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
                 ps.setInt(1, account.getUserID());
-                ps.setString(2, "Pending"); 
+                ps.setString(2, "Pending");
                 ps.setString(3, address);
                 ps.setString(4, createdDate);
                 ps.setDouble(5, totalAmount);
@@ -81,13 +81,13 @@ public class OrderDAO {
                 }
             }
 
-            conn.commit(); 
+            conn.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
             if (conn != null) {
                 try {
-                    conn.rollback();  
+                    conn.rollback();
                 } catch (Exception rollbackEx) {
                     rollbackEx.printStackTrace();
                 }
@@ -95,7 +95,7 @@ public class OrderDAO {
         } finally {
             if (conn != null) {
                 try {
-                    conn.setAutoCommit(true);  
+                    conn.setAutoCommit(true);
                     conn.close();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -171,7 +171,7 @@ public class OrderDAO {
         return order;
     }
 
-    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption,
+    public OrderDTO createOrder(int orderID, int paymentID, Account account, List<CartItem> cartItems, String paymentOption,
             String address, String status, String deliveryOption, String timePickupString) throws Exception {
 
         Date timePickup = null;
@@ -187,9 +187,8 @@ public class OrderDAO {
         }
 
         java.util.Date createdDate = new java.util.Date();
-        
 
-        String insertOrderSql = "INSERT INTO [Order] (OrderID, UserID, Status, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertOrderSql = "INSERT INTO [Order] (OrderID, PaymentID, UserID, Status, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
@@ -206,14 +205,15 @@ public class OrderDAO {
 
             try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
                 ps.setInt(1, orderID);
-                ps.setInt(2, account.getUserID());
-                ps.setString(3, status);
-                ps.setString(4, address);
-                ps.setTimestamp(5, new java.sql.Timestamp(createdDate.getTime()));
-                ps.setDouble(6, totalAmount);
-                ps.setString(7, paymentOption);
-                ps.setString(8, deliveryOption);
-                ps.setTimestamp(9, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
+                ps.setInt(2, paymentID);
+                ps.setInt(3, account.getUserID());
+                ps.setString(4, status);
+                ps.setString(5, address);
+                ps.setTimestamp(6, new java.sql.Timestamp(createdDate.getTime()));
+                ps.setDouble(7, totalAmount);
+                ps.setString(8, paymentOption);
+                ps.setString(9, deliveryOption);
+                ps.setTimestamp(10, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
 
                 ps.executeUpdate();
             }
@@ -230,8 +230,6 @@ public class OrderDAO {
 
             conn.commit();
             order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
-
-
 
         } catch (Exception e) {
 
@@ -357,7 +355,7 @@ public class OrderDAO {
         PreparedStatement ps = null;
         try {
             conn = new DBContext().getConnection();
-            String sql = "UPDATE [Order] SET Status = ? WHERE OrderID = ?";
+            String sql = "UPDATE [Order] SET Status = ? WHERE PaymentID = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, status);
             ps.setInt(2, orderId);
@@ -369,15 +367,12 @@ public class OrderDAO {
         }
 
     }
-    
-    
+
     private DBContext dbContext;
 
     public OrderDAO() {
         dbContext = new DBContext();
     }
-    
-    
 
     public List<Order> getOrderListByUserID(int userId) {
         List<Order> orders = new ArrayList<>();
@@ -387,6 +382,7 @@ public class OrderDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = new Order(
+
                     rs.getInt("OrderID"),
                     rs.getInt("UserID"),
                     rs.getString("Status"),
@@ -397,6 +393,7 @@ public class OrderDAO {
                     rs.getDouble("TotalAmount"),
                     rs.getInt("DiscountID"),
                     rs.getString("PaymentOption")
+
                 );
                 orders.add(order);
             }
@@ -407,6 +404,5 @@ public class OrderDAO {
         System.out.println("No orders found for the user");
         return null;
     }
-
 
 }

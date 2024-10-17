@@ -24,7 +24,6 @@ public class ShopDAO {
         dbContext = new DBContext();
     }
 
-    
     public boolean createRestaurant(Shop r) {
         String query = "INSERT INTO Shop (Name, Description, Status, ShopImage, Address, TimeOpen, TimeClose) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -62,7 +61,6 @@ public class ShopDAO {
         }
     }
 
-    
     public boolean deleteRestaurant(int shopID) {
         String query = "DELETE FROM Shop WHERE ShopID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -75,7 +73,6 @@ public class ShopDAO {
         }
     }
 
-    
     public Shop getRestaurantByID(int shopID) {
         String query = "SELECT * FROM Shop WHERE ShopID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -349,19 +346,37 @@ public class ShopDAO {
         System.out.println("Shop not found");
         return null;
     }
-    
-    public boolean updateShopImage(int shopId, String imageUrl) {
-    String query = "UPDATE Shop SET ShopImage = ? WHERE ShopID = ?";
-    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, imageUrl);
-        ps.setInt(2, shopId);
 
-        return ps.executeUpdate() > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+    public String getShopNameByID(int shopID) {
+        String query = "SELECT Name FROM Shop WHERE ShopID = ?";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, shopID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String Name = rs.getString("Name");
+
+                return Name;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Shop not found");
+        return null;
     }
-}
 
+    public boolean updateShopImage(int shopId, String imageUrl) {
+        String query = "UPDATE Shop SET ShopImage = ? WHERE ShopID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, imageUrl);
+            ps.setInt(2, shopId);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
