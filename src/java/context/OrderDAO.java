@@ -33,146 +33,8 @@ public class OrderDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public void addOrder(Account account, List<CartItem> cartItems, String paymentOption, String address) {
-        LocalDate curDate = LocalDate.now();
-        String createdDate = curDate.toString();
-
-        String insertOrderSql = "INSERT INTO [Order] (UserID, PaymentStatus, Address, CreatedDate, TotalAmount, PaymentOption) VALUES (?, ?, ?, ?, ?, ?)";
-        String selectOrderIdSql = "SELECT TOP 1 OrderID FROM [Order] ORDER BY OrderID DESC";
-        String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
-
-        Connection conn = null;
-
-        try {
-            conn = new DBContext().getConnection();
-            conn.setAutoCommit(false);
-
-            double totalAmount = 0;
-            for (CartItem item : cartItems) {
-                totalAmount += item.getQuantity() * item.getProduct().getPrice();
-            }
-
-            try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
-                ps.setInt(1, account.getUserID());
-                ps.setString(2, "Pending");
-                ps.setString(3, address);
-                ps.setString(4, createdDate);
-                ps.setDouble(5, totalAmount);
-                ps.setString(6, paymentOption);
-                ps.executeUpdate();
-            }
-
-            int orderId;
-            try (PreparedStatement ps = conn.prepareStatement(selectOrderIdSql); ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    orderId = rs.getInt(1);
-                } else {
-                    throw new RuntimeException("Unable to retrieve OrderID.");
-                }
-            }
-
-            for (CartItem item : cartItems) {
-                try (PreparedStatement ps = conn.prepareStatement(insertOrderItemSql)) {
-                    ps.setInt(1, orderId);
-                    ps.setInt(2, item.getProduct().getProductId());
-                    ps.setInt(3, item.getQuantity());
-                    ps.setDouble(4, item.getQuantity() * item.getProduct().getPrice());
-                    ps.executeUpdate();
-                }
-            }
-
-            conn.commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (Exception rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                    conn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public OrderDTO createOrder(int orderID, Account account, List<CartItem> cartItems, String paymentOption, String address, String status) {
-        LocalDate curDate = LocalDate.now();
-        String createdDate = curDate.toString();
-
-        String insertOrderSql = "INSERT INTO [Order] (OrderID, UserID, PaymentStatus, Address, CreatedDate, TotalAmount, PaymentOption) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
-
-        Connection conn = null;
-        OrderDTO order = null;
-
-        try {
-            conn = new DBContext().getConnection();
-            conn.setAutoCommit(false);
-
-            double totalAmount = 0;
-            for (CartItem item : cartItems) {
-                totalAmount += item.getQuantity() * item.getProduct().getPrice();
-            }
-
-            try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
-                ps.setInt(1, orderID);
-                ps.setInt(2, account.getUserID());
-                ps.setString(3, status);
-                ps.setString(4, address);
-                ps.setString(5, createdDate);
-                ps.setDouble(6, totalAmount);
-                ps.setString(7, paymentOption);
-                ps.executeUpdate();
-            }
-
-            for (CartItem item : cartItems) {
-                try (PreparedStatement ps = conn.prepareStatement(insertOrderItemSql)) {
-                    ps.setInt(1, orderID);
-                    ps.setInt(2, item.getProduct().getProductId());
-                    ps.setInt(3, item.getQuantity());
-                    ps.setDouble(4, item.getQuantity() * item.getProduct().getPrice());
-                    ps.executeUpdate();
-                }
-            }
-
-            conn.commit();
-
-            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (Exception rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                    conn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return order;
-    }
-
     public OrderDTO createOrder(int orderID, int paymentID, Account account, List<CartItem> cartItems, String paymentOption,
-            String address, String status, String deliveryOption, String timePickupString) throws Exception {
+            String address, String paymentStatus, String deliveryStatus, String deliveryOption, String timePickupString) throws Exception {
 
         Date timePickup = null;
 
@@ -188,7 +50,7 @@ public class OrderDAO {
 
         java.util.Date createdDate = new java.util.Date();
 
-        String insertOrderSql = "INSERT INTO [Order] (OrderID, PaymentID, UserID, PaymentStatus, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertOrderSql = "INSERT INTO [Order] (OrderID, PaymentID, UserID, PaymentStatus, DeliveryStatus, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
@@ -207,13 +69,14 @@ public class OrderDAO {
                 ps.setInt(1, orderID);
                 ps.setInt(2, paymentID);
                 ps.setInt(3, account.getUserID());
-                ps.setString(4, status);
-                ps.setString(5, address);
-                ps.setTimestamp(6, new java.sql.Timestamp(createdDate.getTime()));
-                ps.setDouble(7, totalAmount);
-                ps.setString(8, paymentOption);
-                ps.setString(9, deliveryOption);
-                ps.setTimestamp(10, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
+                ps.setString(4, paymentStatus);
+                ps.setString(5, deliveryStatus);
+                ps.setString(6, address);
+                ps.setTimestamp(7, new java.sql.Timestamp(createdDate.getTime()));
+                ps.setDouble(8, totalAmount);
+                ps.setString(9, paymentOption);
+                ps.setString(10, deliveryOption);
+                ps.setTimestamp(11, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
 
                 ps.executeUpdate();
             }
@@ -229,7 +92,7 @@ public class OrderDAO {
             }
 
             conn.commit();
-            order = new OrderDTO(orderID, account, totalAmount, paymentOption, status, address, createdDate.toString());
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, paymentStatus, deliveryStatus, address, createdDate.toString());
 
         } catch (Exception e) {
 
@@ -368,6 +231,44 @@ public class OrderDAO {
         }
     }
 
+    public void updateOrderPaymentStatusByOrderID(int orderID, String status) throws Exception {
+        String sql = "UPDATE [Order] SET DeliveryStatus = ? WHERE OrderID = ?";
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, orderID);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows == 0) {
+                System.out.println("No order found with OrderID: " + orderID);
+            } else {
+                System.out.println("Updated OrderID: " + orderID + " to status: " + status);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateOrderDeliveryStatus(int paymentID, String status) throws Exception {
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement("UPDATE [Order] SET DeliveryStatus = ? WHERE PaymentID = ?")) {
+
+            ps.setString(1, status);
+            ps.setInt(2, paymentID);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows == 0) {
+                System.out.println("No order found with PaymentID: " + paymentID);
+            } else {
+                System.out.println("Updated PaymentID: " + paymentID + " to status: " + status);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private DBContext dbContext;
 
     public OrderDAO() {
@@ -385,6 +286,7 @@ public class OrderDAO {
                         rs.getInt("OrderID"),
                         rs.getInt("UserID"),
                         rs.getString("PaymentStatus"),
+                        rs.getString("DeliveryStatus"),
                         rs.getString("Address"),
                         rs.getDate("CreatedDate"),
                         rs.getString("DeliveryOption"),
@@ -404,7 +306,7 @@ public class OrderDAO {
     }
 
     public int getPaymentIDByOrderID(int orderId) {
-        int paymentID = -1; 
+        int paymentID = -1;
         String sql = "SELECT PaymentID FROM [Order] WHERE OrderID = ?";
         try {
             conn = new DBContext().getConnection();
@@ -413,7 +315,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                paymentID = rs.getInt("PaymentID"); 
+                paymentID = rs.getInt("PaymentID");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -434,6 +336,40 @@ public class OrderDAO {
         }
 
         return paymentID;
+    }
+
+    public String getDeliveryStatusByOrderID(int orderId) {
+        String deliveryStatus = null;
+        String sql = "SELECT DeliveryStatus FROM [Order] WHERE OrderID = ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                deliveryStatus = rs.getString("DeliveryStatus");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deliveryStatus;
     }
 
 }

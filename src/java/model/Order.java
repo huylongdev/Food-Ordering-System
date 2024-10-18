@@ -11,9 +11,11 @@ import java.util.Date;
  * @author LENOVO
  */
 public class Order {
+
     private int orderId;
     private int userId;
-    private String status;
+    private String paymentStatus;
+    private String deliveryStatus;
     private String address;
     private Date createdDate;
     private String deliveryOption;
@@ -25,10 +27,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, int userId, String status, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption) {
+    public Order(int orderId, int userId, String paymentStatus, String deliveryStatus, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption) {
         this.orderId = orderId;
         this.userId = userId;
-        this.status = status;
+        this.paymentStatus = paymentStatus;
+        this.deliveryStatus = deliveryStatus;
         this.address = address;
         this.createdDate = createdDate;
         this.deliveryOption = deliveryOption;
@@ -36,6 +39,22 @@ public class Order {
         this.totalAmount = totalAmount;
         this.discountId = discountId;
         this.paymentOption = paymentOption;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
     public int getOrderId() {
@@ -55,11 +74,11 @@ public class Order {
     }
 
     public String getStatus() {
-        return status;
+        return paymentStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getAddress() {

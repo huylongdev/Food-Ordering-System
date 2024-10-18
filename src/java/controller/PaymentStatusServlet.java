@@ -51,6 +51,8 @@ public class PaymentStatusServlet extends HttpServlet {
 
         } else {
             dao.updateOrderPaymentStatus(paymentID, "FAILED");
+            dao.updateOrderDeliveryStatus(paymentID, "FAILED");
+
             request.getRequestDispatcher("WEB-INF/view/paymentStatus.jsp").forward(request, response);
 
         }

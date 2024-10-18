@@ -11,11 +11,12 @@ public class OrderDTO {
     private Date createdDate;
     private double totalAmount;
     private String paymentOption;
-    private String status;
+    private String paymentStatus;
     private String createdDateString;
-    private String deliveryOption;  
-    private Date timePickup;        
-    private int discountId;   
+    private String deliveryOption;
+    private Date timePickup;
+    private int discountId;
+    private String deliveryStatus;
 
     public OrderDTO() {
     }
@@ -29,43 +30,46 @@ public class OrderDTO {
         this.paymentOption = paymentOption;
     }
 
-    public OrderDTO(int orderID, Account user, double totalAmount, String paymentOption, String status, String address, String createdDateString) {
+    public OrderDTO(int orderID, Account user, double totalAmount, String paymentOption, String paymentStatus, String deliveryStatus, String address, String createdDateString) {
         this.orderId = orderID;
         this.user = user;
         this.totalAmount = totalAmount;
         this.paymentOption = paymentOption;
-        this.status = status;
+        this.paymentStatus = paymentStatus;
+        this.deliveryStatus = deliveryStatus;
         this.address = address;
         this.createdDateString = createdDateString;
     }
 
-    public OrderDTO(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption, String status, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
+    public OrderDTO(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption, String paymentStatus, String deliveryStatus, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
         this.orderId = orderId;
         this.user = user;
         this.address = address;
         this.createdDate = createdDate;
         this.totalAmount = totalAmount;
         this.paymentOption = paymentOption;
-        this.status = status;
+        this.paymentStatus = paymentStatus;
+        this.deliveryStatus = deliveryStatus;
         this.createdDateString = createdDateString;
         this.deliveryOption = deliveryOption;
         this.timePickup = timePickup;
         this.discountId = discountId;
     }
-    
-    public OrderDTO(int orderId, int paymentID , Account user, String address, Date createdDate, double totalAmount, String paymentOption, String status, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
-        this.orderId = orderId;
-        this.paymentID = paymentID;
-        this.user = user;
-        this.address = address;
-        this.createdDate = createdDate;
-        this.totalAmount = totalAmount;
-        this.paymentOption = paymentOption;
-        this.status = status;
-        this.createdDateString = createdDateString;
-        this.deliveryOption = deliveryOption;
-        this.timePickup = timePickup;
-        this.discountId = discountId;
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
     public int getPaymentID() {
@@ -75,7 +79,7 @@ public class OrderDTO {
     public void setPaymentID(int paymentID) {
         this.paymentID = paymentID;
     }
-    
+
     public String getDeliveryOption() {
         return deliveryOption;
     }
@@ -99,9 +103,7 @@ public class OrderDTO {
     public void setDiscountId(int discountId) {
         this.discountId = discountId;
     }
-    
-    
-    
+
     public int getOrderId() {
         return orderId;
     }
@@ -148,14 +150,6 @@ public class OrderDTO {
 
     public void setPaymentOption(String paymentOption) {
         this.paymentOption = paymentOption;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getCreatedDateString() {

@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Order;
 import model.OrderHistoryDTO;
@@ -82,9 +84,9 @@ public class OrderHistoryServlet extends HttpServlet {
             List<OrderItemHistoryDTO> oihDTOList = new ArrayList<>();
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO pid = new ProductImageDAO();
-            if (order.getTimePickup()!= null){
+            if (order.getTimePickup() != null) {
                 order.setAddress(Utility.getShopAddressByOrderID(order.getOrderId()) + " (At Restaurant)");
-                
+
             }
             for (OrderItem oi : oiList) {
                 Product p = pDAO.getProductByID(oi.getProductId());
@@ -110,7 +112,14 @@ public class OrderHistoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        OrderDAO oDAO = new OrderDAO();
+        int orderID = Integer.parseInt(request.getParameter("orderId"));
+        try {
+            oDAO.updateOrderPaymentStatusByOrderID(orderID, "CANCEL");
+            response.sendRedirect("/OrderingSystem/order-history");
+        } catch (Exception ex) {
+            Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
