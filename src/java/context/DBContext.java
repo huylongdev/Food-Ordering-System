@@ -13,7 +13,7 @@ import java.sql.Connection;
  */
 public class DBContext {
 
-    private String server = "Admin-PC";
+    private String server = "localhost";
     private String user = "sa";
     private String password = "123456";
 
@@ -38,6 +38,19 @@ public class DBContext {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+     public static void main(String[] args) {
+        
+        try {
+            
+            DBContext dbConn = new DBContext();
+            Connection conn = dbConn.getConnection();
+            System.out.println("Kết nối thành công!");
+            // Bạn có thể thêm mã để thực hiện các thao tác với cơ sở dữ liệu ở đây.
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
