@@ -405,5 +405,120 @@ public class OrderDAO {
         System.out.println("No orders found for the user");
         return null;
     }
+    
+    
+    
+    public List<Order> getOrderListByShopID(int shopId) {
+    List<Order> orders = new ArrayList<>();
+    String query = "SELECT DISTINCT o.* " +
+                   "FROM [Order] o " +
+                   "JOIN OrderItems oi ON o.OrderID = oi.OrderID " +
+                   "JOIN Product p ON oi.ProductID = p.ProductID " +
+                   "WHERE p.ShopID = ? " +
+                   "ORDER BY o.CreatedDate DESC";
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setInt(1, shopId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Order order = new Order(
+                rs.getInt("OrderID"),
+                rs.getInt("UserID"),
+                rs.getString("PaymentStatus"),
+                rs.getString("Address"),
+                rs.getDate("CreatedDate"),
+                rs.getString("DeliveryOption"),
+                rs.getTimestamp("TimePickup"),
+                rs.getDouble("TotalAmount"),
+                rs.getInt("DiscountID"),
+                rs.getString("PaymentOption"),
+                rs.getString("DeliveryStatus")
+            );
+            orders.add(order);
+        }
+        return orders;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    System.out.println("No orders found for the shop");
+    return null;
+}
+public List<Order> getOrderListByShopIDAndStatus(int shopId, String status) {
+    List<Order> orders = new ArrayList<>();
+    String query = "SELECT DISTINCT o.* " +
+                   "FROM [Order] o " +
+                   "JOIN OrderItem oi ON o.OrderID = oi.OrderID " +
+                   "JOIN Product p ON oi.ProductID = p.ProductID " +
+                   "WHERE p.ShopID = ? AND o.DeliveryStatus = ? AND o.PaymentStatus LIKE 'PAID'" +
+                   "ORDER BY o.CreatedDate DESC";
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setInt(1, shopId);
+        ps.setString(2, status);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Order order = new Order(
+                rs.getInt("OrderID"),
+                rs.getInt("UserID"),
+                rs.getString("PaymentStatus"),
+                rs.getString("Address"),
+                rs.getDate("CreatedDate"),
+                rs.getString("DeliveryOption"),
+                rs.getTimestamp("TimePickup"),
+                rs.getDouble("TotalAmount"),
+                rs.getInt("DiscountID"),
+                rs.getString("PaymentOption"),
+                rs.getString("DeliveryStatus")
+            );
+            orders.add(order);
+        }
+        return orders;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    System.out.println("No orders found for the shop with the specified status");
+    return null;
+}
+
+public Order getOrderByOrderID(int orderId) {
+    String query = "SELECT * FROM [Order] WHERE OrderID = ?";
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setInt(1, orderId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            Order order = new Order(
+                rs.getInt("OrderID"),
+                rs.getInt("UserID"),
+                rs.getString("PaymentStatus"),
+                rs.getString("Address"),
+                rs.getDate("CreatedDate"),
+                rs.getString("DeliveryOption"),
+                rs.getTimestamp("TimePickup"),
+                rs.getDouble("TotalAmount"),
+                rs.getInt("DiscountID"),
+                rs.getString("PaymentOption"),
+                rs.getString("DeliveryStatus")
+            );
+            return order;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    System.out.println("No order found with the specified OrderID");
+    return null;
+}
+
+
+public boolean updateOrderStatus(int orderId, String status) {
+    String query = "UPDATE [Order] SET DeliveryStatus = ? WHERE OrderID = ?";
+    try (Connection con = dbContext.getConnection(); 
+         PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setString(1, status);
+        ps.setInt(2, orderId);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
 }

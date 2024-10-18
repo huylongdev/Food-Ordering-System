@@ -25,6 +25,7 @@ html {
 }
 
 #header {
+    
 }
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
     background-color: white !important;
@@ -117,6 +118,8 @@ i.ti-shopping-cart {
 
 
 #footer {
+    position: relative;
+    z-index: 1;
   margin-top: 30px;
   background-color: #333;
   color: #fff;
@@ -124,6 +127,7 @@ i.ti-shopping-cart {
 }
 
 .footer-content {
+    z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
