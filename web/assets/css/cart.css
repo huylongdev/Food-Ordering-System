@@ -24,7 +24,10 @@ a.nav-link {
   color: #5eae53;
 }
 
-
+.price-col{
+    justify-content:end !important;
+    padding-right: 20px !important;
+}
 
 /*-----------------------------cart--------------------------------------------------------*/
 #delete-btn {
@@ -121,8 +124,8 @@ h2 {
     display: block;
     max-height: 75px;
     overflow: hidden;
-    color: #707070;
-    font-size: 1rem;
+    color: #464545;
+    font-size: 1.05rem;
 }
 
 .cart-item div {
@@ -141,7 +144,10 @@ h2 {
     font-size: 16px;
 }
 
-
+.cart{
+    padding-left: 10%;
+    padding-right: 10%;
+}
 
 
 
@@ -214,4 +220,22 @@ h2 {
 .cart-item .price {
     font-size: 16px;
     color: #212529 ;
+}
+
+.button-group.mt-3 {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.navbar__item {
+    width: 33%!important;
+    display: flex;
+    align-items: center;
+}
+
+.cart-tbody {
+    width: 100%;
+    float: left;
+    margin-bottom: 5%;
 }

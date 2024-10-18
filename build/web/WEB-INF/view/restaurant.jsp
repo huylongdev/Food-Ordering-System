@@ -34,9 +34,12 @@
         <link href="./assets/css/restaurant.css" rel="stylesheet">
     </head>
     <body>
-
-        <%@ include file="/include/header.jsp" %>
-
+        <c:if test="${sessionScope.user != null && sessionScope.user.getRole() == 2}">
+            <%@ include file="/include/shop-header.jsp" %>
+        </c:if>
+        <c:if test="${sessionScope.user == null || sessionScope.user.getRole() != 2}">
+            <%@ include file="/include/header.jsp" %>
+        </c:if>
 
 
 
@@ -45,7 +48,7 @@
 
         <section class="banner jumbotron text-center" style="background-image: url('${shop.getShopImage()}');">
             <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
-            <button class="edit-image-btn" onclick="showUpdateAvatarStoreOverlay()">Edit Image</button>
+                <button class="edit-image-btn" onclick="showUpdateAvatarStoreOverlay()">Edit Image</button>
             </c:if>
             <div class="page-title">${shop.getName()}</div>
             <p>${shop.getDescription()}</p>
@@ -59,58 +62,58 @@
                 <p>Time Open: ${shop.getTimeOpen()}</p>
                 <p>Time Close: ${shop.getTimeClose()}</p>
                 <c:if test="${sessionScope.user != null && sessionScope.user.shopID == shop.shopID}">
-                <button type="button" class=""
-                        data-shopId="${shop.getShopID()}" 
-                        data-name="${shop.getName()}"
-                        data-description="${shop.getDescription()}"
-                        data-address="${shop.getAddress()}"
-                        data-timeOpen="${shop.getTimeOpen()}"
-                        data-timeClose="${shop.getTimeClose()}"
-                        onclick="showUpdateStoreOverlay(); updateStoreButton(this)">Update Store</button>
+                    <button type="button" class=""
+                            data-shopId="${shop.getShopID()}" 
+                            data-name="${shop.getName()}"
+                            data-description="${shop.getDescription()}"
+                            data-address="${shop.getAddress()}"
+                            data-timeOpen="${shop.getTimeOpen()}"
+                            data-timeClose="${shop.getTimeClose()}"
+                            onclick="showUpdateStoreOverlay(); updateStoreButton(this)">Update Store</button>
                 </c:if>
             </div>
             <!-- Overlay form -->
             <div id="update-store-overlay" class="overlay center">
-    <div class="overlay-content">
-        <span class="close-btn" onclick="hideUpdateStoreOverlay()">&times;</span><br>
-        <form name="update-store" action="restaurant-detail" method="post">
-            <div class="add-product-form">
-                <h1>Update Store</h1>
-                <input type="hidden" name="mt" value="updateStore">
-                <input id="restaurantID" type="hidden" name="shopID" value="" required>
+                <div class="overlay-content">
+                    <span class="close-btn" onclick="hideUpdateStoreOverlay()">&times;</span><br>
+                    <form name="update-store" action="restaurant-detail" method="post">
+                        <div class="add-product-form">
+                            <h1>Update Store</h1>
+                            <input type="hidden" name="mt" value="updateStore">
+                            <input id="restaurantID" type="hidden" name="shopID" value="" required>
 
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="restaurantName" name="name" class="form-control" value="" required>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="restaurantName" name="name" class="form-control" value="" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea id="restaurantDescription" name="description" class="form-control" rows="4" cols="50" required></textarea>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="text" id="restaurantAddress" name="address" class="form-control" value="" required>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="timeOpen">Time Open:</label>
+                                <input type="time" id="timeOpen" name="timeOpen" class="form-control" value="" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="timeClose">Time Close:</label>
+                                <input type="time" id="timeClose" name="timeClose" class="form-control" value="" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block">Save</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="restaurantDescription" name="description" class="form-control" rows="4" cols="50" required></textarea>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <input type="text" id="restaurantAddress" name="address" class="form-control" value="" required>
-                    
-                </div>
-
-                <div class="form-group">
-                    <label for="timeOpen">Time Open:</label>
-                    <input type="time" id="timeOpen" name="timeOpen" class="form-control" value="" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="timeClose">Time Close:</label>
-                    <input type="time" id="timeClose" name="timeClose" class="form-control" value="" required>
-                </div>
-
-                <button type="submit" class="btn btn-success btn-block">Save</button>
             </div>
-        </form>
-    </div>
-</div>
 
 
         </div>
@@ -282,22 +285,22 @@
                 </form>
             </div>
         </div>
-        
-        <div id="update-avatar-overlay" class="overlay center">
-                <div class="overlay-content">
-                    <span class="close-btn" onclick="hideUpdateStoreAvatarOverlay()">&times;</span></br>
-                    <form name = "changeAvatar" action = "restaurant-detail" method = "post" enctype="multipart/form-data">
-                        <input type="hidden" name="mt" value="changeImage">
 
-                        <label for="imgURL">Upload Image</label>
-                        <input type="file" id="img" name="img" accept="image/*" required >
-                        <input type = "hidden" name = "shopID" value =${shop.getShopID()}>
-                        <input type = "hidden" name = "mt" value ="changeAvatar">
-                        </br></br></br>
-                        <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
-                    </form>
-                </div>
-            </div>   
+        <div id="update-avatar-overlay" class="overlay center">
+            <div class="overlay-content">
+                <span class="close-btn" onclick="hideUpdateStoreAvatarOverlay()">&times;</span></br>
+                <form name = "changeAvatar" action = "restaurant-detail" method = "post" enctype="multipart/form-data">
+                    <input type="hidden" name="mt" value="changeImage">
+
+                    <label for="imgURL">Upload Image</label>
+                    <input type="file" id="img" name="img" accept="image/*" required >
+                    <input type = "hidden" name = "shopID" value =${shop.getShopID()}>
+                    <input type = "hidden" name = "mt" value ="changeAvatar">
+                    </br></br></br>
+                    <button type ="submit" style="background-color: #b0c4de" class="btn">Save</button>
+                </form>
+            </div>
+        </div>   
 
 
         <div class="pagination">
