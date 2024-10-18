@@ -350,22 +350,22 @@ public class OrderDAO {
         return latestOrder;
     }
 
-    public void updateOrderPaymentStatus(int orderId, String status) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = new DBContext().getConnection();
-            String sql = "UPDATE [Order] SET PaymentStatus = ? WHERE PaymentID = ?";
-            ps = conn.prepareStatement(sql);
+    public void updateOrderPaymentStatus(int paymentID, String status) throws Exception {
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement("UPDATE [Order] SET PaymentStatus = ? WHERE PaymentID = ?")) {
+
             ps.setString(1, status);
-            ps.setInt(2, orderId);
-            ps.executeUpdate();
+            ps.setInt(2, paymentID);
+            int updatedRows = ps.executeUpdate();
 
-        } catch (Exception e) {
+            if (updatedRows == 0) {
+                System.out.println("No order found with PaymentID: " + paymentID);
+            } else {
+                System.out.println("Updated PaymentID: " + paymentID + " to status: " + status);
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
-
         }
-
     }
 
     private DBContext dbContext;
@@ -382,18 +382,16 @@ public class OrderDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = new Order(
-
-                    rs.getInt("OrderID"),
-                    rs.getInt("UserID"),
-                    rs.getString("PaymentStatus"),
-                    rs.getString("Address"),
-                    rs.getDate("CreatedDate"),
-                    rs.getString("DeliveryOption"),
-                    rs.getTimestamp("TimePickup"),
-                    rs.getDouble("TotalAmount"),
-                    rs.getInt("DiscountID"),
-                    rs.getString("PaymentOption")
-
+                        rs.getInt("OrderID"),
+                        rs.getInt("UserID"),
+                        rs.getString("PaymentStatus"),
+                        rs.getString("Address"),
+                        rs.getDate("CreatedDate"),
+                        rs.getString("DeliveryOption"),
+                        rs.getTimestamp("TimePickup"),
+                        rs.getDouble("TotalAmount"),
+                        rs.getInt("DiscountID"),
+                        rs.getString("PaymentOption")
                 );
                 orders.add(order);
             }
@@ -403,6 +401,39 @@ public class OrderDAO {
         }
         System.out.println("No orders found for the user");
         return null;
+    }
+
+    public int getPaymentIDByOrderID(int orderId) {
+        int paymentID = -1; 
+        String sql = "SELECT PaymentID FROM [Order] WHERE OrderID = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                paymentID = rs.getInt("PaymentID"); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return paymentID;
     }
 
 }
