@@ -174,5 +174,16 @@ public class Account {
     public void setRole(int role) {
         this.role = role;
     }
+    
+     public Account(String userName, String password, String fullName, String phoneNumber, String email, String address, int shopID, int role) {
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.shopID = shopID;
+        this.role = role;
+    }
 
 }
