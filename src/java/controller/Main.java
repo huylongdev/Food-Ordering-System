@@ -14,9 +14,5 @@ import util.PasswordUtil;
  * @author LENOVO
  */
 public class Main {
-    // check ket noi database successfully
-    public static void main(String[] args) {
-        
-        
-    }
+   
 }

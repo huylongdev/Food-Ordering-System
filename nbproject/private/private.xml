@@ -3,20 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/cart.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/js/shop.js</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/PostDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/home.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Post.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/genfiles.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/filter/AccessFilter.java</file>
-
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/nbproject/private/private.xml</file>
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/src/java/controller/CartServlet.java</file>
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/src/java/context/AccountDAO.java</file>
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/src/java/controller/Main.java</file>
+            <file>file:/D:/SEMESTER%205/SWP_391/Product_Foodie/Foodie/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
         </group>
     </open-files>
 </project-private>
