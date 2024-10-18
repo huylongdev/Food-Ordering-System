@@ -240,3 +240,8 @@ h2 {
     width: 100%;
     float: left;
 }
+
+.cancel-btn{
+    color: #5eae53 !important;
+    background-color: #fff !important;
+}
