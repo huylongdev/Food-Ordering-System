@@ -117,7 +117,7 @@
 
                     <!--<div class="rating " data-rating="3"></div>-->
                     <!--<p id = "ratingStatus"></p>-->
-                    <div class="rating " data-rating="3"></div>
+                    <div class="rating " data-rating=${Integer(p.getRating())}></div>
                     <div class ="rating-border"></div>
                 </div>
             </div>

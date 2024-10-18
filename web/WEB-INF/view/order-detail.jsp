@@ -68,7 +68,7 @@
                                 <div id="col1" style="width: 30%;" class="a-center order2">
                                     <h2 class="product-name" title="${item.getProduct().getName()}">
                                         <a href="./food-detail?productId=${item.getProduct().getProductId()}">${item.getProduct().getName()}</a>
-                                        <span class="variant-title">Food/ Drink</span>
+                                        
                                     </h2>
                                 </div>
                                 <div id="col2" style="width: 21%;">
@@ -97,36 +97,47 @@
                         </tr>
                     </table>
                     <div class = "button-group mt3">
-                        
-                        <c:choose>
-                            <c:when test="${order.getDeliveryStatus() == 'PENDING'}">
-                                <form method="post" action="order-detail">
-                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                    <input type="hidden" name="action" value="prepare" />
-                                    <button type="submit">Confirm Order</button>
-                                </form>
-                            </c:when>
-                            <c:when test="${order.getDeliveryStatus() == 'PREPARING'}">
-                                <form method="post" action="order-detail">
-                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                    <input type="hidden" name="action" value="ready" />
-                                    <button type="submit">Done Preparing</button>
-                                </form>
-                            </c:when>
-                            <c:when test="${order.getDeliveryStatus() == 'READY' || order.deliveryStatus == 'SHIPPING'}">
-                                <form method="post" action="order-detail">
-                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                    <input type="hidden" name="action" value="complete" />
-                                    <button type="submit">Complete Order</button>
-                                </form>
-                            </c:when>
-                            <c:when test="${order.getDeliveryStatus() == 'COMPLETED'}">
-                                <p>This order is already Completed!</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>This order is already Canceled!</p>
-                            </c:otherwise>
-                        </c:choose>
+
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            <c:choose>
+                                <c:when test="${order.getDeliveryStatus() == 'PENDING'}">
+                                    <form method="post" action="order-detail">
+                                        <input type="hidden" name="orderId" value="${order.orderId}" />
+                                        <input type="hidden" name="action" value="prepare" />
+                                        <button type="submit">Confirm Order</button>
+                                    </form>
+                                </c:when>
+                                <c:when test="${order.getDeliveryStatus() == 'PREPARING'}">
+                                    <form method="post" action="order-detail">
+                                        <input type="hidden" name="orderId" value="${order.orderId}" />
+                                        <input type="hidden" name="action" value="ready" />
+                                        <button type="submit">Done Preparing</button>
+                                    </form>
+                                </c:when>
+                                <c:when test="${order.getDeliveryStatus() == 'READY' || order.deliveryStatus == 'SHIPPING'}">
+                                    <form method="post" action="order-detail">
+                                        <input type="hidden" name="orderId" value="${order.orderId}" />
+                                        <input type="hidden" name="action" value="complete" />
+                                        <button type="submit">Complete Order</button>
+                                    </form>
+                                </c:when>
+                                <c:when test="${order.getDeliveryStatus() == 'COMPLETED'}">
+                                    <p>This order is already Completed!</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>This order is already Canceled!</p>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${order.getDeliveryStatus() != 'CANCELLED' && order.getDeliveryStatus() != 'COMPLETED' }">
+                                    <form method="post" action="order-detail">
+                                        <input type="hidden" name="orderId" value="${order.getOrderId()}" />
+                                        <input type="hidden" name="action" value="cancel" />
+                                        <button class="cancel-btn" type="submit" onclick="return confirm('Are you sure you want to cancel this order?');">Cancel Order</button>
+                                    </form>
+                                </c:when> 
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
 

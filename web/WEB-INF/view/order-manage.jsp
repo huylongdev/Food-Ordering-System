@@ -150,7 +150,7 @@
             </div>
                 
                 <div class="mt-4">
-                <h5>Canceled(${cancelList.size()})</h5>
+                <h5>Cancelled(${cancelList.size()})</h5>
                 <c:forEach var="order" items="${cancelList}">
                     <div class="card p-3 mb-3">
                         <a href = "./order-detail?orderId=${order.getOrderId()}">

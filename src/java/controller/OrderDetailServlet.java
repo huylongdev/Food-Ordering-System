@@ -4,6 +4,7 @@
  */
 package controller;
 
+import context.AccountDAO;
 import context.OrderDAO;
 import context.OrderItemDAO;
 import context.ProductDAO;
@@ -22,6 +23,8 @@ import model.CartItemDTO;
 import model.Order;
 import model.OrderItem;
 import model.Product;
+import util.Email;
+import util.Utility;
 
 /**
  *
@@ -107,41 +110,53 @@ public class OrderDetailServlet extends HttpServlet {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         String action = request.getParameter("action");
         OrderDAO orderDAO = new OrderDAO();
-    Order order = orderDAO.getOrderByOrderID(orderId);
-    String currentStatus = order.getDeliveryStatus();
-    
-    // Chuyển trạng thái hợp lệ
-    switch (currentStatus) {
-        case "PENDING":
-            if ("prepare".equals(action)) {
-                orderDAO.updateOrderStatus(orderId, "PREPARING");
-            }
-            break;
-        case "PREPARING":
-            if ("ready".equals(action)) {
-
-                if ("pickup".equals(order.getDeliveryOption())) {
-                    orderDAO.updateOrderStatus(orderId, "READY");
-                } else if ("delivery".equals(order.getDeliveryOption())) {
-                    orderDAO.updateOrderStatus(orderId, "SHIPPING");
+        Order order = orderDAO.getOrderByOrderID(orderId);
+        String currentStatus = order.getDeliveryStatus();
+        AccountDAO aDAO = new AccountDAO();
+        // Chuyển trạng thái hợp lệ
+        switch (currentStatus) {
+            case "PENDING":
+                if ("prepare".equals(action)) {
+                    orderDAO.updateOrderStatus(orderId, "PREPARING");
                 }
-            }
-            break;
-        case "READY":
-        case "SHIPPING":
-            if ("complete".equals(action)) {
-                orderDAO.updateOrderStatus(orderId, "COMPLETED");
-            }
-            break;
-        default:
+                break;
+            case "PREPARING":
+                if ("ready".equals(action)) {
 
-            break;
+                    if ("pickup".equals(order.getDeliveryOption())) {
+                        orderDAO.updateOrderStatus(orderId, "READY");
+                        String email = aDAO.getUserById(order.getUserId()).getEmail();
+                        String content = "We are excited to inform you that your order  has been successfully prepared and is now ready for pickup. You can visit our store at your convenience to collect your order.\nStore Address: " + Utility.getShopAddressByOrderID(orderId);
+                        Email.sendEmailNotifying(email, content);
+                    } else if ("delivery".equals(order.getDeliveryOption())) {
+                        orderDAO.updateOrderStatus(orderId, "SHIPPING");
+                        String email = aDAO.getUserById(order.getUserId()).getEmail();
+                        String content = "Good news! Your order is now on its way to your delivery address. Our delivery team is working hard to ensure that your order reaches you promptly.\nThank you for shopping with us. We hope you enjoy your purchase!";
+                        Email.sendEmailNotifying(email, content);
+                    }
+                }
+                break;
+            case "READY":
+            case "SHIPPING":
+                if ("complete".equals(action)) {
+                    orderDAO.updateOrderStatus(orderId, "COMPLETED");
+                }
+                break;
+            default:
+
+                break;
+        }
+        if ("cancel".equals(action)) {
+            orderDAO.updateOrderStatus(orderId, "CANCELLED");
+            String email = aDAO.getUserById(order.getUserId()).getEmail();
+            String content = "We regret to inform you that your order has been cancelled. If you have any questions or need further assistance, please feel free to reach out to our support team. We apologize for any inconvenience caused and appreciate your understanding.";
+            Email.sendEmailNotifying(email, content);
+            
+        }
+
+        // Điều hướng lại trang chi tiết đơn hàng
+        response.sendRedirect("order-detail?orderId=" + orderId);
     }
-    
-    // Điều hướng lại trang chi tiết đơn hàng
-    response.sendRedirect("order-detail?orderId=" + orderId);
-}
-    
 
     /**
      * Returns a short description of the servlet.

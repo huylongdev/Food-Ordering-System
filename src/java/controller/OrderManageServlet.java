@@ -79,7 +79,7 @@ public class OrderManageServlet extends HttpServlet {
         List<Order>  readyList= oDAO.getOrderListByShopIDAndStatus(u.getShopID(), "READY");
         List<Order> shippingList = oDAO.getOrderListByShopIDAndStatus(u.getShopID(), "SHIPPING");
         List<Order> completeList = oDAO.getOrderListByShopIDAndStatus(u.getShopID(), "COMPLETED");
-        List<Order> cancelList = oDAO.getOrderListByShopIDAndStatus(u.getShopID(), "CANCELED");
+        List<Order> cancelList = oDAO.getOrderListByShopIDAndStatus(u.getShopID(), "CANCELLED");
         
         request.setAttribute("pendingList", pendingList);
         request.setAttribute("prepareList", prepareList);
