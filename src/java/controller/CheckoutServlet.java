@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import model.Account;
@@ -23,6 +22,7 @@ import model.Product;
 
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
 public class CheckoutServlet extends HttpServlet {
+    // Generate a new PaymentID for this request
 
     String paymentID = Config.getRandomNumber(8);
 
@@ -75,25 +75,25 @@ public class CheckoutServlet extends HttpServlet {
                         shopTotalAmount += product.getPrice() * itemDTO.getQuantity();
                     }
 
-                    // Tạo đơn hàng cho shop này
                     OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID),
-                            Integer.parseInt(paymentID),
+                            Integer.parseInt(paymentID), 
                             acc,
                             cartItemsForShop,
                             determinePaymentMethod(payment_method),
                             address,
                             "PENDING",
+                            "PENDING",
                             deliveryOption,
                             timePickup);
                     shopOrder.setTotalAmount(shopTotalAmount);
-                    allOrders.add(shopOrder); // Lưu đơn hàng vào danh sách
+                    allOrders.add(shopOrder);
 
                     totalAmount += shopTotalAmount;
                 }
 
                 if ("cod".equals(payment_method)) {
                     for (OrderDTO order : allOrders) {
-                        int paymentID =orderDAO.getPaymentIDByOrderID(order.getOrderId());
+                        int paymentID = orderDAO.getPaymentIDByOrderID(order.getOrderId());
                         System.out.println("Updating PaymentID: " + paymentID + " to PAID");
                         orderDAO.updateOrderPaymentStatus(paymentID, "PAID");
                     }
