@@ -23,8 +23,9 @@ import model.Product;
 
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
 public class CheckoutServlet extends HttpServlet {
+
     String paymentID = Config.getRandomNumber(8);
-    
+
     public CheckoutServlet() {
         super();
         System.out.println("CheckoutServlet initialized!");
@@ -62,8 +63,7 @@ public class CheckoutServlet extends HttpServlet {
 
                 for (Map.Entry<Integer, List<CartItemDTO>> entry : groupedCartItems.entrySet()) {
                     List<CartItemDTO> shopCartItems = entry.getValue();
-                    String shopOrderID = Config.getRandomNumber(8); 
-                    
+                    String shopOrderID = Config.getRandomNumber(8);
 
                     List<CartItem> cartItemsForShop = new ArrayList<>();
                     double shopTotalAmount = 0;
@@ -75,18 +75,27 @@ public class CheckoutServlet extends HttpServlet {
                         shopTotalAmount += product.getPrice() * itemDTO.getQuantity();
                     }
 
-                    // Create the order for this shop
-                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID),Integer.parseInt(paymentID), acc, cartItemsForShop, determinePaymentMethod(payment_method), address, "PENDING", deliveryOption, timePickup);
+                    // Tạo đơn hàng cho shop này
+                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID),
+                            Integer.parseInt(paymentID),
+                            acc,
+                            cartItemsForShop,
+                            determinePaymentMethod(payment_method),
+                            address,
+                            "PENDING",
+                            deliveryOption,
+                            timePickup);
                     shopOrder.setTotalAmount(shopTotalAmount);
-                    allOrders.add(shopOrder); // Store the order
+                    allOrders.add(shopOrder); // Lưu đơn hàng vào danh sách
 
                     totalAmount += shopTotalAmount;
                 }
 
                 if ("cod".equals(payment_method)) {
-                    // For COD, mark all orders as paid immediately
                     for (OrderDTO order : allOrders) {
-                        orderDAO.updateOrderPaymentStatus(order.getOrderId(), "PAID");
+                        int paymentID =orderDAO.getPaymentIDByOrderID(order.getOrderId());
+                        System.out.println("Updating PaymentID: " + paymentID + " to PAID");
+                        orderDAO.updateOrderPaymentStatus(paymentID, "PAID");
                     }
                     clearCart(session);
                     response.sendRedirect("/OrderingSystem/order-history");
@@ -111,7 +120,7 @@ public class CheckoutServlet extends HttpServlet {
         Map<Integer, List<CartItemDTO>> groupedItems = new HashMap<>();
 
         for (CartItemDTO item : cartItems) {
-            int shopId = item.getProduct().getShopId(); // Assuming Product has a method getShopId
+            int shopId = item.getProduct().getShopId();
             groupedItems.computeIfAbsent(shopId, k -> new ArrayList<>()).add(item);
         }
 
@@ -140,7 +149,7 @@ public class CheckoutServlet extends HttpServlet {
         String orderType = "other";
         long amount = (long) (Math.round(totalAmount) * 100);
 
-        String vnp_TxnRef = paymentID ; // Unique transaction reference
+        String vnp_TxnRef = paymentID; // Unique transaction reference
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
 
