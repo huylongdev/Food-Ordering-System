@@ -13,7 +13,7 @@ import java.util.Date;
 public class Order {
     private int orderId;
     private int userId;
-    private String status;
+    private String paymentStatus;
     private String address;
     private Date createdDate;
     private String deliveryOption;
@@ -21,14 +21,15 @@ public class Order {
     private double totalAmount;
     private int discountId;
     private String paymentOption;
+    private String deliveryStatus;
 
     public Order() {
     }
 
-    public Order(int orderId, int userId, String status, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption) {
+    public Order(int orderId, int userId, String status, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption, String deliveryStatus) {
         this.orderId = orderId;
         this.userId = userId;
-        this.status = status;
+        this.paymentStatus = status;
         this.address = address;
         this.createdDate = createdDate;
         this.deliveryOption = deliveryOption;
@@ -36,6 +37,7 @@ public class Order {
         this.totalAmount = totalAmount;
         this.discountId = discountId;
         this.paymentOption = paymentOption;
+        this.deliveryStatus = deliveryStatus;
     }
 
     public int getOrderId() {
@@ -54,12 +56,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaymentStatus(String status) {
+        this.paymentStatus = status;
     }
 
     public String getAddress() {
@@ -116,6 +118,16 @@ public class Order {
 
     public void setPaymentOption(String paymentOption) {
         this.paymentOption = paymentOption;
+    }
+
+  
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
 }

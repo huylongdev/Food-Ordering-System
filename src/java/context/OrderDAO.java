@@ -385,14 +385,15 @@ public class OrderDAO {
 
                     rs.getInt("OrderID"),
                     rs.getInt("UserID"),
-                    rs.getString("Status"),
+                    rs.getString("PaymentStatus"),
                     rs.getString("Address"),
                     rs.getDate("CreatedDate"),
                     rs.getString("DeliveryOption"),
                     rs.getTimestamp("TimePickup"),
                     rs.getDouble("TotalAmount"),
                     rs.getInt("DiscountID"),
-                    rs.getString("PaymentOption")
+                    rs.getString("PaymentOption"),
+                    rs.getString("DeliveryStatus")
 
                 );
                 orders.add(order);
