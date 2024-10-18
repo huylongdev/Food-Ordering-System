@@ -101,7 +101,7 @@
                             </div>
                             <table class="total-table">
                                 <tr>
-                                    <td style="width: 5%"></td><td  class = "table-left">Order Status: <b>${order.getOrder().getStatus().toUpperCase()}</b></td>
+                                    <td style="width: 5%"></td><td  class = "table-left">Order Status: <b>${order.getOrder().getPaymentStatus().toUpperCase()}</b></td>
                                     <td class = "table-center">Delivery Address: ${order.getOrder().getAddress()}</td>
                                     <td class="a-right"><span class="total_tt">Total:</span>
                                         <span class="totals_price">${FormatString.formatCurrency(order.getOrder().getTotalAmount())}</span>
