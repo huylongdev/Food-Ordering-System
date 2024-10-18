@@ -5,6 +5,7 @@ package controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 import context.OrderDAO;
+import context.VNPayBillDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.VNPay_Bill;
 
 /**
  *
@@ -36,13 +38,20 @@ public class PaymentStatusServlet extends HttpServlet {
         String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
         String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
         String vnp_TxnRef = request.getParameter("vnp_TxnRef");
+        String vnp_Amount = request.getParameter("vnp_Amount");
+        String vnp_PayDate = request.getParameter("vnp_PayDate");
 
         System.out.println("Response Code: " + vnp_ResponseCode);
         System.out.println("Transaction Status: " + vnp_TransactionStatus);
         System.out.println("Transaction Reference: " + vnp_TxnRef);
 
+        VNPayBillDAO vnpayDAO = new VNPayBillDAO();
+        VNPay_Bill bill = new VNPay_Bill(vnp_TxnRef, Float.parseFloat(vnp_Amount),vnp_PayDate,vnp_TransactionStatus);
+        
+        vnpayDAO.createVNPayBill(bill);
+
         OrderDAO dao = new OrderDAO();
-        int paymentID = Integer.parseInt(vnp_TxnRef);
+        String paymentID = vnp_TxnRef;
         if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
 
             dao.updateOrderPaymentStatus(paymentID, "PAID");

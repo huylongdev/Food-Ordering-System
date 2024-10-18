@@ -33,7 +33,7 @@ public class OrderDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public OrderDTO createOrder(int orderID, int paymentID, Account account, List<CartItem> cartItems, String paymentOption,
+    public OrderDTO createOrder(int orderID, String paymentID, Account account, List<CartItem> cartItems, String paymentOption,
             String address, String paymentStatus, String deliveryStatus, String deliveryOption, String timePickupString) throws Exception {
 
         Date timePickup = null;
@@ -67,7 +67,7 @@ public class OrderDAO {
 
             try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
                 ps.setInt(1, orderID);
-                ps.setInt(2, paymentID);
+                ps.setString(2, paymentID);
                 ps.setInt(3, account.getUserID());
                 ps.setString(4, paymentStatus);
                 ps.setString(5, deliveryStatus);
@@ -213,11 +213,11 @@ public class OrderDAO {
         return latestOrder;
     }
 
-    public void updateOrderPaymentStatus(int paymentID, String status) throws Exception {
+    public void updateOrderPaymentStatus(String paymentID, String status) throws Exception {
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement("UPDATE [Order] SET PaymentStatus = ? WHERE PaymentID = ?")) {
 
             ps.setString(1, status);
-            ps.setInt(2, paymentID);
+            ps.setString(2, paymentID);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows == 0) {
@@ -251,11 +251,11 @@ public class OrderDAO {
         }
     }
 
-    public void updateOrderDeliveryStatus(int paymentID, String status) throws Exception {
+    public void updateOrderDeliveryStatus(String paymentID, String status) throws Exception {
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement("UPDATE [Order] SET DeliveryStatus = ? WHERE PaymentID = ?")) {
-
+            
             ps.setString(1, status);
-            ps.setInt(2, paymentID);
+            ps.setString(2, paymentID);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows == 0) {
@@ -305,8 +305,8 @@ public class OrderDAO {
         return null;
     }
 
-    public int getPaymentIDByOrderID(int orderId) {
-        int paymentID = -1;
+    public String getPaymentIDByOrderID(int orderId) {
+        String paymentID = null;
         String sql = "SELECT PaymentID FROM [Order] WHERE OrderID = ?";
         try {
             conn = new DBContext().getConnection();
@@ -315,7 +315,7 @@ public class OrderDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                paymentID = rs.getInt("PaymentID");
+                paymentID = rs.getString("PaymentID");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -337,6 +337,7 @@ public class OrderDAO {
 
         return paymentID;
     }
+    
 
     public String getDeliveryStatusByOrderID(int orderId) {
         String deliveryStatus = null;

@@ -5,7 +5,7 @@ import java.util.Date;
 public class OrderDTO {
 
     private int orderId;
-    private int paymentID;
+    private String paymentID;
     private Account user;
     private String address;
     private Date createdDate;
@@ -72,13 +72,15 @@ public class OrderDTO {
         this.deliveryStatus = deliveryStatus;
     }
 
-    public int getPaymentID() {
+    public String getPaymentID() {
         return paymentID;
     }
 
-    public void setPaymentID(int paymentID) {
+    public void setPaymentID(String paymentID) {
         this.paymentID = paymentID;
     }
+
+
 
     public String getDeliveryOption() {
         return deliveryOption;

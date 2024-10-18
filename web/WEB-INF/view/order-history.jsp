@@ -72,7 +72,11 @@
                             <table class="total-table">
                                 <tr>
                                     <td style="width: 5%"></td>
-                                    <td class="table-left">Payment Status: <b>${order.getOrder().getStatus().toUpperCase()}</b><br>Order Status: <b>${order.getOrder().getDeliveryStatus().toUpperCase()}</b></td>
+                                    <td class="table-left">Payment Status: <b>${order.getOrder().getStatus().toUpperCase()}</b>
+                                        <br>Order Status: <b>${order.getOrder().getDeliveryStatus().toUpperCase()}</b>
+                                        <br>Delivery Option: <b>${order.getOrder().getDeliveryOption().toUpperCase()}</b>
+                                        <br>Payment Option: <b>${order.getOrder().getPaymentOption().toUpperCase()}</b>
+                                    </td>
                                     <td class="table-center">Delivery Address: ${order.getOrder().getAddress()}</td>
                                     <td class="a-right"><span class="total_tt">Total:</span>
                                         <span class="totals_price">${FormatString.formatCurrency(order.getOrder().getTotalAmount())}</span>
@@ -86,6 +90,9 @@
                                         <c:choose>
                                             <c:when test="${order.getOrder().getDeliveryStatus() == 'PENDING'}">
                                                 <a href="#" class='cancel-order' onclick="submitCancelOrderForm(${order.getOrder().getOrderId()});">Cancel Order</a>
+                                            </c:when>
+                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'CANCEL' && order.getOrder().getPaymentOption()=='VNPAY' && order.getOrder().getStatus() =='PAID' }">
+                                                <a href="#" class='cancel-order' onclick="submitRefundOrderForm(${order.getOrder().getOrderId()});">Refund</a>
                                             </c:when>
                                             <c:otherwise>
                                                 <!-- Có thể thêm thông báo hoặc nội dung khác ở đây nếu cần -->
@@ -101,6 +108,9 @@
                     <form id="cancelOrderForm_${order.getOrder().getOrderId()}" action="order-history" method="post" style="display: none;">
                         <input type="hidden" name="orderId" value="${order.getOrder().getOrderId()}">
                     </form>
+                    <form id="refundOrderForm_${order.getOrder().getOrderId()}" action="refund" method="post" style="display: none;">
+                        <input type="hidden" name="orderId" value="${order.getOrder().getOrderId()}">
+                    </form>
                 </c:forEach>
             </div>
         </div>
@@ -110,6 +120,12 @@
                 var confirmation = confirm("Are you sure you want to cancel this order?");
                 if (confirmation) {
                     document.getElementById("cancelOrderForm_" + orderId).submit();
+                }
+            }
+            function submitRefundOrderForm(orderId) {
+                var confirmation = confirm("Are you sure you want to refund this order?");
+                if (confirmation) {
+                    document.getElementById("refundOrderForm_" + orderId).submit();
                 }
             }
         </script>
