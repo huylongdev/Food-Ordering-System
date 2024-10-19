@@ -392,4 +392,19 @@ public class AccountDAO {
             return false;
         }
     }
+    
+    
+   
+    
+    public void updateUserStatus(String userName, int status) {
+        String sql = "UPDATE Users SET Status = ? WHERE UserName = ?";
+        try (Connection connection = new DBContext().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, status);
+            statement.setString(2, userName);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

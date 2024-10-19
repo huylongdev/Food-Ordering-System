@@ -1,329 +1,601 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-
 <%@ page import="model.Account" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    Account user = (Account) session.getAttribute("loggedUser");
-%>
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Admin Dashboard</title>
 
-        <link rel="stylesheet" href="./index.css">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-            crossorigin="anonymous"
-            />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"
-        ></script>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>
+            Dashboard  </title>
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <!-- Nucleo Icons -->
+        <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+        <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+        <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+        <link rel="stylesheet" href="./assets/css/dashboard.css">
         <link
             rel="stylesheet"
             href="./assets/font/themify-icons/themify-icons.css"
             />
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <link rel="stylesheet" href="./assets/css/dashboard.css">
-        <script src="./assets/js/plugin/webfont/webfont.min.js"></script>
-        <script>
-            WebFont.load({
-                google: {families: ["Public Sans:300,400,500,600,700"]},
-                custom: {
-                    families: [
-                        "Font Awesome 5 Solid",
-                        "Font Awesome 5 Regular",
-                        "Font Awesome 5 Brands",
-                        "simple-line-icons",
-                    ],
-                    urls: ["./assets/css/fonts.min.css"],
-                },
-                active: function () {
-                    sessionStorage.fonts = true;
-                },
-            });
-        </script>
-
-        <!-- CSS Files -->
-        <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="./assets/css/plugins.min.css" />
-        <link rel="stylesheet" href="./assets/css/kaiadmin.min.css" />
-        <link rel="stylesheet" href="./assets/font/themify-icons/ie7/ie7.css" />
-
-        <style>
-
-        </style>
     </head>
 
-    <body>
-
-
-
-        <div id="dashboard"> 
-            <div id="header">
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                    <div class="container-fluid">
-
-                        <a class="navbar-brand" href="./">FOODIE</a>
-
-                        <button
-                            class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarNavAltMarkup"
-                            aria-controls="navbarNavAltMarkup"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                            >
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse navlogo" id="navbarNavAltMarkup">
-
-
-                            <div class="navbar__item">
-
-
-                                <nav id="nav-bar">
-                                    <ul class="nav-list">
-                                        <li class="nav-item">
-                                            <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
-                                                <c:choose>
-                                                    <c:when test="${user != null}">
-                                                        <div class="user-dropdown">
-                                                            <a style="text-decoration: none" href="/OrderingSystem/account">
-                                                                <img
-                                                                    id="user-avatar"
-                                                                    class="img-responsive img-circle"
-                                                                    src="${user.getAvtImg()}"
-                                                                    onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
-                                                                    alt="Profile Picture"
-                                                                    />
-                                                                <span id="user-name">${user.getUserName()}</span>
-                                                            </a>
-
-                                                        </div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span id="login-text">Login</span>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+    <body class="g-sidenav-show  bg-gray-200">
+        <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+            <div class="sidenav-header">
+                <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+                <a class="navbar-brand m-0" href="#">
+                    <i class="material-icons icon-foodie">store</i><span class="ms-1 font-weight-bold text-white">Foodie Dashboard </span>
+                    
+                </a>
             </div>
-            <div class="dashContainer">                               
-                <h1 class="title-dash">DASHBOARD</h1>
+            <hr class="horizontal light mt-0 mb-2">
+            <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">dashboard</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/OrderingSystem/userBan">
+
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <span class="nav-link-text ms-1">List Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/OrderingSystem/restaurant">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">home</i>
+                            </div>
+                            <span class="nav-link-text ms-1">List Restaurants</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/OrderingSystem/blog">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">note</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Blog</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item mt-3">
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/OrderingSystem/account">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/OrderingSystem/login">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">login</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Sign In</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+
+        </aside>
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <!-- Navbar -->
+            <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+                <div class="container-fluid py-1 px-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/OrderingSystem/;">home</a></li>
+
+
+                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                        </ol>
+                        <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+                    </nav>
+                    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                        </div>
+                        <ul class="navbar-nav  justify-content-end">
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="/OrderingSystem/">Foodie</a>
+                            </li>
+                            <li class="mt-2">
+                                <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
+                            </li>
+                            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                    <div class="sidenav-toggler-inner">
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item px-3 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-body p-0">
+                                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-bell cursor-pointer"></i>
+                                </a>
+                                <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                                </ul>
+                            </li>
+                            <li class="nav-item d-flex align-items-center">
+                                <a href="/OrderingSystem/account" class="nav-link text-body font-weight-bold px-0">
+                                    <i class="fa fa-user me-sm-1"></i>
+                                    <span class="d-sm-inline d-none">Account</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="container-fluid py-4">
                 <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <div class="card card-stats card-round">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-icon">
-                                        <div
-                                            class="icon-big text-center icon-primary bubble-shadow-small"
-                                            >
-                                            <i class="ti-home"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col col-stats ms-3 ms-sm-0">
-                                        <div class="numbers">
-                                            <p class="card-category">Restaurant</p>
-                                            <h4 class="card-title">
-                                                ${restaurantCount} 
-                                            </h4>
-                                        </div>
-                                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">store</i>
                                 </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Restaurants</p>
+                                    <h4 class="mb-0">${restaurantCount}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+50% </span>than last week</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="card card-stats card-round">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-icon">
-                                        <div
-                                            class="icon-big text-center icon-info bubble-shadow-small"
-                                            >
-                                            <i class="ti-apple "></i>
-                                        </div>
-                                    </div>
-                                    <div class="col col-stats ms-3 ms-sm-0">
-                                        <div class="numbers">
-                                            <p class="card-category">Food</p>
-                                            <h4 class="card-title">
-                                                ${foodCount}
-                                            </h4>
-                                        </div>
-                                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10 ti-apple"></i>
                                 </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Food</p>
+                                    <h4 class="mb-0">${foodCount}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+10% </span>than last month</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="card card-stats card-round">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-icon">
-                                        <div
-                                            class="icon-big text-center icon-success bubble-shadow-small"
-                                            >
-                                            <i class="ti-clipboard"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col col-stats ms-3 ms-sm-0">
-                                        <div class="numbers">
-                                            <p class="card-category">Post</p>
-                                            <h4 class="card-title">
-                                                ${postCount}
-                                            </h4>
-                                        </div>
-                                    </div>
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">facebook</i>
                                 </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Posts</p>
+                                    <h4 class="mb-0">${postCount}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-15%</span> than yesterday</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="card card-stats card-round">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-icon">
-                                        <div
-                                            class="icon-big text-center icon-secondary bubble-shadow-small"
-                                            >
-                                            <i class="ti-money"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col col-stats ms-3 ms-sm-0">
-                                        <div class="numbers">
-                                            <p class="card-category">Order</p>
-                                            <h4 class="card-title">
-                                                ${billCount} </h4>
-                                        </div>
-                                    </div>
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">note</i>
                                 </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Bills</p>
+                                    <h4 class="mb-0">${billCount}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+0% </span>than yesterday</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="container bootstrap snippets bootdey">
-                    <div class="row">
-
-
-
-
-
-
-                        <div class="user-list" style="max-height: 300px; overflow-y: scroll;">
-                            <h2>List of Users</h2>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>User's ID</th>
-                                        <th>Avatar</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="user" items="${userList}">
-                                        <tr>
-                                            <td>
-                                                <h5>${user.userID}</h5>
-                                            </td>
-                                            <td>
-                                                <img src="${user.avtImg}" onerror="this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';" alt="Avatar of ${user.fullName}" class="img-responsive img-circle" style="width: 40px; height: 40px;">
-                                            </td>
-                                            <td>${user.fullName}</td>
-                                            <td>${user.phoneNumber}</td>
-                                            <td>
-                                                <button class="btn btn-danger" onclick="openBanUserModal('${user.userID}')">Ban</button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                <div class="row mt-4">
+                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                        <div class="card z-index-2 ">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                                    <div class="chart" >
+                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sliderback.svg" ></div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="mb-0 "> Website view</h6>
+                                <p class="text-sm ">Last Campaign Performance</p>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                                    <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                        <div class="card z-index-2  ">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                                    <div class="chart">
+                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sale1.jpg" ></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="mb-0 "> Daily Sales </h6>
+                                <p class="text-sm "> (<span class="font-weight-bolder">+70%</span>) increase in today sales. </p>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                                    <p class="mb-0 text-sm"> updated 4 min ago </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-4 mb-3">
+                        <div class="card z-index-2 ">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                                <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                                    <div class="chart" >
+                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/dishShow.jpg" ></div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="mb-0 ">Foodie</h6>
+                                <p class="text-sm ">Finding your best choice with foodie !</p>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                                    <p class="mb-0 text-sm">just updated</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+
+                    </div>
+                    <div class="col-lg-4 col-md-6">
 
                     </div>
                 </div>
-            </div> 
-        </div>  
+                <footer class="footer py-4  ">
+                    <div class="container-fluid">
+                        <div class="row align-items-center justify-content-lg-between">
+                            <div class="col-lg-6 mb-lg-0 mb-4">
+                                <div class="copyright text-center text-sm text-muted text-lg-start">
+                                    © <script>
+                                        document.write(new Date().getFullYear())
+                                    </script>,
+                                    made with <i class="fa fa-heart"></i> by
+                                    <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">RT03-B06</a>
+                                    for creating Foodie Project
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
 
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-muted" >About Us</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-muted" >Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link pe-0 text-muted" >License</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
 
-        <script src="index.js">
-
-        </script>
-        <div id="overlay"></div>
-
-        <!-- Ban User Modal -->
-        <div id="banUserModal">
-            <h3>Ban User</h3>
-            <p id="banUserId"></p>
-            <form id="banUserForm">
-                <div class="form-group">
-                    <input type="checkbox" id="abusiveLanguage" name="banReasons" value="abusiveLanguage">
-                    <label for="abusiveLanguage">The user has used abusive language.</label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="spammedOrders" name="banReasons" value="spammedOrders">
-                    <label for="spammedOrders">The user has spammed orders too many times.</label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="violatedStandards" name="banReasons" value="violatedStandards">
-                    <label for="violatedStandards">The user has violated community standards.</label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="spreadMalware" name="banReasons" value="spreadMalware">
-                    <label for="spreadMalware">The user has spread viruses or malware.</label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="others" name="banReasons" value="others">
-                    <label for="others">Others:</label>
-                    <input type="text" id="othersInput" name="othersInput" placeholder="Please specify">
-                </div>
-                <div class="button-group">
-                    <button type="button" class="btn-confirm" onclick="confirmBan()">Confirm</button>
-                    <button type="button" class="btn-cancel" onclick="closeBanUserModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-
+        <!--   Core JS Files   -->
+        <script src="../assets/js/core/popper.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script src="../assets/js/plugins/chartjs.min.js"></script>
         <script>
-            // Hiển thị modal
-            function openBanUserModal(userId) {
-                document.getElementById('banUserId').innerText = `Ban User ID: ${userId}`;
-                document.getElementById('banUserModal').style.display = 'flex'; // Hiển thị modal
-            }
+                                        var ctx = document.getElementById("chart-bars").getContext("2d");
 
-    // Đóng modal
-            function closeBanUserModal() {
-                document.getElementById('banUserModal').style.display = 'none'; // Ẩn modal
-            }
+                                        new Chart(ctx, {
+                                            type: "bar",
+                                            data: {
+                                                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                                                datasets: [{
+                                                        label: "Sales",
+                                                        tension: 0.4,
+                                                        borderWidth: 0,
+                                                        borderRadius: 4,
+                                                        borderSkipped: false,
+                                                        backgroundColor: "rgba(255, 255, 255, .8)",
+                                                        data: [50, 20, 10, 22, 50, 10, 40],
+                                                        maxBarThickness: 6
+                                                    }, ],
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                    }
+                                                },
+                                                interaction: {
+                                                    intersect: false,
+                                                    mode: 'index',
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: true,
+                                                            drawOnChartArea: true,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5],
+                                                            color: 'rgba(255, 255, 255, .2)'
+                                                        },
+                                                        ticks: {
+                                                            suggestedMin: 0,
+                                                            suggestedMax: 500,
+                                                            beginAtZero: true,
+                                                            padding: 10,
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                            color: "#fff"
+                                                        },
+                                                    },
+                                                    x: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: true,
+                                                            drawOnChartArea: true,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5],
+                                                            color: 'rgba(255, 255, 255, .2)'
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            color: '#f8f9fa',
+                                                            padding: 10,
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                        }
+                                                    },
+                                                },
+                                            },
+                                        });
 
-    // Xác nhận việc ban user
-            function confirmBan() {
-                // Logic xử lý khi xác nhận ban user
-                alert("User has been banned!");
-                closeBanUserModal(); // Đóng modal sau khi xác nhận
+
+                                        var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+                                        new Chart(ctx2, {
+                                            type: "line",
+                                            data: {
+                                                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                                datasets: [{
+                                                        label: "Mobile apps",
+                                                        tension: 0,
+                                                        borderWidth: 0,
+                                                        pointRadius: 5,
+                                                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                                                        pointBorderColor: "transparent",
+                                                        borderColor: "rgba(255, 255, 255, .8)",
+                                                        borderColor: "rgba(255, 255, 255, .8)",
+                                                        borderWidth: 4,
+                                                        backgroundColor: "transparent",
+                                                        fill: true,
+                                                        data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                                                        maxBarThickness: 6
+
+                                                    }],
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                    }
+                                                },
+                                                interaction: {
+                                                    intersect: false,
+                                                    mode: 'index',
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: true,
+                                                            drawOnChartArea: true,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5],
+                                                            color: 'rgba(255, 255, 255, .2)'
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            color: '#f8f9fa',
+                                                            padding: 10,
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                        }
+                                                    },
+                                                    x: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: false,
+                                                            drawOnChartArea: false,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5]
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            color: '#f8f9fa',
+                                                            padding: 10,
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                        }
+                                                    },
+                                                },
+                                            },
+                                        });
+
+                                        var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+                                        new Chart(ctx3, {
+                                            type: "line",
+                                            data: {
+                                                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                                datasets: [{
+                                                        label: "Mobile apps",
+                                                        tension: 0,
+                                                        borderWidth: 0,
+                                                        pointRadius: 5,
+                                                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                                                        pointBorderColor: "transparent",
+                                                        borderColor: "rgba(255, 255, 255, .8)",
+                                                        borderWidth: 4,
+                                                        backgroundColor: "transparent",
+                                                        fill: true,
+                                                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                                                        maxBarThickness: 6
+
+                                                    }],
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                    }
+                                                },
+                                                interaction: {
+                                                    intersect: false,
+                                                    mode: 'index',
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: true,
+                                                            drawOnChartArea: true,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5],
+                                                            color: 'rgba(255, 255, 255, .2)'
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            padding: 10,
+                                                            color: '#f8f9fa',
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                        }
+                                                    },
+                                                    x: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: false,
+                                                            drawOnChartArea: false,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5]
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            color: '#f8f9fa',
+                                                            padding: 10,
+                                                            font: {
+                                                                size: 14,
+                                                                weight: 300,
+                                                                family: "Roboto",
+                                                                style: 'normal',
+                                                                lineHeight: 2
+                                                            },
+                                                        }
+                                                    },
+                                                },
+                                            },
+                                        });
+        </script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
             }
         </script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="./assets/js/material-dashboard.min.js?v=3.1.0"></script>
     </body>
+
 </html>
