@@ -131,6 +131,8 @@ public class RefundServlet extends HttpServlet {
 
             // Log response content
             System.out.println(responseContent.toString());
+            //Update refund Status
+            orderDAO.updateRefundStatus(paymentID, 1);
 
             // Return response to client
             response.setContentType("application/json");
