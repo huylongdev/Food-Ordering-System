@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css" />
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/header-footer.css">
+        <link href="./assets/css/restaurant.css" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/order-manage.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -54,6 +55,11 @@
                         <i class="ti-check"></i> Completed
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OrderingSystem/refundManage">
+                        <i class="ti-wallet"></i> Refund Request
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -67,13 +73,13 @@
                 <c:forEach var="order" items="${pendingList}">
                     <div class="card p-3 mb-3">
                         <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2">${FormatString.formatCurrency(order.getTotalAmount())}</div>
-                            <div class="col-sm-2">${order.getDeliveryOption()}</div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                <div class="col-sm-2">${FormatString.formatCurrency(order.getTotalAmount())}</div>
+                                <div class="col-sm-2">${order.getDeliveryOption()}</div>
+                                <div class="col-sm-3">${order.getAddress()}</div>
+                                <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                            </div>
                         </a>
                     </div>
                 </c:forEach>
@@ -85,91 +91,91 @@
                 <c:forEach var="order" items="${prepareList}">
                     <div class="card p-3 mb-3">
                         <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                <div class="col-sm-3">${order.getAddress()}</div>
+                                <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                            </div>
                         </a>
                     </div>
                 </c:forEach>
 
-            <!-- Ready for Delivery Section -->
-            <div class="mt-4">
-                <h5>Ready For Delivery(${readyList.size()})</h5>
-                <c:forEach var="order" items="${readyList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-                
+                <!-- Ready for Delivery Section -->
                 <div class="mt-4">
-                <h5>In Transit(${shippingList.size()})</h5>
-                <c:forEach var="order" items="${shippingList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                    <h5>Ready For Delivery(${readyList.size()})</h5>
+                    <c:forEach var="order" items="${readyList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-                
-                
+                    </c:forEach>
+                </div>
+
                 <div class="mt-4">
-                <h5>Completed(${completeList.size()})</h5>
-                <c:forEach var="order" items="${completeList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                    <h5>In Transit(${shippingList.size()})</h5>
+                    <c:forEach var="order" items="${shippingList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-                
+                    </c:forEach>
+                </div>
+
+
                 <div class="mt-4">
-                <h5>Cancelled(${cancelList.size()})</h5>
-                <c:forEach var="order" items="${cancelList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                    <h5>Completed(${completeList.size()})</h5>
+                    <c:forEach var="order" items="${completeList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Cancelled(${cancelList.size()})</h5>
+                    <c:forEach var="order" items="${cancelList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
+
             </div>
 
-        </div>
-
-        <%@ include file="/include/footer.jsp" %>
-        <script src="js/Jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+            <%@ include file="/include/footer.jsp" %>
+            <script src="js/Jquery.js"></script>
+            <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

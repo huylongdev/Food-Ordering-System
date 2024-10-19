@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="./assets/css/header-footer.css">
         <link href="./assets/css/order-history.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-         <script src="./assets/js/order-history.js"></script>
+        <script src="./assets/js/order-history.js"></script>
 
         <script>
             // Hàm cập nhật số lượng và giá trị
@@ -87,7 +87,7 @@
                                     <td style="width: 5%"></td>
                                     <td class="table-left">Payment Status: <b>${order.getOrder().getPaymentStatus().toUpperCase()}</b>
                                         <br>Order Status: <b>${order.getOrder().getDeliveryStatus().toUpperCase()}</b>
-                                        
+
                                     </td>
                                     <td class="table-center">Delivery Address: ${order.getOrder().getAddress()}</td>
 
@@ -105,12 +105,18 @@
                                             <c:when test="${order.getOrder().getDeliveryStatus() == 'PENDING'}">
                                                 <a href="#" class='cancel-order' onclick="submitCancelOrderForm(${order.getOrder().getOrderId()});">Cancel Order</a>
                                             </c:when>
-                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'CANCEL' && order.getOrder().getPaymentOption()=='VNPAY' && order.getOrder().getStatus() =='PAID' }">
-                                                <a href="#" class='cancel-order' onclick="submitRefundOrderForm(${order.getOrder().getOrderId()});">Refund</a>
+                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'CANCEL' 
+                                                            && order.getOrder().getPaymentOption()=='VNPAY' 
+                                                            && order.getOrder().getPaymentStatus() =='PAID' 
+                                                            && order.getOrder().getIsRefund() == 0 }">
+                                                    <a href="#" class='cancel-order' onclick="submitRefundOrderForm(${order.getOrder().getOrderId()});">Refund</a>
                                             </c:when>
-                                            <c:otherwise>
-                                                <!-- Có thể thêm thông báo hoặc nội dung khác ở đây nếu cần -->
-                                            </c:otherwise>
+                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'DONE' 
+                                                            && order.getOrder().getPaymentOption()=='VNPAY' 
+                                                            && order.getOrder().getPaymentStatus() =='PAID' 
+                                                            && order.getOrder().getIsRefund() == 0 }">
+                                                    <a href="#" class='cancel-order' onclick="submitRefundRequestOrderForm(${order.getOrder().getOrderId()});">Send Refund Request</a>
+                                            </c:when>
                                         </c:choose>
                                         <button type="submit">Buy Again</button>
                                     </td>

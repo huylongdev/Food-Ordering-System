@@ -23,12 +23,13 @@ public class Order {
     private int discountId;
     private String paymentOption;
     private String deliveryStatus;
+    private int isRefund;
 
     public Order() {
     }
 
 
-    public Order(int orderId, int userId, String paymentStatus, String deliveryStatus, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption) {
+    public Order(int orderId, int userId, String paymentStatus, String deliveryStatus, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption, int isRefund) {
         this.orderId = orderId;
         this.userId = userId;
         this.paymentStatus = paymentStatus;
@@ -41,6 +42,15 @@ public class Order {
         this.discountId = discountId;
         this.paymentOption = paymentOption;
         this.deliveryStatus = deliveryStatus;
+        this.isRefund = isRefund;
+    }
+
+    public int getIsRefund() {
+        return isRefund;
+    }
+
+    public void setIsRefund(int isRefund) {
+        this.isRefund = isRefund;
     }
 
     public String getPaymentStatus() {
