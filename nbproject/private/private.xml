@@ -3,20 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/cart.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/js/shop.js</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/accessgoogle/Constants.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/PostDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/home.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Post.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/genfiles.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/filter/AccessFilter.java</file>
-
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/context/DiscountDAO.java</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/model/Discount.java</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/assets/css/discount.css</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/controller/DiscountServlet.java</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/WEB-INF/view/discount.jsp</file>
+            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
         </group>
     </open-files>
 </project-private>
