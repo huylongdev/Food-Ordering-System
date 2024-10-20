@@ -100,6 +100,7 @@
         <url-pattern>/account</url-pattern>
         <url-pattern>/cart</url-pattern>
         <url-pattern>/favourite</url-pattern>
+        <url-pattern>/refundManage</url-pattern>
     </filter-mapping>
     
     
