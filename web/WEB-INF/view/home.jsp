@@ -153,18 +153,18 @@
                 <c:if test="${not empty cateList}">
                     <c:forEach var="c" items="${cateList}">
                         <a href = "./food?category=${c.getCategory().getCategoryID()}"><div onclick="" class="card col-md-2" style="width: 11rem">
-                            <img
-                                src="${c.getAvtImg()}"
-                                class="card-img-top card-img-top-category"
-                                alt="..."
-                                />
-                            <div class="card-body">
-                                <h5 class="card-title card-title-category">${c.getCategory().getType()}</h5>
-                                <p class="card-text">${c.getCategory().getDescription()}</p>
-                            </div>
-                        </div></a>
-                    </c:forEach>
-                </c:if>
+                                <img
+                                    src="${c.getAvtImg()}"
+                                    class="card-img-top card-img-top-category"
+                                    alt="..."
+                                    />
+                                <div class="card-body">
+                                    <h5 class="card-title card-title-category">${c.getCategory().getType()}</h5>
+                                    <p class="card-text">${c.getCategory().getDescription()}</p>
+                                </div>
+                            </div></a>
+                        </c:forEach>
+                    </c:if>
             </div>
         </div>
 
@@ -172,106 +172,30 @@
         <!-- BEST DEALS -->
         <div id="bestseller">
             <div class="default-tag default-tag-bestseller">RESTAURANTS</div>
-            <div class="default-title">Best Deals</div>
+            <div class="default-title">Top Food/Drink</div>
             <div class="default-des">
                 <p class="default-slogan">
                     "Savor the finest cuisine from the best restaurants around, with easy
                     and fast ordering at your fingertips!"
                 </p>
-                <a href="#" class="restaurant-viewall">
-                    View all <i class="ti-arrow-right"></i>
-                </a>
             </div>
             <div class="restaurant-grid">
                 <!-- Card 1 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Best Burgers</h5>
-                        <p class="card-text">42 Jong Panchester St, 9073</p>
-                        <div class="card-info">
-                            <p class="time">20-30 min</p>
-                            <p class="price">From $4</p>
+                <c:forEach var="p" items="${pdtolist}">
+                    <div class="card-horizontal col-md-5">
+                        <img class="card-img" src="${p.imgURL}" alt="Best Burgers" />
+                        <div class="card-body">
+                            <div class="rating">${p.rating}</div>
+                            <p class="bestseller-category">${p.categoryName}</p>
+                            <h5 class="card-title">${p.name}</h5>
+                            <p class="card-text">${p.shopName}</p>
+                            <div class="card-info">
+                                <p class="time">${p.purchaseCount}</p>
+                                <p class="price">From $${p.price}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Pizza Masters</h5>
-                        <p class="card-text">Ac St. Schaumburg 84872</p>
-                        <div class="card-info">
-                            <p class="time">~45 min</p>
-                            <p class="price">From $4</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Best Burgers</h5>
-                        <p class="card-text">42 Jong Panchester St, 9073</p>
-                        <div class="card-info">
-                            <p class="time">20-30 min</p>
-                            <p class="price">From $4</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Pizza Masters</h5>
-                        <p class="card-text">Ac St. Schaumburg 84872</p>
-                        <div class="card-info">
-                            <p class="time">~45 min</p>
-                            <p class="price">From $4</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Best Burgers" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Best Burgers</h5>
-                        <p class="card-text">42 Jong Panchester St, 9073</p>
-                        <div class="card-info">
-                            <p class="time">20-30 min</p>
-                            <p class="price">From $4</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="card-horizontal col-md-5">
-                    <img class="card-img" src="./assets/img/banhmi.png" alt="Pizza Masters" />
-                    <div class="card-body">
-                        <div class="rating">9.8</div>
-                        <p class="bestseller-category">Burgers</p>
-                        <h5 class="card-title">Pizza Masters</h5>
-                        <p class="card-text">Ac St. Schaumburg 84872</p>
-                        <div class="card-info">
-                            <p class="time">~45 min</p>
-                            <p class="price">From $4</p>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
 
@@ -304,84 +228,28 @@
         <div id="restaurant">
             <div class="default-text-restaurant">
                 <div class="default-tag">RESTAURANTS</div>
-                <div class="default-title">Restaurants</div>
+                <div class="default-title">Top Restaurants</div>
                 <div class="default-des">
                     <p class="default-slogan">
                         "Discover a world of flavors and enjoy the convenience of ordering
                         your favorite meals today!"
                     </p>
-                    <a href="#" class="restaurant-viewall">
-                        View all <i class="ti-arrow-right"></i>
-                    </a>
                 </div>
-
                 <div class="restaurant-list">
                     <!-- Restaurant Card 1 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
+                    <c:forEach var="s" items="${shopdtolist}">
+                        <div class="card card-restaurant" style="width: 18rem">
+                            <div class="rating-box">${s.rating}</div>
+                            <img class="card-img-top" src="${s.shopImage}" style="width: 100%; height: 200px; object-fit: cover;" alt="Card image cap"/>
+                            <div class="card-body">
+                                <h5 class="card-title card-title-res">${s.name}</h5>
+                                <div class="restaurant-info">
+                                    <p class="res-time">${s.timeOpen} - ${s.timeClose}</p>
+                                    <div class="res-category">${s.description}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Restaurant Card 2 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurant Card 3 -->
-                    <div class="card card-restaurant" style="width: 18rem">
-                        <div class="rating-box">9.8</div>
-                        <img
-                            class="card-img-top"
-                            src="./assets/img/category.png"
-                            alt="Card image cap"
-                            />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurant Card 4 -->
-                    <div class="card card-restaurant" style="width: 18rem;">
-                        <!-- Rating -->
-                        <div class="rating-box">9.8</div>
-
-                        <img class="card-img-top" src="./assets/img/category.png" alt="Card image cap" />
-                        <div class="card-body">
-                            <h5 class="card-title card-title-res">Foodie Restaurant</h5>
-                            <div class="restaurant-info">
-                                <p class="res-time">~20-30 min</p>
-                                <div class="res-category">Pizza</div>
-                            </div>
-                        </div>
-                    </div>
-
+                    </c:forEach>
                 </div>
             </div>
         </div>

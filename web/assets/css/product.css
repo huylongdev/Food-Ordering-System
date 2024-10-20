@@ -322,6 +322,16 @@ strong {
     margin: auto;
     max-width: 1000px;
 }
+.send-btn{
+     margin: 10px 0 30px 0;
+    height: 50px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: #5eae53;
+    border: 1px;
+    color: #F3F3F3;
+    font-weight: 600;
+}
 
 
 

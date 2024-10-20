@@ -33,43 +33,108 @@
         <link href="./assets/css/product.css" rel="stylesheet">
         <script src="index.js"></script>
         <style>
-            .menu-container {
+            .star-rating .full {
+                color: gold; /* Màu của sao đã chọn */
+                font-size: 20px; /* Kích thước sao */
+            }
+            .star-rating .empty {
+                color: #d3d3d3; /* Màu của sao trống */
+                font-size: 20px;
+            }
+
+            .mt-100 {
+                margin-top: 100px
+            }
+
+            .mb-100 {
+                margin-bottom: 100px
+            }
+
+            .card {
                 position: relative;
-                display: inline-block;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0px solid transparent;
+                border-radius: 0px
             }
 
-            .menu-btn {
-                background-color: transparent;
-                border: none;
-                cursor: pointer;
-                font-size: 24px;
+            .card-body {
+                -webkit-box-flex: 1;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                padding: 1.25rem
             }
 
-            .menu-content {
-                display: none;
-                position: absolute;
-                right: 0;
-                background-color: #f9f9f9;
-                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-                z-index: 1;
-                min-width: 120px;
+            .card .card-title {
+                position: relative;
+                font-weight: 600;
+                margin-bottom: 10px
             }
 
-            .menu-content button {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
+            .comment-widgets {
+                position: relative;
+                margin-bottom: 10px
             }
 
-            .menu-content button:hover {
-                background-color: #f1f1f1;
+            .comment-widgets .comment-row {
+                border-bottom: 1px solid transparent;
+                padding: 14px;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                margin: 10px 0
             }
 
-            .menu-container.show .menu-content {
-                display: block;
+            .p-2 {
+                padding: 0.5rem !important
+            }
+
+            .comment-text {
+                padding-left: 15px
+            }
+
+            .w-100 {
+                width: 100% !important
+            }
+
+            .m-b-15 {
+                margin-bottom: 15px
+            }
+
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.76563rem;
+                line-height: 1.5;
+                border-radius: 1px
+            }
+
+            .btn-cyan {
+                color: #fff;
+                background-color: #27a9e3;
+                border-color: #27a9e3
+            }
+
+            .btn-cyan:hover {
+                color: #fff;
+                background-color: #1a93ca;
+                border-color: #198bbe
+            }
+
+            .comment-widgets .comment-row:hover {
+                background: rgba(0, 0, 0, 0.05)
             }
         </style>
+
+
     </head>
     <body>
 
@@ -155,7 +220,7 @@
 
                     <!--<div class="rating " data-rating="3"></div>-->
                     <!--<p id = "ratingStatus"></p>-->
-                    <div class="rating " data-rating="3"></div>
+                    <div class="rating " data-rating="${p.getRating()}"></div>
                     <div class ="rating-border"></div>
                 </div>
             </div>
@@ -184,38 +249,81 @@
                         <div class ="review-content">
                             <input type = "text" name = "comment" placeholder="Enter content...">
                         </div>
-                        <button type="submit">Send</button></div>
+                        <button type="submit" id ="send-btn" >Send</button></div>
                     </c:if>
         </form>
-        <c:forEach var="feedback" items="${flist}">
-            <div class ="review-content">
-                <p>${feedback.userName}  ${feedback.createdDate}</p>
-            </div>
-            <div class ="review-content">
-                <p>${feedback.comment}  ${feedback.rating}</p>
-                <div class="menu-container">
-                    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
-                    <div class="menu-content" id="dropdownMenu">
-                        <form action="FeedbackServlet" method="POST">
-                            <input type = "hidden" name ="feebackID" value = "${feedback.feedbackId}">
-                            <input type = "hidden" name ="productID" value = "${p.getProductId()}">
-                            <button name="action" value="edit">Edit</button>
-                        </form>
-                        <form action="FeedbackServlet" method="POST">
-                            <input type = "hidden" name ="feebackID" value = "${feedback.feedbackId}">
-                            <input type = "hidden" name ="productID" value = "${p.getProductId()}">
-                            <button name="action" value="delete">Delete</button>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="comment-widgets">
+                    <!-- Comment Row -->
+                    <c:forEach var="feedback" items="${flist}">
+                        <div class="d-flex flex-row comment-row m-t-0">
+                            <div class="p-2"><img src="https://i.imgur.com/Ur43esv.jpg" alt="user" width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium">${feedback.userName}</h6>
 
-                        </form>
-                    </div>
-                </div>
+                                <div class="star-rating">
+                                    <c:forEach begin="1" end="${feedback.rating}" var="i">
+                                        <span class="full">★</span>
+                                    </c:forEach>
+                                    <c:forEach begin="${feedback.rating + 1}" end="5" var="i">
+                                        <span class="empty">☆</span>
+                                    </c:forEach>
+                                </div>
+
+                                <!-- Span chứa bình luận, thêm id để JS thao tác -->
+                                <span id="comment-${feedback.feedbackId}" class="m-b-15 d-block">${feedback.comment}</span>
+
+                                <div class="comment-footer">
+                                    <span class="text-muted float-right">${feedback.createdDate}</span> 
+
+                                    <!-- Nút Edit với id -->
+                                    <button id="edit-btn-${feedback.feedbackId}" type="button" class="btn btn-cyan btn-sm" onclick="editComment(${feedback.feedbackId})">Edit</button>
+
+                                    <form style="display: inline" action="FeedbackServlet" method="POST">
+                                        <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+                                        <input type="hidden" name="productID" value="${p.getProductId()}">
+                                        <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> <!-- Comment Row -->
+                    </c:forEach>
+
+                </div> <!-- Card -->
             </div>
-        </c:forEach>
+        </div>
     </div>
 
 </div> 
 
+<div class="pagination">
+            <c:set var="currentPage" value="${currentPage}" />
+            <c:set var="pageSize" value="${pageSize}" />
+            <c:set var="totalProducts" value="${totalProducts}" />
+            <c:set var="totalPages" value="${totalPages}" />
 
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="active">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}">&raquo;</a>
+            </c:if>
+        </div>
 <%@ include file="/include/footer.jsp" %>
 <c:if test="${not empty sessionScope.alert}">
 
@@ -231,13 +339,66 @@
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"
-></script>
+crossorigin="anonymous"></script>
 <script>
-        function toggleMenu() {
-            document.querySelector('.menu-container').classList.toggle('show');
-        }
+    function editComment(feedbackId) {
+        // Lấy phần tử <span> chứa nội dung bình luận theo feedbackId
+        var commentSpan = document.querySelector(#comment-${feedbackId});
+        var currentComment = commentSpan.innerText;
 
+        // Tạo thẻ input với giá trị là nội dung bình luận hiện tại
+        var inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.value = currentComment;
+        inputField.classList.add("form-control");  // Thêm class cho input (tuỳ chỉnh)
+
+        // Thay thế <span> thành <input>
+        commentSpan.innerHTML = '';
+        commentSpan.appendChild(inputField);
+
+        // Chuyển nút Edit thành Save
+        var editButton = document.querySelector(#edit-btn-${feedbackId});
+        editButton.innerText = "Save";
+        editButton.setAttribute("onclick", saveComment(${feedbackId}));
+    }
+
+    function saveComment(feedbackId) {
+        // Lấy giá trị mới từ input
+        var inputField = document.querySelector(#comment-${feedbackId} input);
+        var newComment = inputField.value;
+
+        // Tạo một form ẩn để submit dữ liệu (hoặc thực hiện AJAX nếu cần)
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "FeedbackServlet";
+
+        // Tạo các input ẩn để chứa dữ liệu
+        var feedbackIdInput = document.createElement("input");
+        feedbackIdInput.type = "hidden";
+        feedbackIdInput.name = "feedbackID";
+        feedbackIdInput.value = feedbackId;
+
+        var commentInput = document.createElement("input");
+        commentInput.type = "hidden";
+        commentInput.name = "comment";
+        commentInput.value = newComment;
+
+        var actionInput = document.createElement("input");
+        actionInput.type = "hidden";
+        actionInput.name = "action";
+        actionInput.value = "save";
+
+        // Đưa các input vào form
+        form.appendChild(feedbackIdInput);
+        form.appendChild(commentInput);
+        form.appendChild(actionInput);
+
+        // Gửi form
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
+
+
 </body>
 </html>
