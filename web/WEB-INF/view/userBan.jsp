@@ -263,12 +263,13 @@
                                                 <td>${user.fullName}</td>
                                                 <td>${user.phoneNumber}</td>
                                                 <td>
-                                                    <button class="btn btn-danger">Ban</button>
-<!--                                                    <form method="post" action="userBan">
-                                                        <input type="hidden" name="userName" value="">
-                                                        <input type="hidden" name="action" value="">
-                                                        <button type="submit" class="btn btn-danger"></button>
-                                                    </form>-->
+
+
+                                                    <form method="post" action="userBan">
+                                                        <input type="hidden" name="userID" value="${user.getUserID()}">
+                                                        <input type="hidden" name="action" value="${user.isStatus() == true ? 'ban' : 'unban'}">
+                                                        <button type="submit" class="btn btn-danger">${user.isStatus() == true ? 'Ban' : 'Unban'}</button>
+                                                    </form>
 
                                                 </td>
                                             </tr>
