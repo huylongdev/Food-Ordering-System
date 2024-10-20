@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         AccountDAO dao = new AccountDAO();
-        dao.createShopAccount(new Account("shop3", PasswordUtil.hashPassword("123"), "Nguyen Hue Linh", "0389898742", "nhs211306@gmail.com", "Ngu Hanh Son - Da Nang", 3, 2));
+        dao.createShopAccount(new Account("shop13", PasswordUtil.hashPassword("123"), "Tran Phuc Tien", "0386188917", "phuctienrt@gmail.com", "Ngu Hanh Son - Da Nang", 3, 2));
     
     }
 }

@@ -27,6 +27,7 @@
             rel="stylesheet"
             href="./assets/font/themify-icons/themify-icons.css"
             />
+        <link rel="stylesheet" href="./assets/css/style.css">
         <script src="./assets/js/shop.js"></script>
         <link rel="stylesheet" href="./assets/css/header-footer.css">
         <!--<link rel="stylesheet" href="./assets/css/blog.css" />-->
