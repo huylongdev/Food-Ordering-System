@@ -24,7 +24,7 @@ public class UserBanServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("userName");
+        String userName = request.getParameter("userID");
         String action = request.getParameter("action"); 
 
         AccountDAO accountDAO = new AccountDAO();

@@ -208,7 +208,8 @@ public class AccountDAO {
                         rs.getString("Address"),
                         rs.getString("AvtImg"),
                         rs.getInt("ShopID"),
-                        rs.getInt("Role")
+                        rs.getInt("Role"),
+                        rs.getBoolean("Status")
                 );
                 accountList.add(account);
             }
@@ -394,14 +395,13 @@ public class AccountDAO {
     }
     
     
-   
     
-    public void updateUserStatus(String userName, int status) {
-        String sql = "UPDATE Users SET Status = ? WHERE UserName = ?";
+    public void updateUserStatus(String userID, int status) {
+        String sql = "UPDATE Users SET Status = ? WHERE UserID = ?";
         try (Connection connection = new DBContext().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, status);
-            statement.setString(2, userName);
+            statement.setString(2, userID);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
