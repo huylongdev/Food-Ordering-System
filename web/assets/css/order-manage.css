@@ -1,4 +1,7 @@
-
+.main-content h5{
+    font-size: 1.2rem !important;
+    color: #5EAE53 !important;
+}
 
 a {
     text-decoration: none;
