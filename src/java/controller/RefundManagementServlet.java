@@ -4,13 +4,20 @@
  */
 package controller;
 
+import context.RefundDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Account;
+import model.Refund;
 
 /**
  *
@@ -45,7 +52,24 @@ public class RefundManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            HttpSession session = request.getSession();
+            Account u = (Account) session.getAttribute("user");
+
+            RefundDAO refundDAO = new RefundDAO();
+            List<Refund> requestList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "PENDING");
+            List<Refund> approvedList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "APPROVED");
+            List<Refund> rejectedList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "REJECTED");
+
+            request.setAttribute("requestList", requestList);
+            request.setAttribute("approvedList", approvedList);
+            request.setAttribute("rejectedList", rejectedList);
+
+            request.getRequestDispatcher("WEB-INF/view/refundManage.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(RefundManagementServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

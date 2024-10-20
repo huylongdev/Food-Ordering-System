@@ -476,6 +476,57 @@ public class OrderDAO {
         return paymentID;
     }
 
+    public int getOrderIDByPaymentID(String paymentID) {
+        int orderID = 0;
+        String sql = "SELECT OrderID FROM [Order] WHERE PaymentID = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, paymentID);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                orderID = rs.getInt("OrderID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return orderID;
+    }
+
+    public String getEmailByOrderID(int orderID) {
+        String email = null;
+        String sql = "SELECT Email FROM Users WHERE UserID = (SELECT UserID FROM [Order] WHERE OrderID = ?)";
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    email = rs.getString("Email");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return email;
+    }
+
     public String getDeliveryStatusByOrderID(int orderId) {
         String deliveryStatus = null;
         String sql = "SELECT DeliveryStatus FROM [Order] WHERE OrderID = ?";

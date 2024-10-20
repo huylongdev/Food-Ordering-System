@@ -76,14 +76,6 @@
                                 <a href="#"> <i class="fa fa-user"></i> Profile</a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fa fa-calendar"></i> Recent Activity
-                                    <span class="label label-warning pull-right r-activity"
-                                          >9</span
-                                    ></a
-                                >
-                            </li>
-                            <li>
                                 <a href="editUser?userId=${user.getUserID()}">
                                     <i class="fa fa-edit"></i> Edit profile</a
                                 >
@@ -104,43 +96,14 @@
                                 >
                             </li>
                             <div class="text-center btn-dash" style="margin-top:2em; line-height:200px; ">
-                        <a href="./dashboard"  class="btn btn-primary">View Admin Dashboard</a>
-                    </div>
+                                <a href="./dashboard"  class="btn btn-primary">View Admin Dashboard</a>
+                            </div>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Profile Info -->
-                <div class="col-md-9 profile-info">
-                    <div class="panel">
-                        <form>
-                            <textarea
-                                placeholder="What's in your mind today?"
-                                rows="2"
-                                class="form-control input-lg p-text-area"
-                                ></textarea>
-                        </form>
-                        <footer class="panel-footer">
-                            <button style="background-color: #b0c4de" class="btn pull-right">
-                                Post
-                            </button>
-                            <ul class="nav nav-pills">
-                                <li>
-                                    <a href="#"><i class="fa fa-map-marker"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-camera"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-film"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-microphone"></i></a>
-                                </li>
-                            </ul>
-                        </footer>
-                    </div>
-
+                <div class="col-md-9 profile-info">     
                     <div class="panel">
                         <div class="panel-body bio-graph-info">
                             <h1 style="font-weight: 600; padding: 10px 10px 0 10px">
@@ -165,10 +128,10 @@
                             </div>
                         </div>
                     </div>
-                          
-                                
-                        
-                                
+
+
+
+
                 </div>
 
             </div>
@@ -193,7 +156,7 @@
 
 
 
- 
+
 
 
         </div>

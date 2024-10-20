@@ -2,6 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%
+    String alertMessage = (String) session.getAttribute("alertMessage");
+    if (alertMessage != null) {
+%>
+<script>
+    alert("<%= alertMessage %>");
+</script>
+<%
+        session.removeAttribute("alertMessage");
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,16 +32,13 @@
         <script src="./assets/js/order-history.js"></script>
 
         <script>
-            // Hàm cập nhật số lượng và giá trị
-            document.addEventListener('DOMContentLoaded', function () {
-                var quantityInputs = document.querySelectorAll('.quantity');
-                quantityInputs.forEach(function (input) {
-                    updateAmount(input);
-                });
-
-            });
-
-
+    // Hàm cập nhật số lượng và giá trị
+    document.addEventListener('DOMContentLoaded', function () {
+        var quantityInputs = document.querySelectorAll('.quantity');
+        quantityInputs.forEach(function (input) {
+            updateAmount(input);
+        });
+    });
         </script>
     </head>
     <body>
@@ -71,7 +79,7 @@
                                         <div style="width: 16%">
                                             <div class="number-input">
                                                 <input name="isSelected" type="hidden" value="${item.getProduct().getProductId()}">
-                                                <input type="number" id="${item.getProduct().getProductId()}" name="quantity_${item.getProduct().getProductId()}" class="quantity" value="${item.getQuantity()}" min="1" max="10" onchange="updateAmount(this)">
+                                                <input type="number" readonly id="${item.getProduct().getProductId()}" name="quantity_${item.getProduct().getProductId()}" class="quantity"  value="${item.getQuantity()}" min="1" max="10" onchange="updateAmount(this)">
                                             </div>
                                         </div>
                                         <div id="col3" style="width: 13%; text-align: right!important;align-items: flex-end; padding-right: 0;">
@@ -87,7 +95,6 @@
                                     <td style="width: 5%"></td>
                                     <td class="table-left">Payment Status: <b>${order.getOrder().getPaymentStatus().toUpperCase()}</b>
                                         <br>Order Status: <b>${order.getOrder().getDeliveryStatus().toUpperCase()}</b>
-
                                     </td>
                                     <td class="table-center">Delivery Address: ${order.getOrder().getAddress()}</td>
 
@@ -115,7 +122,8 @@
                                                             && order.getOrder().getPaymentOption()=='VNPAY' 
                                                             && order.getOrder().getPaymentStatus() =='PAID' 
                                                             && order.getOrder().getIsRefund() == 0 }">
-                                                    <a href="#" class='cancel-order' onclick="submitRefundRequestOrderForm(${order.getOrder().getOrderId()});">Send Refund Request</a>
+                                                    <a href="#" class='cancel-order' 
+                                                       onclick="setOrderIdAndShowModal(${order.getOrder().getOrderId()});">Send Refund Request</a>
                                             </c:when>
                                         </c:choose>
                                         <button type="submit">Buy Again</button>
@@ -124,12 +132,41 @@
                             </table>
                         </div>
                     </form>
-                    <!-- Move cancel order form here and give each order a unique ID -->
+                    <!-- Refund Request Modal -->
+                    <div class="modal fade" id="refundRequestModal" tabindex="-1" aria-labelledby="refundRequestModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="refundRequestModalLabel">Refund Request</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="refund" method="post" id="refundRequestForm" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="refundReason" class="form-label">Reason for Refund</label>
+                                            <textarea class="form-control" id="refundReason" name="refundReason" rows="3" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="refundAmount" class="form-label">Refund Reason Image</label>
+                                            <input type="file" class="form-control" id="refundReasonImg" name="refundReasonImg" required>
+                                        </div>
+                                        <input type="hidden" name="orderId" id="orderId" value="${order.getOrder().getOrderId()}">
+                                        <input type="hidden" name="action" value="refundRequest">
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" onclick="submitRefund()">Submit Request</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form id="cancelOrderForm_${order.getOrder().getOrderId()}" action="order-history" method="post" style="display: none;">
                         <input type="hidden" name="orderId" value="${order.getOrder().getOrderId()}">
                     </form>
                     <form id="refundOrderForm_${order.getOrder().getOrderId()}" action="refund" method="post" style="display: none;">
                         <input type="hidden" name="orderId" value="${order.getOrder().getOrderId()}">
+                        <input type="hidden" name="action" value="refundCancelOrder">
                     </form>
                 </c:forEach>
             </div>
@@ -147,6 +184,26 @@
                 if (confirmation) {
                     document.getElementById("refundOrderForm_" + orderId).submit();
                 }
+            }
+            function setOrderIdAndShowModal(orderId) {
+                document.getElementById('orderId').value = orderId;
+                var myModal = new bootstrap.Modal(document.getElementById('refundRequestModal'));
+                myModal.show();
+            }
+
+            function submitRefund() {
+                var form = document.getElementById('refundRequestForm');
+                var reason = document.getElementById('refundReason').value;
+                var file = document.getElementById('refundReasonImg').files[0];
+                if (!reason || !file) {
+                    alert("Please provide a refund reason and upload an image.");
+                    return false;
+                }
+
+                var myModalEl = document.getElementById('refundRequestModal');
+                var modal = bootstrap.Modal.getInstance(myModalEl);
+                modal.hide();
+                form.submit();
             }
         </script>
         <script src="js/Jquery.js"></script>
