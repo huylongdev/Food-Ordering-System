@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 /**
@@ -11,18 +7,20 @@ package model;
 public class VNPay_Bill {
 
     private String vnpTxnRef;            // vnp_TxnRef
-    private float vnpAmount;         // vnp_Amount
-    private String vnpPayDate;        // vnp_PayDate
+    private float vnpAmount;              // vnp_Amount
+    private String vnpPayDate;            // vnp_PayDate
     private String vnpTransactionStatus;  // vnp_TransactionStatus
+    private int orderId;                  // OrderId liên kết với bảng Order
 
     public VNPay_Bill() {
     }
 
-    public VNPay_Bill(String vnpTxnRef, float vnpAmount, String vnpPayDate, String vnpTransactionStatus) {
+    public VNPay_Bill(String vnpTxnRef, float vnpAmount, String vnpPayDate, String vnpTransactionStatus, int orderId) {
         this.vnpTxnRef = vnpTxnRef;
         this.vnpAmount = vnpAmount;
         this.vnpPayDate = vnpPayDate;
         this.vnpTransactionStatus = vnpTransactionStatus;
+        this.orderId = orderId;  // Khởi tạo orderId
     }
 
     public String getVnpTxnRef() {
@@ -57,5 +55,11 @@ public class VNPay_Bill {
         this.vnpTransactionStatus = vnpTransactionStatus;
     }
 
-    
+    public int getOrderId() {
+        return orderId;  
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;  
+    }
 }

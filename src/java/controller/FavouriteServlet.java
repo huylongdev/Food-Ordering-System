@@ -4,7 +4,6 @@
  */
 package controller;
 
-import context.CartDAO;
 import context.FavouriteDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
@@ -18,7 +17,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.CartItem;
 import model.CartItemDTO;
 import model.Favourite;
 import model.Product;
