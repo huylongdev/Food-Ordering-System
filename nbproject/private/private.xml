@@ -3,13 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/context/DiscountDAO.java</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/context/DBContext.java</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/model/Discount.java</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/assets/css/discount.css</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/src/java/controller/DiscountServlet.java</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/WEB-INF/view/discount.jsp</file>
-            <file>file:/D:/Workspace/foodRT03/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/Workspace/foodOadmin/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/Workspace/foodOadmin/Food-Ordering-System/web/WEB-INF/view/userBan.jsp</file>
         </group>
     </open-files>
 </project-private>
