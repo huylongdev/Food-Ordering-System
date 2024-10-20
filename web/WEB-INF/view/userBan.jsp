@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>
-            Dashboard  </title>
+            UserBan  </title>
         <!--     Fonts and icons     -->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
         <!-- Nucleo Icons -->
@@ -29,6 +29,8 @@
             rel="stylesheet"
             href="./assets/font/themify-icons/themify-icons.css"
             />
+        <link rel="stylesheet" href="./assets/css/userBan.css">
+
     </head>
 
     <body class="g-sidenav-show  bg-gray-200">
@@ -37,14 +39,14 @@
                 <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0" href="#">
                     <i class="material-icons icon-foodie">store</i><span class="ms-1 font-weight-bold text-white">Foodie Dashboard </span>
-                    
+
                 </a>
             </div>
             <hr class="horizontal light mt-0 mb-2">
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                        <a class="nav-link text-white" href="/OrderingSystem/dashboard">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -52,7 +54,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/userBan">
+                        <a class="nav-link text-white active bg-gradient-primary" href="/OrderingSystem/userBan">
 
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -77,7 +79,7 @@
                             <span class="nav-link-text ms-1">Blog</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
                     </li>
@@ -97,11 +99,12 @@
                             <span class="nav-link-text ms-1">Sign In</span>
                         </a>
                     </li>
-                    
+
                 </ul>
             </div>
 
         </aside>
+
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
             <!-- Navbar -->
             <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -230,66 +233,59 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                        <div class="card z-index-2 ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                    <div class="chart" >
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sliderback.svg" ></div> 
-                                    </div>
-                                </div>
+
+
+
+
+
+                    <div class="container bootstrap snippets bootdey">
+                        <div class="row">
+                            <div class="user-list" style="max-height: 300px; overflow-y: scroll;">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>User's ID</th>
+                                            <th>Avatar</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="user" items="${userList}">
+                                            <tr>
+                                                <td>
+                                                    <h5>${user.userID}</h5>
+                                                </td>
+                                                <td>
+                                                    <img src="${user.avtImg}" onerror="this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';" alt="Avatar of ${user.fullName}" class="img-responsive img-circle" style="width: 40px; height: 40px;">
+                                                </td>
+                                                <td>${user.fullName}</td>
+                                                <td>${user.phoneNumber}</td>
+                                                <td>
+
+
+                                                    <form method="post" action="userBan">
+                                                        <input type="hidden" name="userID" value="${user.getUserID()}">
+                                                        <input type="hidden" name="action" value="${user.isStatus() == true ? 'ban' : 'unban'}">
+                                                        <button type="submit" class="btn btn-danger">${user.isStatus() == true ? 'Ban' : 'Unban'}</button>
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 "> Website view</h6>
-                                <p class="text-sm ">Last Campaign Performance</p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                        <div class="card z-index-2  ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                                    <div class="chart">
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sale1.jpg" ></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 "> Daily Sales </h6>
-                                <p class="text-sm "> (<span class="font-weight-bolder">+70%</span>) increase in today sales. </p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm"> updated 4 min ago </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mb-3">
-                        <div class="card z-index-2 ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
-                                    <div class="chart" >
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/dishShow.jpg" ></div> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 ">Foodie</h6>
-                                <p class="text-sm ">Finding your best choice with foodie !</p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm">just updated</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
+
+
+
+
                 </div>
                 <div class="row mb-4">
                     <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
@@ -332,7 +328,12 @@
             </div>
         </main>
 
+
+
+
+
         <!--   Core JS Files   -->
+
         <script src="../assets/js/core/popper.min.js"></script>
         <script src="../assets/js/core/bootstrap.min.js"></script>
         <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>

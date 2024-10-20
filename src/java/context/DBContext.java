@@ -15,6 +15,7 @@ public class DBContext {
 
     private String server = "localhost";
     private String user = "sa";
+
     private String password = "123";
 
     private String db = "ordering_system";
@@ -40,5 +41,5 @@ public class DBContext {
             }
         }
     }
-    
+
 }
