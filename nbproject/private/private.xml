@@ -3,11 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/cart.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/BlogDetailsServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/FavouriteServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/DashboardServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/food.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/FoodServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/header-footer.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/blog.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/restaurant-list.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/login.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/blogdetails.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/updateUser.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/feedback.css</file>
             <file>file:/D:/swp/Github/Food-Ordering-System/src/java/model/ProductDTO.java</file>
-            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
-            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/wishlist.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/food-detail.jsp</file>
             <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/CategoryDAO.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/food-list.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/FeedbackDAO.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/include/header.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/font/themify-icons/index.html</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/dashboard.jsp</file>
             <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/ProductDAO.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/CommunityBlogServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/FeedbackServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/product.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/FavouriteDAO.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/web.xml</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/model/Post.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/shop.jsp</file>
         </group>
     </open-files>
 </project-private>

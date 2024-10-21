@@ -95,6 +95,12 @@
                             <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
+                            <a href = "./favourite">
+                            <div class="icon">
+                                <i class="ti-heart" style="margin: 0 10px 0 10px; padding:10px; font-size: 25px; border-radius: 25px;
+                                   background-color: #ff6b6b; display: inline-block;color: white; text-align: center;"></i>
+                            </div>
+                        </a>               
                         </div>
                     </div>
                 </div>

@@ -247,20 +247,31 @@
                             </select>
                         </div>
                         <div class ="review-content">
-                            <input type = "text" name = "comment" placeholder="Enter content...">
+                            <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
                         </div>
-                        <button type="submit" id ="send-btn" >Send</button></div>
+                        <div>
+    <div style="text-align: center;">
+    <button type="submit" id="send-btn" style="width: 200px;; color: #F3F3F3; border-radius: 10px; border: 1px; background-color: #5EAE53; margin-top: 20px; margin-left: 60px;">Send</button>
+</div>
+
+</div>
+
                     </c:if>
         </form>
     </div>
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content">
         <div class="col-lg-6">
             <div class="card">
                 <div class="comment-widgets">
                     <!-- Comment Row -->
                     <c:forEach var="feedback" items="${flist}">
                         <div class="d-flex flex-row comment-row m-t-0">
-                            <div class="p-2"><img src="https://i.imgur.com/Ur43esv.jpg" alt="user" width="50" class="rounded-circle"></div>
+                            <img   id="user-avatar"
+                                   class="img-responsive img-circle"
+                                   src="${user.getAvtImg()}"
+                                   onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
+                                   alt="Profile Picture"
+                                                                />
                             <div class="comment-text w-100">
                                 <h6 class="font-medium">${feedback.userName}</h6>
 
@@ -302,7 +313,7 @@
 <div class="pagination">
             <c:set var="currentPage" value="${currentPage}" />
             <c:set var="pageSize" value="${pageSize}" />
-            <c:set var="totalProducts" value="${totalProducts}" />
+            <c:set var="totalFeedbacks" value="${totalFeedbacks}" />
             <c:set var="totalPages" value="${totalPages}" />
 
             <c:if test="${currentPage > 1}">

@@ -111,6 +111,12 @@
                             <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
+                             <a href = "./favourite">
+                            <div class="icon">
+                                <i class="ti-heart" style="margin: 0 10px 0 10px; padding:10px; font-size: 25px; border-radius: 25px;
+                                   background-color: #ff6b6b; display: inline-block;color: white; text-align: center;"></i>
+                            </div>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -179,24 +185,28 @@
                     and fast ordering at your fingertips!"
                 </p>
             </div>
-            <div class="restaurant-grid">
-                <!-- Card 1 -->
-                <c:forEach var="p" items="${pdtolist}">
-                    <div class="card-horizontal col-md-5">
-                        <img class="card-img" src="${p.imgURL}" alt="Best Burgers" />
-                        <div class="card-body">
-                            <div class="rating">${p.rating}</div>
-                            <p class="bestseller-category">${p.categoryName}</p>
-                            <h5 class="card-title">${p.name}</h5>
-                            <p class="card-text">${p.shopName}</p>
-                            <div class="card-info">
-                                <p class="time">${p.purchaseCount}</p>
-                                <p class="price">From $${p.price}</p>
-                            </div>
-                        </div>
+           <div class="row">
+    <c:forEach var="p" items="${pdtolist}">
+        <div class="col-md-4 mb-4">
+        <a style="text-decoration: none" href ="./food-detail?productId=${product.getProduct().getProductId()}"> 
+            <div class="card-horizontal">
+                <img class="card-img" src="${p.imgURL}" alt="Best Burgers" />
+                <div class="card-body">
+                    <div class="rating">${p.rating}</div>
+                    <p class="bestseller-category">${p.categoryName}</p>
+                    <h5 class="card-title">${p.name}</h5>
+                    <p class="card-text">${p.shopName}</p>
+                    <div class="card-info">
+                        <p class="time">${p.purchaseCount}</p>
+                        <p class="price">From $${p.price}</p>
                     </div>
-                </c:forEach>
+                </div>
             </div>
+        </a>           
+        </div>
+    </c:forEach>
+</div>
+
         </div>
 
         <!-- MAP RESTAURANTS -->
