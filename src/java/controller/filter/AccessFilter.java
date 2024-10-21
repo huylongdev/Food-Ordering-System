@@ -104,7 +104,7 @@ public class AccessFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
 
-        if (session != null && session.getAttribute("user") != null ) {
+        if (session != null && session.getAttribute("role") != null ) {
             
             chain.doFilter(request, response);
 

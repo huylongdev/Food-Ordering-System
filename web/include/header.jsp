@@ -37,6 +37,8 @@
                     <a class="nav-link" href="/OrderingSystem/food">Food</a>
                     <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
                     <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
+                    <a class="nav-link" href="/OrderingSystem/discount">Discount</a>
+
                 </div>
                 <div class="navbar__item">
                     <nav id="nav-bar">
@@ -44,7 +46,7 @@
 
                             <li class="nav-item">
 
-                            <!--<li class="navbar__item--login">-->
+                                <!--<li class="navbar__item--login">-->
 
                                 <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
                                     <c:choose>
@@ -80,13 +82,13 @@
                             <i class="ti-shopping-cart"></i>
                         </div></a>
 
-                  
-                        <a href = "./favourite">
-                            <div class="icon">
+
+                    <a href = "./favourite">
+                        <div class="icon">
                             <i class="ti-heart"></i>
-                            </div>
-                        </a>
-                    
+                        </div>
+                    </a>
+
 
                 </div>
             </div>

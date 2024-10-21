@@ -21,6 +21,8 @@ public class Account {
     private int shopID; // Optional
     private int role; // Not null
     private String code;
+    private boolean status;
+    
 
     public Account() {
     }
@@ -73,7 +75,7 @@ public class Account {
         this.role = role;
     }
 
-    public Account(int userID, String userName, String password, String fullName, String phoneNumber, String email, String address, String avtImg, int shopID, int role, String code) {
+    public Account(int userID, String userName, String password, String fullName, String phoneNumber, String email, String address, String avtImg, int shopID, int role, boolean status) {
         this.userID = userID;
         this.userName = userName;
         this.password = password;
@@ -84,8 +86,18 @@ public class Account {
         this.avtImg = avtImg;
         this.shopID = shopID;
         this.role = role;
-        this.code = code;
+        this.status = status;
     }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    
 
     public String getCode() {
         return code;
