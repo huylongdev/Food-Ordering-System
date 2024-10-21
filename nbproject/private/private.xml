@@ -3,17 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/userBan.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/OrderDetailServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/order-manage.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CheckoutServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/restaurant.css</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/AccountDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/order-manage.css</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/OrderHistoryServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/order-history.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/blog-manage.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/blog.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Post.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/restaurant.jsp</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CheckoutServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/OrderHistoryServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/OrderDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/PasswordUtil.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/order-detail.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/model/Post.java</file>
         </group>
     </open-files>
 </project-private>

@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css" />
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/header-footer.css">
+        <link href="./assets/css/restaurant.css" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/order-manage.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -44,14 +45,10 @@
                         <i class="ti-home"></i> All Orders
                     </a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-timer"></i> Processing
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-check"></i> Completed
+                    <a class="nav-link" href="/OrderingSystem/refundManage">
+                        <i class="ti-wallet"></i> Refund Request
                     </a>
                 </li>
             </ul>
@@ -59,116 +56,136 @@
 
         <!-- Main content -->
         <div class="main-content">
+            <ul class="nav nav-tabs mt-4" id="refundTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="new-order-tab" data-bs-toggle="tab" href="#new-order" role="tab" aria-controls="new-order" aria-selected="true">New Orders<b style="color:#F6B76C; margin-left: 8px"> (${pendingList.size()})</b></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="preparing-tab" data-bs-toggle="tab" href="#preparing" role="tab" aria-controls="preparing" aria-selected="false">Preparing<b style="color:#F6B76C; margin-left: 8px"> (${prepareList.size()})</b></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="ready-tab" data-bs-toggle="tab" href="#ready" role="tab" aria-controls="ready" aria-selected="false">Ready For Delivery<b style="color:#F6B76C; margin-left: 8px"> (${readyList.size()})</b></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="in-transit-tab" data-bs-toggle="tab" href="#in-transit" role="tab" aria-controls="in-transit" aria-selected="false">In Transit<b style="color:#F6B76C; margin-left: 8px"> (${shippingList.size()})</b></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="completed-tab" data-bs-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="false">Completed<b style="color:#F6B76C; margin-left: 8px"> (${completeList.size()})</b></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="cancelled-tab" data-bs-toggle="tab" href="#cancelled" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled<b style="color:#F6B76C; margin-left: 8px">(${cancelList.size()})</b></a>
+                </li>
+            </ul>
+            <div style="min-height: 80vh" class="tab-content" id="ordersTabsContent">
+                <!-- New Orders Section -->
+                <div class="mt-4 tab-pane fade show active" id="new-order" role="tabpanel" aria-labelledby="new-order-tab">
+                    <h5>New Orders (${pendingList.size()})</h5>
+                    <c:forEach var="order" items="${pendingList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <!-- Preparing Section -->
+                <div class="mt-4  tab-pane fade " id="preparing" role="tabpanel" aria-labelledby="preparing-tab">
+                    <h5>Preparing (${prepareList.size()})</h5>
+                    <c:forEach var="order" items="${prepareList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+
+                </div>
+
+                <!-- Ready for Delivery Section -->
+                <div class="mt-4  tab-pane fade " id="ready" role="tabpanel" aria-labelledby="ready-tab">
+                    <h5>Ready For Delivery(${readyList.size()})</h5>
+                    <c:forEach var="order" items="${readyList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <div class="mt-4  tab-pane fade " id="in-transit" role="tabpanel" aria-labelledby="in-transit-tab">
+                    <h5>In Transit(${shippingList.size()})</h5>
+                    <c:forEach var="order" items="${shippingList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
 
 
-            <!-- New Orders Section -->
-            <div class="mt-4">
-                <h5>New Orders (${pendingList.size()})</h5>
-                <c:forEach var="order" items="${pendingList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2">${FormatString.formatCurrency(order.getTotalAmount())}</div>
-                            <div class="col-sm-2">${order.getDeliveryOption()}</div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                <div class="mt-4  tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                    <h5>Completed(${completeList.size()})</h5>
+                    <c:forEach var="order" items="${completeList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
+                    </c:forEach>
+                </div>
 
-            <!-- Preparing Section -->
-            <div class="mt-4">
-                <h5>Preparing (${prepareList.size()})</h5>
-                <c:forEach var="order" items="${prepareList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                <div class="mt-4  tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
+                    <h5>Cancelled(${cancelList.size()})</h5>
+                    <c:forEach var="order" items="${cancelList}">
+                        <div class="card p-3 mb-3">
+                            <a href = "./order-detail?orderId=${order.getOrderId()}">
+                                <div class="row">
+                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
+                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
+                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+                                    <div class="col-sm-3">${order.getAddress()}</div>
+                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                </c:forEach>
-
-            <!-- Ready for Delivery Section -->
-            <div class="mt-4">
-                <h5>Ready For Delivery(${readyList.size()})</h5>
-                <c:forEach var="order" items="${readyList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
-                        </a>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
-                
-                <div class="mt-4">
-                <h5>In Transit(${shippingList.size()})</h5>
-                <c:forEach var="order" items="${shippingList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-                
-                
-                <div class="mt-4">
-                <h5>Completed(${completeList.size()})</h5>
-                <c:forEach var="order" items="${completeList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-                
-                <div class="mt-4">
-                <h5>Cancelled(${cancelList.size()})</h5>
-                <c:forEach var="order" items="${cancelList}">
-                    <div class="card p-3 mb-3">
-                        <a href = "./order-detail?orderId=${order.getOrderId()}">
-                        <div class="row">
-                            <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                            <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                            <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                            <div class="col-sm-3">${order.getAddress()}</div>
-                            <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                        </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-
         </div>
 
-        <%@ include file="/include/footer.jsp" %>
         <script src="js/Jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>

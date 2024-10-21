@@ -59,13 +59,14 @@
                             <a class="nav-link" href="/OrderingSystem/food">Food</a>
                             <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
                             <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
+                            <a class="nav-link" href="/OrderingSystem/discount">Discount</a>
                         </div>
 
                         <c:if test="${sessionScope.user != null && role == 'shop'}">
-                            <div class="navbar__item">
+                            <div style="justify-content: end; margin-right: 15px" class="navbar__item">
                                 <nav id="nav-bar">
                                     <ul class="nav-list">
-                                        <li class="nav-item">
+                                        <li style="padding: 6px; " class="nav-item">
                                             <a href="./restaurant-detail?shopId=${user.getShopID()}" class="nav-link">
                                                 <span id="login-text">Go to Shop</span>
                                             </a>

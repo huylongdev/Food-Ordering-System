@@ -80,15 +80,13 @@ public class CheckoutServlet extends HttpServlet {
                     }
 
 
-                    // Create order with PaymentID as String
-                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID), // String for orderID
-                            paymentID,    // Pass PaymentID as String
+                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID), 
+                            paymentID,  
                             acc,
                             cartItemsForShop,
                             determinePaymentMethod(payment_method),
                             address,
                             "PENDING",
-
                             "PENDING",
                             deliveryOption,
                             timePickup);
@@ -98,13 +96,12 @@ public class CheckoutServlet extends HttpServlet {
                     totalAmount += shopTotalAmount;
                 }
 
-                // Handle payment method: COD or VNPAY
                 if ("cod".equals(payment_method)) {
                     for (OrderDTO order : allOrders) {
 
-                        String paymentID = orderDAO.getPaymentIDByOrderID(order.getOrderId());  // Get PaymentID as String
+                        String paymentID = orderDAO.getPaymentIDByOrderID(order.getOrderId());  
                         System.out.println("Updating PaymentID: " + paymentID + " to PAID");
-                        orderDAO.updateOrderPaymentStatus(paymentID, "PAID");  // Pass as String
+                        orderDAO.updateOrderPaymentStatus(paymentID, "PAID");  
                     }
                     clearCart(session);
                     response.sendRedirect("/OrderingSystem/order-history");
@@ -125,7 +122,6 @@ public class CheckoutServlet extends HttpServlet {
         }
     }
 
-    // Group cart items by shop
     private Map<Integer, List<CartItemDTO>> groupCartItemsByShop(List<CartItemDTO> cartItems) {
         Map<Integer, List<CartItemDTO>> groupedItems = new HashMap<>();
         for (CartItemDTO item : cartItems) {
@@ -135,7 +131,6 @@ public class CheckoutServlet extends HttpServlet {
         return groupedItems;
     }
 
-    // Determine payment method
     private String determinePaymentMethod(String paymentMethod) {
         switch (paymentMethod) {
             case "vnpay":
@@ -147,21 +142,17 @@ public class CheckoutServlet extends HttpServlet {
         }
     }
 
-    // Clear the cart
     private void clearCart(HttpSession session) {
         session.removeAttribute("cart");
         session.setAttribute("size", 0);
     }
 
-    // Process VNPAY
     private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> allOrders, double totalAmount) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = (long) (Math.round(totalAmount) * 100); // Multiply amount by 100
-
-
-        String vnp_TxnRef = paymentID;  // Already a String
+        long amount = (long) (Math.round(totalAmount) * 100); 
+        String vnp_TxnRef = paymentID;  
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
 
@@ -171,7 +162,7 @@ public class CheckoutServlet extends HttpServlet {
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);  // Pass PaymentID as String
+        vnp_Params.put("vnp_TxnRef", vnp_TxnRef); 
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang");
         vnp_Params.put("vnp_OrderType", orderType);
 
