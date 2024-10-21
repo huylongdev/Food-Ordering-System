@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/refundDetails.css">
         <link rel="stylesheet" href="./assets/css/order-detail.css">
+        <link rel="stylesheet" href="./assets/css/header-footer.css">
+
     </head>
     <body>
         <%@ include file="/include/shop-header.jsp" %>
