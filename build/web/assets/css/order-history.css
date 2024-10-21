@@ -46,7 +46,7 @@ a.nav-link {
 .cart .cart-products {
     min-width: 700px;
     width: auto;
-    border-radius: 0px;
+    border-radius: 20px;
     border: 1px solid #5eae53;
     background-color: #fff;
     box-shadow: 0px 3px 35px 0px rgba(24, 16, 35, 0.07);

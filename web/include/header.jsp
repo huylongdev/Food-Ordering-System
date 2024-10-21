@@ -37,8 +37,6 @@
                     <a class="nav-link" href="/OrderingSystem/food">Food</a>
                     <a class="nav-link" href="/OrderingSystem/restaurant">Restaurant</a>
                     <a class="nav-link" href="/OrderingSystem/blog">Blog</a>
-                    <a class="nav-link" href="/OrderingSystem/discount">Discount</a>
-
                 </div>
                 <div class="navbar__item">
                     <nav id="nav-bar">

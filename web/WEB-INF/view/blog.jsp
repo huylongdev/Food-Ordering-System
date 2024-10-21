@@ -87,14 +87,21 @@
         <div id="page-info">
             <div class="page-title">Foodie Community Blog</div>
             <div class="page-info-more">
-                <a href="./">Home</a>
-                <a style="border-left: 1px solid #e8e8ea" href="#">Post Management</a>
                 <c:choose>
-                    <c:when test="${user != null}">
-                        <button id="openModalBtn" class="submit-button">Create post</button>
+                    <c:when test="${user.role != 1 && !empty user.role}">
+                        <a href="./">Home</a>
+                        <a style="border-left: 1px solid #e8e8ea" href="#">Post Management</a>
+                        <c:choose>
+                            <c:when test="${user != null}">
+                                <button id="openModalBtn" class="submit-button">Create post</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="openModalBtn" onclick="alert('Please log in to create a post.');">Create post</button>
+                            </c:otherwise>
+                        </c:choose>
                     </c:when>
                     <c:otherwise>
-                        <button class="openModalBtn" onclick="alert('Please log in to create a post.');">Create post</button>
+                        <!-- Other content for non-authorized users -->
                     </c:otherwise>
                 </c:choose>
             </div>
