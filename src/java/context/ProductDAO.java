@@ -513,4 +513,23 @@ public class ProductDAO {
         return products;
     }
 
+    // Qhuy delete Illegal Product
+    public boolean deleteIllegalProduct(int productID) {
+        boolean flag = false;
+        String sql = "UPDATE Product \n"
+                + "SET Status = 0\n"
+                + "WHERE ProductID= ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productID);
+            int rowsAffected = ps.executeUpdate();  // Lấy số dòng bị ảnh hưởng
+            if (rowsAffected > 0) {
+                flag = true;  // Nếu có dòng bị cập nhật, đánh dấu flag thành true
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
 }
