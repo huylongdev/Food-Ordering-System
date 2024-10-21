@@ -120,7 +120,7 @@ public class RefundServlet extends HttpServlet {
             // Add Refund
             RefundDAO refundDAO = new RefundDAO();
             Refund refund = new Refund(orderID, refundReason, new BigDecimal(0), "PENDING", relativePath);
-            refundDAO.addRefund(refund);
+            refundDAO.addRefundRequest(refund);
 
             OrderDAO orderDAO = new OrderDAO();
             String paymentID = orderDAO.getPaymentIDByOrderID(orderID);
@@ -340,8 +340,8 @@ public class RefundServlet extends HttpServlet {
             if (vnp_ResponseCode.equals("00")) {
                 RefundDAO refundDAO = new RefundDAO();
                 refundDAO.updateRefundStatusAndAmount(Integer.parseInt(refundID), "APPROVED", vnp_Amount);
-                String email = aDAO.getUserById(order.getUserId()).getEmail();
-                String content = "We have reviewed your refund request, and we are pleased to inform you that it has been approved. Please allow 1-2 business days for the funds to be returned to your payment account.\n Refund Amount: " + vnp_Amount;
+                String email = orderDAO.getEmailByOrderID(orderID);
+                String content = "We have reviewed your refund request, and we are pleased to inform you that it has been approved. Please allow 1-2 business days for the funds to be returned to your payment account.\nRefund Amount: " + vnp_Amount;
                 Email.sendEmailNotifying(email, content);
 
                 response.sendRedirect("/OrderingSystem/refundManage");

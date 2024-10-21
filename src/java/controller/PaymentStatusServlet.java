@@ -50,7 +50,7 @@ public class PaymentStatusServlet extends HttpServlet {
         int orderID = orderDAO.getOrderIDByPaymentID(vnp_TxnRef);
         
         VNPayBillDAO vnpayDAO = new VNPayBillDAO();
-        VNPay_Bill bill = new VNPay_Bill(vnp_TxnRef, Float.parseFloat(vnp_Amount),vnp_PayDate,vnp_TransactionStatus, orderID);
+        VNPay_Bill bill = new VNPay_Bill(vnp_TxnRef, Float.parseFloat(vnp_Amount)/100,vnp_PayDate,vnp_TransactionStatus, orderID);
         
         vnpayDAO.createVNPayBill(bill);
 
