@@ -337,12 +337,14 @@ public class PostDAO {
     
     
     public List<Post> getPostsByUserID(int userId) throws Exception {
-        List<Post> posts = new ArrayList<>();
-        String query = "SELECT * FROM Post WHERE status = 1 and UserID = ? ORDER BY CreatedDate DESC";
-        System.out.println("Executing query: " + query);
+    List<Post> posts = new ArrayList<>();
+    String query = "SELECT * FROM Post WHERE status = 1 AND UserID = ? ORDER BY CreatedDate DESC";
+    System.out.println("Executing query: " + query);
 
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
-            ps.setInt(1, userId);
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, userId); // Đặt tham số cho PreparedStatement
+
+        try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Post post = new Post(
                         rs.getInt("PostID"),
@@ -351,33 +353,35 @@ public class PostDAO {
                         rs.getString("Heading"),
                         rs.getString("Content"),
                         rs.getTimestamp("CreatedDate"),
-                        rs.getBoolean("status") 
+                        rs.getBoolean("status")
                 );
 
                 String fullName = userDAO.getFullNameByUserId(post.getUserID());
                 if (fullName != null) {
                     post.setUserFullName(fullName);
                 } else {
-                    post.setUserFullName("Unknown User"); 
+                    post.setUserFullName("Unknown User");
                 }
 
                 String avatarURL = userDAO.getAvatarByUserId(post.getUserID());
                 if (avatarURL != null) {
                     post.setAvtUserImg(avatarURL);
                 } else {
-                    post.setAvtUserImg("default-avatar.png"); 
+                    post.setAvtUserImg("default-avatar.png");
                 }
 
-                posts.add(post);  
+                posts.add(post);
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new Exception("Error retrieving posts: " + e.getMessage());
         }
 
-        
-        return posts;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new Exception("Error retrieving posts: " + e.getMessage());
     }
+
+    System.out.println("Number of posts retrieved for user ID " + userId + ": " + posts.size());
+    return posts;
+}
+
 
 }

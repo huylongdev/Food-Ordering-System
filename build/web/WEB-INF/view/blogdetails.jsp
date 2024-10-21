@@ -80,10 +80,9 @@
         <!-- PAGE INFO -->
         <div id="page-info">
             <div class="page-title">Foodie Community Blog</div>
-            <div class="page-info-more">
-                <a href="/OrderingSystem/">Home</a>
-                <a style="border-left: 1px solid #e8e8ea" href="#">Post Management</a>
-            </div>
+            <!--            <div class="page-info-more">
+                            <a href="/OrderingSystem/">Home</a>
+                        </div>-->
         </div>
 
         <!-- BLOG DETAILS -->
@@ -122,11 +121,11 @@
                                 <a href="#" id="delete" onclick="confirmDelete(${post.getPostID()})"><i class="ti-trash"> Delete</i></a>
                             </div>
                         </div>
-                    <!-- Hidden form for deletion -->
-                    <form id="deleteFormPost" action="postDetails" method="POST">
-                        <input type="hidden" name="action" value="deletePost">
-                        <input type="hidden" name="postID" id="postID" value="${post.getPostID()}">
-                    </form>
+                        <!-- Hidden form for deletion -->
+                        <form id="deleteFormPost" action="postDetails" method="POST">
+                            <input type="hidden" name="action" value="deletePost">
+                            <input type="hidden" name="postID" id="postID" value="${post.getPostID()}">
+                        </form>
                     </c:if>
 
 
@@ -148,10 +147,10 @@
 
         <!-- COMMENT SECTION -->
         <div class="comment-container">
-            <h2>Comment Section</h2>
+            <h2 style="color: #333333; padding: 20px;">Comment Section</h2>
             <form action="postDetails" method="POST">
                 <div class="comment-box">
-                    <textarea name="commentInput" rows="4" placeholder="Write a comment..." required></textarea><br><br>
+                    <textarea name="commentInput" rows="4" placeholder="How do you feel? " required></textarea><br><br>
                     <input type="hidden" name="postID" value="${post.postID}">
                     <input type="hidden" name="userID" value="${user.userID}">
                     <input type="hidden" name="action" value="addComment">
@@ -182,18 +181,21 @@
 
                                     <!-- Edit Comment Modal -->
                                     <div id="edit-comment-modal" class="edit-comment-modal modal">
-                                        <div class="modal-content">
+                                        <div class="modal-content modal-content-comment">
                                             <span class="close-modal">&times;</span>
                                             <form class="edit-comment-form" action="postDetails" method="POST">
                                                 <h2>Edit Comment</h2>
-                                                <textarea id="edit-comment-content" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
+                                                <div class="comment-combine">
+                                                    <textarea id="edit-comment-content" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
 
-                                                <input type="hidden" name="postID" value="${post.postID}">
-                                                <input type="hidden" name="userID" value="${user.userID}">
-                                                <input type="hidden" name="commentID" value="${comment.commentID}">
-                                                <input type="hidden" name="action" value="editComment">
+                                                    <input type="hidden" name="postID" value="${post.postID}">
+                                                    <input type="hidden" name="userID" value="${user.userID}">
+                                                    <input type="hidden" name="commentID" value="${comment.commentID}">
+                                                    <input type="hidden" name="action" value="editComment">
 
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+
                                             </form>
 
                                         </div>
