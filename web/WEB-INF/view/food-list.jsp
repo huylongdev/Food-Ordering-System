@@ -49,12 +49,12 @@
         <!-- PAGE INFO -->
         <div id="page-info">
             <div class="page-title">Food/Drink</div>
-            <div class="page-info-more">
+<!--            <div class="page-info-more">
                 <a href="/OrderingSystem/">Home</a>
                 <a style="border-left: 1px solid #e8e8ea" href="#"
                    >Food/Drink Management</a
                 >
-            </div>
+            </div>-->
         </div>
 
         <!-- FOOD CONTENT -->

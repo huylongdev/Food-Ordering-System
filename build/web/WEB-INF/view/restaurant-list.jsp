@@ -45,12 +45,12 @@
         <!-- PAGE INFO -->
         <div id="page-info">
             <div class="page-title">Restaurant</div>
-            <div class="page-info-more">
+<!--            <div class="page-info-more">
                 <a href="/OrderingSystem/">Home</a>
                 <a style="border-left: 1px solid #e8e8ea" href="#"
                    >Restaurant Management</a
                 >
-            </div>
+            </div>-->
         </div>
 
         <!-- RESTAURANT CONTENT -->
