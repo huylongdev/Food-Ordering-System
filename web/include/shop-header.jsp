@@ -37,6 +37,7 @@
                     <a class="nav-link" href="/OrderingSystem/restaurant-detail?shopId=${user.getShopID()}">My Restaurant</a>
                     <a class="nav-link" href="/OrderingSystem/order-manage">Order Manage</a>
                     <a class="nav-link" href="/OrderingSystem/blog-manage">Blog Manage</a>
+                    <a class="nav-link" href="/OrderingSystem/discount">Discount Manage</a>
                 </div>
                 <div class="navbar__item">
                     <nav id="nav-bar">
