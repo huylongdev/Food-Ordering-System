@@ -379,4 +379,68 @@ public class ShopDAO {
         }
     }
 
+    public int registerShop(Shop s) {
+        int shopID = 0;
+        String query = "INSERT INTO Shop (Name, Description, Status, ShopImage, Address, TimeOpen, TimeClose) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getDescription());
+            ps.setBoolean(3, s.getStatus());
+            ps.setString(4, s.getShopImage());
+            ps.setString(5, s.getAddress());
+            ps.setTime(6, Time.valueOf(s.getTimeOpen())); // Chuyển LocalTime thành Time
+            ps.setTime(7, Time.valueOf(s.getTimeClose()));
+            ps.executeUpdate();
+
+            // lấy giá trị auto-generated keys
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    shopID = rs.getInt(1); // lấy ShopID sau khi tự động tăng
+                }
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return shopID;
+    }
+
+    public List<Shop> getRegisteredShopToProcess() {
+        String query = "select * from Shop s \n"
+                + "JOIN Users u ON s.ShopID = u.ShopID\n"
+                + "WHERE u.Role = 2 AND s.Status = 0";
+        List<Shop> shops = new ArrayList<>();
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Shop shop = new Shop(
+                        rs.getInt("ShopID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getBoolean("Status"),
+                        rs.getString("ShopImage"),
+                        rs.getString("Address"),
+                        rs.getTime("TimeOpen").toLocalTime(),
+                        rs.getTime("TimeClose").toLocalTime()
+                );
+                shops.add(shop);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return shops;
+    }
+
+    public boolean updateShopStatusAfterApprove(int shopID) {
+        String query = "UPDATE Shop SET Status = 1 WHERE ShopID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, shopID);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
