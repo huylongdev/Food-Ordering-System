@@ -67,7 +67,7 @@ public class HomeServlet extends HttpServlet {
                 }
                 avgRating = totalRating / productCount;
             }
-            if(avgRating >= 4.90){
+            if(avgRating >= 0){
                 if(shopdtolist.size() < 6){
                     shopdtolist.add(new ShopDTO(s.getShopID(),s.getName(),s.getDescription(),s.getStatus(), 
                         s.getShopImage(), s.getAddress(), s.getTimeOpen(), s.getTimeClose(), avgRating));
@@ -81,7 +81,7 @@ public class HomeServlet extends HttpServlet {
             ProductImage pimg = iDAO.getAvatarProductImageByID(p.getProductId());
             Shop shop = shopdao.getRestaurantByID(p.getShopId());
             String cate = pdao.getCategoryNameByID(p.getCategoryId());
-            if(p.getRating() >= 4.9){
+            if(p.getRating() >= 0){
                 if(pdtolist.size() < 6){
                 pdtolist.add(new ProductDTO(pimg.getImgURL(),p.getProductId(),p.getName(),p.getDescription(),
                 p.getPrice(),p.isStatus(),shop.getName(),cate,p.getPurchaseCount(),p.getRating()));

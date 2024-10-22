@@ -187,8 +187,8 @@
             </div>
            <div class="row">
     <c:forEach var="p" items="${pdtolist}">
-        <div class="col-md-4 mb-4">
-        <a style="text-decoration: none" href ="./food-detail?productId=${product.getProduct().getProductId()}"> 
+        <div class="col-md-4 mb-4 top-food">
+        <a style="text-decoration: none" href ="./food-detail?productId=${p.getProductId()}"> 
             <div class="card-horizontal">
                 <img class="card-img" src="${p.imgURL}" alt="Best Burgers" />
                 <div class="card-body">

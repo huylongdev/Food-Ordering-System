@@ -103,7 +103,7 @@ public class FoodDetailServlet extends HttpServlet {
             
             request.setAttribute("cateName", cateName);
             request.setAttribute("p", p);
-            
+            request.setAttribute("ratingInt", (int) p.getRating());
         request.getRequestDispatcher("WEB-INF/view/food-detail.jsp").forward(request, response);
     }
 

@@ -202,13 +202,13 @@
                             <c:if test="${sessionScope.role != 'admin'}">
                                 <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
                                 <c:if test="${fav == null}">
-                                    <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                                         </svg>
                                     </button>
                                 </c:if>
                                 <c:if test="${fav != null}">
-                                    <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                                         </svg>
                                     </button>
@@ -220,7 +220,7 @@
 
                     <!--<div class="rating " data-rating="3"></div>-->
                     <!--<p id = "ratingStatus"></p>-->
-                    <div class="rating " data-rating="${p.getRating()}"></div>
+                    <div class="rating " data-rating="${ratingInt}"></div>
                     <div class ="rating-border"></div>
                 </div>
             </div>
@@ -251,7 +251,7 @@
                         </div>
                         <div>
                             <div style="text-align: center;">
-                                <button type="submit" id="send-btn" style="width: 200px;; color: #F3F3F3; border-radius: 10px; border: 1px; background-color: #5EAE53; margin-top: 20px; margin-left: 60px;">Send</button>
+                                <button type="submit" id="send-btn" >Send</button>
                             </div>
 
                         </div>
@@ -286,7 +286,7 @@
 
                                         <!-- Span chứa bình luận, thêm id để JS thao tác -->
                                         <span id="comment-${feedback.feedbackId}" class="m-b-15 d-block">${feedback.comment}</span>
-                                        <c:if test="${feedback.userId == fav.userID}">
+                                        <c:if test="${feedback.userId == user.userID}">
                                             <div class="comment-footer">
                                                 <span class="text-muted float-right">${feedback.createdDate}</span> 
 
