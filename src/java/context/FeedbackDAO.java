@@ -96,18 +96,4 @@ public class FeedbackDAO {
             return false;
         }
     }
-    
-    public boolean updateFeedback(Feedback feedback) throws Exception {
-        String query = "UPDATE Feedback SET Rating = ?, Comment = ?  WHERE FeedbackID = ?";
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, feedback.getRating());
-            ps.setString(2, feedback.getComment());
-            ps.setInt(3, feedback.getFeedbackId());
-
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error updating product: " + e.getMessage());
-        }
-    }
 }
