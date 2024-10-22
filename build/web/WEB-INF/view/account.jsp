@@ -1,5 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" import="model.*,java.util.*,util.*" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" import="jakarta.servlet.http.HttpSession, model.*, java.util.*, util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="context.RewardRedemptionDAO" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,29 +9,12 @@
         <title>Account</title>
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-            crossorigin="anonymous"
-            />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"
-        ></script>
-        <link
-            rel="stylesheet"
-            href="./assets/font/themify-icons/themify-icons.css"
-            />
-        <script src="/js/blog.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css" />
         <link rel="stylesheet" href="./assets/css/header-footer.css">
         <link rel="stylesheet" href="./assets/css/account.css">
-
     </head>
 
     <body>
@@ -46,6 +30,36 @@
                     <div>
                         <h2>${user.getFullName()}</h2>
                         <p>${user.getEmail()}</p>
+                        <a style="text-decoration: none" href="#" onclick="document.getElementById('hiddenForm').submit(); return false;">
+                            <p style="
+                               width: fit-content;
+                               padding: 11px;
+                               border: 1px solid;
+                               border-radius: 24px;
+                               ">
+                                <i style="" class="ti-gift"></i>
+                                Point: 
+                                <%
+                                    int points = 0;
+                                    try {
+                                        RewardRedemptionDAO rwDAO = new RewardRedemptionDAO();
+                                        Integer userId = user.getUserID();
+                                        points = rwDAO.getPointsByUserID(userId);
+                                        out.println(points);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        out.println("<p>There was an error retrieving reward points.</p>");
+                                    }
+                                %>
+                            </p>
+                        </a>
+
+                        <!-- Hidden form -->
+                        <form id="hiddenForm" action="/OrderingSystem/reward" method="get" style="display: none;">
+                            <input type="hidden" name="userId" value="${user.getUserID()}">
+                            <input type="hidden" name="action" value="getPoints"> 
+                        </form>
+
                     </div>
                 </div>
 
@@ -71,7 +85,6 @@
             </div>
 
             <div class="nav-bar">
-                <!--<a href="editUser?userId=${user.getUserID()}"><i class="fa fa-edit"></i> Edit Profile</a>-->
                 <a href="./changePassword"><i class="fa fa-edit"></i> Change Password</a>
                 <a href="./order-history"><i class="fa fa-calendar"></i> View Orders</a>
                 <a href="/OrderingSystem"><i class="fa fa-home"></i> Back to Homepage</a>
@@ -79,7 +92,7 @@
 
             <form action="editUser" method="POST">
                 <div class="form-section">
-                    <input type="hidden" name="userId" value="${user.userID}" />
+                    <input type="hidden" name="userId" value="${user.getUserID()}" />
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
                         <input type="text" id="fullName" name="fullName" value="${user.getFullName()}">
@@ -109,6 +122,5 @@
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <%@ include file="/include/footer.jsp" %>
-
     </body>
 </html>

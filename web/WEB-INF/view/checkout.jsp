@@ -125,6 +125,7 @@
                                     <label>Time pick up<span>*</span></label>
                                     <input name="pickup_time" type="datetime-local" id="pickup_time">
                                 </div>
+                                <input type="hidden" name="userID" value="${user.userID}">
 
                                 <button class="btn btn-primary" type="submit">Complete the order</button>
 
