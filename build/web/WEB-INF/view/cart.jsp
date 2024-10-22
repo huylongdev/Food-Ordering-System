@@ -58,7 +58,7 @@
                                         <div class="col-4">
                                             <h2 class="product-name" title="${item.product.name}">
                                                 <a href="./food-detail?productId=${item.product.productId}">${item.product.name}</a>
-                                                
+
                                             </h2>
                                         </div>
                                         <div class="col-2">
@@ -89,12 +89,12 @@
                         </td>
                     </tr>
                 </table>
+                <p style="text-align: center; color: red">${cartStatus}</p>
                 <div class="button-group mt-3">
                     <button id="delete-btn" type="submit" onclick="submitForm('method1')">Delete</button>
                     <button type="submit" onclick="submitForm('method2')">Order</button>
                 </div>
             </form>
-            <p>${cartStatus}</p>
         </div>
 
         <%@ include file="/include/footer.jsp" %>
