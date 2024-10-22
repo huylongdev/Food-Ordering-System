@@ -11,18 +11,28 @@ import java.util.Date;
  * @author giang
  */
 public class FeedbackDTO {
-    private int feedbackId, productId, rating;
+    private int feedbackId, userId,productId, rating;
     private String comment, userName;
     private Date createdDate;
 
-    public FeedbackDTO(int feedbackId, int productId, int rating, String comment, String userName, Date createdDate) {
+    public FeedbackDTO(int feedbackId, int productId, int rating, String comment, String userName, Date createdDate,int userId) {
         this.feedbackId = feedbackId;
         this.productId = productId;
         this.rating = rating;
         this.comment = comment;
         this.userName = userName;
         this.createdDate = createdDate;
+        this.userId = userId;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
 
     public int getFeedbackId() {
         return feedbackId;

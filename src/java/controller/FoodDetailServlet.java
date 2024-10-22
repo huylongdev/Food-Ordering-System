@@ -95,7 +95,7 @@ public class FoodDetailServlet extends HttpServlet {
             List<FeedbackDTO> flistdto = new ArrayList<>();
             for(Feedback f : flist){
                 Account a = adao.getUserById(f.getUserId());
-                flistdto.add(new FeedbackDTO(f.getFeedbackId(),f.getProductId(),f.getRating(),f.getComment(),a.getFullName(),f.getCreatedDate()));
+                flistdto.add(new FeedbackDTO(f.getFeedbackId(),f.getProductId(),f.getRating(),f.getComment(),a.getFullName(),f.getCreatedDate(),f.getUserId()));
             }
                 
             request.setAttribute("shop", shop);
