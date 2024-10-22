@@ -355,7 +355,7 @@ public class AccountDAO {
         }
         return fullName;
     }
-    
+
     // Get the avatar image URL of the user based on the UserID
     public String getAvatarByUserId(int userID) throws Exception {
         String avatarImg = null;
@@ -374,9 +374,7 @@ public class AccountDAO {
         }
         return avatarImg;
     }
-    
 
-    
     public boolean createShopAccount(Account account) {
         String query = "INSERT INTO Users (UserName, Pass, FullName, PhoneNumber, Email, Address, ShopID, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -398,13 +396,9 @@ public class AccountDAO {
         }
     }
 
-    
-    
-    
     public void updateUserStatus(String userID, int status) {
         String sql = "UPDATE Users SET Status = ? WHERE UserID = ?";
-        try (Connection connection = new DBContext().getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = new DBContext().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, status);
             statement.setString(2, userID);
             statement.executeUpdate();
@@ -412,32 +406,29 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
-    
+
     public Integer getShopIDByUserID(int userId) {
-    String sql = "SELECT ShopID FROM Users WHERE UserID=?";
-    Integer shopID = null;
-    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setInt(1, userId);
-        
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                shopID = rs.getInt("ShopID");  
-            } else {
-                System.out.println("No shop found for the given UserID.");
+        String sql = "SELECT ShopID FROM Users WHERE UserID=?";
+        Integer shopID = null;
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    shopID = rs.getInt("ShopID");
+                } else {
+                    System.out.println("No shop found for the given UserID.");
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error while retrieving ShopID: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.out.println("Error while retrieving ShopID: " + e.getMessage());
-        e.printStackTrace();
+        return shopID;
     }
-    return shopID;
-}
 
-
-
-    
     // getShopOwnerByShopID
-    public Account getShopOwnerByShopID(int shopID){
+    public Account getShopOwnerByShopID(int shopID) {
         Account user = null;
         String sql = "SELECT * FROM Users WHERE ShopID=?";
         try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -460,6 +451,23 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return user;
-    }    
-    
+    }
+
+    public String getEmailByUserID(int userID) {
+        String email = null;
+        String sql = "SELECT Email FROM Users WHERE UserID = ?";
+
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("Email");
+            }
+        } catch (Exception e) {
+            System.out.println("Error while retrieving email: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return email;
+    }
+
 }

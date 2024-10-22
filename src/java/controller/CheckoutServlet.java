@@ -4,6 +4,7 @@ import com.vnpay.common.Config;
 import context.DiscountDAO;
 import context.OrderDAO;
 import context.ProductDAO;
+import context.RewardRedemptionDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,6 +40,7 @@ public class CheckoutServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         DiscountDAO discountDAO = new DiscountDAO();
+        RewardRedemptionDAO rwDAO = new RewardRedemptionDAO();
 
         try {
             HttpSession session = request.getSession(true);
@@ -69,10 +71,9 @@ public class CheckoutServlet extends HttpServlet {
                 Double discountPercentage = discountDAO.getDiscountPercentageByDiscountCode(discountCode);
                 double discountAmount = 0;
 
-                // Kiểm tra xem discountPercentage có khác null không
                 if (discountPercentage != null && discountPercentage > 0) {
                     discountAmount = totalAmount * (discountPercentage / 100);
-                    totalAmount -= discountAmount; // Cập nhật tổng tiền sau giảm giá
+                    totalAmount -= discountAmount;
                     System.out.println("Applied discount: " + discountPercentage + "%, Amount after discount: " + totalAmount);
                 } else {
                     System.out.println("No valid discount code applied.");
@@ -100,6 +101,16 @@ public class CheckoutServlet extends HttpServlet {
                 order.setTotalAmount(totalAmount);
 
                 orderDAO.updateOrderTotalAmount(order.getOrderId(), totalAmount);
+
+                int pointReward = (int) totalAmount / 1000;
+                int userIdInt = acc.getUserID(); // Lấy userId từ đối tượng Account đã lưu trong session
+
+                if (rwDAO.isRewardRegistered(userIdInt)) {
+                    rwDAO.updatePoints(userIdInt, pointReward);
+                    System.out.println("Points updated successfully for userId: " + userIdInt);
+                } else {
+                    System.out.println("User has not registered for rewards. No points updated.");
+                }
 
                 if ("cod".equals(payment_method)) {
                     System.out.println("Updating PaymentID: " + paymentID + " to PAID");
