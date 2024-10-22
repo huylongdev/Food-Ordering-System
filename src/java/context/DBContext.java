@@ -13,10 +13,11 @@ import java.sql.Connection;
  */
 public class DBContext {
 
-    private String server = "localhost";
+
+    private String server = "Admin-PC";
     private String user = "sa";
 
-    private String password = "123";
+    private String password = "123456";
 
     private String db = "ordering_system";
     private int port = 1433;
