@@ -77,7 +77,7 @@
                         <div class="navbar__item">
 
 
-                            <nav id="nav-bar">
+                          <nav id="nav-bar">
                                 <ul class="nav-list">
                                     <li class="nav-item">
                                         <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
@@ -103,12 +103,15 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <span id="login-text">Login</span>
+                                                    
                                                 </c:otherwise>
                                             </c:choose>
                                         </a>
                                     </li>
                                 </ul>
                             </nav>
+
+
                             <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
