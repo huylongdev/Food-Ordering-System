@@ -24,12 +24,12 @@ public class Order {
     private String paymentOption;
     private String deliveryStatus;
     private int isRefund;
+    private String phone;
 
     public Order() {
     }
 
-
-    public Order(int orderId, int userId, String paymentStatus, String deliveryStatus, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption, int isRefund) {
+    public Order(int orderId, int userId, String paymentStatus, String deliveryStatus, String address, Date createdDate, String deliveryOption, Date timePickup, double totalAmount, int discountId, String paymentOption, int isRefund, String phone) {
         this.orderId = orderId;
         this.userId = userId;
         this.paymentStatus = paymentStatus;
@@ -43,8 +43,19 @@ public class Order {
         this.paymentOption = paymentOption;
         this.deliveryStatus = deliveryStatus;
         this.isRefund = isRefund;
+        this.phone = phone;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    
+    
     public int getIsRefund() {
         return isRefund;
     }
@@ -84,8 +95,6 @@ public class Order {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-
 
     public String getAddress() {
         return address;
@@ -142,9 +151,5 @@ public class Order {
     public void setPaymentOption(String paymentOption) {
         this.paymentOption = paymentOption;
     }
-
-  
-
-    
 
 }

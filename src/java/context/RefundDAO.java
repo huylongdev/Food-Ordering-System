@@ -80,7 +80,8 @@ public class RefundDAO {
                         rs.getDouble("TotalAmount"),
                         rs.getInt("DiscountID"),
                         rs.getString("PaymentOption"),
-                        rs.getInt("isRefund")
+                        rs.getInt("isRefund"),
+                        rs.getString("Phone")
                 );
                 return order;
             }
@@ -92,25 +93,24 @@ public class RefundDAO {
     }
 
     public boolean updateRefundStatusAndAmount(int refundId, String newStatus, String amountString) throws Exception {
-    String sql = "UPDATE Refund SET RefundStatus = ?, RefundAmount = ? WHERE RefundID = ?";
+        String sql = "UPDATE Refund SET RefundStatus = ?, RefundAmount = ? WHERE RefundID = ?";
 
-    try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
-        statement.setString(1, newStatus);
-        
-        BigDecimal newAmount = new BigDecimal(amountString);
-        statement.setBigDecimal(2, newAmount); 
-        
-        statement.setInt(3, refundId);
-        return statement.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false; 
-    } catch (NumberFormatException e) {
-        e.printStackTrace();
-        return false;
+        try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setString(1, newStatus);
+
+            BigDecimal newAmount = new BigDecimal(amountString);
+            statement.setBigDecimal(2, newAmount);
+
+            statement.setInt(3, refundId);
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
-
 
     public boolean addRefundRequest(Refund refund) throws Exception {
         String sql = "INSERT INTO Refund (OrderId, RefundReason, RefundAmount, RefundStatus, RefundReasonImg) VALUES (?, ?, ?, ?, ?)";
