@@ -37,18 +37,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-timer"></i> Processing
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-check"></i> Completed
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link active" href="/OrderingSystem/refundManage">
                         <i class="ti-wallet"></i> Refund Request
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OrderingSystem/discountManage">
+                        <i class="ti-timer"></i> Discount
                     </a>
                 </li>
             </ul>

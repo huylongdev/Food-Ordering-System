@@ -407,4 +407,25 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
+    
+    public Integer getShopIDByUserID(int userId) {
+    String sql = "SELECT ShopID FROM Users WHERE UserID=?";
+    Integer shopID = null;
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                shopID = rs.getInt("ShopID");  
+            } else {
+                System.out.println("No shop found for the given UserID.");
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("Error while retrieving ShopID: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return shopID;
+}
+
 }

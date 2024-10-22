@@ -3,25 +3,45 @@ package model;
 import java.util.Date;
 
 public class Discount {
+
     private int discountID;
     private int userID;
-    private String discountName;
-    private Date startDate;
-    private Date endDate;
+    private String discountCODE;
+    private int numberOfDiscount;
+    private int totalUse;
     private double discountPercentage;
-    private String type;
+    private int ShopID;
+    private int status;
 
     public Discount() {
     }
 
-    public Discount(int discountID, int userID, String discountName, Date startDate, Date endDate, double discountPercentage, String type) {
+    public Discount(int discountID, int userID, String discountCODE, int numberOfDiscount, int totalUse, double discountPercentage, int ShopID, int status) {
         this.discountID = discountID;
         this.userID = userID;
-        this.discountName = discountName;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.discountCODE = discountCODE;
+        this.numberOfDiscount = numberOfDiscount;
+        this.totalUse = totalUse;
         this.discountPercentage = discountPercentage;
-        this.type = type;
+        this.ShopID = ShopID;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    
+    
+    public int getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(int ShopID) {
+        this.ShopID = ShopID;
     }
 
     public int getDiscountID() {
@@ -40,28 +60,28 @@ public class Discount {
         this.userID = userID;
     }
 
-    public String getDiscountName() {
-        return discountName;
+    public String getDiscountCODE() {
+        return discountCODE;
     }
 
-    public void setDiscountName(String discountName) {
-        this.discountName = discountName;
+    public void setDiscountCODE(String discountCODE) {
+        this.discountCODE = discountCODE;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public int getNumberOfDiscount() {
+        return numberOfDiscount;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setNumberOfDiscount(int numberOfDiscount) {
+        this.numberOfDiscount = numberOfDiscount;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public int getTotalUse() {
+        return totalUse;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setTotalUse(int totalUse) {
+        this.totalUse = totalUse;
     }
 
     public double getDiscountPercentage() {
@@ -70,13 +90,5 @@ public class Discount {
 
     public void setDiscountPercentage(double discountPercentage) {
         this.discountPercentage = discountPercentage;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

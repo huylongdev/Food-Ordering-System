@@ -34,14 +34,12 @@ public class OrderDAO {
     ResultSet rs = null;
 
     public OrderDTO createOrder(int orderID, String paymentID, Account account, List<CartItem> cartItems, String paymentOption,
-            String address, String paymentStatus, String deliveryStatus, String deliveryOption, String timePickupString) throws Exception {
-
+            String address, String paymentStatus, String deliveryStatus, String deliveryOption, String timePickupString, String phone) throws Exception {
         Date timePickup = null;
 
         try {
             if (timePickupString != null && !timePickupString.isEmpty()) {
                 timePickup = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(timePickupString);
-
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -50,7 +48,7 @@ public class OrderDAO {
 
         java.util.Date createdDate = new java.util.Date();
 
-        String insertOrderSql = "INSERT INTO [Order] (OrderID, PaymentID, UserID, PaymentStatus, DeliveryStatus, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertOrderSql = "INSERT INTO [Order] (OrderID, PaymentID, UserID, PaymentStatus, DeliveryStatus, Address, CreatedDate, TotalAmount, PaymentOption, DeliveryOption, TimePickup, Phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         String insertOrderItemSql = "INSERT INTO OrderItem (OrderID, ProductID, Quantity, TotalPrice) VALUES (?, ?, ?, ?)";
 
@@ -66,6 +64,7 @@ public class OrderDAO {
                 totalAmount += item.getQuantity() * item.getProduct().getPrice();
             }
 
+            // Ghi đơn hàng vào cơ sở dữ liệu
             try (PreparedStatement ps = conn.prepareStatement(insertOrderSql)) {
                 ps.setInt(1, orderID);
                 ps.setString(2, paymentID);
@@ -74,14 +73,16 @@ public class OrderDAO {
                 ps.setString(5, deliveryStatus);
                 ps.setString(6, address);
                 ps.setTimestamp(7, new java.sql.Timestamp(createdDate.getTime()));
-                ps.setDouble(8, totalAmount);
+                ps.setDouble(8, totalAmount); // Đảm bảo tổng tiền đã được cập nhật
                 ps.setString(9, paymentOption);
                 ps.setString(10, deliveryOption);
                 ps.setTimestamp(11, timePickup != null ? new java.sql.Timestamp(timePickup.getTime()) : null);
+                ps.setString(12, phone);
 
                 ps.executeUpdate();
             }
 
+            // Ghi các mục đơn hàng vào cơ sở dữ liệu
             for (CartItem item : cartItems) {
                 try (PreparedStatement ps = conn.prepareStatement(insertOrderItemSql)) {
                     ps.setInt(1, orderID);
@@ -93,10 +94,9 @@ public class OrderDAO {
             }
 
             conn.commit();
-            order = new OrderDTO(orderID, account, totalAmount, paymentOption, paymentStatus, deliveryStatus, address, createdDate.toString());
+            order = new OrderDTO(orderID, account, totalAmount, paymentOption, paymentStatus, deliveryStatus, address, createdDate.toString(), phone);
 
         } catch (Exception e) {
-
             e.printStackTrace();
             if (conn != null) {
                 try {
@@ -117,6 +117,15 @@ public class OrderDAO {
         }
 
         return order;
+    }
+
+    public void updateOrderTotalAmount(int orderID, double totalAmount) throws SQLException, Exception {
+        String sql = "UPDATE [Order] SET TotalAmount = ? WHERE OrderID = ?";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDouble(1, totalAmount);
+            ps.setInt(2, orderID);
+            ps.executeUpdate();
+        }
     }
 
     public List<OrderDTO> getOrderInfo() {
@@ -316,7 +325,8 @@ public class OrderDAO {
                         rs.getDouble("TotalAmount"),
                         rs.getInt("DiscountID"),
                         rs.getString("PaymentOption"),
-                        rs.getInt("isRefund")
+                        rs.getInt("isRefund"),
+                        rs.getString("Phone")
                 );
                 orders.add(order);
             }
@@ -352,7 +362,8 @@ public class OrderDAO {
                         rs.getDouble("TotalAmount"),
                         rs.getInt("DiscountID"),
                         rs.getString("PaymentOption"),
-                        rs.getInt("isRefund")
+                        rs.getInt("isRefund"),
+                        rs.getString("Phone")
                 );
                 orders.add(order);
             }
@@ -389,7 +400,8 @@ public class OrderDAO {
                         rs.getDouble("TotalAmount"),
                         rs.getInt("DiscountID"),
                         rs.getString("PaymentOption"),
-                        rs.getInt("isRefund")
+                        rs.getInt("isRefund"),
+                        rs.getString("Phone")
                 );
                 orders.add(order);
             }
@@ -419,7 +431,8 @@ public class OrderDAO {
                         rs.getDouble("TotalAmount"),
                         rs.getInt("DiscountID"),
                         rs.getString("PaymentOption"),
-                        rs.getInt("isRefund")
+                        rs.getInt("isRefund"),
+                        rs.getString("Phone")
                 );
                 return order;
             }
