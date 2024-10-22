@@ -291,7 +291,6 @@
                                                 <span class="text-muted float-right">${feedback.createdDate}</span> 
 
                                                 <!-- Nút Edit với id -->
-                                                <button id="edit-btn-${feedback.feedbackId}" type="button" class="btn btn-cyan btn-sm" onclick="editComment(${feedback.feedbackId})">Edit</button>
 
                                                 <form style="display: inline" action="FeedbackServlet" method="POST">
                                                     <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
@@ -353,65 +352,5 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-        <script>
-                function editComment(feedbackId) {
-                    // Lấy phần tử <span> chứa nội dung bình luận theo feedbackId
-                    var commentSpan = document.querySelector(#comment -${feedbackId});
-                    var currentComment = commentSpan.innerText;
-
-                    // Tạo thẻ input với giá trị là nội dung bình luận hiện tại
-                    var inputField = document.createElement("input");
-                    inputField.type = "text";
-                    inputField.value = currentComment;
-                    inputField.classList.add("form-control");  // Thêm class cho input (tuỳ chỉnh)
-
-                    // Thay thế <span> thành <input>
-                    commentSpan.innerHTML = '';
-                    commentSpan.appendChild(inputField);
-
-                    // Chuyển nút Edit thành Save
-                    var editButton = document.querySelector(#edit - btn -${feedbackId});
-                    editButton.innerText = "Save";
-                    editButton.setAttribute("onclick", saveComment(${feedbackId}));
-                }
-
-                function saveComment(feedbackId) {
-                    // Lấy giá trị mới từ input
-                    var inputField = document.querySelector(#comment -${feedbackId} input);
-                    var newComment = inputField.value;
-
-                    // Tạo một form ẩn để submit dữ liệu (hoặc thực hiện AJAX nếu cần)
-                    var form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "FeedbackServlet";
-
-                    // Tạo các input ẩn để chứa dữ liệu
-                    var feedbackIdInput = document.createElement("input");
-                    feedbackIdInput.type = "hidden";
-                    feedbackIdInput.name = "feedbackID";
-                    feedbackIdInput.value = feedbackId;
-
-                    var commentInput = document.createElement("input");
-                    commentInput.type = "hidden";
-                    commentInput.name = "comment";
-                    commentInput.value = newComment;
-
-                    var actionInput = document.createElement("input");
-                    actionInput.type = "hidden";
-                    actionInput.name = "action";
-                    actionInput.value = "save";
-
-                    // Đưa các input vào form
-                    form.appendChild(feedbackIdInput);
-                    form.appendChild(commentInput);
-                    form.appendChild(actionInput);
-
-                    // Gửi form
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-        </script>
-
-
-    </body>
+</body>
 </html>
