@@ -334,7 +334,7 @@ public class PostDAO {
         return avatarImg;
     }
     
-    
+
     
     public List<Post> getPostsByUserID(int userId) throws Exception {
     List<Post> posts = new ArrayList<>();
@@ -382,6 +382,25 @@ public class PostDAO {
     System.out.println("Number of posts retrieved for user ID " + userId + ": " + posts.size());
     return posts;
 }
+
+    // Qhuy delete illegal post
+    public boolean deleteIllegalPost(int postID) {
+        boolean flag = false;
+        String sql = " UPDATE Post\n"
+                + "  SET status = 0\n"
+                + "  WHERE PostID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, postID);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                flag = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
 
 
 }

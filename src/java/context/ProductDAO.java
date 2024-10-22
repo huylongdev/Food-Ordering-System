@@ -512,5 +512,52 @@ public class ProductDAO {
         }
         return products;
     }
+    
+    // lấy cả product có status bằng 0
+    public List<Product> getAllProductsFromInventory() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM Product";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("ShopID"),
+                        rs.getInt("CategoryID"),
+                        rs.getInt("PurchaseCount"),
+                        rs.getDouble("Rating")
+                );
+                products.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+
+    // Qhuy delete Illegal Product
+    public boolean deleteIllegalProduct(int productID) {
+        boolean flag = false;
+        String sql = "UPDATE Product \n"
+                + "SET Status = 0\n"
+                + "WHERE ProductID= ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productID);
+            int rowsAffected = ps.executeUpdate();  // Lấy số dòng bị ảnh hưởng
+            if (rowsAffected > 0) {
+                flag = true;  // Nếu có dòng bị cập nhật, đánh dấu flag thành true
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+    
 
 }
