@@ -4,35 +4,22 @@
  */
 package controller;
 
-import context.AccountDAO;
-import context.FavouriteDAO;
 import context.FeedbackDAO;
-import context.ProductDAO;
-import context.ProductImageDAO;
-import context.ShopDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.PrintWriter;
 import model.Account;
-import model.Favourite;
 import model.Feedback;
-import model.FeedbackDTO;
-import model.Product;
-import model.ProductImage;
-import model.Shop;
 
 /**
  *
- * @author LENOVO
+ * @author giang
  */
-@WebServlet(name = "FoodDetailServlet", urlPatterns = {"/food-detail"})
-public class FoodDetailServlet extends HttpServlet {
+public class FeedbackServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,10 +38,10 @@ public class FoodDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FoodDetailServlet</title>");            
+            out.println("<title>Servlet FeedbackServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FoodDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FeedbackServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,39 +59,7 @@ public class FoodDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("productId"));
-        Account user = (Account) request.getSession().getAttribute("user");
-            ProductDAO pDAO = new ProductDAO();
-            ProductImageDAO iDAO = new ProductImageDAO();
-            FeedbackDAO fdao = new FeedbackDAO();
-            AccountDAO adao = new AccountDAO();
-            Product p = pDAO.getProductByID(id);
-            List<ProductImage> images = iDAO.getListImageByProductID(id);
-            request.setAttribute("images", images);
-            String cateName = pDAO.getCategoryNameByID(id);
-            
-            ShopDAO sDAO = new ShopDAO();
-            Shop shop = sDAO.getShopByID(p.getShopId());
-            FavouriteDAO fDAO = new FavouriteDAO();
-            if(user!=null){
-            Favourite fav = fDAO.getFavouriteByUserIdandProductID(user.getUserID(),id);
-            request.setAttribute("fav", fav);
-            }
-            
-            List<Feedback> flist = fdao.getFeedbackByProductID(id);
-            List<FeedbackDTO> flistdto = new ArrayList<>();
-            for(Feedback f : flist){
-                Account a = adao.getUserById(f.getUserId());
-                flistdto.add(new FeedbackDTO(f.getFeedbackId(),f.getProductId(),f.getRating(),f.getComment(),a.getFullName(),f.getCreatedDate(),f.getUserId()));
-            }
-                
-            request.setAttribute("shop", shop);
-            request.setAttribute("flist", flistdto);
-            
-            request.setAttribute("cateName", cateName);
-            request.setAttribute("p", p);
-            request.setAttribute("ratingInt", (int) p.getRating());
-        request.getRequestDispatcher("WEB-INF/view/food-detail.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -118,7 +73,11 @@ public class FoodDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        String action = request.getParameter("action");
+        switch(action){
+            case "add" -> addFeedback(request, response);
+            case "delete" -> deleteFeedback(request, response);  
+        }
     }
 
     /**
@@ -126,6 +85,34 @@ public class FoodDetailServlet extends HttpServlet {
      *
      * @return a String containing servlet description
      */
+    
+    private void addFeedback(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        Account user = (Account) request.getSession().getAttribute("user");
+        int id = Integer.parseInt(request.getParameter("productID"));
+        String comment = request.getParameter("comment");
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        FeedbackDAO fdao = new FeedbackDAO();
+        Feedback f = new Feedback();
+        f.setComment(comment);
+        f.setFeedbackId(id);
+        f.setUserId(user.getUserID());
+        f.setRating(rating);
+        fdao.addFeedback(f);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/food-detail?productId=" + id);
+        dispatcher.forward(request, response);
+    }
+    
+    private void deleteFeedback(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        int fid = Integer.parseInt(request.getParameter("feebackID"));
+        int id = Integer.parseInt(request.getParameter("productID"));
+        FeedbackDAO fdao = new FeedbackDAO();
+        fdao.deleteFeedback(fid);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/food-detail?productId=" + id);
+        dispatcher.forward(request, response);
+    }
+    
     @Override
     public String getServletInfo() {
         return "Short description";

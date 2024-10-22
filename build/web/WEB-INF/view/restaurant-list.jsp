@@ -39,8 +39,10 @@
     </head>
     <body>
         <!-- HEADER -->
+
         
         <%@ include file="/include/header.jsp" %>
+
 
         <!-- PAGE INFO -->
         <div id="page-info">
