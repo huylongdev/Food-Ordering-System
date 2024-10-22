@@ -32,6 +32,109 @@
         <!--<link rel="stylesheet" href="./assets/css/blog.css" />-->
         <link href="./assets/css/product.css" rel="stylesheet">
         <script src="index.js"></script>
+        <style>
+            .star-rating .full {
+                color: gold; /* Màu của sao đã chọn */
+                font-size: 20px; /* Kích thước sao */
+            }
+            .star-rating .empty {
+                color: #d3d3d3; /* Màu của sao trống */
+                font-size: 20px;
+            }
+
+            .mt-100 {
+                margin-top: 100px
+            }
+
+            .mb-100 {
+                margin-bottom: 100px
+            }
+
+            .card {
+                position: relative;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0px solid transparent;
+                border-radius: 0px
+            }
+
+            .card-body {
+                -webkit-box-flex: 1;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                padding: 1.25rem
+            }
+
+            .card .card-title {
+                position: relative;
+                font-weight: 600;
+                margin-bottom: 10px
+            }
+
+            .comment-widgets {
+                position: relative;
+                margin-bottom: 10px
+            }
+
+            .comment-widgets .comment-row {
+                border-bottom: 1px solid transparent;
+                padding: 14px;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                margin: 10px 0
+            }
+
+            .p-2 {
+                padding: 0.5rem !important
+            }
+
+            .comment-text {
+                padding-left: 15px
+            }
+
+            .w-100 {
+                width: 100% !important
+            }
+
+            .m-b-15 {
+                margin-bottom: 15px
+            }
+
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.76563rem;
+                line-height: 1.5;
+                border-radius: 1px
+            }
+
+            .btn-cyan {
+                color: #fff;
+                background-color: #27a9e3;
+                border-color: #27a9e3
+            }
+
+            .btn-cyan:hover {
+                color: #fff;
+                background-color: #1a93ca;
+                border-color: #198bbe
+            }
+
+            .comment-widgets .comment-row:hover {
+                background: rgba(0, 0, 0, 0.05)
+            }
+        </style>
+
+
     </head>
     <body>
 
@@ -99,16 +202,16 @@
                             <c:if test="${sessionScope.role != 'admin' && p.isStatus()}">
                                 <button type ="submit" id ="cart-btn" onclick="submitForm('method1')">Add to cart</button>
                                 <c:if test="${fav == null}">
-                                    <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                    </svg>
-                                </button>
+                                    <button id ="fav" onclick="submitForm('method2')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                        </svg>
+                                    </button>
                                 </c:if>
                                 <c:if test="${fav != null}">
-                                    <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                    </svg>
-                                </button>
+                                    <button id ="fav2" onclick="submitForm('method3')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                        </svg>
+                                    </button>
                                 </c:if>
                             </c:if>
                         </div>
@@ -117,7 +220,9 @@
 
                     <!--<div class="rating " data-rating="3"></div>-->
                     <!--<p id = "ratingStatus"></p>-->
+
                     <div class="rating " data-rating=${Integer(p.getRating())}></div>
+
                     <div class ="rating-border"></div>
                 </div>
             </div>
@@ -129,38 +234,115 @@
                 <div class ="product-tab">
                     <h4>REVIEW</h4>
                 </div>
-                <form action="detail" method="POST">
-                    <div class ="rate-product">
-                        <label for="rating">Rate:</label>
-                        <select name="rating" id="rating">
-                            <option value="1">⭐</option>
-                            <option value="2">⭐ ⭐</option>
-                            <option value="3">⭐ ⭐ ⭐</option>
-                            <option value="4">⭐ ⭐ ⭐ ⭐</option>
-                            <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
-                        </select>
-                    </div>
-                    <div class ="review-content">
-                        <input type = "text" name = "comment" placeholder="Enter content...">
-                    </div>
-
+                <form action="FeedbackServlet" method="POST">
                     <c:if test="${sessionScope.role != null}">
-                        <input type = "hidden" name ="bookID" value = "bookID">
-                        <input type = "hidden" name ="userID" value = "userID">
-                        <div class ="center">
-                            <!--<button type="submit">Send</button></div>-->
-                        </c:if>
+                        <input type = "hidden" name ="productID" value = "${p.getProductId()}">
+                        <input type = "hidden" name ="action" value = "add">
+                        <div class ="rate-product">
+                            <label for="rating">Rate:</label>
+                            <select name="rating" id="rating">
+                                <option value="1">⭐</option>
+                                <option value="2">⭐ ⭐</option>
+                                <option value="3">⭐ ⭐ ⭐</option>
+                                <option value="4">⭐ ⭐ ⭐ ⭐</option>
+                                <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
+                            </select>
+                        </div>
+                        <div class ="review-content">
+                            <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
+                        </div>
+                        <div>
+                            <div style="text-align: center;">
+                                <button type="submit" id="send-btn" >Send</button>
+                            </div>
+
+                        </div>
+
+                    </c:if>
                 </form>
+            </div>
+            <div class="row d-flex justify-content">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="comment-widgets">
+                            <!-- Comment Row -->
+                            <c:forEach var="feedback" items="${flist}">
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <img   id="user-avatar"
+                                           class="img-responsive img-circle"
+                                           src="${user.getAvtImg()}"
+                                           onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
+                                           alt="Profile Picture"
+                                           />
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium">${feedback.userName}</h6>
+
+                                        <div class="star-rating">
+                                            <c:forEach begin="1" end="${feedback.rating}" var="i">
+                                                <span class="full">★</span>
+                                            </c:forEach>
+                                            <c:forEach begin="${feedback.rating + 1}" end="5" var="i">
+                                                <span class="empty">☆</span>
+                                            </c:forEach>
+                                        </div>
+
+                                        <!-- Span chứa bình luận, thêm id để JS thao tác -->
+                                        <span id="comment-${feedback.feedbackId}" class="m-b-15 d-block">${feedback.comment}</span>
+                                        <c:if test="${feedback.userId == user.userID}">
+                                            <div class="comment-footer">
+                                                <span class="text-muted float-right">${feedback.createdDate}</span> 
+
+                                                <!-- Nút Edit với id -->
+
+                                                <form style="display: inline" action="FeedbackServlet" method="POST">
+                                                    <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+                                                    <input type="hidden" name="productID" value="${p.getProductId()}">
+                                                    <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
+                                                </form>
+                                            </div>
+                                        </c:if>
+
+                                    </div>
+                                </div> <!-- Comment Row -->
+                            </c:forEach>
+
+                        </div> <!-- Card -->
+                    </div>
+                </div>
             </div>
 
         </div> 
 
+        <div class="pagination">
+            <c:set var="currentPage" value="${currentPage}" />
+            <c:set var="pageSize" value="${pageSize}" />
+            <c:set var="totalFeedbacks" value="${totalFeedbacks}" />
+            <c:set var="totalPages" value="${totalPages}" />
 
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="active">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}">&raquo;</a>
+            </c:if>
+        </div>
         <%@ include file="/include/footer.jsp" %>
         <c:if test="${not empty sessionScope.alert}">
 
             <script>
-                alert("${alert}");
+        alert("${alert}");
             </script>
             <%session.setAttribute("alert", null);%>
         </c:if>
@@ -171,7 +353,6 @@
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+        crossorigin="anonymous"></script>
+</body>
 </html>
