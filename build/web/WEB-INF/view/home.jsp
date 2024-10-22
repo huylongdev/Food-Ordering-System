@@ -77,7 +77,7 @@
                         <div class="navbar__item">
 
 
-                            <nav id="nav-bar">
+                          <nav id="nav-bar">
                                 <ul class="nav-list">
                                     <li class="nav-item">
                                         <a href="<%= user != null ? "account" : "login" %>" class="nav-link">
@@ -103,12 +103,15 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <span id="login-text">Login</span>
+                                                    
                                                 </c:otherwise>
                                             </c:choose>
                                         </a>
                                     </li>
                                 </ul>
                             </nav>
+
+
                             <a style="text-decoration: none" href = "./cart"><div class="icon">
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
@@ -154,18 +157,18 @@
                 <c:if test="${not empty cateList}">
                     <c:forEach var="c" items="${cateList}">
                         <a href = "./food?category=${c.getCategory().getCategoryID()}"><div onclick="" class="card col-md-2" style="width: 11rem">
-                            <img
-                                src="${c.getAvtImg()}"
-                                class="card-img-top card-img-top-category"
-                                alt="..."
-                                />
-                            <div class="card-body">
-                                <h5 class="card-title card-title-category">${c.getCategory().getType()}</h5>
-                                <p class="card-text">${c.getCategory().getDescription()}</p>
-                            </div>
-                        </div></a>
-                    </c:forEach>
-                </c:if>
+                                <img
+                                    src="${c.getAvtImg()}"
+                                    class="card-img-top card-img-top-category"
+                                    alt="..."
+                                    />
+                                <div class="card-body">
+                                    <h5 class="card-title card-title-category">${c.getCategory().getType()}</h5>
+                                    <p class="card-text">${c.getCategory().getDescription()}</p>
+                                </div>
+                            </div></a>
+                        </c:forEach>
+                    </c:if>
             </div>
         </div>
 

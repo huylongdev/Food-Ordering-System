@@ -580,8 +580,16 @@ div#bestseller {
     padding-bottom: 7px;
 }
 
+#register-text {
+    font-size: 30px;
+    color: white;
+    justify-content: center;
+    display: flex;
+    padding-bottom: 7px;
+}
+
 #nav-bar .nav-link:hover #user-name,
-#nav-bar .nav-link:hover #login-text {
+#nav-bar .nav-link:hover #login-text,register-text {
     color: black; /* Màu xanh khi hover */
 }
 .user-dropdown {
