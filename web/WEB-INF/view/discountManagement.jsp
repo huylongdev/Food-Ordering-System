@@ -51,7 +51,8 @@
 
         <div class="main-content">
             <div class="container mt-4">
-                <h2>Manage Discounts</h2>
+                <h2 style="margin: 25px 0;
+                    font-size: 35px;">Manage Discounts</h2>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#discountModal">
                     Create Discount
                 </button>

@@ -85,3 +85,8 @@ input[type="text"]:hover {
 .form-group {
     margin-bottom: 10px;
 }
+
+.d-flex.align-items-center.h-custom-2.px-5.ms-xl-4.mt-5.pt-5.pt-xl-0.mt-xl-n5 {
+    margin: 0px !important;
+    padding: 0px;
+}

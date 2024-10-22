@@ -44,23 +44,7 @@
         </div>
 
         <!-- SLIDER IMG -->
-        <c:choose>
-            <c:when test="${newPost != null}">
-                <div id="slider">
-                    <img class="slider-img" src="${newPost.getImgURL()}" alt="Slider" />
-                    <div class="title">
-                        <h2 style="color: white; width: 90%">${newPost.getHeading()}</h2>
-                        <div class="slider-author">
-                            <img src="${newPost.getAvtUserImg()}" alt="" class="author_avatar" />
-                            <p class="author_name">${fullNameNewPost}</p>
-                        </div>
-                    </div>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <p>No posts available.</p>
-            </c:otherwise>
-        </c:choose>
+
 
         <!-- CONTENT -->
         <div id="content">
