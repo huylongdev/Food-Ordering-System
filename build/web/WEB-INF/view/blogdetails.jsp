@@ -1,9 +1,3 @@
-<%-- 
-    Document   : blogdetails
-    Created on : Oct 2, 2024, 1:55:11 PM
-    Author     : phuct
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.Account" %>
 <%@ page import="model.Comment" %>
@@ -17,8 +11,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Foodie Blog</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/blog.css">
@@ -32,7 +25,7 @@
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/OrderingSystem/">FOODIE</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -80,9 +73,6 @@
         <!-- PAGE INFO -->
         <div id="page-info">
             <div class="page-title">Foodie Community Blog</div>
-            <!--            <div class="page-info-more">
-                            <a href="/OrderingSystem/">Home</a>
-                        </div>-->
         </div>
 
         <!-- BLOG DETAILS -->
@@ -102,33 +92,26 @@
                                             <h2>Edit Blog Post Id: ${post.postID}</h2>
                                             <label for="imgPost">Picture Cover:</label>
                                             <input name="imgPost" type="file" class="input-field" required><br>
-
                                             <label for="title">Heading:</label>
                                             <input name="title" type="text" required class="input-field" value="${post.heading}"><br>
-
                                             <label for="description">Description:</label>
                                             <textarea id="default" name="description">${post.content}</textarea><br>
-
                                             <input type="hidden" name="action" value="editPost">
                                             <input type="hidden" name="postID" value="${post.postID}">
                                             <input type="hidden" name="userID" value="${user.userID}">
-
                                             <button type="submit" class="submit-button">Submit</button>
                                         </form>
-
                                     </div>
                                 </div>
                                 <a href="#" id="delete" onclick="confirmDelete(${post.getPostID()})"><i class="ti-trash"> Delete</i></a>
                             </div>
                         </div>
                         <!-- Hidden form for deletion -->
-                        <form id="deleteFormPost" action="postDetails" method="POST">
+                        <form id="deleteFormPost" action="postDetails" method="POST" style="display: none;">
                             <input type="hidden" name="action" value="deletePost">
                             <input type="hidden" name="postID" id="postID" value="${post.getPostID()}">
                         </form>
                     </c:if>
-
-
                 </div>
                 <div class="blog-details-author">
                     <img src="${avtURL}" alt="Author Avatar" onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';" class="details-avatar">
@@ -171,44 +154,41 @@
                                 </div>
                                 <div class="comment">${comment.content}</div>
                             </div>
-                            <c:if test="${user.userID == comment.userID}">
+                            <c:if test="${user.userID == post.userID || user.userID == comment.userID}">
                                 <div class="comment-options-dropdown">
-                                    <i class="ti-more-alt comment-options-icon" id="comment-options" style="cursor: pointer;"></i>
-                                    <div class="comment-options-menu dropdown-menu" id="comment-options-menu" style="display:none;">
-                                        <a class="edit-comment-option"><i class="ti-pencil"> Edit</i></a>
-                                        <a class="delete-comment-option" onclick="confirmDeleteComment()"><i class="ti-trash"> Delete</i></a>
+                                    <i class="ti-more-alt comment-options-icon" style="cursor: pointer;"></i>
+                                    <div class="comment-options-menu dropdown-menu" style="display:none;">
+                                        <c:if test="${user.userID == comment.userID}">
+                                            <a class="edit-comment-option"><i class="ti-pencil"> Edit</i></a>
+                                        </c:if>
+                                        <a class="delete-comment-option" onclick="confirmDeleteComment(${comment.commentID})"><i class="ti-trash"> Delete</i></a>
                                     </div>
 
                                     <!-- Edit Comment Modal -->
-                                    <div id="edit-comment-modal" class="edit-comment-modal modal">
+                                    <div id="edit-comment-modal-${comment.commentID}" class="edit-comment-modal modal">
                                         <div class="modal-content modal-content-comment">
                                             <span class="close-modal">&times;</span>
                                             <form class="edit-comment-form" action="postDetails" method="POST">
                                                 <h2>Edit Comment</h2>
                                                 <div class="comment-combine">
-                                                    <textarea id="edit-comment-content" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
-
+                                                    <textarea id="edit-comment-content-${comment.commentID}" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
                                                     <input type="hidden" name="postID" value="${post.postID}">
                                                     <input type="hidden" name="userID" value="${user.userID}">
                                                     <input type="hidden" name="commentID" value="${comment.commentID}">
                                                     <input type="hidden" name="action" value="editComment">
-
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </div>
-
                                             </form>
-
                                         </div>
                                     </div>
 
                                     <!-- Delete Comment Form -->
-                                    <form id="delete-comment-form" action="postDetails" method="POST">
+                                    <form id="delete-comment-form-${comment.commentID}" action="postDetails" method="POST" style="display: none;">
                                         <input type="hidden" name="postID" value="${post.postID}">
                                         <input type="hidden" name="commentID" value="${comment.commentID}">
                                         <input type="hidden" name="action" value="deleteComment">
                                     </form>
                                 </div>
-
                             </c:if>
                         </div>
                     </c:forEach>
@@ -272,7 +252,7 @@
                 const confirmAction = confirm("Are you sure you want to delete this post?");
                 if (confirmAction) {
                     document.getElementById('postID').value = postID;
-                    document.getElementById('deleteFormPost').submit('deletePost');
+                    document.getElementById('deleteFormPost').submit();
                 }
             }
 
@@ -288,7 +268,6 @@
                     dropdown.style.display = "none";
                 }
             });
-
 
             //Comment section
             document.querySelector('.comments-display').addEventListener('click', function (event) {
@@ -309,7 +288,8 @@
                 }
 
                 if (event.target.classList.contains('delete-comment-option')) {
-                    confirmDeleteComment();
+                    const commentID = event.target.closest('.comment-options-dropdown').querySelector('input[name="commentID"]').value;
+                    confirmDeleteComment(commentID);
                     event.stopPropagation();
                 }
             });
@@ -330,9 +310,9 @@
                 });
             });
 
-            function confirmDeleteComment() {
+            function confirmDeleteComment(commentID) {
                 if (confirm("Are you sure you want to delete this comment?")) {
-                    document.getElementById('delete-comment-form').submit();
+                    document.getElementById(`delete-comment-form-${commentID}`).submit();
                 }
             }
         </script>
