@@ -8,9 +8,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 
 .container {
-     display: block; 
+    display: block;
     max-width: 1200px;
     margin: 40px auto;
+    min-height: 52vh;
 }
 
 button.btn.btn-primary {
@@ -26,4 +27,35 @@ button.btn.btn-primary:hover {
         color: #2b5a27;
     transform: scale(1.05);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+button.btn.btn-warning.btn-sm {
+    text-decoration: none;
+    color: #5eae53;
+    border: 1px solid #5eae53;
+    border-radius: 17px;
+    background-color: white;
+}
+
+button.btn.btn-warning.btn-sm:hover {
+    text-decoration: none;
+    color: white;
+    border: 1px solid #5eae53;
+    border-radius: 17px;
+    background-color: #5eae53;
+}
+
+button.btn.btn-danger.btn-sm {
+    text-decoration: none;
+    color: white;
+    border: 1px solid #5eae53;
+    border-radius: 17px;
+    background-color: #5eae53;
+}
+button.btn.btn-danger.btn-sm:hover {
+    text-decoration: none;
+    color: #5eae53;
+    border: 1px solid #5eae53;
+    border-radius: 17px;
+    background-color: white;
 }

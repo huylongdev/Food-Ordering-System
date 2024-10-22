@@ -115,7 +115,7 @@
                     <div class="title">
                         <h2 style="color: white; width: 90%">${newPost.getHeading()}</h2>
                         <div class="slider-author">
-                            <img src="${newPost.getAvtUserImg()}" alt="" class="author_avatar" />
+                            <!--<img src="${newPost.getAvtUserImg()}" alt="" class="author_avatar" />-->
                             <p class="author_name">${fullNameNewPost}</p>
                         </div>
                     </div>

@@ -141,7 +141,7 @@ public class RefundDAO {
                 + "JOIN Product p ON oi.ProductID = p.ProductID "
                 + "WHERE p.ShopID = ? "
                 + "  AND r.RefundStatus = ? "
-                + "  AND o.DeliveryStatus = 'DONE' "
+                + "  AND o.DeliveryStatus = 'COMPLETED' "
                 + "  AND o.PaymentStatus LIKE 'PAID' "
                 + "ORDER BY o.CreatedDate DESC;";
 
