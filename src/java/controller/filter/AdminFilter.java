@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author LENOVO
  */
-public class AccessFilter implements Filter {
+public class AdminFilter implements Filter {
     
     private static final boolean debug = true;
 
@@ -31,13 +31,13 @@ public class AccessFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public AccessFilter() {
+    public AdminFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AccessFilter:DoBeforeProcessing");
+            log("AdminFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -65,7 +65,7 @@ public class AccessFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AccessFilter:DoAfterProcessing");
+            log("AdminFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -104,7 +104,7 @@ public class AccessFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
 
-        if (session != null && session.getAttribute("role") != null ) {
+        if (session != null && session.getAttribute("role") == "admin" ) {
             
             chain.doFilter(request, response);
 
@@ -112,7 +112,6 @@ public class AccessFilter implements Filter {
            httpResponse.sendRedirect("login");
         }
     }
-
 
     /**
      * Return the filter configuration object for this filter.
@@ -143,7 +142,7 @@ public class AccessFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("AccessFilter:Initializing filter");
+                log("AdminFilter:Initializing filter");
             }
         }
     }
@@ -154,9 +153,9 @@ public class AccessFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AccessFilter()");
+            return ("AdminFilter()");
         }
-        StringBuffer sb = new StringBuffer("AccessFilter(");
+        StringBuffer sb = new StringBuffer("AdminFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

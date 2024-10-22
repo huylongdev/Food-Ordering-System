@@ -382,3 +382,7 @@ a.unfilter-btn {
     padding: 10px;
     border-radius: 8px;
 }
+
+.banner p{
+    color: #fff !important;
+}

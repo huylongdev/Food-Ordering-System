@@ -26,10 +26,7 @@ public class DashboardServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login");
-            return;
-        }
+        
 
         AccountDAO userDAO = new AccountDAO();
         List<Account> userList = userDAO.getAccountList();
