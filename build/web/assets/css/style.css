@@ -381,6 +381,7 @@ div#bestseller {
   padding: 15px;
   align-items: center;
   transition: transform 0.2s;
+  height: 100%;
 }
 
 .card-horizontal:hover {
@@ -616,4 +617,13 @@ div#bestseller {
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
+
+.top-food p, h5 {
+  color: #414141 !important;
+}
     
+.navbar__item {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
