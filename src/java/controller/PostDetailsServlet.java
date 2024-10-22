@@ -78,6 +78,13 @@ public class PostDetailsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+
+        // Null check for the action parameter
+        if (action == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action parameter is missing");
+            return;
+        }
+
         switch (action) {
             case "addComment":
                 handleAddComment(request, response);
