@@ -289,4 +289,30 @@ public class DiscountDAO {
         }
     }
 
+    public String getLatestDiscountCodeByUserID(int userID) {
+        String discountCode = null;
+        String sql = "SELECT DiscountCODE FROM Discount WHERE UserID = ? AND Status = 1 ORDER BY created_at DESC LIMIT 1";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, userID);  // Set the UserID parameter
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                discountCode = rs.getString("DiscountCODE");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return discountCode;
+    }
+
 }
