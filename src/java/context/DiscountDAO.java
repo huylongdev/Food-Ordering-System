@@ -13,11 +13,11 @@ public class DiscountDAO {
     private DBContext dbContext;
 
     public DiscountDAO() {
-        dbContext = new DBContext(); 
+        dbContext = new DBContext();
     }
 
     public void createDiscount(Discount discount) {
-        String sql = "INSERT INTO Discount (UserID, DiscountName, StartDate, EndDate, DiscountPercentage, Type) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Discount (UserID, DiscountCODE, NumberOfDiscount, TotalUse, DiscountPercentage, ShopID) VALUES (?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -25,57 +25,119 @@ public class DiscountDAO {
             conn = dbContext.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, discount.getUserID());
-            ps.setString(2, discount.getDiscountName());
-            ps.setDate(3, new java.sql.Date(discount.getStartDate().getTime()));
-            ps.setDate(4, new java.sql.Date(discount.getEndDate().getTime()));
+            ps.setString(2, discount.getDiscountCODE());
+            ps.setInt(3, discount.getNumberOfDiscount());
+            ps.setInt(4, discount.getTotalUse());
             ps.setDouble(5, discount.getDiscountPercentage());
-            ps.setString(6, discount.getType());
-            ps.executeUpdate(); 
+            ps.setInt(6, discount.getShopID());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         } finally {
-            dbContext.closeConnection(conn); 
+            dbContext.closeConnection(conn);
         }
     }
 
-   
     public List<Discount> getAllDiscounts() {
         List<Discount> discounts = new ArrayList<>();
-        String sql = "SELECT * FROM Discount"; 
+        String sql = "SELECT * FROM Discount";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            conn = dbContext.getConnection(); 
+            conn = dbContext.getConnection();
             ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery(); 
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 Discount discount = new Discount();
                 discount.setDiscountID(rs.getInt("DiscountID"));
                 discount.setUserID(rs.getInt("UserID"));
-                discount.setDiscountName(rs.getString("DiscountName"));
-                discount.setStartDate(rs.getDate("StartDate"));
-                discount.setEndDate(rs.getDate("EndDate"));
+                discount.setDiscountCODE(rs.getString("DiscountCODE"));
+                discount.setNumberOfDiscount(rs.getInt("NumberOfDiscount"));
+                discount.setTotalUse(rs.getInt("TotalUse"));
                 discount.setDiscountPercentage(rs.getDouble("DiscountPercentage"));
-                discount.setType(rs.getString("Type"));
-                discounts.add(discount); 
+                discount.setShopID(rs.getInt("ShopID"));
+                discount.setStatus(rs.getInt("Status"));
+                discounts.add(discount);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         } finally {
-            dbContext.closeConnection(conn); 
+            dbContext.closeConnection(conn);
         }
-        return discounts; 
+        return discounts;
+    }
+
+    public List<Discount> getAllDiscountsByShopID(int shopID) {
+        List<Discount> discounts = new ArrayList<>();
+        String sql = "SELECT * FROM Discount WHERE ShopID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, shopID);  // Set the ShopID parameter
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Discount discount = new Discount();
+                discount.setDiscountID(rs.getInt("DiscountID"));
+                discount.setUserID(rs.getInt("UserID"));
+                discount.setDiscountCODE(rs.getString("DiscountCODE"));
+                discount.setNumberOfDiscount(rs.getInt("NumberOfDiscount"));
+                discount.setTotalUse(rs.getInt("TotalUse"));
+                discount.setDiscountPercentage(rs.getDouble("DiscountPercentage"));
+                discount.setShopID(rs.getInt("ShopID"));
+                discount.setStatus(rs.getInt("Status"));
+
+                discounts.add(discount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return discounts;
+    }
+
+    public Double getDiscountPercentageByDiscountCode(String discountCode) {
+        Double discountPercentage = null;
+        String sql = "SELECT DiscountPercentage FROM Discount WHERE DiscountCODE = ? AND Status = 1";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, discountCode);  // Set the Discount Code parameter
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                discountPercentage = rs.getDouble("DiscountPercentage");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return discountPercentage;
     }
 
     public void deleteDiscount(int discountID) throws Exception {
-        String sql = "DELETE FROM Discount WHERE DiscountID = ?";
+        String sql = "UPDATE Discount Set Status=0 WHERE DiscountID = ?";
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -93,27 +155,138 @@ public class DiscountDAO {
     }
 
     public void updateDiscount(Discount discount) throws Exception {
-    String sql = "UPDATE Discount SET UserID = ?, DiscountName = ?, StartDate = ?, EndDate = ?, DiscountPercentage = ?, Type = ? WHERE DiscountID = ?";
-    Connection conn = null;
-    PreparedStatement ps = null;
+        String sql = "UPDATE Discount SET UserID = ?, DiscountCODE = ?, NumberOfDiscount = ?, TotalUse = ?, DiscountPercentage = ?, ShopID = ? WHERE DiscountID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
 
-    try {
-        conn = dbContext.getConnection(); 
-        ps = conn.prepareStatement(sql);
-        ps.setInt(1, discount.getUserID());
-        ps.setString(2, discount.getDiscountName());
-        ps.setDate(3, new java.sql.Date(discount.getStartDate().getTime()));
-        ps.setDate(4, new java.sql.Date(discount.getEndDate().getTime()));
-        ps.setDouble(5, discount.getDiscountPercentage());
-        ps.setString(6, discount.getType());
-        ps.setInt(7, discount.getDiscountID()); 
-        ps.executeUpdate(); 
-    } catch (SQLException e) {
-        e.printStackTrace(); 
-        throw new Exception("Error updating discount: " + e.getMessage());
-    } finally {
-        dbContext.closeConnection(conn); 
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, discount.getUserID());
+            ps.setString(2, discount.getDiscountCODE());
+            ps.setInt(3, discount.getNumberOfDiscount());
+            ps.setInt(4, discount.getTotalUse());
+            ps.setDouble(5, discount.getDiscountPercentage());
+            ps.setInt(6, discount.getDiscountID());
+            ps.setInt(1, discount.getShopID());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error updating discount: " + e.getMessage());
+        } finally {
+            dbContext.closeConnection(conn);
+        }
     }
-}
+
+    public void updateTotalUse(int discountID, int newTotalUse) throws Exception {
+        String sql = "UPDATE Discount SET TotalUse = ? WHERE DiscountID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, newTotalUse);
+            ps.setInt(2, discountID);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error updating total use for discount ID " + discountID + ": " + e.getMessage());
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+    }
+
+    public int getDiscountIDByCode(String discountCode) throws Exception {
+        int discountID = -1;
+        String sql = "SELECT DiscountID FROM Discount WHERE DiscountCODE = ? AND Status = 1";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, discountCode);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                discountID = rs.getInt("DiscountID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return discountID;
+    }
+
+    public int getCurrentTotalUse(int discountID) throws Exception {
+        int totalUse = 0;
+        String sql = "SELECT TotalUse FROM Discount WHERE DiscountID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, discountID);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                totalUse = rs.getInt("TotalUse");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return totalUse;
+    }
+
+    public int getNumberOfDiscount(int discountID) throws Exception {
+        int numberOfDiscount = 0;
+        String sql = "SELECT NumberOfDiscount FROM Discount WHERE DiscountID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, discountID);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                numberOfDiscount = rs.getInt("NumberOfDiscount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return numberOfDiscount;
+    }
+
+    public void unlockDiscount(int discountID) throws Exception {
+        String sql = "UPDATE Discount SET Status = 1 WHERE DiscountID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, discountID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error unlocking discount: " + e.getMessage());
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+    }
 
 }

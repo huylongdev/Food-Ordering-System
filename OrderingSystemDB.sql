@@ -482,3 +482,16 @@ select * from [Order] order by CreatedDate DESC
 --update 17/10
 ALTER TABLE [Order]
 add PaymentID int not null default 0000
+
+
+ALTER TABLE Discount 
+ADD 
+    DiscountCODE NVARCHAR(100) NOT NULL,
+    NumberOfDiscount INT NOT NULL,
+    TotalUse INT NOT NULL
+
+
+ALTER TABLE Discount 
+DROP COLUMN DiscountName, StartDate, EndDate;
+
+select * from Discount

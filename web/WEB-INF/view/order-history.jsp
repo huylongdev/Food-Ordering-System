@@ -96,7 +96,8 @@
                                     <td class="table-left">Payment Status: <b>${order.getOrder().getPaymentStatus().toUpperCase()}</b>
                                         <br>Order Status: <b>${order.getOrder().getDeliveryStatus().toUpperCase()}</b>
                                     </td>
-                                    <td class="table-center">Delivery Address: ${order.getOrder().getAddress()}</td>
+                                    <td class="table-center">Delivery Address: ${order.getOrder().getAddress()}<br>
+                                    Phone: ${order.getOrder().getPhone()}</td>
 
                                     <td class="a-right"><span class="total_tt">Total:</span>
                                         <span class="totals_price">${FormatString.formatCurrency(order.getOrder().getTotalAmount())}</span>

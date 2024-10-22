@@ -1,3 +1,8 @@
+<%-- 
+    Document   : checkout
+    Created on : Oct 2, 2024, 2:16:53 PM
+    Author     : phuct
+--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -59,7 +64,7 @@
         <div class="Checkout_section" id="accordion">
             <div class="container">
                 <div class="checkout_form">
-                    <form action="checkout" method="POST">
+                    <form action="checkout" method="POST" id="completeOrderForm">
                         <div class="row">
                             <div class="col-lg-5 col-md-5">
                                 <h3>Order details</h3>
@@ -84,11 +89,11 @@
                                     </div>
                                     <div class="col-lg-12 mb-20">
                                         <label>Address<span>*</span></label>
-                                        <input required name="address" type="text">
+                                        <input required name="address" value="${address}" type="text">
                                     </div>
                                     <div class="col-lg-12 mb-20">
                                         <label>Phone number<span>*</span></label>
-                                        <input required name="phone" type="tel" pattern="[0-9]{10}" title="Enter phone number 10 digit" maxlength="10">
+                                        <input required name="phone" type="tel" value="${phone}" pattern="[0-9]{10}" title="Enter phone number 10 digit" maxlength="10">
                                     </div>
                                 </div>
                                 <h4>Payment type</h4>
@@ -116,7 +121,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Time Pickup Field -->
                                 <div class="col-lg-12 mb-20" id="pickup_time_field" style="display:none;">
                                     <label>Time pick up<span>*</span></label>
                                     <input name="pickup_time" type="datetime-local" id="pickup_time">
@@ -140,53 +144,70 @@
                                     <tbody>
                                         <c:forEach var="item" items="${cart}">
                                             <tr>
-                                                <!-- Assuming CartItemDTO has a 'product' with a 'name' and 'price' property -->
                                                 <td>${item.product.name}</td>
                                                 <td>${item.product.price}</td>
                                                 <td>${item.quantity}</td>
                                                 <td>${item.product.price * item.quantity}</td>
                                             </tr>
                                         </c:forEach>
+                                        <c:if test="${not empty discountAmount}">
+                                            <tr>
+                                                <td colspan="3">Discount</td>
+                                                <td>${discountAmount}</td>
+                                            </tr>
+                                        </c:if>
                                         <tr>
                                             <td colspan="3">Total</td>
-                                            <td>
-                                                <c:set var="total" value="0" />
-                                                <c:forEach var="item" items="${cart}">
-                                                    <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
-                                                </c:forEach>
-                                                ${total}
-                                            </td>
+                                            <td>${total}</td>
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <div class="discount-section">
+                                    <label>Discount Code:</label>
+                                    <input type="text" id="discount_code" value="${discountCode}" name="discount_code"/>
+                                    <input type="hidden" name="userID" value="${user.userID}">
+                                    <input type="hidden" name="action" value="applyDiscount">
+                                    <button type="submit" formaction="/OrderingSystem/discountManage" formmethod="POST" class="btn btn-secondary">Apply</button>
+                                </div>
+
+                                <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+                                <% if (errorMessage != null) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    <%= errorMessage %>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
 
+
         <%@ include file="/include/footer.jsp" %>  
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const pickupRadio = document.getElementById('pickup');
                 const homeDeliveryRadio = document.getElementById('home_delivery');
                 const pickupTimeField = document.getElementById('pickup_time_field');
 
-                // Lắng nghe sự thay đổi của radio buttons
                 pickupRadio.addEventListener('change', function () {
                     if (this.checked) {
-                        pickupTimeField.style.display = 'block'; // Hiển thị trường Time pickup
+                        pickupTimeField.style.display = 'block';
                         document.getElementById('pickup_time').setAttribute('required', 'required');
                     }
                 });
 
                 homeDeliveryRadio.addEventListener('change', function () {
                     if (this.checked) {
-                        pickupTimeField.style.display = 'none'; // Ẩn trường Time pickup
+                        pickupTimeField.style.display = 'none';
                         document.getElementById('pickup_time').removeAttribute('required');
                     }
                 });
+
             });
         </script>
 
