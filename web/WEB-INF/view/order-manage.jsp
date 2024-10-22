@@ -99,21 +99,7 @@
                     </c:forEach>
                 </div>
                 <!-- Preparing Section -->
-                <div class="mt-4  tab-pane fade " id="preparing" role="tabpanel" aria-labelledby="preparing-tab">
-                    <h5>Preparing (${prepareList.size()})</h5>
-                    <c:forEach var="order" items="${prepareList}">
-                        <div class="card p-3 mb-3">
-                            <a href = "./order-detail?orderId=${order.getOrderId()}">
-                                <div class="row">
-                                    <div class="col-sm-2">No: ${order.getOrderId()}</div>
-                                    <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
-                                    <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-3">${order.getAddress()}</div>
-                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
-                                </div>
-                            </a>
-                        </div>
-                    </c:forEach>
+                
                 <!-- Preparing Section -->
                 <div class="mt-4  tab-pane fade " id="preparing" role="tabpanel" aria-labelledby="preparing-tab">
                     <h5>Preparing (${prepareList.size()})</h5>
@@ -130,7 +116,7 @@
                             </a>
                         </div>
                     </c:forEach>
-
+</div>
                     <!-- Ready for Delivery Section -->
                     <div class="mt-4  tab-pane fade " id="ready" role="tabpanel" aria-labelledby="ready-tab">
                         <h5>Ready For Delivery(${readyList.size()})</h5>
@@ -201,7 +187,7 @@
                         </c:forEach>
                     </div>
                 </div>
-            </div>
+            
 
             <script src="js/Jquery.js"></script>
             <script src="js/bootstrap.min.js"></script>

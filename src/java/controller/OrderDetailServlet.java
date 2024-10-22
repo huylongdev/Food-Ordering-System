@@ -128,7 +128,7 @@ public class OrderDetailServlet extends HttpServlet {
                         String email = aDAO.getUserById(order.getUserId()).getEmail();
                         String content = "We are excited to inform you that your order  has been successfully prepared and is now ready for pickup. You can visit our store at your convenience to collect your order.\nStore Address: " + Utility.getShopAddressByOrderID(orderId);
                         Email.sendEmailNotifying(email, content);
-                    } else if ("delivery".equals(order.getDeliveryOption())) {
+                    } else if ("home_delivery".equals(order.getDeliveryOption())) {
                         orderDAO.updateOrderStatus(orderId, "SHIPPING");
                         String email = aDAO.getUserById(order.getUserId()).getEmail();
                         String content = "Good news! Your order is now on its way to your delivery address. Our delivery team is working hard to ensure that your order reaches you promptly.\nThank you for shopping with us. We hope you enjoy your purchase!";
