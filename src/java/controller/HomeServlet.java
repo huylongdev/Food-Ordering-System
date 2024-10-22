@@ -68,8 +68,10 @@ public class HomeServlet extends HttpServlet {
                 avgRating = totalRating / productCount;
             }
             if(avgRating >= 4.90){
-                shopdtolist.add(new ShopDTO(s.getShopID(),s.getName(),s.getDescription(),s.getStatus(), 
+                if(shopdtolist.size() < 6){
+                    shopdtolist.add(new ShopDTO(s.getShopID(),s.getName(),s.getDescription(),s.getStatus(), 
                         s.getShopImage(), s.getAddress(), s.getTimeOpen(), s.getTimeClose(), avgRating));
+                }
             }
         }
         List<Product> plist = pdao.getAllProducts();
@@ -80,8 +82,10 @@ public class HomeServlet extends HttpServlet {
             Shop shop = shopdao.getRestaurantByID(p.getShopId());
             String cate = pdao.getCategoryNameByID(p.getCategoryId());
             if(p.getRating() >= 4.9){
+                if(pdtolist.size() < 6){
                 pdtolist.add(new ProductDTO(pimg.getImgURL(),p.getProductId(),p.getName(),p.getDescription(),
                 p.getPrice(),p.isStatus(),shop.getName(),cate,p.getPurchaseCount(),p.getRating()));
+                }
             }
         }
         request.setAttribute("cateList", cateList);

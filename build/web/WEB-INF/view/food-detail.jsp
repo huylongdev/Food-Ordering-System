@@ -250,67 +250,69 @@
                             <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
                         </div>
                         <div>
-    <div style="text-align: center;">
-    <button type="submit" id="send-btn" style="width: 200px;; color: #F3F3F3; border-radius: 10px; border: 1px; background-color: #5EAE53; margin-top: 20px; margin-left: 60px;">Send</button>
-</div>
+                            <div style="text-align: center;">
+                                <button type="submit" id="send-btn" style="width: 200px;; color: #F3F3F3; border-radius: 10px; border: 1px; background-color: #5EAE53; margin-top: 20px; margin-left: 60px;">Send</button>
+                            </div>
 
-</div>
+                        </div>
 
                     </c:if>
-        </form>
-    </div>
-    <div class="row d-flex justify-content">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="comment-widgets">
-                    <!-- Comment Row -->
-                    <c:forEach var="feedback" items="${flist}">
-                        <div class="d-flex flex-row comment-row m-t-0">
-                            <img   id="user-avatar"
-                                   class="img-responsive img-circle"
-                                   src="${user.getAvtImg()}"
-                                   onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
-                                   alt="Profile Picture"
-                                                                />
-                            <div class="comment-text w-100">
-                                <h6 class="font-medium">${feedback.userName}</h6>
-
-                                <div class="star-rating">
-                                    <c:forEach begin="1" end="${feedback.rating}" var="i">
-                                        <span class="full">★</span>
-                                    </c:forEach>
-                                    <c:forEach begin="${feedback.rating + 1}" end="5" var="i">
-                                        <span class="empty">☆</span>
-                                    </c:forEach>
-                                </div>
-
-                                <!-- Span chứa bình luận, thêm id để JS thao tác -->
-                                <span id="comment-${feedback.feedbackId}" class="m-b-15 d-block">${feedback.comment}</span>
-
-                                <div class="comment-footer">
-                                    <span class="text-muted float-right">${feedback.createdDate}</span> 
-
-                                    <!-- Nút Edit với id -->
-                                    <button id="edit-btn-${feedback.feedbackId}" type="button" class="btn btn-cyan btn-sm" onclick="editComment(${feedback.feedbackId})">Edit</button>
-
-                                    <form style="display: inline" action="FeedbackServlet" method="POST">
-                                        <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
-                                        <input type="hidden" name="productID" value="${p.getProductId()}">
-                                        <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div> <!-- Comment Row -->
-                    </c:forEach>
-
-                </div> <!-- Card -->
+                </form>
             </div>
-        </div>
-    </div>
+            <div class="row d-flex justify-content">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="comment-widgets">
+                            <!-- Comment Row -->
+                            <c:forEach var="feedback" items="${flist}">
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <img   id="user-avatar"
+                                           class="img-responsive img-circle"
+                                           src="${user.getAvtImg()}"
+                                           onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';"
+                                           alt="Profile Picture"
+                                           />
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium">${feedback.userName}</h6>
 
-</div> 
+                                        <div class="star-rating">
+                                            <c:forEach begin="1" end="${feedback.rating}" var="i">
+                                                <span class="full">★</span>
+                                            </c:forEach>
+                                            <c:forEach begin="${feedback.rating + 1}" end="5" var="i">
+                                                <span class="empty">☆</span>
+                                            </c:forEach>
+                                        </div>
 
-<div class="pagination">
+                                        <!-- Span chứa bình luận, thêm id để JS thao tác -->
+                                        <span id="comment-${feedback.feedbackId}" class="m-b-15 d-block">${feedback.comment}</span>
+                                        <c:if test="${feedback.userId == fav.userID}">
+                                            <div class="comment-footer">
+                                                <span class="text-muted float-right">${feedback.createdDate}</span> 
+
+                                                <!-- Nút Edit với id -->
+                                                <button id="edit-btn-${feedback.feedbackId}" type="button" class="btn btn-cyan btn-sm" onclick="editComment(${feedback.feedbackId})">Edit</button>
+
+                                                <form style="display: inline" action="FeedbackServlet" method="POST">
+                                                    <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+                                                    <input type="hidden" name="productID" value="${p.getProductId()}">
+                                                    <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
+                                                </form>
+                                            </div>
+                                        </c:if>
+
+                                    </div>
+                                </div> <!-- Comment Row -->
+                            </c:forEach>
+
+                        </div> <!-- Card -->
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+
+        <div class="pagination">
             <c:set var="currentPage" value="${currentPage}" />
             <c:set var="pageSize" value="${pageSize}" />
             <c:set var="totalFeedbacks" value="${totalFeedbacks}" />
@@ -335,81 +337,81 @@
                 <a href="?page=${currentPage + 1}">&raquo;</a>
             </c:if>
         </div>
-<%@ include file="/include/footer.jsp" %>
-<c:if test="${not empty sessionScope.alert}">
+        <%@ include file="/include/footer.jsp" %>
+        <c:if test="${not empty sessionScope.alert}">
 
-    <script>
+            <script>
         alert("${alert}");
-    </script>
-    <%session.setAttribute("alert", null);%>
-</c:if>
+            </script>
+            <%session.setAttribute("alert", null);%>
+        </c:if>
 
-<script src="js/Jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+        <script src="js/Jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-crossorigin="anonymous"></script>
-<script>
-    function editComment(feedbackId) {
-        // Lấy phần tử <span> chứa nội dung bình luận theo feedbackId
-        var commentSpan = document.querySelector(#comment-${feedbackId});
-        var currentComment = commentSpan.innerText;
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+        <script>
+                function editComment(feedbackId) {
+                    // Lấy phần tử <span> chứa nội dung bình luận theo feedbackId
+                    var commentSpan = document.querySelector(#comment -${feedbackId});
+                    var currentComment = commentSpan.innerText;
 
-        // Tạo thẻ input với giá trị là nội dung bình luận hiện tại
-        var inputField = document.createElement("input");
-        inputField.type = "text";
-        inputField.value = currentComment;
-        inputField.classList.add("form-control");  // Thêm class cho input (tuỳ chỉnh)
+                    // Tạo thẻ input với giá trị là nội dung bình luận hiện tại
+                    var inputField = document.createElement("input");
+                    inputField.type = "text";
+                    inputField.value = currentComment;
+                    inputField.classList.add("form-control");  // Thêm class cho input (tuỳ chỉnh)
 
-        // Thay thế <span> thành <input>
-        commentSpan.innerHTML = '';
-        commentSpan.appendChild(inputField);
+                    // Thay thế <span> thành <input>
+                    commentSpan.innerHTML = '';
+                    commentSpan.appendChild(inputField);
 
-        // Chuyển nút Edit thành Save
-        var editButton = document.querySelector(#edit-btn-${feedbackId});
-        editButton.innerText = "Save";
-        editButton.setAttribute("onclick", saveComment(${feedbackId}));
-    }
+                    // Chuyển nút Edit thành Save
+                    var editButton = document.querySelector(#edit - btn -${feedbackId});
+                    editButton.innerText = "Save";
+                    editButton.setAttribute("onclick", saveComment(${feedbackId}));
+                }
 
-    function saveComment(feedbackId) {
-        // Lấy giá trị mới từ input
-        var inputField = document.querySelector(#comment-${feedbackId} input);
-        var newComment = inputField.value;
+                function saveComment(feedbackId) {
+                    // Lấy giá trị mới từ input
+                    var inputField = document.querySelector(#comment -${feedbackId} input);
+                    var newComment = inputField.value;
 
-        // Tạo một form ẩn để submit dữ liệu (hoặc thực hiện AJAX nếu cần)
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = "FeedbackServlet";
+                    // Tạo một form ẩn để submit dữ liệu (hoặc thực hiện AJAX nếu cần)
+                    var form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "FeedbackServlet";
 
-        // Tạo các input ẩn để chứa dữ liệu
-        var feedbackIdInput = document.createElement("input");
-        feedbackIdInput.type = "hidden";
-        feedbackIdInput.name = "feedbackID";
-        feedbackIdInput.value = feedbackId;
+                    // Tạo các input ẩn để chứa dữ liệu
+                    var feedbackIdInput = document.createElement("input");
+                    feedbackIdInput.type = "hidden";
+                    feedbackIdInput.name = "feedbackID";
+                    feedbackIdInput.value = feedbackId;
 
-        var commentInput = document.createElement("input");
-        commentInput.type = "hidden";
-        commentInput.name = "comment";
-        commentInput.value = newComment;
+                    var commentInput = document.createElement("input");
+                    commentInput.type = "hidden";
+                    commentInput.name = "comment";
+                    commentInput.value = newComment;
 
-        var actionInput = document.createElement("input");
-        actionInput.type = "hidden";
-        actionInput.name = "action";
-        actionInput.value = "save";
+                    var actionInput = document.createElement("input");
+                    actionInput.type = "hidden";
+                    actionInput.name = "action";
+                    actionInput.value = "save";
 
-        // Đưa các input vào form
-        form.appendChild(feedbackIdInput);
-        form.appendChild(commentInput);
-        form.appendChild(actionInput);
+                    // Đưa các input vào form
+                    form.appendChild(feedbackIdInput);
+                    form.appendChild(commentInput);
+                    form.appendChild(actionInput);
 
-        // Gửi form
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
+                    // Gửi form
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+        </script>
 
 
-</body>
+    </body>
 </html>
