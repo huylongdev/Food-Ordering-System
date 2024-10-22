@@ -1,16 +1,9 @@
-<%-- 
-    Document   : admin-post-item
-    Created on : Oct 15, 2024, 8:58:01 AM
-    Author     : Lenovo
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.Account" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     Account user = (Account) session.getAttribute("loggedUser");
-    
 %>
-
 
 <!DOCTYPE html>
 <html>
@@ -26,15 +19,16 @@
     <%@include file="../../assets_01/includes/navbar.jsp"%>
     <body>
 
-
         <div class="main">
+            <center> 
+                <h1 class="mb-5">Products Management</h1>
 
-            <center> <h1 class="mb-5">Products Management</h1>
                 <!-- Hiển thị thông báo từ session -->
                 <c:if test="${not empty sessionScope.msg}">
-                    <p style="color:red">${sessionScope.msg}</p>
+                    <p style="color:green">${sessionScope.msg}</p>
                     <c:remove var="msg" scope="session"/>
                 </c:if>
+
                 <form action="admin-item" method="GET">
                     <table class="table">
                         <thead>
@@ -60,27 +54,26 @@
                                     <td>${product.purchaseCount}</td>
                                     <td>${product.rating}</td>
                                     <td>
+                                        <c:choose>
+                                            <c:when test="${product.status}">
+                                                <a class="btn btn-primary btn-sm" href="food-detail?productId=${product.productId}">View Detail</a>
+                                                <!-- Xác nhận trước khi xóa bằng JavaScript -->
+                                                <a class="btn btn-danger btn-sm" href="admin-item?action=deleteIllegalProduct&id=${product.productId}" onclick="return confirmDelete('${product.productId}')">Delete</a>
+                                            </c:when>
 
-
-                                            <a class="btn btn-primary btn-sm" href="food-detail?productId=${product.productId}">View Detail</a>
-                                            <c:choose>
-                                                <c:when test="${product.status}">
-                                                    <a class="btn btn-danger btn-sm" href="admin-item?action=deleteIllegalProduct&id=${product.productId}">Delete</a>
-                                                </c:when>
-
-                                                <c:otherwise>
-                                                    <button class="btn btn-warning btn-sm" disabled>Deleted</button>
-                                                </c:otherwise>
-                                            </c:choose>
+                                            <c:otherwise>
+                                                <button class="btn btn-warning btn-sm" disabled>Deleted</button>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
-
                                 </tr>
                             </c:forEach>
-
                         </tbody>
                     </table>
-                </form></center>
+                </form>
+            </center>
         </div>
+
         <!-- =========== Scripts =========  -->
         <script src="assets_01/js/main.js"></script>
 
@@ -92,5 +85,12 @@
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+        <!-- JavaScript confirm delete -->
+        <script>
+            function confirmDelete(productId) {
+                return confirm("Are you sure you want to delete product #" + productId + "?");
+            }
+        </script>
     </body>
 </html>
