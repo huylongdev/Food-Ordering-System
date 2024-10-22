@@ -76,7 +76,8 @@ public class FeedbackServlet extends HttpServlet {
         String action = request.getParameter("action");
         switch(action){
             case "add" -> addFeedback(request, response);
-            case "delete" -> deleteFeedback(request, response);  
+            case "delete" -> deleteFeedback(request, response); 
+            case "update" -> updateFeedback(request, response);  
         }
     }
 
@@ -112,6 +113,20 @@ public class FeedbackServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/food-detail?productId=" + id);
         dispatcher.forward(request, response);
     }
+    
+    private void updateFeedback(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        int fid = Integer.parseInt(request.getParameter("feebackID"));
+        int id = Integer.parseInt(request.getParameter("productID"));
+        String comment = request.getParameter("comment");
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        
+        FeedbackDAO fdao = new FeedbackDAO();
+        fdao.updateFeedback(fid, comment, rating);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/food-detail?productId=" + id);
+        dispatcher.forward(request, response);
+    }
+    
     
     @Override
     public String getServletInfo() {

@@ -96,4 +96,21 @@ public class FeedbackDAO {
             return false;
         }
     }
+    
+    public boolean updateFeedback(int feedbackID, String comment, int rating) {
+    String query = "UPDATE Feedback SET Comment = ?, Rating = ? WHERE FeedbackID = ?";
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, comment);
+        ps.setInt(2, rating);
+        ps.setInt(3, feedbackID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; 
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        return false;
+    }
 }
+}
+
+
+
