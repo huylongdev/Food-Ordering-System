@@ -303,3 +303,34 @@ strong {
     margin-left: 60px;
     height: 35px;
 }
+
+.btn-update{
+    background-color: #5EAE53 !important;
+    color: #ffffff;
+}
+
+
+#updateDiv {
+    display: none; /* Ẩn mặc định */
+    border: 1px solid #ddd; /* Đường viền cho div */
+    border-radius: 5px; /* Bo góc cho div */
+    padding: 20px; /* Khoảng cách bên trong */
+    margin-top: 20px; /* Khoảng cách phía trên */
+    background-color: #f9f9f9; /* Màu nền */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
+.update-rate, .update-content {
+    margin-bottom: 15px; /* Khoảng cách giữa các phần tử */
+}
+.btn-update {
+    background-color: #5EAE53; /* Màu nền cho nút */
+    color: white; /* Màu chữ cho nút */
+    border: none; /* Không có viền cho nút */
+}
+.btn-update:hover {
+    background-color: #47823f; /* Màu nền khi hover */
+}
+
+.update-content input{
+    height: 50px !important;
+}
