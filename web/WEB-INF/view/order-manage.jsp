@@ -46,18 +46,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-timer"></i> Processing
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ti-check"></i> Completed
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/OrderingSystem/refundManage">
                         <i class="ti-wallet"></i> Refund Request
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OrderingSystem/discountManage">
+                        <i class="ti-timer"></i> Discount
                     </a>
                 </li>
             </ul>
@@ -77,8 +72,8 @@
                                 <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                 <div class="col-sm-2">${FormatString.formatCurrency(order.getTotalAmount())}</div>
                                 <div class="col-sm-2">${order.getDeliveryOption()}</div>
-                                <div class="col-sm-3">${order.getAddress()}</div>
-                                <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                             </div>
                         </a>
                     </div>
@@ -95,8 +90,8 @@
                                 <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                 <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                 <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                <div class="col-sm-3">${order.getAddress()}</div>
-                                <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                             </div>
                         </a>
                     </div>
@@ -112,8 +107,8 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-3">${order.getAddress()}</div>
-                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                                 </div>
                             </a>
                         </div>
@@ -129,8 +124,8 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-3">${order.getAddress()}</div>
-                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                                 </div>
                             </a>
                         </div>
@@ -147,8 +142,8 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-3">${order.getAddress()}</div>
-                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                                 </div>
                             </a>
                         </div>
@@ -164,8 +159,8 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-3">${order.getAddress()}</div>
-                                    <div class="col-sm-3">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
+                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="HH:mm:ss" /></b></div>
                                 </div>
                             </a>
                         </div>

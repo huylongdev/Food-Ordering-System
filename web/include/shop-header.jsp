@@ -35,7 +35,7 @@
                 <div class="navbar-nav">
                     <a class="nav-link" aria-current="page" href="/OrderingSystem">Home</a>
                     <a class="nav-link" href="/OrderingSystem/restaurant-detail?shopId=${user.getShopID()}">My Restaurant</a>
-                    <a class="nav-link" href="/OrderingSystem/order-manage">Order Manage</a>
+                    <a class="nav-link" href="/OrderingSystem/order-manage">Shop Manage</a>
                     <a class="nav-link" href="/OrderingSystem/blog-manage">Blog Manage</a>
                 </div>
                 <div class="navbar__item">
