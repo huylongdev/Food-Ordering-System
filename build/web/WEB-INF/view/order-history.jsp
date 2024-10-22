@@ -119,7 +119,7 @@
                                                             && order.getOrder().getIsRefund() == 0 }">
                                                     <a href="#" class='cancel-order' onclick="submitRefundOrderForm(${order.getOrder().getOrderId()});">Refund</a>
                                             </c:when>
-                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'DONE' 
+                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'COMPLETED' 
                                                             && order.getOrder().getPaymentOption()=='VNPAY' 
                                                             && order.getOrder().getPaymentStatus() =='PAID' 
                                                             && order.getOrder().getIsRefund() == 0 }">
