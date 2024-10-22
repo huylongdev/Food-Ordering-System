@@ -129,7 +129,7 @@
         <url-pattern>/userBan</url-pattern>
         <url-pattern>/admin-post</url-pattern>
         <url-pattern>/admin-item</url-pattern>
-        <url-pattern>/register-restaurant</url-pattern>
+        <url-pattern>/admin-register-restaurant</url-pattern>
     </filter-mapping>
     
     <servlet>

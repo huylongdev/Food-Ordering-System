@@ -5,6 +5,7 @@
 package controller.authenticate;
 
 import context.AccountDAO;
+import context.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -61,7 +62,7 @@ public class LoginServlet extends HttpServlet {
     private String adminName;
     private String adminPass;
 
-   @Override
+    @Override
     public void init() throws ServletException {
         adminName = getServletConfig().getInitParameter("user");
         adminPass = getServletConfig().getInitParameter("pass");
@@ -83,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 
         if (u.equals(adminName) && p.equals(adminPass)) {
             session.setAttribute("username", u);
-                session.setAttribute("role", "admin");
+            session.setAttribute("role", "admin");
             session.setMaxInactiveInterval(10 * 24 * 60 * 60);
 //            out.println(adminName + adminPass);
             response.sendRedirect("/OrderingSystem/dashboard");
@@ -96,9 +97,15 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("/OrderingSystem");
             }
             if (acc.getRole() == 2) {
-                session.setAttribute("role", "shop");
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem/restaurant-detail?shopId=" + acc.getShopID());
+                ShopDAO sDAO = new ShopDAO();
+                if (sDAO.getShopByID(acc.getShopID()).getStatus() == false) {
+                    request.setAttribute("message", "Your restaurant registration is still pending approval from the admin.");
+                    request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("role", "shop");
+                    session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+                    response.sendRedirect("/OrderingSystem/restaurant-detail?shopId=" + acc.getShopID());
+                }
             }
         } else {
             request.setAttribute("message", "Error name and password");
