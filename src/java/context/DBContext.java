@@ -16,7 +16,7 @@ public class DBContext {
     private String server = "localhost";
     private String user = "sa";
 
-    private String password = "123";
+    private String password = "123456";
 
     private String db = "ordering_system";
     private int port = 1433;
@@ -42,4 +42,18 @@ public class DBContext {
         }
     }
 
+    
+     public static void main(String[] args) {
+        
+        try {
+            
+            DBContext dbConn = new DBContext();
+            Connection conn = dbConn.getConnection();
+            System.out.println("Kết nối thành công!");
+            // Bạn có thể thêm mã để thực hiện các thao tác với cơ sở dữ liệu ở đây.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
