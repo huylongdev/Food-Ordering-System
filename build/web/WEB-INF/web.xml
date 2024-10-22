@@ -52,6 +52,10 @@
         <servlet-name>FavouriteServlet</servlet-name>
         <servlet-class>controller.FavouriteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>controller.FeedbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -96,6 +100,10 @@
         <servlet-name>FavouriteServlet</servlet-name>
         <url-pattern>/favourite</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <url-pattern>/FeedbackServlet</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
@@ -121,7 +129,7 @@
         <url-pattern>/userBan</url-pattern>
         <url-pattern>/admin-post</url-pattern>
         <url-pattern>/admin-item</url-pattern>
-        <url-pattern>/admin-register-restaurant</url-pattern>
+        <url-pattern>/register-restaurant</url-pattern>
     </filter-mapping>
     
     <servlet>

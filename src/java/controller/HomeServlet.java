@@ -7,8 +7,8 @@ package controller;
 import context.CategoryDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
+import context.ShopDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +18,10 @@ import java.util.List;
 import model.Category;
 import model.CategoryDTO;
 import model.Product;
+import model.ProductDTO;
+import model.ProductImage;
+import model.Shop;
+import model.ShopDTO;
 
 /**
  *
@@ -36,20 +40,58 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         CategoryDAO cateDAO = new CategoryDAO();
         List<Category> categories = cateDAO.getAllCategories();
         List<CategoryDTO> cateList = new ArrayList<>();
         ProductDAO pDAO = new ProductDAO();
         ProductImageDAO pid = new ProductImageDAO();
-        for (Category cate : categories){
-            
+        for (Category cate : categories) {
             Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
-            CategoryDTO cateDTO = new CategoryDTO(cate,pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+            CategoryDTO cateDTO = new CategoryDTO(cate, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
             cateList.add(cateDTO);
         }
+
+        ShopDAO shopdao = new ShopDAO();
+        ProductDAO pdao = new ProductDAO();
+        List<Shop> shoplist = shopdao.getAllRestaurants();
+        List<ShopDTO> shopdtolist = new ArrayList<>();
+        for (Shop s : shoplist) {
+            float totalRating = 0;
+            float avgRating = 0;
+            List<Product> plist = pdao.getProductByShopID(s.getShopID());
+            if (!plist.isEmpty()) {
+                int productCount = plist.size();
+                for (Product p : plist) {
+                    totalRating += p.getRating();
+                }
+                avgRating = totalRating / productCount;
+            }
+            if(avgRating >= 0){
+                if(shopdtolist.size() < 6){
+                    shopdtolist.add(new ShopDTO(s.getShopID(),s.getName(),s.getDescription(),s.getStatus(), 
+                        s.getShopImage(), s.getAddress(), s.getTimeOpen(), s.getTimeClose(), avgRating));
+                }
+            }
+        }
+        List<Product> plist = pdao.getAllProducts();
+        List<ProductDTO> pdtolist = new ArrayList<>();
+        ProductImageDAO iDAO = new ProductImageDAO();
+        for(Product p : plist){
+            ProductImage pimg = iDAO.getAvatarProductImageByID(p.getProductId());
+            Shop shop = shopdao.getRestaurantByID(p.getShopId());
+            String cate = pdao.getCategoryNameByID(p.getCategoryId());
+            if(p.getRating() >= 0){
+                if(pdtolist.size() < 6){
+                pdtolist.add(new ProductDTO(pimg.getImgURL(),p.getProductId(),p.getName(),p.getDescription(),
+                p.getPrice(),p.isStatus(),shop.getName(),cate,p.getPurchaseCount(),p.getRating()));
+                }
+            }
+        }
         request.setAttribute("cateList", cateList);
-         request.getRequestDispatcher("WEB-INF/view/home.jsp").forward(request, response);
+        request.setAttribute("pdtolist", pdtolist);
+        request.setAttribute("shopdtolist", shopdtolist);
+        request.getRequestDispatcher("WEB-INF/view/home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +106,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         processRequest(request, response);
     }
 
