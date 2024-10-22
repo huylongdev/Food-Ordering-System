@@ -58,6 +58,7 @@
 
                                 <div class="pt-1 mb-4">
                                     <button class="btn btn-info btn-lg btn-block" type="submit">Register</button>
+                                    <a href = "./register-restaurant"><button class="btn  btn-block" type="button">Restaurant Register</button></a>
                                 </div>
 
                                 <p class="text-danger text-center mt-3">${message}</p>
