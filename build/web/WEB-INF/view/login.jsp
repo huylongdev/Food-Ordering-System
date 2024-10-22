@@ -25,8 +25,9 @@
                 <div class="row">
                     <div class="col-sm-4 text-black">
                         <div class="px-5 ms-xl-4">
-                            <i ></i>
-                            <span class="h1 fw-bold mb-0">FOODIE</span>
+                            <a style="text-decoration: none" href="/OrderingSystem">
+                                <span  class="h1 fw-bold mb-0">FOODIE</span>
+                            </a>
                         </div>
 
                         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
