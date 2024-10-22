@@ -375,9 +375,11 @@ public class AccountDAO {
         return avatarImg;
     }
     
+
     
     public boolean createShopAccount(Account account) {
         String query = "INSERT INTO Users (UserName, Pass, FullName, PhoneNumber, Email, Address, ShopID, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, account.getUserName());
             ps.setString(2, account.getPassword());
@@ -385,14 +387,17 @@ public class AccountDAO {
             ps.setString(4, account.getPhoneNumber());
             ps.setString(5, account.getEmail());
             ps.setString(6, account.getAddress());
+
             ps.setInt(7, account.getShopID());
             ps.setInt(8, account.getRole());
+
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
     
     
     
@@ -428,4 +433,33 @@ public class AccountDAO {
     return shopID;
 }
 
+
+
+    
+    // getShopOwnerByShopID
+    public Account getShopOwnerByShopID(int shopID){
+        Account user = null;
+        String sql = "SELECT * FROM Users WHERE ShopID=?";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, shopID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new Account();
+                user.setUserID(rs.getInt("UserID"));
+                user.setUserName(rs.getString("UserName"));
+                user.setFullName(rs.getString("FullName"));
+                user.setPhoneNumber(rs.getString("PhoneNumber"));
+                user.setEmail(rs.getString("Email"));
+                user.setAddress(rs.getString("Address"));
+                user.setAvtImg(rs.getString("AvtImg"));
+                user.setShopID(rs.getInt("ShopID"));
+                user.setRole(rs.getInt("Role"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error while retrieving user: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return user;
+    }    
+    
 }
