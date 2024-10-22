@@ -7,6 +7,14 @@
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.authenticate.LoginServlet</servlet-class>
+        <init-param>
+            <param-name>user</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <init-param>
+            <param-name>pass</param-name>
+            <param-value>123</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>LoginGoogleServlet</servlet-name>
@@ -101,6 +109,16 @@
         <url-pattern>/cart</url-pattern>
         <url-pattern>/favourite</url-pattern>
         <url-pattern>/refundManage</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>controller.filter.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/userBan</url-pattern>
     </filter-mapping>
     
     <servlet>

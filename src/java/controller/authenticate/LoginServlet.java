@@ -58,6 +58,15 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private String adminName;
+    private String adminPass;
+
+   @Override
+    public void init() throws ServletException {
+        adminName = getServletConfig().getInitParameter("user");
+        adminPass = getServletConfig().getInitParameter("pass");
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,11 +75,19 @@ public class LoginServlet extends HttpServlet {
         String u = request.getParameter("user");
 
         String p = request.getParameter("pass");
-
+//        response.setContentType("text/html;charset=UTF-8");
+//        PrintWriter out = response.getWriter();
+//            out.println(adminName + adminPass);
         HttpSession session = request.getSession();
         Account acc = accountDAO.checkAccountByUserName(u);
-        
-        if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
+
+        if (u.equals(adminName) && p.equals(adminPass)) {
+            session.setAttribute("username", u);
+                session.setAttribute("role", "admin");
+            session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+//            out.println(adminName + adminPass);
+            response.sendRedirect("/OrderingSystem/dashboard");
+        } else if (acc != null && PasswordUtil.checkPassword(p, acc.getPassword())) {
             session.setAttribute("username", u);
             session.setAttribute("user", acc);
             if (acc.getRole() == 1) {
@@ -81,11 +98,12 @@ public class LoginServlet extends HttpServlet {
             if (acc.getRole() == 2) {
                 session.setAttribute("role", "shop");
                 session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                response.sendRedirect("/OrderingSystem/restaurant-detail?shopId="+acc.getShopID());
+                response.sendRedirect("/OrderingSystem/restaurant-detail?shopId=" + acc.getShopID());
             }
         } else {
             request.setAttribute("message", "Error name and password");
             request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+
         }
     }
 
