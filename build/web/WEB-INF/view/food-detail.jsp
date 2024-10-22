@@ -298,7 +298,36 @@
                                                     <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
                                                     <input type="hidden" name="productID" value="${p.getProductId()}">
                                                     <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
+
                                                 </form>
+                                                <button name="action" class="btn btn-update btn-sm" value="update" onclick="showDiv()">Update</button>
+                                                <div id="updateDiv" style="display: none;">
+                                                    <form style="display: inline" action="FeedbackServlet" method="POST">
+                                                        <div class ="update-rate">
+                                                            <label for="rating">Rate:</label>
+                                                            <select name="rating" id="rating">
+                                                                <option value="1">⭐</option>
+                                                                <option value="2">⭐ ⭐</option>
+                                                                <option value="3">⭐ ⭐ ⭐</option>
+                                                                <option value="4">⭐ ⭐ ⭐ ⭐</option>
+                                                                <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class ="update-content">
+                                                            <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
+                                                        </div>
+                                                        <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+                                                        <input type="hidden" name="productID" value="${p.getProductId()}">
+
+                                                        <div>
+
+                                                            <button name="action" class="btn btn-update btn-sm" value="update">Send</button>
+
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+
                                             </div>
                                         </c:if>
 
@@ -342,11 +371,24 @@
         <c:if test="${not empty sessionScope.alert}">
 
             <script>
-        alert("${alert}");
+                alert("${alert}");
             </script>
             <%session.setAttribute("alert", null);%>
         </c:if>
+        <script>
+            function showDiv() {
+                var updateDiv = document.getElementById("updateDiv");
 
+                // Kiểm tra trạng thái hiển thị của div
+                if (updateDiv.style.display === "none") {
+                    updateDiv.style.display = "block"; // Hiển thị div
+                } else {
+                    updateDiv.style.display = "none"; // Ẩn div
+                }
+            }
+
+
+        </script>
         <script src="js/Jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
 
@@ -354,5 +396,5 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-</body>
+    </body>
 </html>
