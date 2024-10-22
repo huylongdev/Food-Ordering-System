@@ -512,6 +512,33 @@ public class ProductDAO {
         }
         return products;
     }
+    
+    // lấy cả product có status bằng 0
+    public List<Product> getAllProductsFromInventory() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM Product";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("ShopID"),
+                        rs.getInt("CategoryID"),
+                        rs.getInt("PurchaseCount"),
+                        rs.getDouble("Rating")
+                );
+                products.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
 
     // Qhuy delete Illegal Product
     public boolean deleteIllegalProduct(int productID) {
@@ -531,5 +558,6 @@ public class ProductDAO {
         }
         return flag;
     }
+    
 
 }

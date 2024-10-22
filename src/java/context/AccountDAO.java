@@ -419,9 +419,5 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return user;
-    }
-
-    
-    
-    
+    }    
 }

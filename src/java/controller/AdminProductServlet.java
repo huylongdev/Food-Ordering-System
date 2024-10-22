@@ -61,8 +61,6 @@ public class AdminProductServlet extends HttpServlet {
             case "deleteIllegalProduct":
                 deleteIllegalProduct(request, response);
                 break;
-            
-
             default:
                 listProducts(request, response);
                 break;
@@ -79,7 +77,7 @@ public class AdminProductServlet extends HttpServlet {
     // list product
     private void listProducts(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> list = productDAO.getAllProducts();
+        List<Product> list = productDAO.getAllProductsFromInventory();
         request.setAttribute("products", list);
         request.getRequestDispatcher("WEB-INF/view/admin-item.jsp").forward(request, response);
     }
