@@ -112,4 +112,17 @@ public class CommentDAO {
         }
         return comments;
     }
+    
+    // Method to delete spam comment
+    public boolean deleteSpamComment(int userID, String content) throws Exception {
+        String sql = " DELETE Comment WHERE UserID= ? AND Content =?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ps.setString(2, content);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
