@@ -128,7 +128,9 @@
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+
                                 </div>
                             </a>
                         </div>
@@ -145,7 +147,9 @@
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+
                                 </div>
                             </a>
                         </div>
@@ -163,7 +167,9 @@
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+
                                 </div>
                             </a>
                         </div>
@@ -179,8 +185,10 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
+
                                      <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+
                                 </div>
                             </a>
                         </div>
@@ -268,4 +276,5 @@
 <script src="js/Jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>
