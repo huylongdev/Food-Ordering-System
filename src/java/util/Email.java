@@ -12,6 +12,7 @@ import jakarta.mail.internet.MimeMessage;
 import model.Account;
 
 public class Email {
+
     private static final String fromEmail = "tientpde180866@fpt.edu.vn";
     private static final String password = "yqve wbss xvde mfns";
 
@@ -52,8 +53,7 @@ public class Email {
             return false;
         }
     }
-    
-    
+
     public static boolean sendEmailResetPassword(String email, String resetLink) {
         String toEmail = email;
 
@@ -75,11 +75,11 @@ public class Email {
             message.setFrom(new InternetAddress(fromEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Reset Your Password");
-            message.setText("Xin chào,\n\n"
-                    + "Chúng tôi nhận được yêu cầu thiết lập lại mật khẩu cho tài khoản Foodie của bạn.\n\n"
-                    + "Nhấn vào đường dẫn sau để thiết lập mật khẩu mới cho tài khoản Foodie của bạn:\n"
+            message.setText("Hello,\n\n"
+                    + "We have received a request to reset the password for your Foodie account.\n\n"
+                    + "Click the following link to set a new password for your Foodie account:\n"
                     + resetLink + "\n\n"
-                    + "Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.");
+                    + "If you did not request a password reset, please ignore this email.");
 
             Transport.send(message);
             return true;
@@ -89,7 +89,6 @@ public class Email {
             return false;
         }
     }
-    
 
     public static boolean sendEmailNotifying(String email, String content) {
 
@@ -116,7 +115,39 @@ public class Email {
             message.setSubject("New Status Of Your Order!");
             message.setText("Dear, \n" + content + "\nThank you for choosing us, and we look forward to serving you again.\nBest regards,\nFoodie Ordering System.");
 
+            Transport.send(message);
+            return true;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean sendEmailNotifyingReward(String email, String content) {
+
+        String toEmail = email;
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.debug", "true");
+
+            Session session = Session.getInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(fromEmail, password);
+                }
+            });
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+
+            message.setSubject("Reward Redemption!");
+            message.setText("Dear, \n" + content + "\nThank you for choosing us, and we look forward to serving you again.\nBest regards,\nFoodie Ordering System.");
 
             Transport.send(message);
             return true;
@@ -126,8 +157,7 @@ public class Email {
             return false;
         }
     }
-    
-    
+
     public static boolean sendEmailToApproveRegisterRestaurant(String ownerName, String email) {
 
         String toEmail = email;
@@ -152,14 +182,13 @@ public class Email {
 
             message.setSubject("Notification of Shop Registration on the Order Platform");
             message.setText("Dear " + ownerName + ",\n\n"
-                + "We are pleased to inform you that your shop registration on our order platform has been successfully approved.\n\n"
-                + "You can now access and manage your shop on Foodie 24/7.\n\n"
-                + "If you have any questions or require further assistance,  please feel free to contact us via email huydqds180257@fpt.edu.vn or support phone number 0795993433.\n\n"
-                + "Thank you for choosing our platform, and we look forward to a successful collaboration.\n\n"
-                + "Best regards,\n"
-                + "Support Team\n"
-                + "Foodie");
-
+                    + "We are pleased to inform you that your shop registration on our order platform has been successfully approved.\n\n"
+                    + "You can now access and manage your shop on Foodie 24/7.\n\n"
+                    + "If you have any questions or require further assistance,  please feel free to contact us via email huydqds180257@fpt.edu.vn or support phone number 0795993433.\n\n"
+                    + "Thank you for choosing our platform, and we look forward to a successful collaboration.\n\n"
+                    + "Best regards,\n"
+                    + "Support Team\n"
+                    + "Foodie");
 
             Transport.send(message);
             return true;
@@ -169,8 +198,7 @@ public class Email {
             return false;
         }
     }
-    
-    
+
     public static boolean sendEmailToRejectRegisterRestaurant(String ownerName, String email, String reason) {
         String toEmail = email;
 
@@ -193,15 +221,13 @@ public class Email {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Notification of Shop Registration on the Order Platform");
             message.setText("Dear " + ownerName + ",\n\n"
-                + "We regret to inform you that your shop registration on our order platform has not been accepted.\n\n"
-                + "Reason for rejection: " + reason + "\n\n"
-                + "You may review your registration information and make the necessary adjustments. If you require further information or assistance, please feel free to contact us via email huydqds180257@fpt.edu.vn or support phone number 0795993433.\n\n"
-                + "We look forward to hearing from you soon and hope for the opportunity to cooperate in the future.\n\n"
-                + "Best regards,\n"
-                + "Support Team\n"
-                + "Foodie");
-
-
+                    + "We regret to inform you that your shop registration on our order platform has not been accepted.\n\n"
+                    + "Reason for rejection: " + reason + "\n\n"
+                    + "You may review your registration information and make the necessary adjustments. If you require further information or assistance, please feel free to contact us via email huydqds180257@fpt.edu.vn or support phone number 0795993433.\n\n"
+                    + "We look forward to hearing from you soon and hope for the opportunity to cooperate in the future.\n\n"
+                    + "Best regards,\n"
+                    + "Support Team\n"
+                    + "Foodie");
 
             Transport.send(message);
             return true;
