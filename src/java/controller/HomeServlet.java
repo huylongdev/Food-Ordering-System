@@ -42,12 +42,12 @@ public class HomeServlet extends HttpServlet {
         List<CategoryDTO> cateList = new ArrayList<>();
         ProductDAO pDAO = new ProductDAO();
         ProductImageDAO pid = new ProductImageDAO();
-//        for (Category cate : categories){
-//            
-//            Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
-//            CategoryDTO cateDTO = new CategoryDTO(cate,pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
-//            cateList.add(cateDTO);
-//        }
+        for (Category cate : categories){
+            
+            Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
+            CategoryDTO cateDTO = new CategoryDTO(cate,pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+            cateList.add(cateDTO);
+        }
         request.setAttribute("cateList", cateList);
          request.getRequestDispatcher("WEB-INF/view/home.jsp").forward(request, response);
     }
