@@ -24,6 +24,7 @@
         ></script>
         <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css" />
         <link rel="stylesheet" href="./assets/css/style.css">
+        <link rel="stylesheet" href="./assets/css/header-footer.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/order-detail.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -68,7 +69,7 @@
                                 <div id="col1" style="width: 30%;" class="a-center order2">
                                     <h2 class="product-name" title="${item.getProduct().getName()}">
                                         <a href="./food-detail?productId=${item.getProduct().getProductId()}">${item.getProduct().getName()}</a>
-                                        
+
                                     </h2>
                                 </div>
                                 <div id="col2" style="width: 21%;">
