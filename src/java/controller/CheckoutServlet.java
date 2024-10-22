@@ -1,6 +1,7 @@
 package controller;
 
 import com.vnpay.common.Config;
+import context.DiscountDAO;
 import context.OrderDAO;
 import context.ProductDAO;
 import jakarta.servlet.ServletException;
@@ -9,11 +10,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 import model.Account;
 import model.CartItem;
 import model.CartItemDTO;
@@ -23,9 +26,7 @@ import model.Product;
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
 public class CheckoutServlet extends HttpServlet {
 
-
-    // Generate a new PaymentID for each request as a String
-    String paymentID = Config.getRandomNumber(8);  // Keep this as String
+    String paymentID = Config.getRandomNumber(8);
 
     public CheckoutServlet() {
         super();
@@ -37,11 +38,11 @@ public class CheckoutServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        DiscountDAO discountDAO = new DiscountDAO();
 
         try {
             HttpSession session = request.getSession(true);
             List<CartItemDTO> cartItems = (List<CartItemDTO>) session.getAttribute("cart");
-
             Account acc = (Account) session.getAttribute("user");
 
             if (acc == null) {
@@ -54,64 +55,60 @@ public class CheckoutServlet extends HttpServlet {
             String deliveryOption = request.getParameter("shipping_method");
             String timePickup = request.getParameter("pickup_time");
             String phone = request.getParameter("phone");
+            String discountCode = request.getParameter("discount_code");
 
             if (cartItems != null && !cartItems.isEmpty()) {
                 OrderDAO orderDAO = new OrderDAO();
                 double totalAmount = 0;
-                List<OrderDTO> allOrders = new ArrayList<>();
 
-                // Grouping cart items by shop
-                Map<Integer, List<CartItemDTO>> groupedCartItems = groupCartItemsByShop(cartItems);
-
-                // Create orders for each shop
-                for (Map.Entry<Integer, List<CartItemDTO>> entry : groupedCartItems.entrySet()) {
-                    List<CartItemDTO> shopCartItems = entry.getValue();
-
-                    String shopOrderID = Config.getRandomNumber(8);  // String
-
-                    List<CartItem> cartItemsForShop = new ArrayList<>();
-                    double shopTotalAmount = 0;
-
-                    for (CartItemDTO itemDTO : shopCartItems) {
-                        Product product = itemDTO.getProduct();
-                        CartItem cartItem = new CartItem(product, itemDTO.getQuantity());
-                        cartItemsForShop.add(cartItem);
-                        shopTotalAmount += product.getPrice() * itemDTO.getQuantity();
-                    }
-
-
-                    OrderDTO shopOrder = orderDAO.createOrder(Integer.parseInt(shopOrderID), 
-                            paymentID,  
-                            acc,
-                            cartItemsForShop,
-                            determinePaymentMethod(payment_method),
-                            address,
-                            "PENDING",
-                            "PENDING",
-                            deliveryOption,
-                            timePickup);
-                    shopOrder.setTotalAmount(shopTotalAmount);
-                    allOrders.add(shopOrder);
-
-                    totalAmount += shopTotalAmount;
+                for (CartItemDTO itemDTO : cartItems) {
+                    Product product = itemDTO.getProduct();
+                    totalAmount += product.getPrice() * itemDTO.getQuantity();
                 }
 
-                if ("cod".equals(payment_method)) {
-                    for (OrderDTO order : allOrders) {
+                Double discountPercentage = discountDAO.getDiscountPercentageByDiscountCode(discountCode);
+                double discountAmount = 0;
 
-                        String paymentID = orderDAO.getPaymentIDByOrderID(order.getOrderId());  
-                        System.out.println("Updating PaymentID: " + paymentID + " to PAID");
-                        orderDAO.updateOrderPaymentStatus(paymentID, "PAID");  
-                    }
+                // Kiểm tra xem discountPercentage có khác null không
+                if (discountPercentage != null && discountPercentage > 0) {
+                    discountAmount = totalAmount * (discountPercentage / 100);
+                    totalAmount -= discountAmount; // Cập nhật tổng tiền sau giảm giá
+                    System.out.println("Applied discount: " + discountPercentage + "%, Amount after discount: " + totalAmount);
+                } else {
+                    System.out.println("No valid discount code applied.");
+                }
+
+                List<CartItem> cartItemsForOrder = new ArrayList<>();
+                for (CartItemDTO itemDTO : cartItems) {
+                    Product product = itemDTO.getProduct();
+                    CartItem cartItem = new CartItem(product, itemDTO.getQuantity());
+                    cartItemsForOrder.add(cartItem);
+                }
+
+                OrderDTO order = orderDAO.createOrder(
+                        Integer.parseInt(Config.getRandomNumber(8)),
+                        paymentID,
+                        acc,
+                        cartItemsForOrder,
+                        determinePaymentMethod(payment_method),
+                        address,
+                        "PENDING",
+                        "PENDING",
+                        deliveryOption,
+                        timePickup,
+                        phone);
+                order.setTotalAmount(totalAmount);
+
+                orderDAO.updateOrderTotalAmount(order.getOrderId(), totalAmount);
+
+                if ("cod".equals(payment_method)) {
+                    System.out.println("Updating PaymentID: " + paymentID + " to PAID");
+                    orderDAO.updateOrderPaymentStatus(paymentID, "PAID");
                     clearCart(session);
                     response.sendRedirect("/OrderingSystem/order-history");
                 } else if ("vnpay".equals(payment_method)) {
-                    if (!allOrders.isEmpty()) {
-                        clearCart(session);
-                        processVNPAY(request, response, allOrders, totalAmount);
-                    } else {
-                        request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
-                    }
+                    clearCart(session);
+                    processVNPAY(request, response, Collections.singletonList(order), totalAmount);
                 }
             } else {
                 response.sendRedirect("/OrderingSystem/");
@@ -120,15 +117,6 @@ public class CheckoutServlet extends HttpServlet {
             e.printStackTrace();
             request.getRequestDispatcher("WEB-INF/view/404.jsp").forward(request, response);
         }
-    }
-
-    private Map<Integer, List<CartItemDTO>> groupCartItemsByShop(List<CartItemDTO> cartItems) {
-        Map<Integer, List<CartItemDTO>> groupedItems = new HashMap<>();
-        for (CartItemDTO item : cartItems) {
-            int shopId = item.getProduct().getShopId();
-            groupedItems.computeIfAbsent(shopId, k -> new ArrayList<>()).add(item);
-        }
-        return groupedItems;
     }
 
     private String determinePaymentMethod(String paymentMethod) {
@@ -147,12 +135,12 @@ public class CheckoutServlet extends HttpServlet {
         session.setAttribute("size", 0);
     }
 
-    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> allOrders, double totalAmount) throws IOException {
+    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> orders, double totalAmount) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = (long) (Math.round(totalAmount) * 100); 
-        String vnp_TxnRef = paymentID;  
+        long amount = (long) (Math.round(totalAmount) * 100);
+        String vnp_TxnRef = paymentID;
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
 
@@ -162,7 +150,7 @@ public class CheckoutServlet extends HttpServlet {
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef); 
+        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang");
         vnp_Params.put("vnp_OrderType", orderType);
 
@@ -217,7 +205,6 @@ public class CheckoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<CartItemDTO> cartDTO = new ArrayList<>();
-
         HttpSession session = request.getSession(true);
         ProductDAO pDAO = new ProductDAO();
         String[] selected = request.getParameterValues("isSelected");
@@ -228,18 +215,31 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
+        Set<Integer> shopIds = new HashSet<>();
+
         for (String productID : selected) {
             try {
                 int id = Integer.parseInt(productID);
                 int quantity = Integer.parseInt(request.getParameter("quantity_" + productID));
 
-                CartItemDTO cDTO = new CartItemDTO();
-                cDTO.setProduct(pDAO.getProductByID(id));
-                cDTO.setQuantity(quantity);
-                cartDTO.add(cDTO);
+                Product product = pDAO.getProductByID(id);
+                if (product != null) {
+                    shopIds.add(product.getShopId());
+
+                    CartItemDTO cDTO = new CartItemDTO();
+                    cDTO.setProduct(product);
+                    cDTO.setQuantity(quantity);
+                    cartDTO.add(cDTO);
+                }
             } catch (NumberFormatException e) {
                 throw new ServletException("Invalid product ID or quantity", e);
             }
+        }
+
+        if (shopIds.size() > 1) {
+            request.setAttribute("cartStatus", "You cannot pay for multiple restaurants at the same time!");
+            request.getRequestDispatcher("/cart").forward(request, response);
+            return;
         }
 
         session.setAttribute("cart", cartDTO);

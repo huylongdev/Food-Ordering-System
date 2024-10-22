@@ -17,6 +17,7 @@ public class OrderDTO {
     private Date timePickup;
     private int discountId;
     private String deliveryStatus;
+    String phone;
 
     public OrderDTO() {
     }
@@ -30,7 +31,7 @@ public class OrderDTO {
         this.paymentOption = paymentOption;
     }
 
-    public OrderDTO(int orderID, Account user, double totalAmount, String paymentOption, String paymentStatus, String deliveryStatus, String address, String createdDateString) {
+    public OrderDTO(int orderID, Account user, double totalAmount, String paymentOption, String paymentStatus, String deliveryStatus, String address, String createdDateString, String phone) {
         this.orderId = orderID;
         this.user = user;
         this.totalAmount = totalAmount;
@@ -39,6 +40,7 @@ public class OrderDTO {
         this.deliveryStatus = deliveryStatus;
         this.address = address;
         this.createdDateString = createdDateString;
+        this.phone = phone;
     }
 
     public OrderDTO(int orderId, Account user, String address, Date createdDate, double totalAmount, String paymentOption, String paymentStatus, String deliveryStatus, String createdDateString, String deliveryOption, Date timePickup, int discountId) {
@@ -56,6 +58,16 @@ public class OrderDTO {
         this.discountId = discountId;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    
+    
     public String getPaymentStatus() {
         return paymentStatus;
     }

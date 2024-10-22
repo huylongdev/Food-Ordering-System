@@ -1,5 +1,5 @@
 <%-- 
-    Document   : restaurant
+    Document   : discount
     Created on : Oct 2, 2024, 2:16:53 PM
     Author     : phuct
 --%>
