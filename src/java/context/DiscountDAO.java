@@ -155,20 +155,16 @@ public class DiscountDAO {
     }
 
     public void updateDiscount(Discount discount) throws Exception {
-        String sql = "UPDATE Discount SET UserID = ?, DiscountCODE = ?, NumberOfDiscount = ?, TotalUse = ?, DiscountPercentage = ?, ShopID = ? WHERE DiscountID = ?";
+        String sql = "UPDATE Discount SET NumberOfDiscount = ?, DiscountPercentage = ? WHERE DiscountID = ?";
         Connection conn = null;
         PreparedStatement ps = null;
 
         try {
             conn = dbContext.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, discount.getUserID());
-            ps.setString(2, discount.getDiscountCODE());
-            ps.setInt(3, discount.getNumberOfDiscount());
-            ps.setInt(4, discount.getTotalUse());
-            ps.setDouble(5, discount.getDiscountPercentage());
-            ps.setInt(6, discount.getDiscountID());
-            ps.setInt(1, discount.getShopID());
+            ps.setInt(1, discount.getNumberOfDiscount());
+            ps.setDouble(2, discount.getDiscountPercentage());
+            ps.setInt(3, discount.getDiscountID()); // Ensure you use the correct discount ID
 
             ps.executeUpdate();
         } catch (SQLException e) {
