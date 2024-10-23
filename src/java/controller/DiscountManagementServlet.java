@@ -171,22 +171,28 @@ public class DiscountManagementServlet extends HttpServlet {
     }
 
     protected void updateDiscount(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        int discountID = Integer.parseInt(request.getParameter("discountID"));
-        String discountCode = request.getParameter("discountCode");
-        int numberOfDiscount = Integer.parseInt(request.getParameter("numberOfDiscount"));
-        double discountPercentage = Double.parseDouble(request.getParameter("discountPercentage"));
+            throws ServletException, IOException {
+        try {
+            int discountID = Integer.parseInt(request.getParameter("discountID")); // Get the discount ID
+            int numberOfDiscount = Integer.parseInt(request.getParameter("numberOfDiscount")); // Get the new number of vouchers
+            double discountPercentage = Double.parseDouble(request.getParameter("discountPercentage")); // Get the new discount percentage
 
-        Discount discount = new Discount();
-        discount.setDiscountID(discountID);
-        discount.setDiscountCODE(discountCode);
-        discount.setNumberOfDiscount(numberOfDiscount);
-        discount.setDiscountPercentage(discountPercentage);
+            Discount discount = new Discount();
+            discount.setDiscountID(discountID);
+            discount.setNumberOfDiscount(numberOfDiscount);
+            discount.setDiscountPercentage(discountPercentage);
 
-        DiscountDAO discountDAO = new DiscountDAO();
-        discountDAO.updateDiscount(discount);
+            DiscountDAO discountDAO = new DiscountDAO();
+            discountDAO.updateDiscount(discount);
 
-        response.sendRedirect("discountManage");
+            response.sendRedirect("discountManage");
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid number format. Please check your input.");
+            request.getRequestDispatcher("discountManage").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("discountManage").forward(request, response);
+        }
     }
 
     protected void deleteDiscount(HttpServletRequest request, HttpServletResponse response)
@@ -207,7 +213,7 @@ public class DiscountManagementServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Error unlocking discount: " + e.getMessage());
-            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/view/errorPage.jsp").forward(request, response);
             return;
         }
 
