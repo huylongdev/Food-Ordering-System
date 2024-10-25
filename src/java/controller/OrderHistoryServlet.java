@@ -115,7 +115,7 @@ public class OrderHistoryServlet extends HttpServlet {
         OrderDAO oDAO = new OrderDAO();
         int orderID = Integer.parseInt(request.getParameter("orderId"));
         try {
-            oDAO.updateOrderPaymentStatusByOrderID(orderID, "CANCEL");
+            oDAO.updateOrderPaymentStatusByOrderID(orderID, "CANCELLED");
             response.sendRedirect("/OrderingSystem/order-history");
         } catch (Exception ex) {
             Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
