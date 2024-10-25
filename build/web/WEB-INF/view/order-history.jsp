@@ -113,7 +113,7 @@
                                             <c:when test="${order.getOrder().getDeliveryStatus() == 'PENDING'}">
                                                 <a href="#" class='cancel-order' onclick="submitCancelOrderForm(${order.getOrder().getOrderId()});">Cancel Order</a>
                                             </c:when>
-                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'CANCEL' 
+                                            <c:when test="${order.getOrder().getDeliveryStatus() == 'CANCELLED' 
                                                             && order.getOrder().getPaymentOption()=='VNPAY' 
                                                             && order.getOrder().getPaymentStatus() =='PAID' 
                                                             && order.getOrder().getIsRefund() == 0 }">

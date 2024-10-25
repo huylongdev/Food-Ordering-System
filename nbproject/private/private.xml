@@ -3,27 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/private/private.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/order-manage.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/AccountDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/Main.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/blog-manage.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/blog.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/PostDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/ant-deploy.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/genfiles.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/refundManage.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/private/private.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/BlogManageServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/AdminPostServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
-
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/order-history.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/util/Email.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/GooglePojo.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/style.css</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/DiscountDAO.java</file>
         </group>
     </open-files>
 </project-private>
