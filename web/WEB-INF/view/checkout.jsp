@@ -50,11 +50,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb_content">
-                            <ul>
-                                <li><a href="/OrderingSystem/">Home</a></li>
-                                <li>/</li>
-                                <li>Checkout</li>
-                            </ul>
+                            <!--                            <ul>
+                                                            <li><a href="/OrderingSystem/">Home</a></li>
+                                                            <li>/</li>
+                                                            <li>Checkout</li>
+                                                        </ul>-->
                         </div>
                     </div>
                 </div>
@@ -99,11 +99,11 @@
                                 <h4>Payment type</h4>
                                 <div class="payment_method">
                                     <div>
-                                        <input type="radio" name="payment_method" id="vnpay" value="vnpay">
+                                        <input type="radio" name="payment_method" id="vnpay" <c:if test="${payment_method == 'vnpay'}">checked</c:if> value="vnpay">
                                         <label for="vnpay">VNPAY</label>
                                     </div>
                                     <div>
-                                        <input type="radio" name="payment_method" id="cod" value="cod">
+                                        <input type="radio" name="payment_method" id="cod" <c:if test="${payment_method == 'cod'}">checked</c:if> value="cod">
                                         <label for="cod">COD</label>
                                     </div>
                                 </div>
@@ -111,11 +111,11 @@
                                     <h4>Pickup method</h4>
                                     <div class="shipping_method">
                                         <div>
-                                            <input type="radio" name="shipping_method" id="home_delivery" value="home_delivery" required>
+                                            <input type="radio" name="shipping_method" id="home_delivery" <c:if test="${deliveryOption == 'home_delivery'}">checked</c:if>  value="home_delivery" required>
                                             <label for="home_delivery">Delivery at home</label>
                                         </div>
                                         <div>
-                                            <input type="radio" name="shipping_method" id="pickup" value="pickup" required>
+                                            <input type="radio" name="shipping_method" id="pickup" <c:if test="${deliveryOption == 'pickup'}">checked</c:if> value="pickup" required>
                                             <label for="pickup">Pick up at store</label>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
 
                                 <div class="col-lg-12 mb-20" id="pickup_time_field" style="display:none;">
                                     <label>Time pick up<span>*</span></label>
-                                    <input name="pickup_time" type="datetime-local" id="pickup_time">
+                                    <input name="pickup_time" type="datetime-local" value="${pickup_time}" id="pickup_time">
                                 </div>
                                 <input type="hidden" name="userID" value="${user.userID}">
 
@@ -146,21 +146,37 @@
                                         <c:forEach var="item" items="${cart}">
                                             <tr>
                                                 <td>${item.product.name}</td>
-                                                <td>${item.product.price}</td>
+                                                <td>
+                                                    <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,###"/>
+                                                </td>
                                                 <td>${item.quantity}</td>
-                                                <td>${item.product.price * item.quantity}</td>
+                                                <td>
+                                                    <fmt:formatNumber value="${item.product.price * item.quantity}" type="number" pattern="#,###"/>
+                                                </td>
                                             </tr>
                                         </c:forEach>
+                                        <tr>
+                                            <td colspan="3">Total</td>
+                                            <td>
+                                                <fmt:formatNumber value="${total}" type="number" pattern="#,###"/>
+                                            </td>
+                                        </tr>
                                         <c:if test="${not empty discountAmount}">
                                             <tr>
                                                 <td colspan="3">Discount</td>
-                                                <td>${discountAmount}</td>
+                                                <td>
+                                                    <fmt:formatNumber value="${discountAmount}" type="number" pattern="#,###"/>
+                                                </td>
                                             </tr>
                                         </c:if>
-                                        <tr>
-                                            <td colspan="3">Total</td>
-                                            <td>${total}</td>
-                                        </tr>
+                                        <c:if test="${not empty totalAfterDiscount}">
+                                            <tr>
+                                                <td colspan="3">Total After Discount</td>
+                                                <td>
+                                                    <fmt:formatNumber value="${totalAfterDiscount}" type="number" pattern="#,###"/>
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                     </tbody>
                                 </table>
 
@@ -169,15 +185,19 @@
                                     <input type="text" id="discount_code" value="${discountCode}" name="discount_code"/>
                                     <input type="hidden" name="userID" value="${user.userID}">
                                     <input type="hidden" name="action" value="applyDiscount">
-                                    <button type="submit" formaction="/OrderingSystem/discountManage" formmethod="POST" class="btn btn-secondary">Apply</button>
+                                    <button style="
+                                            width: 25%;
+                                            padding: 13px;
+                                            " type="submit" formaction="/OrderingSystem/discountManage" formmethod="POST" class="btn btn-secondary">Apply</button>
                                 </div>
 
-                                <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-                                <% if (errorMessage != null) { %>
-                                <div class="alert alert-danger" role="alert">
-                                    <%= errorMessage %>
-                                </div>
-                                <% } %>
+                                <!-- Check for errorMessage and display it if exists -->
+                                <c:if test="${not empty errorMessage}">
+                                    <div class="alert alert-danger mt-3" role="alert">
+                                        ${errorMessage}
+                                    </div>
+                                </c:if>
+
                             </div>
                         </div>
                     </form>
@@ -196,22 +216,13 @@
                 const pickupTimeField = document.getElementById('pickup_time_field');
 
                 pickupRadio.addEventListener('change', function () {
-                    if (this.checked) {
-                        pickupTimeField.style.display = 'block';
-                        document.getElementById('pickup_time').setAttribute('required', 'required');
-                    }
+                    pickupTimeField.style.display = 'block';
                 });
-
                 homeDeliveryRadio.addEventListener('change', function () {
-                    if (this.checked) {
-                        pickupTimeField.style.display = 'none';
-                        document.getElementById('pickup_time').removeAttribute('required');
-                    }
+                    pickupTimeField.style.display = 'none';
                 });
-
             });
         </script>
-
     </body>
 
 </html>

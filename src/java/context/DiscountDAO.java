@@ -135,6 +135,32 @@ public class DiscountDAO {
         }
         return discountPercentage;
     }
+    
+    public int getUserIdByDiscountCode(String DiscountCODE) {
+        int UserID = 0;
+        String sql = "SELECT UserID FROM Discount WHERE DiscountCODE = ? AND Status = 1";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, DiscountCODE); 
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                UserID = rs.getInt("UserID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbContext.closeConnection(conn);
+        }
+        return UserID;
+    }
 
     public void deleteDiscount(int discountID) throws Exception {
         String sql = "UPDATE Discount Set Status=0 WHERE DiscountID = ?";
