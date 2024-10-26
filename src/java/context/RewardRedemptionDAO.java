@@ -67,6 +67,20 @@ public class RewardRedemptionDAO {
         }
     }
 
+    public boolean updatePointsCancelOrder(int userID, int points) {
+        String query = "UPDATE RewardRedemption SET NumberOfPoint = NumberOfPoint - ? WHERE UserID = ? AND NumberOfPoint >= ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, points);
+            ps.setInt(2, userID);
+            ps.setInt(3, points); // Điều kiện để đảm bảo không trừ điểm quá mức
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean isRewardRegistered(int userID) {
         String query = "SELECT COUNT(*) FROM RewardRedemption WHERE UserID = ?";
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {

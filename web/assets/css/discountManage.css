@@ -59,3 +59,10 @@ button.btn.btn-danger.btn-sm:hover {
     border-radius: 17px;
     background-color: white;
 }
+button.btn.btn-success.btn-sm {
+    text-decoration: none;
+    color: white;
+    border: 1px solid #5eae53;
+    border-radius: 17px;
+    background-color: #5eae53;
+}
