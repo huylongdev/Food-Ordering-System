@@ -8,6 +8,7 @@ import context.OrderDAO;
 import context.OrderItemDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
+import context.RewardRedemptionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,27 +29,13 @@ import model.OrderItemHistoryDTO;
 import model.Product;
 import util.Utility;
 
-/**
- *
- * @author LENOVO
- */
 @WebServlet(name = "OrderHistoryServlet", urlPatterns = {"/order-history"})
 public class OrderHistoryServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -61,15 +48,6 @@ public class OrderHistoryServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -109,18 +87,44 @@ public class OrderHistoryServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+ @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrderDAO oDAO = new OrderDAO();
-        int orderID = Integer.parseInt(request.getParameter("orderId"));
         try {
-            oDAO.updateOrderPaymentStatusByOrderID(orderID, "CANCELLED");
-            response.sendRedirect("/OrderingSystem/order-history");
+            OrderDAO oDAO = new OrderDAO();
+            RewardRedemptionDAO rwDAO = new RewardRedemptionDAO();
+            
+            int orderID = Integer.parseInt(request.getParameter("orderId"));
+            int userId = oDAO.getUserIDByOrderID(orderID);
+            int totalAmount = oDAO.getTotalByOrderID(orderID);
+            int pointRefund = totalAmount / 1000;
+            
+            // Kiểm tra số điểm hiện có
+            int currentPoints = rwDAO.getPointsByUserID(userId);
+            if (currentPoints < pointRefund) {
+                request.setAttribute("errorMessage", "Not enough points to refund");
+                response.sendRedirect("/OrderingSystem/order-history"); // Quay lại trang order-history với thông báo lỗi
+                return;
+            }
+            
+            try {
+                boolean isUpdated = rwDAO.updatePointsCancelOrder(userId, pointRefund);
+                if (!isUpdated) {
+                    Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, "Failed to update points for user ID: " + userId);
+                    throw new Exception("Failed to update points");
+                }
+                
+                oDAO.updateOrderPaymentStatusByOrderID(orderID, "CANCELLED");
+                response.sendRedirect("/OrderingSystem/order-history");
+            } catch (Exception ex) {
+                Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/OrderingSystem");
+            }
         } catch (Exception ex) {
             Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     /**
      * Returns a short description of the servlet.
