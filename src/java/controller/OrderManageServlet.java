@@ -5,9 +5,6 @@
 package controller;
 
 import context.OrderDAO;
-import context.OrderItemDAO;
-import context.ProductDAO;
-import context.ProductImageDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Order;
-import model.OrderHistoryDTO;
-import model.OrderItem;
-import model.OrderItemHistoryDTO;
-import model.Product;
-import util.Utility;
 
 /**
  *

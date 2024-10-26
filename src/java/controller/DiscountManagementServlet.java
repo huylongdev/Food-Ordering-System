@@ -102,24 +102,52 @@ public class DiscountManagementServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         int userID = Integer.parseInt(request.getParameter("userID"));
+        String payment_method = request.getParameter("payment_method");
+        String deliveryOption = request.getParameter("shipping_method");
+        String timePickup = request.getParameter("pickup_time");
         Account account = accountDAO.getUserById(userID);
 
         Double discountPercentage = discountDAO.getDiscountPercentageByDiscountCode(discountCode);
 
         if (discountPercentage == null) {
             request.setAttribute("errorMessage", "The discount code is invalid or has expired.");
+            request.setAttribute("address", address);
+            request.setAttribute("phone", phone);
+            session.setAttribute("timePickup", timePickup);
+            session.setAttribute("payment_method", payment_method);
+            session.setAttribute("deliveryOption", deliveryOption);
             request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
             return;
         }
 
+        int discountOwnerUserID = discountDAO.getUserIdByDiscountCode(discountCode);
+        int discountShopID = accountDAO.getShopIDByUserID(discountOwnerUserID);
+
         List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
 
-        double total = 0;
         for (CartItemDTO item : cart) {
-            total += item.getProduct().getPrice() * item.getQuantity();
+            int productShopID = item.getProduct().getShopId();
+            if (productShopID != discountShopID) {
+                request.setAttribute("errorMessage", "The discount code is only applicable to products from the same shop.");
+                request.setAttribute("address", address);
+                request.setAttribute("phone", phone);
+                session.setAttribute("timePickup", timePickup);
+                session.setAttribute("payment_method", payment_method);
+                session.setAttribute("deliveryOption", deliveryOption);
+                request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
+                return;
+            }
         }
 
-        double discountAmount = total * (discountPercentage / 100);
+        double total = 0;
+        double discountAmount = 0;
+
+        for (CartItemDTO item : cart) {
+            double itemTotal = item.getProduct().getPrice() * item.getQuantity();
+            total += itemTotal;
+            discountAmount += itemTotal * (discountPercentage / 100);
+        }
+
         double totalAfterDiscount = total - discountAmount;
 
         try {
@@ -136,13 +164,17 @@ public class DiscountManagementServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        request.setAttribute("total", totalAfterDiscount);
+        request.setAttribute("totalAfterDiscount", totalAfterDiscount);
+        request.setAttribute("total", total);
         request.setAttribute("address", address);
         request.setAttribute("phone", phone);
         request.setAttribute("discountCode", discountCode);
         request.setAttribute("discountAmount", discountAmount);
         request.setAttribute("cart", cart);
         session.setAttribute("user", account);
+        session.setAttribute("payment_method", payment_method);
+        session.setAttribute("deliveryOption", deliveryOption);
+        session.setAttribute("timePickup", timePickup);
 
         request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
     }
