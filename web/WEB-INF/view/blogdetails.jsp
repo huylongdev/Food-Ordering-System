@@ -173,7 +173,7 @@
                             </div>
                             <c:if test="${user.userID == comment.userID}">
                                 <div class="comment-options-dropdown">
-                                    <i class="ti-more-alt comment-options-icon" id="comment-options" style="cursor: pointer;"></i>
+                                    <i class="ti-more comment-options-icon" id="comment-options" style="cursor: pointer;"></i>
                                     <div class="comment-options-menu dropdown-menu" id="comment-options-menu" style="display:none;">
                                         <a class="edit-comment-option"><i class="ti-pencil"> Edit</i></a>
                                         <a class="delete-comment-option" onclick="confirmDeleteComment()"><i class="ti-trash"> Delete</i></a>

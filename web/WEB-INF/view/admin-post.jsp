@@ -11,15 +11,13 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Dashboard Demo</title>
-        <title>
-            Dashboard  </title>
+        <title>Post Management</title>
         <!--     Fonts and icons     -->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
         <!-- Nucleo Icons -->
         <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
         <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
+        <!-- Font Awesome Icons --> 
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
         <!-- Material Icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -48,7 +46,7 @@
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                        <a class="nav-link text-white " href="\OrderingSystem\dashboard">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -92,7 +90,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="admin-post?action=listPosts">
+                        <a class="nav-link text-white active bg-gradient-primary" href="admin-post?action=listPosts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">article</i>
                             </div>

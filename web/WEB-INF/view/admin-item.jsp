@@ -12,7 +12,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
-            Dashboard  </title>
+            Product Management  </title>
         <!--     Fonts and icons     -->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
         <!-- Nucleo Icons -->
@@ -52,7 +52,7 @@
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                        <a class="nav-link text-white " href="\OrderingSystem\dashboard">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -87,7 +87,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="admin-item?action=listProducts">
+                        <a class="nav-link text-white active bg-gradient-primary " href="admin-item?action=listProducts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">inventory</i>
                             </div>
