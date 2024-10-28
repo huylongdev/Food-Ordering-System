@@ -92,9 +92,14 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("username", u);
             session.setAttribute("user", acc);
             if (acc.getRole() == 1) {
+                if (acc.isStatus() == false) {
+                    request.setAttribute("message", "Your account has been temporarily banned by the admin. For more information, please contact support at hotline 0999-xxx-xxx");
+                    request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+                } else {
                 session.setAttribute("role", "customer");
                 session.setMaxInactiveInterval(10 * 24 * 60 * 60);
                 response.sendRedirect("/OrderingSystem");
+                }
             }
             if (acc.getRole() == 2) {
                 ShopDAO sDAO = new ShopDAO();
