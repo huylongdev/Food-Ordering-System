@@ -8,16 +8,13 @@ package context;
  *
  * @author phuct
  */
-import context.DBContext;
 import model.OrderDTO;
 import model.OrderItemDTO;
-import model.OrderItem;
 import model.Account;
 import model.CartItem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -441,6 +438,40 @@ public class OrderDAO {
         }
         System.out.println("No order found with the specified OrderID");
         return null;
+    }
+
+    public int getUserIDByOrderID(int orderId) {
+        int UserId = 0;
+        String query = "SELECT UserID FROM [Order] WHERE OrderID = ?";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                UserId = rs.getInt("UserID");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("No order found with the specified OrderID");
+        return UserId;
+    }
+    
+    public int getTotalByOrderID(int orderId) {
+        int TotalAmount = 0;
+        String query = "SELECT TotalAmount FROM [Order] WHERE OrderID = ?";
+        try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TotalAmount = rs.getInt("TotalAmount");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("No order found with the specified OrderID");
+        return TotalAmount;
     }
 
     public boolean updateOrderStatus(int orderId, String status) {

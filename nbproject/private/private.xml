@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/account.css</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
@@ -34,6 +35,20 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/home.jsp</file>
+=======
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/order-history.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/RefundServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/HomeServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/util/Email.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/CheckoutServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/GooglePojo.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/web/assets/css/style.css</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/controller/PaymentStatusServlet.java</file>
+            <file>file:/D:/LEARN/Food-Ordering-System/src/java/context/DiscountDAO.java</file>
+>>>>>>> 74d2114ec16df11d071c17db0a3a4de45530c8db
         </group>
     </open-files>
 </project-private>
