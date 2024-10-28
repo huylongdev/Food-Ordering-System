@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber">Phone Number</label>
-                        <input type="text" id="phoneNumber" name="phoneNumber" value="${user.getPhoneNumber()}">
+                        <input type="number" id="phoneNumber" name="phoneNumber" value="${user.getPhoneNumber()}">
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>

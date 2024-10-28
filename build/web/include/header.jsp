@@ -50,7 +50,7 @@
                                     <c:choose>
                                         <c:when test="${user != null}">
                                             <div class="user-dropdown">
-                                                <a style="text-decoration: none" href="/OrderingSystem/account">
+                                                <a class ="d-flex" style="text-decoration: none" href="/OrderingSystem/account">
                                                     <img
                                                         id="user-avatar"
                                                         class="img-responsive img-circle"
