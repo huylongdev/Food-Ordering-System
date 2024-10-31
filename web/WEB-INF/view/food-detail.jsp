@@ -301,22 +301,26 @@
 
                                                 </form>
                                                 <button name="action" class="btn btn-update btn-sm" value="update" onclick="showDiv()">Update</button>
-                                                <div id="updateDiv" style="display: none;">
-                                                    <form style="display: inline" action="FeedbackServlet" method="POST">
-                                                        <div class ="update-rate">
-                                                            <label for="rating">Rate:</label>
-                                                            <select name="rating" id="rating">
-                                                                <option value="1">⭐</option>
-                                                                <option value="2">⭐ ⭐</option>
-                                                                <option value="3">⭐ ⭐ ⭐</option>
-                                                                <option value="4">⭐ ⭐ ⭐ ⭐</option>
-                                                                <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class ="update-content">
-                                                            <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
-                                                        </div>
-                                                        <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+
+                                                
+                                                
+                                                
+                                                    <div id="updateDiv" style="display: none;">
+                                                        <form style="display: inline" action="FeedbackServlet" method="POST">
+                                                            <div class ="update-rate">
+                                                                <label for="rating">Rate:</label>
+                                                                <select name="rating" id="rating">
+                                                                    <option value="1">⭐</option>
+                                                                    <option value="2">⭐ ⭐</option>
+                                                                    <option value="3">⭐ ⭐ ⭐</option>
+                                                                    <option value="4">⭐ ⭐ ⭐ ⭐</option>
+                                                                    <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class ="update-content">
+                                                                <input type = "text" name = "comment" placeholder="Enter content..." style="margin-top: 20px; max-width: 1000px; width:100%; height: 100px">
+                                                            </div>
+                                                            <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
                                                         <input type="hidden" name="productID" value="${p.getProductId()}">
 
                                                         <div>
@@ -331,6 +335,14 @@
                                             </div>
                                         </c:if>
 
+                                        <!-- Admin delete feedback-->
+                                                <c:if test="${sessionScope.role == 'admin'}">
+                                                    <form style="display: inline" action="FeedbackServlet" method="POST">
+                                                    <input type="hidden" name="feebackID" value="${feedback.feedbackId}">
+                                                    <input type="hidden" name="productID" value="${p.getProductId()}">
+                                                    <button name="action" class="btn btn-danger btn-sm" value="delete">Delete</button>
+                                                </form>
+                                                </c:if>
                                     </div>
                                 </div> <!-- Comment Row -->
                             </c:forEach>

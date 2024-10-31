@@ -14,7 +14,7 @@ import java.sql.Connection;
 public class DBContext {
 
 
-    private String server = "Admin-PC";
+    private String server = "localhost";
     private String user = "sa";
 
     private String password = "123456";
