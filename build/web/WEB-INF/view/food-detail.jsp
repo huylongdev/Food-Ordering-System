@@ -235,7 +235,7 @@
                     <h4>REVIEW</h4>
                 </div>
                 <form action="FeedbackServlet" method="POST">
-                    <c:if test="${sessionScope.role != null}">
+                    <c:if test="${sessionScope.role == 'customer' && valid != null}">
                         <input type = "hidden" name ="productID" value = "${p.getProductId()}">
                         <input type = "hidden" name ="action" value = "add">
                         <div class ="rate-product">

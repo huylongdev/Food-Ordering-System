@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author LENOVO
  */
-public class AccessFilter implements Filter {
+public class ShopFilter implements Filter {
     
     private static final boolean debug = true;
 
@@ -31,13 +31,13 @@ public class AccessFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public AccessFilter() {
+    public ShopFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AccessFilter:DoBeforeProcessing");
+            log("ShopFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -65,7 +65,7 @@ public class AccessFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AccessFilter:DoAfterProcessing");
+            log("ShopFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -96,7 +96,6 @@ public class AccessFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
@@ -104,7 +103,7 @@ public class AccessFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
 
-        if (session != null && session.getAttribute("role") == "customer" ) {
+        if (session != null && session.getAttribute("role") == "shop" ) {
             
             chain.doFilter(request, response);
 
@@ -112,7 +111,6 @@ public class AccessFilter implements Filter {
            httpResponse.sendRedirect("login");
         }
     }
-
 
     /**
      * Return the filter configuration object for this filter.
@@ -143,7 +141,7 @@ public class AccessFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("AccessFilter:Initializing filter");
+                log("ShopFilter:Initializing filter");
             }
         }
     }
@@ -154,9 +152,9 @@ public class AccessFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AccessFilter()");
+            return ("ShopFilter()");
         }
-        StringBuffer sb = new StringBuffer("AccessFilter(");
+        StringBuffer sb = new StringBuffer("ShopFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

@@ -7,6 +7,8 @@ package controller;
 import context.AccountDAO;
 import context.FavouriteDAO;
 import context.FeedbackDAO;
+import context.OrderDAO;
+import context.OrderItemDAO;
 import context.ProductDAO;
 import context.ProductImageDAO;
 import context.ShopDAO;
@@ -23,6 +25,8 @@ import model.Account;
 import model.Favourite;
 import model.Feedback;
 import model.FeedbackDTO;
+import model.Order;
+import model.OrderItem;
 import model.Product;
 import model.ProductImage;
 import model.Shop;
@@ -97,6 +101,10 @@ public class FoodDetailServlet extends HttpServlet {
                 Account a = adao.getUserById(f.getUserId());
                 flistdto.add(new FeedbackDTO(f.getFeedbackId(),f.getProductId(),f.getRating(),f.getComment(),a.getFullName(),f.getCreatedDate(),f.getUserId()));
             }
+            
+            if ( user != null && isProductWasOrderedByCustomer(user, id)){
+                request.setAttribute("valid", "validComment");
+            }
                 
             request.setAttribute("shop", shop);
             request.setAttribute("flist", flistdto);
@@ -119,6 +127,22 @@ public class FoodDetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
+    }
+    
+    protected boolean isProductWasOrderedByCustomer(Account user, int productId ){
+        OrderDAO oDAO = new OrderDAO();
+        OrderItemDAO oiDAO = new OrderItemDAO();
+        List<Order> orderedList = oDAO.getOrderListByUserID(user.getUserID());
+        for(Order o : orderedList) {
+            List<OrderItem> oiList = oiDAO.getOrderItemByOrderID(o.getOrderId());
+            for (OrderItem oi : oiList){
+                if(productId == oi.getProductId()){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     /**

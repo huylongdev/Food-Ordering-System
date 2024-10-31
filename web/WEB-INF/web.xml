@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <filter-mapping>
+        <filter-name>ShopFilter</filter-name>
+        <url-pattern>/order-manage</url-pattern>
+        <url-pattern>/refundManage</url-pattern>
+        <url-pattern>/discountManage</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/account</url-pattern>
+        <url-pattern>/cart</url-pattern>
+        <url-pattern>/favourite</url-pattern>
+        <url-pattern>/order-history</url-pattern>
+        <url-pattern>/reward</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/userBan</url-pattern>
+        <url-pattern>/admin-post</url-pattern>
+        <url-pattern>/admin-item</url-pattern>
+        <url-pattern>/admin-register-restaurant</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -111,50 +133,31 @@
         <filter-name>AccessFilter</filter-name>
         <filter-class>controller.filter.AccessFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>AccessFilter</filter-name>
-        <url-pattern>/account</url-pattern>
-        <url-pattern>/cart</url-pattern>
-        <url-pattern>/favourite</url-pattern>
-        <url-pattern>/refundManage</url-pattern>
-    </filter-mapping>
-    
+    <filter>
+        <filter-name>ShopFilter</filter-name>
+        <filter-class>controller.filter.ShopFilter</filter-class>
+    </filter>
     <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>controller.filter.AdminFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/dashboard</url-pattern>
-        <url-pattern>/userBan</url-pattern>
-        <url-pattern>/admin-post</url-pattern>
-        <url-pattern>/admin-item</url-pattern>
-        <url-pattern>/admin-register-restaurant</url-pattern>
-    </filter-mapping>
-    
     <servlet>
         <servlet-name>DiscountServlet</servlet-name>
         <servlet-class>controller.DiscountServlet</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>DiscountServlet</servlet-name>
         <url-pattern>/discount</url-pattern>
     </servlet-mapping>
-    
-    
-    
     <servlet>
         <servlet-name>UserBanServlet</servlet-name>
         <servlet-class>UserBanServlet</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>UserBanServlet</servlet-name>
         <url-pattern>/userBan</url-pattern>
     </servlet-mapping>
-    
-<!--    <error-page>
+    <!--    <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/view/error.jsp</location>
     </error-page>-->
