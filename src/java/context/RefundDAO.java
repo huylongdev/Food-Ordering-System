@@ -28,13 +28,14 @@ public class RefundDAO {
     }
 
     public boolean addRefund(Refund refund) throws Exception {
-        String sql = "INSERT INTO Refund (OrderId, RefundReason, RefundAmount, RefundStatus) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Refund (OrderId, RefundReason, RefundAmount, RefundStatus, RefundOption) VALUES (?, ?, ?, ?. ?)";
 
         try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setInt(1, refund.getOrderId());
             statement.setString(2, refund.getRefundReason());
             statement.setBigDecimal(3, refund.getRefundAmount());
             statement.setString(4, refund.getRefundStatus());
+            statement.setInt(1, refund.getRefundOption());
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -54,6 +55,25 @@ public class RefundDAO {
                     return rs.getInt("OrderId");
                 } else {
                     throw new Exception("Refund not found for the given RefundId");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error while fetching OrderId by RefundId");
+        }
+    }
+
+    public int getrefundOptionByRefundId(int refundId) throws Exception {
+        String sql = "SELECT RefundOption FROM Refund WHERE RefundId = ?";
+
+        try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, refundId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("RefundOption");
+                } else {
+                    throw new Exception("Refund not found for the given RefundOption");
                 }
             }
         } catch (SQLException e) {
@@ -113,7 +133,7 @@ public class RefundDAO {
     }
 
     public boolean addRefundRequest(Refund refund) throws Exception {
-        String sql = "INSERT INTO Refund (OrderId, RefundReason, RefundAmount, RefundStatus, RefundReasonImg) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Refund (OrderId, RefundReason, RefundAmount, RefundStatus, RefundReasonImg, RefundOption) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setInt(1, refund.getOrderId());
@@ -121,7 +141,8 @@ public class RefundDAO {
             statement.setBigDecimal(3, refund.getRefundAmount());
             statement.setString(4, refund.getRefundStatus());
             statement.setString(5, refund.getRefundReasonImg());
-
+            statement.setInt(6, refund.getRefundOption());
+            
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,7 +160,7 @@ public class RefundDAO {
                 + "JOIN [Order] o ON r.OrderId = o.OrderID "
                 + "JOIN OrderItem oi ON o.OrderID = oi.OrderID "
                 + "JOIN Product p ON oi.ProductID = p.ProductID "
-                + "WHERE p.ShopID = ? "
+                + "WHERE p.ShopID = ?"
                 + "  AND r.RefundStatus = ? "
                 + "  AND o.DeliveryStatus = 'COMPLETED' "
                 + "  AND o.PaymentStatus LIKE 'PAID' "
@@ -158,7 +179,50 @@ public class RefundDAO {
                         resultSet.getBigDecimal("RefundAmount"),
                         resultSet.getString("RefundStatus"),
                         resultSet.getString("RefundReasonImg"),
-                        resultSet.getDate("created_at")
+                        resultSet.getDate("created_at"),
+                        resultSet.getInt("RefundOption")
+                );
+                refunds.add(refund);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return refunds;
+    }
+
+    public List<Refund> getRefundsByShopIdAndStatusAndOption(int shopId, String refundStatus, int refundOption) throws SQLException, Exception {
+        List<Refund> refunds = new ArrayList<>();
+        String sql = "SELECT r.*, "
+                + "       o.DeliveryStatus, "
+                + "       o.PaymentStatus, "
+                + "       o.isRefund "
+                + "FROM Refund r "
+                + "JOIN [Order] o ON r.OrderId = o.OrderID "
+                + "JOIN OrderItem oi ON o.OrderID = oi.OrderID "
+                + "JOIN Product p ON oi.ProductID = p.ProductID "
+                + "WHERE p.ShopID = ? and r.RefundOption= ?"
+                + "  AND r.RefundStatus = ? "
+                + "  AND o.DeliveryStatus = 'COMPLETED' "
+                + "  AND o.PaymentStatus LIKE 'PAID' "
+                + "ORDER BY o.CreatedDate DESC;";
+
+        try (Connection con = connection.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, shopId);
+            statement.setString(3, refundStatus);
+            statement.setInt(2, refundOption);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Refund refund = new Refund(
+                        resultSet.getInt("RefundID"),
+                        resultSet.getInt("OrderId"),
+                        resultSet.getString("RefundReason"),
+                        resultSet.getBigDecimal("RefundAmount"),
+                        resultSet.getString("RefundStatus"),
+                        resultSet.getString("RefundReasonImg"),
+                        resultSet.getDate("created_at"),
+                        resultSet.getInt("RefundOption")
                 );
                 refunds.add(refund);
             }
@@ -185,7 +249,8 @@ public class RefundDAO {
                             resultSet.getBigDecimal("RefundAmount"),
                             resultSet.getString("RefundStatus"),
                             resultSet.getString("RefundReasonImg"),
-                            resultSet.getTimestamp("created_at")
+                            resultSet.getTimestamp("created_at"),
+                            resultSet.getInt("RefundOption")
                     );
                 }
             }

@@ -20,6 +20,7 @@ public class Refund {
     private String refundStatus;
     private Date createdAt;
     private String refundReasonImg;
+    private int RefundOption;
 
     public Refund() {
     }
@@ -40,15 +41,16 @@ public class Refund {
         this.refundStatus = refundStatus;
     }
 
-    public Refund(int orderId, String refundReason, BigDecimal refundAmount, String refundStatus, String refundReasonImg) {
+    public Refund(int orderId, String refundReason, BigDecimal refundAmount, String refundStatus, String refundReasonImg, int RefundOption) {
         this.orderId = orderId;
         this.refundReason = refundReason;
         this.refundAmount = refundAmount;
         this.refundStatus = refundStatus;
         this.refundReasonImg = refundReasonImg;
+        this.RefundOption = RefundOption;
     }
 
-    public Refund(int refundId, int orderId, String refundReason, BigDecimal refundAmount, String refundStatus, String refundReasonImg, Date createdAt) {
+    public Refund(int refundId, int orderId, String refundReason, BigDecimal refundAmount, String refundStatus, String refundReasonImg, Date createdAt, int RefundOption) {
         this.refundId = refundId;
         this.orderId = orderId;
         this.refundReason = refundReason;
@@ -56,6 +58,15 @@ public class Refund {
         this.refundStatus = refundStatus;
         this.refundReasonImg = refundReasonImg;
         this.createdAt = createdAt;
+        this.RefundOption = RefundOption;
+    }
+
+    public int getRefundOption() {
+        return RefundOption;
+    }
+
+    public void setRefundOption(int RefundOption) {
+        this.RefundOption = RefundOption;
     }
 
     public String getRefundReasonImg() {

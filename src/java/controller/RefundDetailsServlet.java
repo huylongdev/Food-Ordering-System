@@ -75,14 +75,43 @@ public class RefundDetailsServlet extends HttpServlet {
         OrderDAO orderDAO = new OrderDAO();
         VNPayBillDAO vnpayBillDAO = new VNPayBillDAO();
 
+        if (refundIDParam == null || refundIDParam.isEmpty()) {
+            request.setAttribute("error", "Refund ID is missing.");
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+            return;
+        }
+
         try {
+            int refundOption = refundDAO.getrefundOptionByRefundId(Integer.parseInt(refundIDParam));
+
+            if (refundOption == 1) {
+                Refund refundInfo = refundDAO.getRefundById(Integer.parseInt(refundIDParam));
+                int orderID = refundDAO.getOrderIdByRefundId(Integer.parseInt(refundIDParam));
+                double totalAmount = orderDAO.getTotalByOrderID(orderID);
+                request.setAttribute("totalAmount", totalAmount);
+
+                request.setAttribute("refundInfo", refundInfo);
+                request.getRequestDispatcher("WEB-INF/view/refundDetailPoint.jsp").forward(request, response);
+                return;
+            }
+
             int orderID = refundDAO.getOrderIdByRefundId(Integer.parseInt(refundIDParam));
-
             String paymentID = orderDAO.getPaymentIDByOrderID(orderID);
-
             VNPay_Bill vnpayBill = vnpayBillDAO.getBill(paymentID);
 
+            if (vnpayBill == null) {
+                request.setAttribute("error", "No VNPay bill found for the given payment ID.");
+                request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+                return;
+            }
+
             Refund refundInfo = refundDAO.getRefundById(Integer.parseInt(refundIDParam));
+
+            if (refundInfo == null) {
+                request.setAttribute("error", "No refund information found for the given refund ID.");
+                request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+                return;
+            }
 
             DecimalFormat formatter = new DecimalFormat("#,###,###,###");
             String formattedAmount = formatter.format(vnpayBill.getVnpAmount());
@@ -91,11 +120,18 @@ public class RefundDetailsServlet extends HttpServlet {
             request.setAttribute("vnpayBill", vnpayBill);
             request.setAttribute("formattedAmount", formattedAmount);
 
+            request.getRequestDispatcher("WEB-INF/view/refundDetails.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            Logger.getLogger(RefundDetailsServlet.class.getName()).log(Level.SEVERE, "Invalid refund ID format.", e);
+            request.setAttribute("error", "Invalid refund ID format.");
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(RefundDetailsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "An error occurred while processing your request.");
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("WEB-INF/view/refundDetails.jsp").forward(request, response);
     }
 
     /**
