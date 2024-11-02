@@ -57,11 +57,13 @@ public class RefundManagementServlet extends HttpServlet {
             Account u = (Account) session.getAttribute("user");
 
             RefundDAO refundDAO = new RefundDAO();
-            List<Refund> requestList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "PENDING");
+            List<Refund> requestListPointOption = refundDAO.getRefundsByShopIdAndStatusAndOption(u.getShopID(), "PENDING", 1);
+            List<Refund> requestListVNPayOption = refundDAO.getRefundsByShopIdAndStatusAndOption(u.getShopID(), "PENDING", 2);
             List<Refund> approvedList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "APPROVED");
             List<Refund> rejectedList = refundDAO.getRefundsByShopIdAndStatus(u.getShopID(), "REJECTED");
 
-            request.setAttribute("requestList", requestList);
+            request.setAttribute("requestListPointOption", requestListPointOption);
+            request.setAttribute("requestListVNPayOption", requestListVNPayOption);
             request.setAttribute("approvedList", approvedList);
             request.setAttribute("rejectedList", rejectedList);
 
