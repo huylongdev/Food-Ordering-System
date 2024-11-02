@@ -1,6 +1,7 @@
 package controller;
 
 import com.vnpay.common.Config;
+import context.CartDAO;
 import context.DiscountDAO;
 import context.OrderDAO;
 import context.ProductDAO;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -115,10 +117,10 @@ public class CheckoutServlet extends HttpServlet {
                 if ("cod".equals(payment_method)) {
                     System.out.println("Updating PaymentID: " + paymentID + " to PAID");
                     orderDAO.updateOrderPaymentStatus(paymentID, "PAID");
-                    clearCart(session);
+                    clearCart(userIdInt, cartItemsForOrder);
                     response.sendRedirect("/OrderingSystem/order-history");
                 } else if ("vnpay".equals(payment_method)) {
-                    clearCart(session);
+                    clearCart(userIdInt, cartItemsForOrder);
                     processVNPAY(request, response, Collections.singletonList(order), totalAmount);
                 }
             } else {
@@ -141,9 +143,11 @@ public class CheckoutServlet extends HttpServlet {
         }
     }
 
-    private void clearCart(HttpSession session) {
-        session.removeAttribute("cart");
-        session.setAttribute("size", 0);
+    private void clearCart(int userID, List<CartItem> cartItemsForOrder) {
+        CartDAO cartDAO = new CartDAO();
+        for (CartItem c : cartItemsForOrder){
+            cartDAO.deleteCartProduct(c.getProduct().getProductId(), userID);
+        }
     }
 
     private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> orders, double totalAmount) throws IOException {
