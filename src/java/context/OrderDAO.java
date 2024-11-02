@@ -23,6 +23,8 @@ import model.Product;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDAO {
 
@@ -604,5 +606,70 @@ public class OrderDAO {
 
         return deliveryStatus;
     }
+    
+    // Admin function - getRevenue
+    public double getRevenue(){
+        double revenue = 0;
+        String sql = "SELECT SUM(TotalAmount) AS Revenue FROM [Order] WHERE DeliveryStatus = 'COMPLETED'";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                revenue = rs.getDouble("Revenue");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return revenue;
+    }
+    
+    
+    // Admin function - Statistics Chart
+    public Map<String,Object> getOrderData() {
+    Map<String, Object> data = new HashMap<>();
+    List<Integer> orderCounts = new ArrayList<>();
+    List<Double> revenues = new ArrayList<>();
+    List<String> monthYears = new ArrayList<>();
 
+    String sql = "SELECT YEAR(CreatedDate) AS Year, MONTH(CreatedDate) AS Month, COUNT(OrderID) AS OrderCount, SUM(TotalAmount) AS TotalRevenue " +
+                 "FROM [ordering_system].[dbo].[Order] " +
+                 "WHERE DeliveryStatus = 'COMPLETED' AND isRefund = 0 " +
+                 "GROUP BY YEAR(CreatedDate), MONTH(CreatedDate) " +
+                 "ORDER BY Year ASC, Month ASC";
+
+    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        ResultSet resultSet = ps.executeQuery();
+
+        // Thêm kết quả truy vấn vào các danh sách
+        while (resultSet.next()) {
+            int year = resultSet.getInt("Year");
+            int month = resultSet.getInt("Month");
+            int orderCount = resultSet.getInt("OrderCount");
+            double totalRevenue = resultSet.getDouble("TotalRevenue");
+
+            // Tạo định dạng Month-Year để dễ hiển thị
+            monthYears.add(month + "/" + year);
+            orderCounts.add(orderCount);
+            revenues.add(totalRevenue);
+        }
+
+        resultSet.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    data.put("months", monthYears);
+    data.put("orderCounts", orderCounts);
+    data.put("revenues", revenues);
+    return data;
+}
+
+    
+    public static void main(String[] args) {
+        OrderDAO orderDAO = new OrderDAO();
+        Map<String, Object> data = orderDAO.getOrderData();
+        for(Map.Entry<String, Object> set : data.entrySet()){
+            System.out.println(set.getKey() + " = "+ set.getValue());
+        }
+    }
+    
 }

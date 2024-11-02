@@ -443,4 +443,18 @@ public class ShopDAO {
         }
     }
 
+    // Admin function - getNumberOfShop 
+    public int getNumberOfRestaurants(){
+        int restaurantCount = 0;
+        String sql = "SELECT COUNT(*) FROM Shop";
+        try(Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                restaurantCount = rs.getInt(1); 
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restaurantCount;
+    }
 }

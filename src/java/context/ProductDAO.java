@@ -559,5 +559,20 @@ public class ProductDAO {
         return flag;
     }
     
+    
+    // Admin function - getNumberOfProduct
+    public int getNumberOfProducts(){
+        int foodCount = 0;
+        String sql = "SELECT COUNT(*) FROM Product";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+             ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                foodCount = resultSet.getInt(1); 
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return foodCount;
+    }
 
 }

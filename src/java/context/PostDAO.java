@@ -402,5 +402,20 @@ public class PostDAO {
         return flag;
     }
 
+    // Admin function - getNumberOfProduct
+    public int getNumberOfPosts(){
+        int postCount = 0;
+        String sql = "SELECT COUNT(*) FROM Post";
+        try(Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                postCount = rs.getInt(1);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return postCount;
+    }
 
 }
