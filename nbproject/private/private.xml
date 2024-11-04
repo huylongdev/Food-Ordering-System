@@ -3,37 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/DBContext.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/account.css</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/ShopDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/Main.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/blog.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/context/PostDAO.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/authenticate/LoginServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/project.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/register.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/include/header.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/restaurant.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/admin-register-restaurant-details.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/HomeServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/register-restaurant.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-detail.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/restaurant-list.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/private/private.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/com/vnpay/common/Config.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/AdminRegisterRestaurant.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CartServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/nbproject/genfiles.properties</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/include/footer.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/assets/css/product.css</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/CheckoutServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/account.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/reset-password-form.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/food-list.jsp</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/util/Email.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/src/java/controller/FoodDetailServlet.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/OrderingSystem/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/filter/AccessFilter.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/DBContext.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/accessgoogle/GooglePojo.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/accessgoogle/LoginGoogleServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/food.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/FoodServlet.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/accessgoogle/Constants.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/error.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/model/Product.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/assets/css/product.css</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/index.js</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/controller/accessgoogle/GoogleUtils.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/food-detail.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/view/home.jsp</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/WEB-INF/web.xml</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/src/java/context/CategoryDAO.java</file>
+            <file>file:/D:/swp/Github/Food-Ordering-System/web/index.css</file>
         </group>
     </open-files>
 </project-private>
