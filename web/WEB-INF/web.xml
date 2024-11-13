@@ -40,7 +40,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginGoogleServlet</servlet-name>
-        <servlet-class>controller.accessgoogle.LoginGoogleServlet</servlet-class>
+        <servlet-class>controller.authenticate.LoginGoogleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>

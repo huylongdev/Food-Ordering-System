@@ -5,6 +5,7 @@
 package controller;
 
 import context.AccountDAO;
+import context.CategoryDAO;
 import context.FavouriteDAO;
 import context.FeedbackDAO;
 import context.OrderDAO;
@@ -80,12 +81,13 @@ public class FoodDetailServlet extends HttpServlet {
         Account user = (Account) request.getSession().getAttribute("user");
             ProductDAO pDAO = new ProductDAO();
             ProductImageDAO iDAO = new ProductImageDAO();
+            CategoryDAO cateDAO = new CategoryDAO();
             FeedbackDAO fdao = new FeedbackDAO();
             AccountDAO adao = new AccountDAO();
             Product p = pDAO.getProductByID(id);
             List<ProductImage> images = iDAO.getListImageByProductID(id);
             request.setAttribute("images", images);
-            String cateName = pDAO.getCategoryNameByID(id);
+            String cateName = cateDAO.getCategoryNameByID(p.getCategoryId());
             
             ShopDAO sDAO = new ShopDAO();
             Shop shop = sDAO.getShopByID(p.getShopId());

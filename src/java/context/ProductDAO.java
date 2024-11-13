@@ -110,22 +110,7 @@ public class ProductDAO {
         return product;
     }
 
-    public String getCategoryNameByID(int categoryID) {
-        String categoryName = null;
-        String query = "SELECT Type FROM Categories WHERE CategoryID = ?";
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-
-            ps.setInt(1, categoryID); // Đặt giá trị CategoryID vào câu truy vấn
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    categoryName = rs.getString("Type");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return categoryName;
-    }
+   
 
     public List<Product> searchProducts(String keyword) {
         List<Product> products = new ArrayList<>();
