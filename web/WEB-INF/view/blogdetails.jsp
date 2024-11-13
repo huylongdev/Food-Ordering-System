@@ -66,11 +66,11 @@
                                     <i class="ti-shopping-cart"></i>
                                 </div></a>
                             <a href = "./favourite">
-                            <div class="icon">
-                                <i class="ti-heart" style="margin: 0 10px 0 10px; padding:10px; font-size: 25px; border-radius: 25px;
-                                   background-color: #ff6b6b; display: inline-block;color: white; text-align: center;"></i>
-                            </div>
-                        </a>               
+                                <div class="icon">
+                                    <i class="ti-heart" style="margin: 0 10px 0 10px; padding:10px; font-size: 25px; border-radius: 25px;
+                                       background-color: #ff6b6b; display: inline-block;color: white; text-align: center;"></i>
+                                </div>
+                            </a>               
 
                         </div>
                     </div>
@@ -152,54 +152,49 @@
             <!-- Display Comments Section -->
             <div class="comments-display" id="commentsDisplay">
                 <c:if test="${not empty comments}">
-                    <c:forEach var="comment" items="${comments}">
-                        <div class="comment-section">
-                            <img src="${comment.userAvtURL}" alt="Avatar" class="comment-avt" onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';">
-                            <div class="comment-content">
-                                <div>
-                                    <div class="comment-author">${comment.userFullName}</div>
-                                    <div class="comment-time">${comment.createdDate}</div>
+                    <c:if test="${not empty comments}">
+                        <c:forEach var="comment" items="${comments}">
+                            <div class="comment-section" id="comment-${comment.commentID}">
+                                <img src="${comment.userAvtURL}" alt="Avatar" class="comment-avt" 
+                                     onerror="this.onerror=null;this.src='https://i.pinimg.com/564x/09/a9/2c/09a92c1cbe440f31d1818e4fe0bcf23a.jpg';">
+                                <div class="comment-content">
+                                    <div>
+                                        <div class="comment-author">${comment.userFullName}</div>
+                                        <div class="comment-time">${comment.createdDate}</div>
+                                    </div>
+                                    <div class="comment">${comment.content}</div>
                                 </div>
-                                <div class="comment">${comment.content}</div>
-                            </div>
-                            <c:if test="${user.userID == post.userID || user.userID == comment.userID}">
-                                <div class="comment-options-dropdown">
-                                    <i class="ti-more-alt comment-options-icon" style="cursor: pointer;"></i>
-                                    <div class="comment-options-menu dropdown-menu" style="display:none;">
+                                <c:if test="${user.userID == post.userID || user.userID == comment.userID}">
+                                    <div class="comment-options">
                                         <c:if test="${user.userID == comment.userID}">
-                                            <a class="edit-comment-option"><i class="ti-pencil"> Edit</i></a>
+                                            <a href="javascript:void(0);" class="edit-comment-option" 
+                                               onclick="openEditCommentModal(${comment.commentID}, '${comment.content}')">
+                                                <i class="ti-pencil"> Edit</i>
+                                            </a>
                                         </c:if>
-                                        <a class="delete-comment-option" onclick="confirmDeleteComment(${comment.commentID})"><i class="ti-trash"> Delete</i></a>
+                                        <a href="javascript:void(0);" class="delete-comment-option" 
+                                           onclick="confirmDeleteComment(${comment.commentID})">
+                                            <i class="ti-trash"> Delete</i>
+                                        </a>
                                     </div>
-
-                                    <!-- Edit Comment Modal -->
-                                    <div id="edit-comment-modal-${comment.commentID}" class="edit-comment-modal modal">
-                                        <div class="modal-content modal-content-comment">
-                                            <span class="close-modal">&times;</span>
-                                            <form class="edit-comment-form" action="postDetails" method="POST">
-                                                <h2>Edit Comment</h2>
-                                                <div class="comment-combine">
-                                                    <textarea id="edit-comment-content-${comment.commentID}" name="commentContent" rows="4" required>${comment.content}</textarea><br><br>
-                                                    <input type="hidden" name="postID" value="${post.postID}">
-                                                    <input type="hidden" name="userID" value="${user.userID}">
-                                                    <input type="hidden" name="commentID" value="${comment.commentID}">
-                                                    <input type="hidden" name="action" value="editComment">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    <!-- Delete Comment Form -->
-                                    <form id="delete-comment-form-${comment.commentID}" action="postDetails" method="POST" style="display: none;">
-                                        <input type="hidden" name="postID" value="${post.postID}">
-                                        <input type="hidden" name="commentID" value="${comment.commentID}">
-                                        <input type="hidden" name="action" value="deleteComment">
-                                    </form>
-                                </div>
-                            </c:if>
+                                </c:if>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                    <div id="edit-comment-modal" class="edit-comment-modal modal" style="display:none;">
+                        <div class="modal-content modal-content-comment">
+                            <span class="close-modal">&times;</span>
+                            <form id="edit-comment-form" action="postDetails" method="POST">
+                                <h2>Edit Comment</h2>
+                                <textarea id="edit-comment-content" name="commentContent" rows="4" required></textarea><br><br>
+                                <input type="hidden" name="postID" value="${post.postID}">
+                                <input type="hidden" name="userID" value="${user.userID}">
+                                <input type="hidden" id="edit-comment-id" name="commentID">
+                                <input type="hidden" name="action" value="editComment">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
-                    </c:forEach>
+                    </div>
                 </c:if>
                 <c:if test="${empty comments}">
                     <div class="no-comments">No comments yet. Be the first to comment!</div>
@@ -278,49 +273,44 @@
             });
 
             //Comment section
-            document.querySelector('.comments-display').addEventListener('click', function (event) {
-                if (event.target.classList.contains('comment-options-icon')) {
-                    const dropdownMenu = event.target.nextElementSibling;
-                    if (dropdownMenu) {
-                        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
-                        event.stopPropagation();
-                    }
-                }
+            function openEditCommentModal(commentID, commentContent) {
+                document.getElementById("edit-comment-content").value = commentContent; 
+                document.getElementById("edit-comment-id").value = commentID; 
+                document.getElementById("edit-comment-modal").style.display = "block"; 
+            }
 
-                if (event.target.classList.contains('edit-comment-option')) {
-                    const editModal = event.target.closest('.comment-options-dropdown').querySelector('.edit-comment-modal');
-                    if (editModal) {
-                        editModal.style.display = 'block';
-                        event.stopPropagation();
-                    }
-                }
-
-                if (event.target.classList.contains('delete-comment-option')) {
-                    const commentID = event.target.closest('.comment-options-dropdown').querySelector('input[name="commentID"]').value;
-                    confirmDeleteComment(commentID);
-                    event.stopPropagation();
-                }
-            });
-
-            window.addEventListener('click', function () {
-                const dropdowns = document.querySelectorAll('.comment-options-menu');
-                dropdowns.forEach(dropdown => {
-                    dropdown.style.display = 'none';
-                });
-            });
-
-            document.querySelectorAll('.close-modal').forEach(element => {
-                element.addEventListener('click', function () {
-                    const editModal = this.closest('.edit-comment-modal');
-                    if (editModal) {
-                        editModal.style.display = 'none';
-                    }
-                });
-            });
+            document.querySelector(".close-modal").onclick = function () {
+                document.getElementById("edit-comment-modal").style.display = "none"; 
+            }
 
             function confirmDeleteComment(commentID) {
+                console.log(`Attempting to delete comment with ID: ${commentID}`); 
                 if (confirm("Are you sure you want to delete this comment?")) {
-                    document.getElementById(`delete-comment-form-${commentID}`).submit();
+                    const deleteForm = document.createElement("form");
+                    deleteForm.method = "POST";
+                    deleteForm.action = "postDetails";
+
+                    const postIdField = document.createElement("input");
+                    postIdField.type = "hidden";
+                    postIdField.name = "postID";
+                    postIdField.value = document.getElementsByName("postID")[0].value; 
+
+                    const commentIdField = document.createElement("input");
+                    commentIdField.type = "hidden";
+                    commentIdField.name = "commentID";
+                    commentIdField.value = commentID;
+
+                    const actionField = document.createElement("input");
+                    actionField.type = "hidden";
+                    actionField.name = "action";
+                    actionField.value = "deleteComment";
+
+                    deleteForm.appendChild(postIdField);
+                    deleteForm.appendChild(commentIdField);
+                    deleteForm.appendChild(actionField);
+
+                    document.body.appendChild(deleteForm); 
+                    deleteForm.submit(); 
                 }
             }
         </script>
