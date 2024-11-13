@@ -383,8 +383,8 @@ public class PostDAO {
     return posts;
 }
 
-    // Qhuy delete illegal post
-    public boolean deleteIllegalPost(int postID) {
+    // Qhuy lock illegal post
+    public boolean lockIllegalPost(int postID) {
         boolean flag = false;
         String sql = " UPDATE Post\n"
                 + "  SET status = 0\n"
@@ -401,6 +401,84 @@ public class PostDAO {
         }
         return flag;
     }
+    
+    // Admin - unlockPost
+    public boolean unlockPost(int postID) {
+        boolean flag = false;
+        String sql = " UPDATE Post\n"
+                + "  SET status = 1\n"
+                + "  WHERE PostID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, postID);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                flag = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
 
+    // Admin function - getNumberOfProduct
+    public int getNumberOfPosts(){
+        int postCount = 0;
+        String sql = "SELECT COUNT(*) FROM Post";
+        try(Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                postCount = rs.getInt(1);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return postCount;
+    }
+    
+    // Admin function - getNumberOfProduct
+    public int getNumberOfLockedPosts(){
+        int postCount = 0;
+        String sql = "SELECT COUNT(*) AS LockedCount FROM Post WHERE Status = 0";
+        try(Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                postCount = rs.getInt(1);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return postCount;
+    }
+    
+    // Admin get all post kể cả inactive
+    public List<Post> getAllPostsData() throws Exception {
+        List<Post> posts = new ArrayList<>();
+        String query = "SELECT * FROM Post ORDER BY CreatedDate DESC";
+        System.out.println("Executing query: " + query);
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Post post;
+                post = new Post(
+                        rs.getInt("PostID"),
+                        rs.getInt("UserID"),
+                        rs.getString("ImgURL"),
+                        rs.getString("Heading"),
+                        rs.getString("Content"),
+                        rs.getTimestamp("CreatedDate"),
+                        rs.getBoolean("status")
+                );
+                posts.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error retrieving posts: " + e.getMessage());
+        }
+        System.out.println("Number of posts retrieved: " + posts.size());
+        return posts;
+    }
 
 }

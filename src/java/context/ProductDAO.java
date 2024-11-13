@@ -110,7 +110,22 @@ public class ProductDAO {
         return product;
     }
 
-   
+    public String getCategoryNameByID(int categoryID) {
+        String categoryName = null;
+        String query = "SELECT Type FROM Categories WHERE CategoryID = ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, categoryID); // Đặt giá trị CategoryID vào câu truy vấn
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    categoryName = rs.getString("Type");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categoryName;
+    }
 
     public List<Product> searchProducts(String keyword) {
         List<Product> products = new ArrayList<>();
@@ -497,7 +512,7 @@ public class ProductDAO {
         }
         return products;
     }
-    
+
     // lấy cả product có status bằng 0
     public List<Product> getAllProductsFromInventory() {
         List<Product> products = new ArrayList<>();
@@ -524,9 +539,8 @@ public class ProductDAO {
         return products;
     }
 
-
     // Qhuy delete Illegal Product
-    public boolean deleteIllegalProduct(int productID) {
+    public boolean lockIllegalProduct(int productID) {
         boolean flag = false;
         String sql = "UPDATE Product \n"
                 + "SET Status = 0\n"
@@ -543,6 +557,54 @@ public class ProductDAO {
         }
         return flag;
     }
-    
 
+    // Unlock Product
+    public boolean unlockProduct(int productID) {
+        boolean flag = false;
+        String sql = "UPDATE Product \n"
+                + "SET Status = 1\n"
+                + "WHERE ProductID= ?";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productID);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                flag = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    // Admin function - getNumberOfProduct
+    public int getNumberOfProducts() {
+        int foodCount = 0;
+        String sql = "SELECT COUNT(*) FROM Product";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                foodCount = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return foodCount;
+    }
+
+    // Admin function - getNumberOfLockedProduct
+    public int getNumberOfLockedProducts(){
+        int foodCount = 0;
+        String sql = " SELECT COUNT(ProductID) AS NumberOfLockedProduct FROM Product WHERE Status = 0";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                foodCount = resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return foodCount;
+    }
+    
 }

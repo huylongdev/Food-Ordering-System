@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import context.PostDAO;
@@ -26,9 +25,8 @@ import model.Product;
  */
 @WebServlet(name = "AdminProductServlet", urlPatterns = {"/admin-item"})
 public class AdminProductServlet extends HttpServlet {
-   
-     private ProductDAO productDAO = new ProductDAO();
-    
+
+    private ProductDAO productDAO = new ProductDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,15 +49,18 @@ public class AdminProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action == null){
+        if (action == null) {
             action = "listProducts";
         }
         switch (action) {
             case "listProducts":
                 listProducts(request, response);
                 break;
-            case "deleteIllegalProduct":
-                deleteIllegalProduct(request, response);
+            case "lockIllegalProduct":
+                lockIllegalProduct(request, response);
+                break;
+            case "unlockProduct":
+                unLockProduct(request, response);
                 break;
             default:
                 listProducts(request, response);
@@ -82,44 +83,77 @@ public class AdminProductServlet extends HttpServlet {
         request.getRequestDispatcher("WEB-INF/view/admin-item.jsp").forward(request, response);
     }
 
-    
-    
-    private void deleteIllegalProduct(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    try {
-        // Lấy tham số id từ URL
-        String idParam = request.getParameter("id");
-        System.out.println("ID Param: " + idParam); // Debug để in ra giá trị id
-        
-        if (idParam == null || idParam.isEmpty()) {
-            throw new IllegalArgumentException("Product ID is missing!");
+    private void lockIllegalProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            // Lấy tham số id từ URL
+            String idParam = request.getParameter("id");
+            System.out.println("ID Param: " + idParam); // Debug để in ra giá trị id
+
+            if (idParam == null || idParam.isEmpty()) {
+                throw new IllegalArgumentException("Product ID is missing!");
+            }
+
+            int productID = Integer.parseInt(idParam);
+            boolean flag = productDAO.lockIllegalProduct(productID);
+
+            String msg;
+            if (flag) {
+                msg = "Lock successfully!";
+            } else {
+                msg = "Fail to delete product!";
+            }
+
+            request.getSession().setAttribute("msg", msg);
+            response.sendRedirect("admin-item?action=listProducts");
+
+        } catch (NumberFormatException e) {
+            // Nếu ID không hợp lệ (không phải là số)
+            request.getSession().setAttribute("msg", "Invalid product ID.");
+            response.sendRedirect("admin-item?action=listProducts");
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            request.getSession().setAttribute("msg", "Error occurred while deleting product.");
+            response.sendRedirect("admin-item?action=listProducts");
         }
-
-        int productID = Integer.parseInt(idParam);
-        boolean flag = productDAO.deleteIllegalProduct(productID);
-
-        String msg;
-        if (flag) {
-            msg = "Delete successfully!";
-        } else {
-            msg = "Fail to delete product!";
-        }
-
-        request.getSession().setAttribute("msg", msg);
-        response.sendRedirect("admin-item?action=listProducts");
-        
-    } catch (NumberFormatException e) {
-        // Nếu ID không hợp lệ (không phải là số)
-        request.getSession().setAttribute("msg", "Invalid product ID.");
-        response.sendRedirect("admin-item?action=listProducts");
-    } catch (Exception e) {
-        // Xử lý các lỗi khác
-        e.printStackTrace();
-        request.getSession().setAttribute("msg", "Error occurred while deleting product.");
-        response.sendRedirect("admin-item?action=listProducts");
     }
-}
+    
+    private void unLockProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            // Lấy tham số id từ URL
+            String idParam = request.getParameter("id");
+            System.out.println("ID Param: " + idParam); // Debug để in ra giá trị id
 
+            if (idParam == null || idParam.isEmpty()) {
+                throw new IllegalArgumentException("Product ID is missing!");
+            }
+
+            int productID = Integer.parseInt(idParam);
+            boolean flag = productDAO.unlockProduct(productID);
+
+            String msg;
+            if (flag) {
+                msg = "Unlock successfully!";
+            } else {
+                msg = "Fail to unlock product!";
+            }
+
+            request.getSession().setAttribute("msg", msg);
+            response.sendRedirect("admin-item?action=listProducts");
+
+        } catch (NumberFormatException e) {
+            // Nếu ID không hợp lệ (không phải là số)
+            request.getSession().setAttribute("msg", "Invalid product ID.");
+            response.sendRedirect("admin-item?action=listProducts");
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            request.getSession().setAttribute("msg", "Error occurred while deleting product.");
+            response.sendRedirect("admin-item?action=listProducts");
+        }
+    }
 
     @Override
     public String getServletInfo() {

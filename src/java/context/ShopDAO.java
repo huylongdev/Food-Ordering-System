@@ -443,4 +443,37 @@ public class ShopDAO {
         }
     }
 
+    // Admin function - getNumberOfRestaurants
+    public int getNumberOfRestaurants() {
+        int restaurantCount = 0;
+        String sql = "SELECT COUNT(*) FROM Shop";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                restaurantCount = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restaurantCount;
+    }
+
+    // Admin function - get#ofWaitingApproveShop
+    public int getNumberOfWaitingApproveRestaurants() {
+        int restaurantCount = 0;
+        String sql = "SELECT COUNT(ShopID) AS Waiting \n"
+                + "  FROM Shop \n"
+                + "  WHERE Status = 0";
+        try(Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                restaurantCount = rs.getInt("Waiting");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return restaurantCount;
+    }
+    
 }
