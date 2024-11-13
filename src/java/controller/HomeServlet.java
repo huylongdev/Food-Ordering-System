@@ -46,11 +46,11 @@ public class HomeServlet extends HttpServlet {
         List<CategoryDTO> cateList = new ArrayList<>();
         ProductDAO pDAO = new ProductDAO();
         ProductImageDAO pid = new ProductImageDAO();
-//        for (Category cate : categories) {
-//            Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
-//            CategoryDTO cateDTO = new CategoryDTO(cate, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
-//            cateList.add(cateDTO);
-//        }
+        for (Category cate : categories) {
+            Product p = pDAO.getProductByCategoryID(cate.getCategoryID()).getFirst();
+            CategoryDTO cateDTO = new CategoryDTO(cate, pid.getAvatarProductImageByID(p.getProductId()).getImgURL());
+            cateList.add(cateDTO);
+        }
 
         ShopDAO shopdao = new ShopDAO();
         ProductDAO pdao = new ProductDAO();
