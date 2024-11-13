@@ -23,6 +23,10 @@ import model.Product;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import model.Shop;
+import model.ShopRevenue;
 
 public class OrderDAO {
 
@@ -456,7 +460,7 @@ public class OrderDAO {
         System.out.println("No order found with the specified OrderID");
         return UserId;
     }
-    
+
     public int getTotalByOrderID(int orderId) {
         int TotalAmount = 0;
         String query = "SELECT TotalAmount FROM [Order] WHERE OrderID = ?";
@@ -603,6 +607,166 @@ public class OrderDAO {
         }
 
         return deliveryStatus;
+    }
+
+    // Admin function - getRevenue
+    public double getRevenue() {
+        double revenue = 0;
+        String sql = "SELECT SUM(TotalAmount) AS Revenue FROM [Order] WHERE DeliveryStatus = 'COMPLETED' AND isRefund = 0";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                revenue = rs.getDouble("Revenue");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return revenue;
+    }
+
+    // Admin function - Statistics Chart
+    public Map<String, Object> getOrderData() {
+        Map<String, Object> data = new HashMap<>();
+        List<Integer> orderCounts = new ArrayList<>();
+        List<Double> revenues = new ArrayList<>();
+        List<String> monthYears = new ArrayList<>();
+
+        String sql = "SELECT YEAR(CreatedDate) AS Year, MONTH(CreatedDate) AS Month, COUNT(OrderID) AS OrderCount, SUM(TotalAmount) AS TotalRevenue "
+                + "FROM [ordering_system].[dbo].[Order] "
+                + "WHERE DeliveryStatus = 'COMPLETED' AND isRefund = 0 "
+                + "GROUP BY YEAR(CreatedDate), MONTH(CreatedDate) "
+                + "ORDER BY Year ASC, Month ASC";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+
+            // Thêm kết quả truy vấn vào các danh sách
+            while (resultSet.next()) {
+                int year = resultSet.getInt("Year");
+                int month = resultSet.getInt("Month");
+                int orderCount = resultSet.getInt("OrderCount");
+                double totalRevenue = resultSet.getDouble("TotalRevenue");
+
+                // Tạo định dạng Month-Year để dễ hiển thị
+                monthYears.add(month + "/" + year);
+                orderCounts.add(orderCount);
+                revenues.add(totalRevenue);
+            }
+
+            resultSet.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        data.put("months", monthYears);
+        data.put("orderCounts", orderCounts);
+        data.put("revenues", revenues);
+        return data;
+    }
+
+    // Function to get monthly revenue change percentage
+    public String getMonthlyRevenueChangePercentage() {
+        String result = "";
+        String sql = "SELECT YEAR(CreatedDate) AS Year, MONTH(CreatedDate) AS Month, SUM(TotalAmount) AS TotalRevenue "
+                + "FROM [Order] "
+                + "WHERE DeliveryStatus = 'COMPLETED' AND isRefund = 0 "
+                + "GROUP BY YEAR(CreatedDate), MONTH(CreatedDate) "
+                + "ORDER BY Year DESC, Month DESC";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+
+            Double currentMonthRevenue = null;
+            Double previousMonthRevenue = null;
+
+            if (rs.next()) {
+                currentMonthRevenue = rs.getDouble("TotalRevenue");
+            }
+            if (rs.next()) {
+                previousMonthRevenue = rs.getDouble("TotalRevenue");
+            }
+
+            if (currentMonthRevenue != null && previousMonthRevenue != null && previousMonthRevenue != 0) {
+                double percentageChange = ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100;
+                if (percentageChange > 0) {
+                    result = "Increased "+ String.format("%.2f", percentageChange) + "%than last month";
+                } else {
+                    result = "Decreased " + String.format("%.2f", Math.abs(percentageChange)) + "% than last month ";
+                }
+            } else {
+                result = "Not enough data to comapare";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    
+    // admin- getRevenueByShop
+    public List<ShopRevenue> getRevenueByShop() {
+        String query = """
+            SELECT 
+                s.ShopID,
+                s.Name AS ShopName,
+                u.FullName AS ShopOwner,
+                COALESCE(SUM(CASE WHEN o.PaymentOption = 'VNPay' THEN o.TotalAmount END), 0) AS VNPayRevenue,
+                COALESCE(SUM(CASE WHEN o.PaymentOption = 'COD' THEN o.TotalAmount END), 0) AS CODRevenue,
+                COALESCE(SUM(o.TotalAmount), 0) AS TotalRevenue
+            FROM 
+                Shop s
+            JOIN 
+                Users u ON s.ShopID = u.ShopID AND u.Role = 2 -- Chỉ lấy user là chủ cửa hàng
+            JOIN 
+                Product p ON s.ShopID = p.ShopID
+            JOIN 
+                OrderItem oi ON p.ProductID = oi.ProductID
+            JOIN 
+                [Order] o ON oi.OrderID = o.OrderID
+            WHERE 
+                o.isRefund = 0 AND o.DeliveryStatus = 'COMPLETED'
+            GROUP BY 
+                s.ShopID, s.Name, u.FullName;
+            """;
+
+        List<ShopRevenue> revenueList = new ArrayList<>();
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int shopID = rs.getInt("ShopID");
+                String shopName = rs.getString("ShopName");
+                String shopOwner = rs.getString("ShopOwner");
+                double vnPayRevenue = rs.getDouble("VNPayRevenue");
+                double codRevenue = rs.getDouble("CODRevenue");
+                double totalRevenue = rs.getDouble("TotalRevenue");
+
+                ShopRevenue revenue = new ShopRevenue(shopID, shopName, shopOwner, vnPayRevenue, codRevenue, totalRevenue);
+                revenueList.add(revenue);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return revenueList;
+    }
+    
+
+    public static void main(String[] args) {
+        OrderDAO orderDAO = new OrderDAO();
+        Map<String, Object> data = orderDAO.getOrderData();
+        for (Map.Entry<String, Object> set : data.entrySet()) {
+            System.out.println(set.getKey() + " = " + set.getValue());
+        }
+
+        String revenueChange = orderDAO.getMonthlyRevenueChangePercentage();
+        System.out.println(revenueChange);
+        
+        
+        System.out.println("/n");
+        List<ShopRevenue> shops = orderDAO.getRevenueByShop();
+        for(ShopRevenue s : shops){
+            System.out.println(s.toString());
+        }
     }
 
 }

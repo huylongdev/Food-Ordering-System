@@ -35,7 +35,7 @@ public class UserBanServlet extends HttpServlet {
             accountDAO.updateUserStatus(userName, 1);
         }
         
-        response.sendRedirect("dashboard");
+        response.sendRedirect("userBan");
     }
     
     @Override
