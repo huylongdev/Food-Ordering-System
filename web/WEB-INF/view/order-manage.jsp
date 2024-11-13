@@ -91,8 +91,19 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+                                    <div class="col-sm-2" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                        <c:choose>
+                                            <c:when test="${order.getDeliveryStatus() == 'PENDING'}">
+                                                <form method="post" action="order-detail">
+                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                    <input type="hidden" name="action" value="prepare" />
+                                                    <button class ="status-btn" type="submit"  onclick="return confirm('Are you sure you want to confirm this order?');">Confirm Order</button>
+                                                </form>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -110,8 +121,20 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
+                                    <div class="col-sm-2" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                        <c:choose>
+
+                                            <c:when test="${order.getDeliveryStatus() == 'PREPARING'}">
+                                                <form method="post" action="order-detail">
+                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                    <input type="hidden" name="action" value="ready" />
+                                                    <button type="submit"  class ="status-btn">Done Preparing</button>
+                                                </form>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -127,10 +150,20 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
 
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
-
+                                    <div class="col-sm-2" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                        <c:choose>
+                                            <c:when test="${order.getDeliveryStatus() == 'READY' || order.deliveryStatus == 'SHIPPING'}">
+                                                <form method="post" action="order-detail">
+                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                    <input type="hidden" name="action" value="complete" />
+                                                    <button  class ="status-btn" type="submit"  onclick="return confirm('Are you sure you want to complete this order?');">Complete Order</button>
+                                                </form>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -146,10 +179,20 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
 
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
-
+                                    <div class="col-sm-2" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                        <c:choose>
+                                            <c:when test="${order.getDeliveryStatus() == 'READY' || order.deliveryStatus == 'SHIPPING'}">
+                                                <form method="post" action="order-detail">
+                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                    <input type="hidden" name="action" value="complete" />
+                                                    <button  class ="status-btn" type="submit"  onclick="return confirm('Are you sure you want to complete this order?');">Complete Order</button>
+                                                </form>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -166,10 +209,10 @@
                                     <div class="col-sm-2">No: ${order.getOrderId()}</div>
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
-                                    <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
 
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
-
+                                    <div class="col-sm-2"><button class = 'cpl-btn'>Completed</button></div>
                                 </div>
                             </a>
                         </div>
@@ -186,9 +229,9 @@
                                     <div class="col-sm-2"><b>${FormatString.formatCurrency(order.getTotalAmount())}</b></div>
                                     <div class="col-sm-2"><b>${order.getDeliveryOption()}</b></div>
 
-                                     <div class="col-sm-4">${order.getAddress()}<br>${order.getPhone()}</div>
+                                    <div class="col-sm-2">${order.getAddress()}<br>${order.getPhone()}</div>
                                     <div class="col-sm-2">Time Pickup: <b><fmt:formatDate value="${order.getTimePickup()}" pattern="dd/MM/yyy HH:mm:ss" /></b></div>
-
+                                    <div class="col-sm-2"><button class = 'cancel-btn'>Cancelled</button></div>
                                 </div>
                             </a>
                         </div>
