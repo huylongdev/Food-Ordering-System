@@ -107,8 +107,6 @@ public class FavouriteServlet extends HttpServlet {
             addWishlist(request, response);
         } else if (request.getParameter("removeWishList") != null) {
             removeWishlist(request, response);
-        } else {
-            deleteWishlist(request, response);
         }
     }
 
@@ -148,36 +146,7 @@ public class FavouriteServlet extends HttpServlet {
             response.sendRedirect("food-detail?productId=" + productID);
         }
     }
-
-    private void deleteWishlist(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        String[] selected = request.getParameterValues("isSelected");
-        if (selected == null) {
-            session.setAttribute("cartStatus", "Choose product to delete!");
-            response.sendRedirect("favourite");
-
-        } else {
-            for (String productID : selected) {
-                int id, userID;
-                try {
-                    userID = Integer.parseInt(request.getParameter("userID"));
-                    id = Integer.parseInt(productID);
-                    FavouriteDAO fDAO = new FavouriteDAO();
-                    if (!fDAO.deleteWishlistProduct(id, userID)) {
-                        session.setAttribute("cartStatus", "Cannot delete!");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new ServletException("invalid id");
-                }
-
-            }
-            session.setAttribute("cartStatus", "Delete products successfully!");
-            response.sendRedirect("favourite");
-        }
-    }
-
-    /**
+  /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
