@@ -205,7 +205,6 @@ public class Email {
     String toEmail = email;
 
     String content = "Your withdrawal request has been rejected.\n\n"
-
             + "We regret to inform you that your request could not be processed. Please review your account or contact support for further assistance.";
 
     try {
