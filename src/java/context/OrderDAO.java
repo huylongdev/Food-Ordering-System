@@ -768,5 +768,69 @@ public class OrderDAO {
             System.out.println(s.toString());
         }
     }
+    
+    
+    public List<Order> getPagedOrderListByShopIDAndStatus(int shopId, String status, int page, int size) {
+    List<Order> orders = new ArrayList<>();
+    String query = "SELECT DISTINCT o.* "
+            + "FROM [Order] o "
+            + "JOIN OrderItem oi ON o.OrderID = oi.OrderID "
+            + "JOIN Product p ON oi.ProductID = p.ProductID "
+            + "WHERE p.ShopID = ? AND o.DeliveryStatus = ? AND o.PaymentStatus LIKE 'PAID' "
+            + "ORDER BY o.CreatedDate DESC "
+            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"; 
+
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setInt(1, shopId);
+        ps.setString(2, status);
+        ps.setInt(3, (page - 1) * size); 
+        ps.setInt(4, size); 
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Order order = new Order(
+                    rs.getInt("OrderID"),
+                    rs.getInt("UserID"),
+                    rs.getString("PaymentStatus"),
+                    rs.getString("DeliveryStatus"),
+                    rs.getString("Address"),
+                    rs.getDate("CreatedDate"),
+                    rs.getString("DeliveryOption"),
+                    rs.getTimestamp("TimePickup"),
+                    rs.getDouble("TotalAmount"),
+                    rs.getInt("DiscountID"),
+                    rs.getString("PaymentOption"),
+                    rs.getInt("isRefund"),
+                    rs.getString("Phone")
+            );
+            orders.add(order);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return orders;
+}
+    
+    public int getOrderCountByShopIDAndStatus(int shopId, String status) {
+    String query = "SELECT COUNT(DISTINCT o.OrderID) AS Total "
+            + "FROM [Order] o "
+            + "JOIN OrderItem oi ON o.OrderID = oi.OrderID "
+            + "JOIN Product p ON oi.ProductID = p.ProductID "
+            + "WHERE p.ShopID = ? AND o.DeliveryStatus = ? AND o.PaymentStatus LIKE 'PAID'";
+
+    try (Connection con = dbContext.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setInt(1, shopId);
+        ps.setString(2, status);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("Total");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return 0; // Nếu có lỗi, trả về 0
+}
+
+
 
 }
