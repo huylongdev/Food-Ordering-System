@@ -70,12 +70,24 @@ public class CheckoutServlet extends HttpServlet {
                 }
 
                 Double discountPercentage = discountDAO.getDiscountPercentageByDiscountCode(discountCode);
+                Double minimumAmount = discountDAO.getMinimumAmountByDiscountCode(discountCode);
+                Double maximumAmount = discountDAO.getMaximumDiscountByDiscountCode(discountCode);
                 double discountAmount = 0;
 
                 if (discountPercentage != null && discountPercentage > 0) {
-                    discountAmount = totalAmount * (discountPercentage / 100);
-                    totalAmount -= discountAmount;
-                    System.out.println("Applied discount: " + discountPercentage + "%, Amount after discount: " + totalAmount);
+                    if (totalAmount >= minimumAmount) {
+                        discountAmount = totalAmount * (discountPercentage / 100);
+
+                        if (discountAmount > maximumAmount) {
+                            discountAmount = maximumAmount;
+                            System.out.println("Discount capped at maximum amount: " + maximumAmount);
+                        }
+
+                        totalAmount -= discountAmount;
+                        System.out.println("Applied discount: " + discountPercentage + "%, Amount after discount: " + totalAmount);
+                    } else {
+                        System.out.println("Total amount is less than the minimum amount required for the discount.");
+                    }
                 } else {
                     System.out.println("No valid discount code applied.");
                 }
