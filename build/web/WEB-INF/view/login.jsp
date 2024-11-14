@@ -35,7 +35,7 @@
                                 <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" id="form2Example18" class="form-control form-control-lg" name="user" placeholder="Email address" required />
+                                    <input type="text" id="form2Example18" class="form-control form-control-lg" name="user" placeholder="Username" required />
                                 </div>
 
                                 <div class="form-outline mb-4">

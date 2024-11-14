@@ -64,8 +64,11 @@ public class AdminPostServlet extends HttpServlet {
                 case "listPosts":
                     listPosts(request, response);
                     break;
-                case "deleteIllegalPost":
-                    deleteIllegalPost(request, response);
+                case "lockIllegalPost":
+                    lockIllegalPost(request, response);
+                    break;
+                case "unlockPost":
+                    unlockPost(request, response);
                     break;
                 default:
                     listPosts(request, response);
@@ -85,7 +88,7 @@ public class AdminPostServlet extends HttpServlet {
     // list post
     private void listPosts(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException, Exception {
-     List<Post> list = postDAO.getAllPosts();
+     List<Post> list = postDAO.getAllPostsData();
      // In ra số lượng bài đăng để kiểm tra xem có dữ liệu không
      System.out.println("Number of posts retrieved: " + list.size());
      
@@ -99,7 +102,7 @@ public class AdminPostServlet extends HttpServlet {
  }
 
 
-    private void deleteIllegalPost(HttpServletRequest request, HttpServletResponse response)
+    private void lockIllegalPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         try {
             // Lấy tham số id từ URL
@@ -111,13 +114,13 @@ public class AdminPostServlet extends HttpServlet {
             }
 
             int postID = Integer.parseInt(idParam);
-            boolean flag = postDAO.deleteIllegalPost(postID);
+            boolean flag = postDAO.lockIllegalPost(postID);
 
             String msg;
             if (flag) {
-                msg = "Delete successfully!";
+                msg = "Lock successfully!";
             } else {
-                msg = "Fail to delete product!";
+                msg = "Fail to lock post!";
             }
 
             request.getSession().setAttribute("msg", msg);
@@ -130,7 +133,45 @@ public class AdminPostServlet extends HttpServlet {
         } catch (Exception e) {
             // Xử lý các lỗi khác
             e.printStackTrace();
-            request.getSession().setAttribute("msg", "Error occurred while deleting post.");
+            request.getSession().setAttribute("msg", "Error occurred while locking post.");
+            response.sendRedirect("admin-post?action=listPosts");
+        }
+    }
+    
+    
+    // unlock Post
+    private void unlockPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        try {
+            // Lấy tham số id từ URL
+            String idParam = request.getParameter("id");
+            System.out.println("ID Param: " + idParam); // Debug để in ra giá trị id
+
+            if (idParam == null || idParam.isEmpty()) {
+                throw new IllegalArgumentException("Product ID is missing!");
+            }
+
+            int postID = Integer.parseInt(idParam);
+            boolean flag = postDAO.unlockPost(postID);
+
+            String msg;
+            if (flag) {
+                msg = "Unlock successfully!";
+            } else {
+                msg = "Fail to unlock post!";
+            }
+
+            request.getSession().setAttribute("msg", msg);
+            response.sendRedirect("admin-post?action=listPosts");
+
+        } catch (NumberFormatException e) {
+            // Nếu ID không hợp lệ (không phải là số)
+            request.getSession().setAttribute("msg", "Invalid post ID.");
+            response.sendRedirect("admin-post?action=listPosts");
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            request.getSession().setAttribute("msg", "Error occurred while unlocking post.");
             response.sendRedirect("admin-post?action=listPosts");
         }
     }

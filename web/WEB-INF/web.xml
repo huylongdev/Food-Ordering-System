@@ -4,7 +4,6 @@
         <filter-name>ShopFilter</filter-name>
         <url-pattern>/order-manage</url-pattern>
         <url-pattern>/refundManage</url-pattern>
-        <url-pattern>/discountManage</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
@@ -40,7 +39,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginGoogleServlet</servlet-name>
-        <servlet-class>controller.accessgoogle.LoginGoogleServlet</servlet-class>
+        <servlet-class>controller.authenticate.LoginGoogleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>

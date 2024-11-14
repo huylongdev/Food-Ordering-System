@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Phone Number" id="phonenumber" name="phonenumber" required />
+                                    <input type="number" class="form-control form-control-lg" placeholder="Phone Number" id="phonenumber" name="phonenumber" required />
                                 </div>
 
                                 <div class="form-outline mb-4">

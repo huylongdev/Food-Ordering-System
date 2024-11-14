@@ -105,7 +105,7 @@
                                     <form method="post" action="order-detail">
                                         <input type="hidden" name="orderId" value="${order.orderId}" />
                                         <input type="hidden" name="action" value="prepare" />
-                                        <button type="submit">Confirm Order</button>
+                                        <button type="submit"  onclick="return confirm('Are you sure you want to confirm this order?');">Confirm Order</button>
                                     </form>
                                 </c:when>
                                 <c:when test="${order.getDeliveryStatus() == 'PREPARING'}">
@@ -119,7 +119,7 @@
                                     <form method="post" action="order-detail">
                                         <input type="hidden" name="orderId" value="${order.orderId}" />
                                         <input type="hidden" name="action" value="complete" />
-                                        <button type="submit">Complete Order</button>
+                                        <button type="submit"  onclick="return confirm('Are you sure you want to complete this order?');">Complete Order</button>
                                     </form>
                                 </c:when>
                                 <c:when test="${order.getDeliveryStatus() == 'COMPLETED'}">

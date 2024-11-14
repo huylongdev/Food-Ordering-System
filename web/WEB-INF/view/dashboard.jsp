@@ -8,6 +8,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <title>
             Dashboard  </title>
@@ -29,6 +30,19 @@
             rel="stylesheet"
             href="./assets/font/themify-icons/themify-icons.css"
             />
+
+        <style>
+            .chart-container {
+                width: 45%;
+                margin: 20px auto;
+            }
+            .flex-container {
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+            }
+        </style>
+
     </head>
 
     <body class="g-sidenav-show  bg-gray-200">
@@ -37,14 +51,14 @@
                 <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0" href="#">
                     <i class="material-icons icon-foodie">store</i><span class="ms-1 font-weight-bold text-white">Foodie Dashboard </span>
-                    
+
                 </a>
             </div>
             <hr class="horizontal light mt-0 mb-2">
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                        <a class="nav-link text-white active bg-gradient-primary" href="/OrderingSystem/dashboard">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -52,32 +66,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white" href="/OrderingSystem/adminRevenue">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">attach_money</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Revenue Management</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link text-white " href="/OrderingSystem/userBan">
 
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">person</i>
                             </div>
-                            <span class="nav-link-text ms-1">List Users</span>
+                            <span class="nav-link-text ms-1">User Management</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/restaurant">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">home</i>
-                            </div>
-                            <span class="nav-link-text ms-1">List Restaurants</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/blog">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">note</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Blog</span>
-                        </a>
-                    </li>
-                    
+                    </li>         
                     <li class="nav-item">
                         <a class="nav-link text-white " href="admin-item?action=listProducts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -86,7 +92,7 @@
                             <span class="nav-link-text ms-1">Product Management</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link text-white " href="admin-post?action=listPosts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -95,7 +101,7 @@
                             <span class="nav-link-text ms-1">Post Management</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link text-white " href="admin-register-restaurant">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -104,27 +110,16 @@
                             <span class="nav-link-text ms-1">Register Restaurant</span>
                         </a>
                     </li>
-                    
-                    <li class="nav-item mt-3">
-                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-                    </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/account">
+                        <a class="nav-link text-white " href="/OrderingSystem/logout">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">person</i>
+                                <i class="material-icons opacity-10">logout</i>
                             </div>
-                            <span class="nav-link-text ms-1">Profile</span>
+                            <span class="nav-link-text ms-1">Sign Out</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/login">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">login</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Sign In</span>
-                        </a>
-                    </li>
-                    
+
                 </ul>
             </div>
 
@@ -135,53 +130,13 @@
                 <div class="container-fluid py-1 px-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/OrderingSystem/;">home</a></li>
+                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/OrderingSystem/">home</a></li>
 
 
                             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
                         </ol>
                         <h6 class="font-weight-bolder mb-0">Dashboard</h6>
                     </nav>
-                    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-
-                        </div>
-                        <ul class="navbar-nav  justify-content-end">
-                            <li class="nav-item d-flex align-items-center">
-                                <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="/OrderingSystem/">Foodie</a>
-                            </li>
-                            <li class="mt-2">
-                                <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
-                            </li>
-                            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                                    <div class="sidenav-toggler-inner">
-                                        <i class="sidenav-toggler-line"></i>
-                                        <i class="sidenav-toggler-line"></i>
-                                        <i class="sidenav-toggler-line"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item px-3 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0">
-                                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-bell cursor-pointer"></i>
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                                </ul>
-                            </li>
-                            <li class="nav-item d-flex align-items-center">
-                                <a href="/OrderingSystem/account" class="nav-link text-body font-weight-bold px-0">
-                                    <i class="fa fa-user me-sm-1"></i>
-                                    <span class="d-sm-inline d-none">Account</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </nav>
             <!-- End Navbar -->
@@ -200,7 +155,7 @@
                             </div>
                             <hr class="dark horizontal my-0">
                             <div class="card-footer p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+50% </span>than last week</p>
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">${waitingCount} </span>waiting for approved</p>
                             </div>
                         </div>
                     </div>
@@ -211,13 +166,13 @@
                                     <i class="material-icons opacity-10 ti-apple"></i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Food</p>
+                                    <p class="text-sm mb-0 text-capitalize">Product</p>
                                     <h4 class="mb-0">${foodCount}</h4>
                                 </div>
                             </div>
                             <hr class="dark horizontal my-0">
                             <div class="card-footer p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+10% </span>than last month</p>
+                                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">${lockedProductCount}</span> product is locked</p>
                             </div>
                         </div>
                     </div>
@@ -234,7 +189,7 @@
                             </div>
                             <hr class="dark horizontal my-0">
                             <div class="card-footer p-3">
-                                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-15%</span> than yesterday</p>
+                                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">${lockedPostCount}</span> posts is locked</p>
                             </div>
                         </div>
                     </div>
@@ -245,79 +200,54 @@
                                     <i class="material-icons opacity-10">note</i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Bills</p>
-                                    <h4 class="mb-0">${billCount}</h4>
+                                    <p class="text-sm mb-0 text-capitalize">Revenue</p>
+                                    <h4 class="mb-0">$${revenue}</h4>
                                 </div>
                             </div>
                             <hr class="dark horizontal my-0">
                             <div class="card-footer p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+0% </span>than yesterday</p>
+                                <p class="mb-0">
+                                    <span id="statisticText">
+                                        ${changeType} 
+                                        <span id="percentage" class="font-weight-bolder">${percentage}</span> 
+                                        ${message}
+                                    </span>
+                                </p>
                             </div>
+
+                            <script>
+                                const changeType = "${changeType}";
+                                const percentage = document.getElementById("percentage");
+
+                                // Xác định màu sắc cho phần trăm tùy theo trạng thái tăng hay giảm
+                                if (changeType === "Increased") {
+                                    percentage.classList.add("text-success"); // Màu xanh cho tăng
+                                } else if (changeType === "Decreased") {
+                                    percentage.classList.add("text-danger"); // Màu đỏ cho giảm
+                                }
+                            </script>
+
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                        <div class="card z-index-2 ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                    <div class="chart" >
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sliderback.svg" ></div> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 "> Website view</h6>
-                                <p class="text-sm ">Last Campaign Performance</p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                                </div>
-                            </div>
-                        </div>
+
+
+
+                <!--Chart-->
+
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <h3>Monthly Orders Chart</h3>
+                        <canvas id="orderChart"></canvas>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                        <div class="card z-index-2  ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                                    <div class="chart">
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/sale1.jpg" ></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 "> Daily Sales </h6>
-                                <p class="text-sm "> (<span class="font-weight-bolder">+70%</span>) increase in today sales. </p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm"> updated 4 min ago </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mb-3">
-                        <div class="card z-index-2 ">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
-                                    <div class="chart" >
-                                        <div ><img style=" width:311px; height:170px;" src="./assets/img/dishShow.jpg" ></div> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="mb-0 ">Foodie</h6>
-                                <p class="text-sm ">Finding your best choice with foodie !</p>
-                                <hr class="dark horizontal">
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm">just updated</p>
-                                </div>
-                            </div>
-                        </div>
+
+                    <div class="chart-container">
+                        <h3>Monthly Revenue Chart</h3>
+                        <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
+
+
                 <div class="row mb-4">
                     <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
 
@@ -366,251 +296,79 @@
         <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
         <script src="../assets/js/plugins/chartjs.min.js"></script>
         <script>
-                                        var ctx = document.getElementById("chart-bars").getContext("2d");
 
-                                        new Chart(ctx, {
-                                            type: "bar",
-                                            data: {
-                                                labels: ["M", "T", "W", "T", "F", "S", "S"],
-                                                datasets: [{
-                                                        label: "Sales",
-                                                        tension: 0.4,
-                                                        borderWidth: 0,
-                                                        borderRadius: 4,
-                                                        borderSkipped: false,
-                                                        backgroundColor: "rgba(255, 255, 255, .8)",
-                                                        data: [50, 20, 10, 22, 50, 10, 40],
-                                                        maxBarThickness: 6
-                                                    }, ],
-                                            },
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                plugins: {
-                                                    legend: {
-                                                        display: false,
+
+
+                                        // Gọi API để lấy dữ liệu từ Servlet
+                                        fetch('orderRevenueData')
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error('Network response was not ok ' + response.statusText);
                                                     }
-                                                },
-                                                interaction: {
-                                                    intersect: false,
-                                                    mode: 'index',
-                                                },
-                                                scales: {
-                                                    y: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: true,
-                                                            drawOnChartArea: true,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5],
-                                                            color: 'rgba(255, 255, 255, .2)'
-                                                        },
-                                                        ticks: {
-                                                            suggestedMin: 0,
-                                                            suggestedMax: 500,
-                                                            beginAtZero: true,
-                                                            padding: 10,
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
-                                                            color: "#fff"
-                                                        },
-                                                    },
-                                                    x: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: true,
-                                                            drawOnChartArea: true,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5],
-                                                            color: 'rgba(255, 255, 255, .2)'
-                                                        },
-                                                        ticks: {
-                                                            display: true,
-                                                            color: '#f8f9fa',
-                                                            padding: 10,
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
-                                                        }
-                                                    },
-                                                },
-                                            },
-                                        });
+                                                    return response.json();
+                                                })
+                                                .then(data => {
+                                                    // Lấy dữ liệu từ response
+                                                    let monthLabels = data.months;
+                                                    let orderDataValues = data.orderCounts;
+                                                    let revenueDataValues = data.revenues;
 
-
-                                        var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-                                        new Chart(ctx2, {
-                                            type: "line",
-                                            data: {
-                                                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                                                datasets: [{
-                                                        label: "Mobile apps",
-                                                        tension: 0,
-                                                        borderWidth: 0,
-                                                        pointRadius: 5,
-                                                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
-                                                        pointBorderColor: "transparent",
-                                                        borderColor: "rgba(255, 255, 255, .8)",
-                                                        borderColor: "rgba(255, 255, 255, .8)",
-                                                        borderWidth: 4,
-                                                        backgroundColor: "transparent",
-                                                        fill: true,
-                                                        data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-                                                        maxBarThickness: 6
-
-                                                    }],
-                                            },
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                plugins: {
-                                                    legend: {
-                                                        display: false,
+                                                    // Chỉ lấy 12 tháng gần nhất
+                                                    if (monthLabels.length > 12) {
+                                                        monthLabels = monthLabels.slice(-12);
+                                                        orderDataValues = orderDataValues.slice(-12);
+                                                        revenueDataValues = revenueDataValues.slice(-12);
                                                     }
-                                                },
-                                                interaction: {
-                                                    intersect: false,
-                                                    mode: 'index',
-                                                },
-                                                scales: {
-                                                    y: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: true,
-                                                            drawOnChartArea: true,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5],
-                                                            color: 'rgba(255, 255, 255, .2)'
-                                                        },
-                                                        ticks: {
-                                                            display: true,
-                                                            color: '#f8f9fa',
-                                                            padding: 10,
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
-                                                        }
-                                                    },
-                                                    x: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: false,
-                                                            drawOnChartArea: false,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5]
-                                                        },
-                                                        ticks: {
-                                                            display: true,
-                                                            color: '#f8f9fa',
-                                                            padding: 10,
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
-                                                        }
-                                                    },
-                                                },
-                                            },
-                                        });
 
-                                        var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-                                        new Chart(ctx3, {
-                                            type: "line",
-                                            data: {
-                                                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                                                datasets: [{
-                                                        label: "Mobile apps",
-                                                        tension: 0,
-                                                        borderWidth: 0,
-                                                        pointRadius: 5,
-                                                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
-                                                        pointBorderColor: "transparent",
-                                                        borderColor: "rgba(255, 255, 255, .8)",
-                                                        borderWidth: 4,
-                                                        backgroundColor: "transparent",
-                                                        fill: true,
-                                                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                                                        maxBarThickness: 6
-
-                                                    }],
-                                            },
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                plugins: {
-                                                    legend: {
-                                                        display: false,
-                                                    }
-                                                },
-                                                interaction: {
-                                                    intersect: false,
-                                                    mode: 'index',
-                                                },
-                                                scales: {
-                                                    y: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: true,
-                                                            drawOnChartArea: true,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5],
-                                                            color: 'rgba(255, 255, 255, .2)'
+                                                    // Biểu đồ Đơn Hàng
+                                                    const ctx1 = document.getElementById('orderChart').getContext('2d');
+                                                    new Chart(ctx1, {
+                                                        type: 'line',
+                                                        data: {
+                                                            labels: monthLabels,
+                                                            datasets: [{
+                                                                    label: 'Number of orders',
+                                                                    data: orderDataValues,
+                                                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                                    fill: true,
+                                                                    tension: 0.4
+                                                                }]
                                                         },
-                                                        ticks: {
-                                                            display: true,
-                                                            padding: 10,
-                                                            color: '#f8f9fa',
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
+                                                        options: {
+                                                            responsive: true,
+                                                            plugins: {
+                                                                legend: {position: 'top'},
+                                                                title: {display: true, text: 'Number of order per month'}
+                                                            }
                                                         }
-                                                    },
-                                                    x: {
-                                                        grid: {
-                                                            drawBorder: false,
-                                                            display: false,
-                                                            drawOnChartArea: false,
-                                                            drawTicks: false,
-                                                            borderDash: [5, 5]
+                                                    });
+
+                                                    // Biểu đồ Doanh Thu
+                                                    const ctx2 = document.getElementById('revenueChart').getContext('2d');
+                                                    new Chart(ctx2, {
+                                                        type: 'bar',
+                                                        data: {
+                                                            labels: monthLabels,
+                                                            datasets: [{
+                                                                    label: 'Revenue (USD)',
+                                                                    data: revenueDataValues,
+                                                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                                    borderWidth: 1
+                                                                }]
                                                         },
-                                                        ticks: {
-                                                            display: true,
-                                                            color: '#f8f9fa',
-                                                            padding: 10,
-                                                            font: {
-                                                                size: 14,
-                                                                weight: 300,
-                                                                family: "Roboto",
-                                                                style: 'normal',
-                                                                lineHeight: 2
-                                                            },
+                                                        options: {
+                                                            responsive: true,
+                                                            plugins: {
+                                                                legend: {position: 'top'},
+                                                                title: {display: true, text: 'Revenue per month (USD)'}
+                                                            }
                                                         }
-                                                    },
-                                                },
-                                            },
-                                        });
+                                                    });
+                                                })
+                                                .catch(error => console.error('Error fetching data:', error));
+
         </script>
         <script>
             var win = navigator.platform.indexOf('Win') > -1;

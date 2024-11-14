@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package controller.accessgoogle;
+package model;
 
 /**
  *
  * @author LENOVO
  */
 
-public class GooglePojo {
+public class GoogleAccount {
   private String id;
   private String email;
   private boolean verified_email;

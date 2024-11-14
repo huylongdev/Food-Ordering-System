@@ -8,12 +8,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Post Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
-            Dashboard  </title>
+            Revenue Management  </title>
         <!--     Fonts and icons     -->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
         <!-- Nucleo Icons -->
@@ -28,14 +27,29 @@
 
 
         <link rel="stylesheet" href="./assets/css/dashboard.css">
+        <link
+            rel="stylesheet"
+            href="./assets/font/themify-icons/themify-icons.css"
+            />
+
 
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <style>
+            table th, table td {
+                text-align: center;
+                vertical-align: middle;
+            }
+            .bnt-button{
+                background-color: #5eae53;
+                color: white;
+            }
+        </style>
+
 
     </head>
 
     <body class="g-sidenav-show  bg-gray-200">
-
         <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
             <div class="sidenav-header">
                 <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -48,7 +62,7 @@
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/OrderingSystem/dashboard">
+                        <a class="nav-link text-white" href="/OrderingSystem/dashboard">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -56,7 +70,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/OrderingSystem/adminRevenue">
+                        <a class="nav-link text-white  active bg-gradient-primary" href="/OrderingSystem/adminRevenue">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -66,8 +80,6 @@
 
                     <li class="nav-item">
                         <a class="nav-link text-white " href="/OrderingSystem/userBan">
-
-
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">person</i>
                             </div>
@@ -75,7 +87,7 @@
                         </a>
                     </li>         
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="admin-item?action=listProducts">
+                        <a class="nav-link text-white" href="admin-item?action=listProducts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">inventory</i>
                             </div>
@@ -84,7 +96,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-gradient-primary" href="admin-post?action=listPosts">
+                        <a class="nav-link text-white " href="admin-post?action=listPosts">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">article</i>
                             </div>
@@ -101,7 +113,6 @@
                         </a>
                     </li>
 
-                    
                     <li class="nav-item">
                         <a class="nav-link text-white " href="/OrderingSystem/logout">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -113,7 +124,9 @@
 
                 </ul>
             </div>
+
         </aside>
+
 
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
             <!-- Navbar -->
@@ -124,63 +137,56 @@
                             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark underline-home" href="/OrderingSystem/">home</a></li>
 
 
-                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Post Management</li>
+                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Revenue management</li>
                         </ol>
-                        <h6 class="font-weight-bolder mb-0">Post Management</h6>
+                        <h6 class="font-weight-bolder mb-0">Revenue management</h6>
                     </nav>
-
+                    
                 </div>
             </nav>
 
-            <div class="main">
+
+
+
+
+
+            <div class="main" >
                 <center> 
-                    <h1 class="mb-5">Posts Management</h1>
+                    <h1 class="mb-5" style="text-align: center;">Revenue Management</h1>
 
-
-                    <!-- Hiển thị thông báo từ session nếu có -->
+                    <!-- Hiển thị thông báo từ session -->
                     <c:if test="${not empty sessionScope.msg}">
-                        <div id="msg-block" style="display:block;">
-                            <p style="color:green">${sessionScope.msg}</p>
-                            <c:remove var="msg" scope="session"/>
-                        </div>
+                        <p style="color:green">${sessionScope.msg}</p>
+                        <c:remove var="msg" scope="session"/>
                     </c:if>
 
 
-                    <form action="admin-post" method="GET">
+                    <div style="display: flex; margin-right: 60px; justify-content: flex-end">
+                        <a class="btn btn-primary btn-sm" href="/OrderingSystem/adminRevenue?action=export">Export CSV File</a>
+                    </div>
+
+
+                    <form action="admin-item" method="GET">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">User ID</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Heading</th>
-                                    <th scope="col">Content</th>
-                                    <th scope="col">Created Date</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Shop Name</th>
+                                    <th scope="col">Shop Owner</th>
+                                    <th scope="col">VNPay Revenue</th>
+                                    <th scope="col">COD Revenue</th>
+                                    <th scope="col">Total Revenue</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${posts}" var="post">
+                                <c:forEach items="${shops}" var="shop">
                                     <tr>
-                                        <td>${post.postID}</td>
-                                        <td>${post.userID}</td>
-                                        <td><img src="${post.imgURL}" width="50%" height="50%"/></td>
-                                        <td>${post.heading}</td>
-                                        <td>${post.content}</td>
-                                        <td>${post.createdDate}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <a class="btn btn-primary btn-sm me-2 text-nowrap" href="postDetails?postID=${post.postID}">View Detail</a>
-                                                <c:choose>
-                                                    <c:when test="${post.status}">
-                                                        <a class="btn btn-danger btn-sm" href="admin-post?action=lockIllegalPost&id=${post.postID}" onclick="return confirmDelete('${post.postID}')">Lock</a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                    <a class="btn btn-warning btn-sm"  href="admin-post?action=unlockPost&id=${post.postID}">Unlock</a>
-                                                </c:otherwise>
-                                                </c:choose>
-                                            </div>
-                                        </td>
+                                        <td>${shop.shopID}</td>
+                                        <td>${shop.shopName}</td>
+                                        <td>${shop.shopOwner}</td>
+                                        <td>${shop.vnPayRevenue}</td>
+                                        <td>${shop.codRevenue}</td>
+                                        <td>${shop.totalRevenue}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -192,25 +198,21 @@
 
         <!-- =========== Scripts =========  -->
         <script src="assets_01/js/main.js"></script>
+
+        <!-- ======= Charts JS ====== -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
         <script src="assets_01/js/chartsJS.js"></script>
+
+        <!-- ====== ionicons ======= -->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-        <!-- JavaScript để xác nhận xóa và hiển thị thông báo -->
+        <!-- JavaScript confirm delete -->
         <script>
-                                                        function confirmDelete(postID) {
-                                                            var confirmAction = confirm("Are you sure you want to delete post #" + postID + "?");
-                                                            if (confirmAction) {
-                                                                // Hiển thị khối thông báo nếu người dùng xác nhận
-                                                                document.getElementById('msg-block').style.display = 'block';
-                                                                return true;
-                                                            } else {
-                                                                // Người dùng hủy, không hiển thị gì
-                                                                return false;
-                                                            }
-                                                        }
+            function confirmLock(productId) {
+                return confirm("Are you sure you want to lock product #" + productId + "?");
+            }
         </script>
     </body>
 </html>

@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.accessgoogle;
+package controller.authenticate;
 
+import util.GoogleUtils;
+import model.GoogleAccount;
 import context.AccountDAO;
+import context.ShopDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,19 +48,33 @@ public class LoginGoogleServlet extends HttpServlet {
             dis.forward(request, response);
         } else {
             String accessToken = GoogleUtils.getToken(code);
-            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-//            request.setAttribute("id", googlePojo.getId());
-//            request.setAttribute("name", googlePojo.getName());
-//            request.setAttribute("email", googlePojo.getEmail());
-//            request.setAttribute("picture", googlePojo.getPicture());
-//            RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
-//            dis.forward(request, response);
+            GoogleAccount googlePojo = GoogleUtils.getUserInfo(accessToken);
+
             HttpSession session = request.getSession();
             if (isAccountExist(googlePojo.getEmail())) {
                 session.setAttribute("username", acc.getUserName());
                 session.setAttribute("user", acc);
-                session.setMaxInactiveInterval(5 * 24 * 60 * 60);
-                response.sendRedirect("account");
+                if (acc.getRole() == 1) {
+                    if (acc.isStatus() == false) {
+                        request.setAttribute("message", "Your account has been temporarily banned by the admin. For more information, please contact support at hotline 0999-xxx-xxx");
+                        request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("role", "customer");
+                        session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+                        response.sendRedirect("/OrderingSystem");
+                    }
+                }
+                if (acc.getRole() == 2) {
+                    ShopDAO sDAO = new ShopDAO();
+                    if (sDAO.getShopByID(acc.getShopID()).getStatus() == false) {
+                        request.setAttribute("message", "Your restaurant registration is still pending approval from the admin.");
+                        request.getRequestDispatcher("WEB-INF/view/login.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("role", "shop");
+                        session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+                        response.sendRedirect("/OrderingSystem/restaurant-detail?shopId=" + acc.getShopID());
+                    }
+                }
             } else {
 
                 request.setAttribute("username", googlePojo.getEmail().split("@")[0]);
@@ -97,7 +114,7 @@ public class LoginGoogleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -110,7 +127,7 @@ public class LoginGoogleServlet extends HttpServlet {
         session.setAttribute("username", toAdd.getUserName());
         session.setAttribute("user", toAdd);
         session.setMaxInactiveInterval(5 * 24 * 60 * 60);
-        response.sendRedirect("account");
+        response.sendRedirect("/OrderingSystem");
 
     }
 
@@ -123,7 +140,7 @@ public class LoginGoogleServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-   AccountDAO accountDAO = new AccountDAO();
+    AccountDAO accountDAO = new AccountDAO();
     Account acc;
 
     protected boolean isAccountExist(String email) {
@@ -135,6 +152,5 @@ public class LoginGoogleServlet extends HttpServlet {
             return true;
         }
     }
-
 
 }

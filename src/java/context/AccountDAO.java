@@ -110,7 +110,8 @@ public class AccountDAO {
                         rs.getString("Address"),
                         rs.getString("AvtImg"),
                         rs.getInt("ShopID"),
-                        rs.getInt("Role")
+                        rs.getInt("Role"),
+                        rs.getBoolean("Status")
                 );
             }
         } catch (Exception e) {
