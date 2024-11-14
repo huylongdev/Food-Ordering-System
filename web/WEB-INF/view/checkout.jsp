@@ -100,30 +100,30 @@
                                 <div class="payment_method">
                                     <div>
                                         <input type="radio" name="payment_method" id="vnpay" <c:if test="${payment_method == 'vnpay'}">checked</c:if> value="vnpay">
-                                        <label for="vnpay">VNPAY</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="payment_method" id="cod" <c:if test="${payment_method == 'cod'}">checked</c:if> value="cod">
-                                        <label for="cod">COD</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mb-20">
-                                    <h4>Pickup method</h4>
-                                    <div class="shipping_method">
-                                        <div>
-                                            <input type="radio" name="shipping_method" id="home_delivery" <c:if test="${deliveryOption == 'home_delivery'}">checked</c:if>  value="home_delivery" required>
-                                            <label for="home_delivery">Delivery at home</label>
+                                            <label for="vnpay">VNPAY</label>
                                         </div>
                                         <div>
-                                            <input type="radio" name="shipping_method" id="pickup" <c:if test="${deliveryOption == 'pickup'}">checked</c:if> value="pickup" required>
-                                            <label for="pickup">Pick up at store</label>
+                                            <input type="radio" name="payment_method" id="cod" <c:if test="${payment_method == 'cod'}">checked</c:if> value="cod">
+                                            <label for="cod">COD</label>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-lg-12 mb-20">
+                                        <h4>Pickup method</h4>
+                                        <div class="shipping_method">
+                                            <div>
+                                                <input type="radio" name="shipping_method" id="home_delivery" <c:if test="${deliveryOption == 'home_delivery'}">checked</c:if>  value="home_delivery" required>
+                                                <label for="home_delivery">Delivery at home</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" name="shipping_method" id="pickup" <c:if test="${deliveryOption == 'pickup'}">checked</c:if> value="pickup" required>
+                                                <label for="pickup">Pick up at store</label>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="col-lg-12 mb-20" id="pickup_time_field" style="display:none;">
-                                    <label>Time pick up<span>*</span></label>
-                                    <input name="pickup_time" type="datetime-local" value="${pickup_time}" id="pickup_time">
+                                    <div class="col-lg-12 mb-20" id="pickup_time_field" style="display:none;">
+                                        <label>Time pick up<span>*</span></label>
+                                        <input name="pickup_time" type="datetime-local" value="${pickup_time}" id="pickup_time">
                                 </div>
                                 <input type="hidden" name="userID" value="${user.userID}">
 
@@ -156,24 +156,30 @@
                                             </tr>
                                         </c:forEach>
                                         <tr>
-                                            <td colspan="3">Total</td>
-                                            <td>
-                                                <fmt:formatNumber value="${total}" type="number" pattern="#,###"/>
+                                            <td style="color: #ff6b6b;
+                                                font-weight: 700;" colspan="3">Total</td>
+                                            <td style="color: #ff6b6b;
+                                                font-weight: 700;">
+                                                <fmt:formatNumber value="${originalAmount}" type="number" pattern="#,###"/>
                                             </td>
                                         </tr>
                                         <c:if test="${not empty discountAmount}">
                                             <tr>
-                                                <td colspan="3">Discount</td>
-                                                <td>
+                                                <td style="color: #5eae53;
+                                                font-weight: 700;" colspan="3">Discount</td>
+                                                <td style="color:#5eae53;
+                                                font-weight: 700;">
                                                     <fmt:formatNumber value="${discountAmount}" type="number" pattern="#,###"/>
                                                 </td>
                                             </tr>
                                         </c:if>
-                                        <c:if test="${not empty totalAfterDiscount}">
+                                        <c:if test="${not empty finalAmount}">
                                             <tr>
-                                                <td colspan="3">Total After Discount</td>
-                                                <td>
-                                                    <fmt:formatNumber value="${totalAfterDiscount}" type="number" pattern="#,###"/>
+                                                <td style="color: #ff6b6b;
+                                                font-weight: 700;" colspan="3">Total After Discount</td>
+                                                <td style="color: #ff6b6b;
+                                                font-weight: 700;">
+                                                    <fmt:formatNumber value="${finalAmount}" type="number" pattern="#,###"/>
                                                 </td>
                                             </tr>
                                         </c:if>
