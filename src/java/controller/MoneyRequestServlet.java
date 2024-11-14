@@ -66,6 +66,7 @@ public class MoneyRequestServlet extends HttpServlet {
         double requestedAmount = Double.parseDouble(request.getParameter("requestedAmount"));
         String bankAccount = request.getParameter("bankAccount");
         String bankName = request.getParameter("bankName");
+        
 
         String email = u.getEmail();
         Email.sendEmailNotifyingShopRequest(email, requestedAmount, bankAccount);
@@ -99,7 +100,7 @@ public class MoneyRequestServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
         Account u = (Account) session.getAttribute("user");
         int shopId = accountDAO.getShopIDByUserID(u.getUserID());
-
+        
         double totalToday = orderDAO.getTotalMoneyToday();
         double totalYesterday = orderDAO.getTotalMoneyYesterday();
         int percentChange = calculatePercentChange(totalToday, totalYesterday);
