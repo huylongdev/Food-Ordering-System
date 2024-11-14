@@ -111,7 +111,7 @@ public class DiscountManagementServlet extends HttpServlet {
 
         if (discountPercentage == null) {
             request.setAttribute("errorMessage", "The discount code is invalid or has expired.");
-            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption);
+            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode);
             return;
         }
 
@@ -126,7 +126,7 @@ public class DiscountManagementServlet extends HttpServlet {
 
         if (discount == null) {
             request.setAttribute("errorMessage", "The discount code is not applicable.");
-            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption);
+            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode);
             return;
         }
 
@@ -141,7 +141,7 @@ public class DiscountManagementServlet extends HttpServlet {
 
             if (discountShopID != 0 && productShopID != discountShopID) {
                 request.setAttribute("errorMessage", "The discount code is only applicable to products from the same shop.");
-                forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption);
+                forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode);
                 return;
             }
 
@@ -150,7 +150,7 @@ public class DiscountManagementServlet extends HttpServlet {
 
         if (totalOrderAmount < minimumAmount) {
             request.setAttribute("errorMessage", "The discount code requires a minimum order amount of " + minimumAmount + ".");
-            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption);
+            forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode);
             return;
         }
 
@@ -162,25 +162,25 @@ public class DiscountManagementServlet extends HttpServlet {
 
         double finalAmount = totalOrderAmount - discountAmount;
 
-        session.setAttribute("payment_method", paymentMethod);
-        session.setAttribute("deliveryOption", deliveryOption);
-        request.setAttribute("phone", phone);
-        request.setAttribute("address", address);
-        session.setAttribute("finalAmount", finalAmount);
-        session.setAttribute("discountAmount", discountAmount);
-        session.setAttribute("originalAmount", totalOrderAmount);
-        session.setAttribute("discountCode", discountCode);
-
-        request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
+        forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode, finalAmount, discountAmount, totalOrderAmount);
     }
 
-    private void forwardToCheckout(HttpServletRequest request, HttpServletResponse response, String address, String phone, String timePickup, String payment_method, String deliveryOption) throws ServletException, IOException {
+    private void forwardToCheckout(HttpServletRequest request, HttpServletResponse response, String address, String phone, String timePickup, String paymentMethod, String deliveryOption, String discountCode) throws ServletException, IOException {
+        forwardToCheckout(request, response, address, phone, timePickup, paymentMethod, deliveryOption, discountCode, 0.0, 0.0, 0.0);
+    }
+
+    private void forwardToCheckout(HttpServletRequest request, HttpServletResponse response, String address, String phone, String timePickup, String paymentMethod, String deliveryOption, String discountCode, double finalAmount, double discountAmount, double totalOrderAmount) throws ServletException, IOException {
         request.setAttribute("address", address);
         request.setAttribute("phone", phone);
         HttpSession session = request.getSession();
         session.setAttribute("timePickup", timePickup);
-        session.setAttribute("payment_method", payment_method);
+        session.setAttribute("payment_method", paymentMethod);
         session.setAttribute("deliveryOption", deliveryOption);
+        session.setAttribute("discountCode", discountCode);
+        session.setAttribute("finalAmount", finalAmount);
+        session.setAttribute("discountAmount", discountAmount);
+        session.setAttribute("originalAmount", totalOrderAmount);
+
         request.getRequestDispatcher("WEB-INF/view/checkout.jsp").forward(request, response);
     }
 
@@ -246,23 +246,9 @@ public class DiscountManagementServlet extends HttpServlet {
 
     protected void unlockDiscount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        int discountID = Integer.parseInt(request.getParameter("discountID"));
         DiscountDAO discountDAO = new DiscountDAO();
-
-        try {
-            discountDAO.unlockDiscount(discountID);
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Error unlocking discount: " + e.getMessage());
-            request.getRequestDispatcher("WEB-INF/view/errorPage.jsp").forward(request, response);
-            return;
-        }
-
+        int discountID = Integer.parseInt(request.getParameter("discountID"));
+        discountDAO.unlockDiscount(discountID);
         response.sendRedirect("discountManage");
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 }
