@@ -6,6 +6,7 @@ import com.vnpay.common.Config;
 import context.AccountDAO;
 import context.OrderDAO;
 import context.RefundDAO;
+import context.RewardRedemptionDAO;
 import context.VNPayBillDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -90,6 +91,9 @@ public class RefundServlet extends HttpServlet {
             case "refundRequest":
                 RefundRequest(req, response);
                 break;
+            case "refundPointHandler":
+                handleRefundPoints(req, response);
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
@@ -100,6 +104,7 @@ public class RefundServlet extends HttpServlet {
         try {
             int orderID = Integer.parseInt(req.getParameter("orderId"));
             String refundReason = req.getParameter("refundReason");
+            String refundOption = req.getParameter("refundOption");
             Part filePart = req.getPart("refundReasonImg");
 
             String appPath = req.getServletContext().getRealPath("").replace("build\\web", "web");
@@ -115,24 +120,32 @@ public class RefundServlet extends HttpServlet {
             String filePath = savePath + File.separator + uniqueFileName;
             filePart.write(filePath);
 
-            String relativePath = ".\\" + SAVE_DIR + File.separator + uniqueFileName;
-
-            // Add Refund
+            String relativePath = "./" + SAVE_DIR + File.separator + uniqueFileName;
             RefundDAO refundDAO = new RefundDAO();
-            Refund refund = new Refund(orderID, refundReason, new BigDecimal(0), "PENDING", relativePath);
-            refundDAO.addRefundRequest(refund);
+
+            if (refundOption != null) {
+                int refundType = refundOption.equals("points") ? 1 : 2;
+                Refund refund = new Refund(orderID, refundReason, BigDecimal.ZERO, "PENDING", relativePath, refundType);
+                refundDAO.addRefundRequest(refund);
+            } else {
+                req.getSession().setAttribute("alertMessage", "Please select a refund option.");
+                response.sendRedirect("/OrderingSystem/order-history");
+                return;
+            }
 
             OrderDAO orderDAO = new OrderDAO();
             String paymentID = orderDAO.getPaymentIDByOrderID(orderID);
             orderDAO.updateRefundStatus(paymentID, 2);
 
-            req.getSession().setAttribute("alertMessage", "Refund request submitted successfully. We will review your Refund Application. Please wait 1-2 days for the result.\n --FOODIE--");
-
             String email = orderDAO.getEmailByOrderID(orderID);
             String content = "Refund request submitted successfully. We will review your Refund Application. Please wait 1-2 days for the result.\nStore Address: " + Utility.getShopAddressByOrderID(orderID);
             Email.sendEmailNotifying(email, content);
 
+            req.getSession().setAttribute("alertMessage", "Refund request submitted successfully. We will review your Refund Application. Please wait 1-2 days for the result.\n --FOODIE--");
             response.sendRedirect("/OrderingSystem/order-history");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid order ID.");
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while processing refund request.");
@@ -145,7 +158,6 @@ public class RefundServlet extends HttpServlet {
 //            out.print("PENDING");
 //        } else if (refundStatus == 3) {
 //            out.print("REJECTED");
-//        }
     private void RefundCancelOrder(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -352,6 +364,47 @@ public class RefundServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred during the refund process");
+        }
+    }
+
+    private void handleRefundPoints(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RefundDAO refundDAO = new RefundDAO();
+        OrderDAO orderDAO = new OrderDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        RewardRedemptionDAO rwDAO = new RewardRedemptionDAO();
+
+        String refundID = request.getParameter("refundId");
+        double pointsToRefund = Double.parseDouble(request.getParameter("pointsToRefund"));
+        int pointsToRefundInt = (int) pointsToRefund; 
+        int orderID;
+        try {
+            orderID = refundDAO.getOrderIdByRefundId(Integer.parseInt(refundID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid refund ID");
+            return;
+        }
+        int userID = orderDAO.getUserIDByOrderID(orderID);
+
+        try {
+            boolean success = rwDAO.updatePoints(userID, pointsToRefundInt);
+            if (success) {
+                refundDAO.updateRefundStatusAndAmount(Integer.parseInt(refundID), "APPROVED", String.valueOf(pointsToRefund));
+
+                String email = orderDAO.getEmailByOrderID(orderID);
+                String content = "We have processed your refund of " + pointsToRefund + " points.";
+                Email.sendEmailNotifying(email, content);
+
+                response.sendRedirect("/OrderingSystem/refundManage");
+            } else {
+                request.setAttribute("errorMessage", "Failed to update points.");
+                request.getRequestDispatcher("WEB-INF/view/refundDetails.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the refund.");
         }
     }
 

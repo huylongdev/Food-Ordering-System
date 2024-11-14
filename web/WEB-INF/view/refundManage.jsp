@@ -1,7 +1,7 @@
 <%-- 
-    Document   : refundManage
-    Created on : Oct 19, 2024, 4:21:16 PM
-    Author     : phuct
+   Document   : refundManage
+   Created on : Oct 19, 2024, 4:21:16 PM
+   Author     : phuct
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" import="model.*,java.util.*,util.*"%>
@@ -66,8 +66,9 @@
             <div style="min-height: 80vh" class="tab-content" id="refundTabsContent">
                 <!-- Refund Requests Section -->
                 <div class="tab-pane fade show active" id="refund" role="tabpanel" aria-labelledby="refund-tab">
-                    <c:if test="${not empty requestList}">
-                        <c:forEach var="request" items="${requestList}">
+                    <h2 class="refund-section-header">Request List For Refund Point Option</h2>
+                    <c:if test="${not empty requestListPointOption}">
+                        <c:forEach var="request" items="${requestListPointOption}">
                             <div class="card p-3 mb-3">
                                 <a href="./refundDetails?refundID=${request.getRefundId()}">
                                     <div style="justify-content: space-between" class="row">
@@ -79,7 +80,25 @@
                             </div>
                         </c:forEach>
                     </c:if>
-                    <c:if test="${empty requestList}">
+                    <c:if test="${empty requestListPointOption}">
+                        <div class="alert alert-warning">No refund requests found.</div>
+                    </c:if>
+
+                    <h2 class="refund-section-header">Request List For Refund VNPay Option</h2>
+                    <c:if test="${not empty requestListVNPayOption}">
+                        <c:forEach var="request" items="${requestListVNPayOption}"> <!-- Đảm bảo sửa đúng tên list -->
+                            <div class="card p-3 mb-3">
+                                <a href="./refundDetails?refundID=${request.getRefundId()}">
+                                    <div style="justify-content: space-between" class="row">
+                                        <div class="col-sm-2">No: ${request.getOrderId()}</div>
+                                        <div class="col-sm-6">Refund Reason: ${request.getRefundReason()}</div>
+                                        <div class="col-sm-4">Created Time: <b>${request.getCreatedAt()}</b></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty requestListVNPayOption}">
                         <div class="alert alert-warning">No refund requests found.</div>
                     </c:if>
                 </div>
