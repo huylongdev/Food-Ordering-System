@@ -179,7 +179,6 @@
                                         <td>${post.createdDate}</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <a class="btn btn-primary btn-sm me-2 text-nowrap" href="postDetails?postID=${post.postID}">View Detail</a>
                                                 <c:choose>
                                                     <c:when test="${post.status}">
                                                         <a class="btn btn-primary btn-sm me-2 text-nowrap" href="postDetails?postID=${post.postID}">View Detail</a>
