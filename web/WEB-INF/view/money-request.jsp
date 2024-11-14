@@ -170,21 +170,22 @@
                             <div class="card">
                                 <div class="card-body p-3">
                                     <div class="row">
-                                        <div class="col-8">
+                                        <div class="col-6">
                                             <div class="numbers">
-                                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Order Count</p>
+                                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Shop Wallet</p>
                                                 <h5 class="font-weight-bolder">
-                                                    ${orderCount}
+
+                                                    đ<fmt:formatNumber value="${shopwallet}" pattern="#,##0" currencySymbol="đ" groupingUsed="true"/>
                                                 </h5>
                                                 <p class="mb-0">
                                                     <span class="text-success text-sm font-weight-bolder">to today</span>
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="col-4 text-end">
-                                            <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle" 
-                                                 data-bs-toggle="modal" data-bs-target="#withdrawModal">
-                                                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                        <div class="col-6 text-end">
+                                            <div
+                                                data-bs-toggle="modal" data-bs-target="#withdrawModal">
+                                                <a class="btn btn-success">Request Withdrawal</a>
                                             </div>
                                         </div>
                                     </div>
