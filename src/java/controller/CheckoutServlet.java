@@ -104,7 +104,7 @@ public class CheckoutServlet extends HttpServlet {
                 orderDAO.updateOrderTotalAmount(order.getOrderId(), totalAmount);
 
                 int pointReward = (int) totalAmount / 1000;
-                int userIdInt = acc.getUserID(); 
+                int userIdInt = acc.getUserID();
 
                 if (rwDAO.isRewardRegistered(userIdInt)) {
                     rwDAO.updatePoints(userIdInt, pointReward);
@@ -263,6 +263,15 @@ public class CheckoutServlet extends HttpServlet {
 
         session.setAttribute("cart", cartDTO);
         session.setAttribute("size", cartDTO.size());
+
+        session.removeAttribute("payment_method");
+        session.removeAttribute("deliveryOption");
+        session.removeAttribute("phone");
+        session.removeAttribute("address");
+        session.removeAttribute("finalAmount");
+        session.removeAttribute("discountAmount");
+        session.removeAttribute("originalAmount");
+        session.removeAttribute("discountCode");
 
         Object user = session.getAttribute("user");
         if (user != null) {
