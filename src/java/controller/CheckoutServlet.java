@@ -29,8 +29,6 @@ import model.Product;
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/checkout"})
 public class CheckoutServlet extends HttpServlet {
 
-    String paymentID = Config.getRandomNumber(8);
-
     public CheckoutServlet() {
         super();
         System.out.println("CheckoutServlet initialized!");
@@ -43,6 +41,7 @@ public class CheckoutServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         DiscountDAO discountDAO = new DiscountDAO();
         RewardRedemptionDAO rwDAO = new RewardRedemptionDAO();
+        String paymentID = Config.getRandomNumber(8);
 
         try {
             HttpSession session = request.getSession(true);
@@ -105,7 +104,7 @@ public class CheckoutServlet extends HttpServlet {
                 orderDAO.updateOrderTotalAmount(order.getOrderId(), totalAmount);
 
                 int pointReward = (int) totalAmount / 1000;
-                int userIdInt = acc.getUserID(); // Lấy userId từ đối tượng Account đã lưu trong session
+                int userIdInt = acc.getUserID(); 
 
                 if (rwDAO.isRewardRegistered(userIdInt)) {
                     rwDAO.updatePoints(userIdInt, pointReward);
@@ -121,7 +120,7 @@ public class CheckoutServlet extends HttpServlet {
                     response.sendRedirect("/OrderingSystem/order-history");
                 } else if ("vnpay".equals(payment_method)) {
                     clearCart(userIdInt, cartItemsForOrder);
-                    processVNPAY(request, response, Collections.singletonList(order), totalAmount);
+                    processVNPAY(request, response, Collections.singletonList(order), totalAmount, paymentID);
                 }
             } else {
                 response.sendRedirect("/OrderingSystem/");
@@ -150,7 +149,7 @@ public class CheckoutServlet extends HttpServlet {
         }
     }
 
-    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> orders, double totalAmount) throws IOException {
+    private void processVNPAY(HttpServletRequest request, HttpServletResponse response, List<OrderDTO> orders, double totalAmount, String paymentID) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
@@ -231,7 +230,7 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         Set<Integer> shopIds = new HashSet<>();
-        double totalAmount = 0;  
+        double totalAmount = 0;
 
         for (String productID : selected) {
             try {
