@@ -7,10 +7,8 @@ package controller.authenticate;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import context.AccountDAO;
-import context.OrderDAO;
 import jakarta.servlet.ServletConfig;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -18,14 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.File;
 import java.io.InputStream;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import model.Account;
-import model.Order;
-import model.OrderDTO;
 
 /**
  *
