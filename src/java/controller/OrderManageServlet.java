@@ -67,7 +67,7 @@ public class OrderManageServlet extends HttpServlet {
         Account u = (Account) session.getAttribute("user");
 
         int page = 1; // Trang mặc định
-        int size = 3; // Số mục mặc định mỗi trang
+        int size = 10; // Số mục mặc định mỗi trang
         String pageParam = request.getParameter("page");
         String sizeParam = request.getParameter("size");
 
