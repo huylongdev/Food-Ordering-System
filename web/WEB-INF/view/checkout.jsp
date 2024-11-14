@@ -127,12 +127,13 @@
                                 </div>
                                 <input type="hidden" name="userID" value="${user.userID}">
 
-                                <button class="btn btn-primary" type="submit">Complete the order</button>
+                                <button class="btn btn-success" type="submit">Complete the order</button>
 
                             </div>
 
                             <div class="col-lg-7 col-md-7">
                                 <h3>Cart</h3>
+                                <!-- Hiển thị giỏ hàng -->
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -156,29 +157,23 @@
                                             </tr>
                                         </c:forEach>
                                         <tr>
-                                            <td style="color: #ff6b6b;
-                                                font-weight: 700;" colspan="3">Total</td>
-                                            <td style="color: #ff6b6b;
-                                                font-weight: 700;">
+                                            <td style="color: #ff6b6b; font-weight: 700;" colspan="3">Total</td>
+                                            <td style="color: #ff6b6b; font-weight: 700;">
                                                 <fmt:formatNumber value="${originalAmount}" type="number" pattern="#,###"/>
                                             </td>
                                         </tr>
                                         <c:if test="${not empty discountAmount}">
                                             <tr>
-                                                <td style="color: #5eae53;
-                                                font-weight: 700;" colspan="3">Discount</td>
-                                                <td style="color:#5eae53;
-                                                font-weight: 700;">
+                                                <td style="color: #5eae53; font-weight: 700;" colspan="3">Discount</td>
+                                                <td style="color: #5eae53; font-weight: 700;">
                                                     <fmt:formatNumber value="${discountAmount}" type="number" pattern="#,###"/>
                                                 </td>
                                             </tr>
                                         </c:if>
                                         <c:if test="${not empty finalAmount}">
                                             <tr>
-                                                <td style="color: #ff6b6b;
-                                                font-weight: 700;" colspan="3">Total After Discount</td>
-                                                <td style="color: #ff6b6b;
-                                                font-weight: 700;">
+                                                <td style="color: #ff6b6b; font-weight: 700;" colspan="3">Total After Discount</td>
+                                                <td style="color: #ff6b6b; font-weight: 700;">
                                                     <fmt:formatNumber value="${finalAmount}" type="number" pattern="#,###"/>
                                                 </td>
                                             </tr>
@@ -186,24 +181,22 @@
                                     </tbody>
                                 </table>
 
+                                <!-- Hiển thị phần mã giảm giá -->
                                 <div class="discount-section">
                                     <label>Discount Code:</label>
                                     <input type="text" id="discount_code" value="${discountCode}" name="discount_code"/>
                                     <input type="hidden" name="userID" value="${user.userID}">
                                     <input type="hidden" name="action" value="applyDiscount">
-                                    <button style="
-                                            width: 25%;
-                                            padding: 13px;
-                                            " type="submit" formaction="/OrderingSystem/discountManage" formmethod="POST" class="btn btn-secondary">Apply</button>
+                                    <button style="width: 25%; padding: 13px;" type="submit" formaction="/OrderingSystem/discountManage" formmethod="POST" class="btn btn-success">Apply</button>
                                 </div>
 
-                                <!-- Check for errorMessage and display it if exists -->
+                                <!-- Hiển thị thông báo lỗi nếu có -->
                                 <c:if test="${not empty errorMessage}">
                                     <div class="alert alert-danger mt-3" role="alert">
                                         ${errorMessage}
                                     </div>
                                 </c:if>
-
+                                
                             </div>
                         </div>
                     </form>
