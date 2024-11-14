@@ -100,7 +100,7 @@
                             <span class="nav-link-text ms-1">Withdrawal Management</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link text-white " href="admin-register-restaurant">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -182,12 +182,14 @@
                                                 <a class="btn btn-primary btn-sm me-2 text-nowrap" href="postDetails?postID=${post.postID}">View Detail</a>
                                                 <c:choose>
                                                     <c:when test="${post.status}">
+                                                        <a class="btn btn-primary btn-sm me-2 text-nowrap" href="postDetails?postID=${post.postID}">View Detail</a>
                                                         <a class="btn btn-danger btn-sm" href="admin-post?action=lockIllegalPost&id=${post.postID}" onclick="return confirmDelete('${post.postID}')">Lock</a>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <a class="btn btn-warning btn-sm"  href="admin-post?action=unlockPost&id=${post.postID}">Unlock</a>
                                                     </c:otherwise>
                                                 </c:choose>
+
                                             </div>
                                         </td>
                                     </tr>
